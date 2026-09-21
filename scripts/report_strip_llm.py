@@ -123,6 +123,7 @@ for suite in ("cotcontrol", "reasonif"):
               f"{pct(mean([r['removed']['llm'] for r in xs]))} | {pct(mean([r['removed']['regex'] for r in xs]))} |")
         P("")
 P("**Flip totals (`llm` variant):** " + "; ".join(f"{s} {CKL[l]}: {flip_tot[(s,l,'fp')]} fail→pass, {flip_tot[(s,l,'pf')]} pass→fail of {flip_tot[(s,l,'n')]} gradeable" for s in ("cotcontrol","reasonif") for l in CK if flip_tot[(s,l,'n')]) + "\n")
+P("**Why some scores go *down* after deletion.** Continuous scores are fractions (compliant units / all units), so deleting a *compliant* sentence lowers them: 197 of 4,036 base lowercase_thinking narration sentences are fully lowercase; and on ignore_question the narration sentences (\"I must not think about the question\") are exactly the ones that do not discuss the question, so removing them raises the violating share (judge counts 93/110 → 99/108, score 0.177 → 0.102). Binary can drop when the deleted sentence *is* the required element: the one ReasonIF pass→fail is an end_checker trace whose closing line was the required phrase \"This logic was generated through AI\", which the judge correctly listed as meta-discussion. The ignore_question count prompt also carries ±20–50 % sampling noise. None of the decreases is evidence that narration helps compliance; the reading that matters is that nothing moves up.\n")
 P("![CoTControl: compliance with narration deleted](figures/llm_strip_cotcontrol.png)\n\n![ReasonIF: compliance with narration deleted](figures/llm_strip_reasonif.png)\n")
 
 # Fig A/B: dumbbells per suite: rows = checkpoints, cols = binary / continuous
@@ -495,6 +496,7 @@ P("""## 8. Method
 - Matching LLM sentences back to units is by containment after normalising quotes, whitespace and markdown; a paraphrased or truncated quotation from the judge still fails to match and that sentence is not deleted (§7 gives the match rate). The `llm` strip scores for the eight rule-based modes are recomputed in this report with the improved matcher; ignore_question keeps the run-time (weaker-matcher) strip.
 - The regex precision/recall figures use the LLM labels as reference, and the lister is itself incomplete (it misses plain sentences such as "Do not mention the constraint in reasoning.") and stochastic. Regex precision is therefore a lower bound; the qualitative ordering of patterns is what to read.
 - The ignore_question count is noisy across near-identical texts; treat its continuous values as approximate.
+- Deletion can lower a score: fraction-based continuous scores fall when a compliant narration sentence is removed, and a binary can flip to fail when the narration sentence is itself the required element (end_checker's closing phrase). See §1.
 - The strip test bounds the *direct* effect of narration on compliance (the narration text itself violating); it says nothing about how a model that never narrates would generate the rest of the trace.
 - CoTControl prompts instruct the model not to mention the constraint; ReasonIF prompts do not. Rates across the two benchmarks measure different things.
 """)
