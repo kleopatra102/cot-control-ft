@@ -64,9 +64,10 @@ async def main() -> int:
     ap.add_argument("--concurrency", type=int, default=24)
     ap.add_argument("--consistency", type=int, default=50, help="rollouts relabelled a second time (cotcontrol base)")
     ap.add_argument("--model", default=os.environ.get("JUDGE_MODEL", "gpt-5-mini"))
+    ap.add_argument("--cache-model", default="gpt-5-mini", help="model name used in cache keys (keep gpt-5-mini when switching endpoints)")
     a = ap.parse_args()
     (OUT / "run.pid").write_text(str(os.getpid()))
-    judge = LLMJudge(model=a.model, cache_path=OUT / "judge_cache.jsonl", concurrency=a.concurrency, max_retries=6)
+    judge = LLMJudge(model=a.model, cache_path=OUT / "judge_cache.jsonl", concurrency=a.concurrency, max_retries=6, cache_model=a.cache_model)
     print(f"judge {a.model} @ {judge.base_url}  pid {os.getpid()}", flush=True)
     capped = {(v["label"], v["suite"], v["sample_id"], v["mode"]): v for v in load(REPO / "results/meta_judge/meta_verdicts.jsonl")}
     console = []

@@ -299,6 +299,7 @@ class LLMJudge:
         max_retries: int = 3,
         api_key: str | None = None,
         base_url: str | None = None,
+        cache_model: str | None = None,
     ):
         from openai import AsyncOpenAI
 
@@ -314,6 +315,7 @@ class LLMJudge:
                 "no judge API key: set OPENROUTER_API_KEY (or OPENAI_API_KEY) in .env — see .env.example"
             )
         self.model = model
+        self.cache_model = cache_model or model  # cache key name; lets openai/gpt-5-mini (OpenRouter) reuse gpt-5-mini entries
         self.base_url = base
         self.max_retries = max_retries
         self._supports_max_completion_tokens = True
@@ -326,7 +328,7 @@ class LLMJudge:
         """One judge call. `attempt` distinguishes the three triple-check samples in the cache.
         `extra` is passed to the API (e.g. reasoning_effort); it is NOT part of the cache key, so
         callers that change it must also change `kind`."""
-        key = JudgeCache.make_key(kind, self.model, prompt, attempt)
+        key = JudgeCache.make_key(kind, self.cache_model, prompt, attempt)
         cached = self._cache.get(key)
         if cached is not None:
             return cached
