@@ -51,3 +51,23 @@ remaining modes is queued for the next GPU window (~8 min). Files: `results/stee
 
 **GPU.** The colleague's llama-server reclaimed the card (28 GB) minutes after E1 finished. E2 (quartets,
 ~60 min) and S1 (steered generation, 2–3 h) wait for the next window.
+
+## E1b — stratified refit across all nine modes (2026-09-22)
+
+900 base CoTControl traces, 100 per mode, 10,424 spans (5,212 narration + matched negatives). Same
+procedure as E1. Layer 16, mean-pooled: held-out questions **0.837**, leave-one-mode-out over nine modes
+**0.835**, transfer to ReasonIF **0.817**, random 0.40, probe ceiling 0.864. Flat across layers 8–24
+(0.823–0.840) exactly as in E1. Cosine between the E1 direction (four modes) and the E1b direction (nine
+modes) at layer 16: **0.971** — the direction is stable under a different mode mix.
+
+Per mode at layer 16: lowercase 0.909, uppercase 0.874, word_suppression 0.861, end_of_sentence 0.857,
+meow 0.855, repeat_sentences 0.819, alternating_case 0.798, ignore_question 0.793,
+multiple_word_suppression 0.772. The weakest three are the modes where the LLM labels are noisiest
+(saturated traces in multiple_word_suppression; task-vs-constraint ambiguity in ignore_question).
+
+Steering (S1) uses `directions_base_cotcontrol_base_s.pt`, layer 16, mean. Layer choice is a convention:
+the table does not separate layers 8–24, so S1 should be read as one point of a layer sweep to be done if
+the GPU window allows (12 / 16 / 20).
+
+E2 quartets: 535 items — 150 each for uppercase, lowercase, alternating (CoTControl); 37 english_capital
+and 48 no_comma (ReasonIF; all available). Extraction running.
