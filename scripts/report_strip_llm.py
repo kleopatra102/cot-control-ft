@@ -445,8 +445,8 @@ for ax, suite, modes_ in zip(axes, ("cotcontrol", "reasonif"), (CMODES, RMODES))
     ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("answer accuracy, % (base)", color=INK2)
     ax.set_title("CoTControl" if suite == "cotcontrol" else "ReasonIF", loc="left", fontsize=10.5, color=INK)
 fig.legend(handles=[Line2D([0],[0], marker="o", ls="", ms=8, color=LIGHT, markeredgecolor=SURF, label="rollouts without narration"), Line2D([0],[0], marker="o", ls="", ms=8, color=BLUE, markeredgecolor=SURF, label="rollouts with narration")],
-           frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.93), ncol=2, fontsize=9)
-fig.suptitle("Does narrating the constraint cost accuracy? (base, n without/with)", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.84)); fig.savefig(OUT / "llm_accuracy_by_narration.png", bbox_inches="tight"); plt.close(fig)
+           frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.90), ncol=2, fontsize=9)
+fig.suptitle("Does narrating the constraint cost accuracy? (base, n without/with)", x=0.01, ha="left", y=0.97, fontsize=12, color=INK); fig.subplots_adjust(top=0.78, bottom=0.12, left=0.18, right=0.97, wspace=0.6); fig.savefig(OUT / "llm_accuracy_by_narration.png", bbox_inches="tight"); plt.close(fig)
 
 # ---------------------------------------------------------------- 7. validity checks
 P("\n## 7. Validity checks\n")
