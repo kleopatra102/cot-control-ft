@@ -1,0 +1,112 @@
+[
+ {
+  "layer": 8,
+  "pooling": "mean",
+  "heldout_q_auroc": 0.8351400180668473,
+  "random": 0.36414428507428703,
+  "probe": 0.863417204632751,
+  "heldout_mode_auroc": 0.8519984861054184,
+  "transfer_auroc": 0.8086107446264273,
+  "direction_norm": 1.2077003717422485,
+  "act_norm": 17.12941551208496
+ },
+ {
+  "layer": 8,
+  "pooling": "last",
+  "heldout_q_auroc": 0.744508339392337,
+  "random": 0.44576273676015893,
+  "probe": 0.8275130176776022,
+  "heldout_mode_auroc": 0.7549965623684777,
+  "transfer_auroc": 0.6827674800165722,
+  "direction_norm": 1.2113159894943237,
+  "act_norm": 17.969955444335938
+ },
+ {
+  "layer": 12,
+  "pooling": "mean",
+  "heldout_q_auroc": 0.83722394812024,
+  "random": 0.27640256754871073,
+  "probe": 0.8496687744655225,
+  "heldout_mode_auroc": 0.8534309929576558,
+  "transfer_auroc": 0.8200922585985413,
+  "direction_norm": 2.0124974250793457,
+  "act_norm": 23.99650001525879
+ },
+ {
+  "layer": 12,
+  "pooling": "last",
+  "heldout_q_auroc": 0.7523299623240135,
+  "random": 0.46544899053326577,
+  "probe": 0.8474948773877983,
+  "heldout_mode_auroc": 0.7611418936538576,
+  "transfer_auroc": 0.6974835168748463,
+  "direction_norm": 1.8175137042999268,
+  "act_norm": 23.947208404541016
+ },
+ {
+  "layer": 16,
+  "pooling": "mean",
+  "heldout_q_auroc": 0.8355990334971101,
+  "random": 0.3560986626126424,
+  "probe": 0.8346149044146268,
+  "heldout_mode_auroc": 0.8505450735101222,
+  "transfer_auroc": 0.8176472580817473,
+  "direction_norm": 3.486675977706909,
+  "act_norm": 31.226974487304688
+ },
+ {
+  "layer": 16,
+  "pooling": "last",
+  "heldout_q_auroc": 0.7562077246788728,
+  "random": 0.5203692687333378,
+  "probe": 0.8471313371670302,
+  "heldout_mode_auroc": 0.7651776748144337,
+  "transfer_auroc": 0.7000136364149605,
+  "direction_norm": 3.38089919090271,
+  "act_norm": 33.84722137451172
+ },
+ {
+  "layer": 20,
+  "pooling": "mean",
+  "heldout_q_auroc": 0.8312879605760827,
+  "random": 0.39450172957014124,
+  "probe": 0.8506712641652162,
+  "heldout_mode_auroc": 0.8438554453123117,
+  "transfer_auroc": 0.8040047631910601,
+  "direction_norm": 7.69892692565918,
+  "act_norm": 50.700584411621094
+ },
+ {
+  "layer": 20,
+  "pooling": "last",
+  "heldout_q_auroc": 0.7225141560358693,
+  "random": 0.497108202789345,
+  "probe": 0.8450767841011744,
+  "heldout_mode_auroc": 0.7342924375283774,
+  "transfer_auroc": 0.655214104743301,
+  "direction_norm": 7.476943492889404,
+  "act_norm": 64.98823547363281
+ },
+ {
+  "layer": 24,
+  "pooling": "mean",
+  "heldout_q_auroc": 0.8275680995292338,
+  "random": 0.4143513928364216,
+  "probe": 0.864610644751434,
+  "heldout_mode_auroc": 0.8377291497402681,
+  "transfer_auroc": 0.8104685975946059,
+  "direction_norm": 11.733724594116211,
+  "act_norm": 78.86585998535156
+ },
+ {
+  "layer": 24,
+  "pooling": "last",
+  "heldout_q_auroc": 0.705233143117339,
+  "random": 0.510191978613553,
+  "probe": 0.8153436005904775,
+  "heldout_mode_auroc": 0.7186122369965194,
+  "transfer_auroc": 0.6423177041488576,
+  "direction_norm": 11.637015342712402,
+  "act_norm": 104.90833282470703
+ }
+]

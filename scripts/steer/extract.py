@@ -15,6 +15,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--model", required=True); ap.add_argument("--tag", default=None); ap.add_argument("--label", default="base"); ap.add_argument("--suite", default="cotcontrol")
 ap.add_argument("--layers", type=int, nargs="+", default=[8, 12, 16, 20, 24]); ap.add_argument("--limit", type=int, default=None); ap.add_argument("--device", default="cuda")
 ap.add_argument("--dtype", default="bfloat16"); ap.add_argument("--pairs", action="store_true"); ap.add_argument("--spans-file", default=None); ap.add_argument("--pairs-file", default=None)
+ap.add_argument("--stratify", action="store_true", help="round-robin across modes so --limit covers every mode"); ap.add_argument("--exclude-modes", nargs="*", default=[])
 a = ap.parse_args(); tag = a.tag or Path(a.model).name
 dtype = getattr(torch, a.dtype); model, tok = load_model(a.model, dtype=dtype, device=a.device)
 OUT = REPO / "results/steer"; OUT.mkdir(parents=True, exist_ok=True)
@@ -23,7 +24,13 @@ if not a.pairs:
     by = {}
     for s in spans: by.setdefault((s["sample_id"], s["mode"]), []).append(s)
     rollouts = {(r["sample_id"], r["mode"]): r for r in map(json.loads, open(REPO / f"results/{a.label}/{a.suite}_rollouts.jsonl"))}
-    keys = list(by)[: a.limit] if a.limit else list(by)
+    keys = [k for k in by if k[1] not in set(a.exclude_modes)]
+    if a.stratify:
+        import itertools
+        per = {}
+        for k in keys: per.setdefault(k[1], []).append(k)
+        keys = [k for k in itertools.chain.from_iterable(itertools.zip_longest(*per.values())) if k is not None]
+    keys = keys[: a.limit] if a.limit else keys
     mean, last, meta = [], [], []; t0 = time.time()
     for i, k in enumerate(keys):
         r = rollouts[k]; text, off = full_text(tok, r["prompt"], r["reasoning"], r.get("answer") or "")
