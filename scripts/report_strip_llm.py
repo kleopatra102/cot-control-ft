@@ -430,6 +430,30 @@ for suite in ("cotcontrol", "reasonif"):
             no = [r for r in xs if not r["llm_meta"]]; ye = [r for r in xs if r["llm_meta"]]
             P(f"| {suite} | {m} | {lbl} | {pct(mean([sc(r,'original','binary') for r in no]))} (n {len(no)}) | {pct(mean([sc(r,'original','binary') for r in ye]))} (n {len(ye)}) | {pct(mean([r['correct'] for r in no]))} | {pct(mean([r['correct'] for r in ye]))} |")
 
+P("\n![Continuous compliance conditional on narration](figures/llm_compliance_by_narration_cont.png)\n\n![Binary compliance conditional on narration](figures/llm_compliance_by_narration_bin.png)\n")
+for score, fname, xlab, xmax, title in (("continuous", "llm_compliance_by_narration_cont.png", "continuous score (unchanged trace)", 1.0, "Continuous compliance, rollouts without vs with narration"),
+                                        ("binary", "llm_compliance_by_narration_bin.png", "binary compliance, % (unchanged trace)", 100, "Binary compliance, rollouts without vs with narration")):
+    fig, axes = plt.subplots(2, 2, figsize=(11, 8.2), dpi=150, gridspec_kw={"wspace": 0.6, "hspace": 0.3})
+    for i, lbl in enumerate(CK):
+        for j, (suite, modes_) in enumerate((("cotcontrol", CMODES), ("reasonif", RMODES))):
+            ax = axes[i][j]; ys = list(range(len(modes_)))[::-1]; k = 100 if score == "binary" else 1
+            for y, m in zip(ys, modes_):
+                xs = [r for r in R[(lbl, suite)] if r["mode"] == m and r["llm_meta"] is not None and sc(r, "original", score) is not None]
+                no = mean([sc(r, "original", score) for r in xs if not r["llm_meta"]]); ye = mean([sc(r, "original", score) for r in xs if r["llm_meta"]])
+                n_no = sum(1 for r in xs if not r["llm_meta"]); n_ye = len(xs) - n_no
+                if no is not None and ye is not None: ax.plot([k * no, k * ye], [y, y], color=GRID, lw=2, zorder=2)
+                if no is not None: ax.scatter(k * no, y, s=64, color=LIGHT, edgecolor=SURF, linewidth=2, zorder=4)
+                if ye is not None: ax.scatter(k * ye, y, s=64, color=BLUE, edgecolor=SURF, linewidth=2, zorder=5)
+                ax.text(xmax * 1.03, y, f"n {n_no}/{n_ye}", va="center", fontsize=7.5, color=MUTED)
+            ax.set_yticks(ys); ax.set_yticklabels(modes_, color=INK2, fontsize=9); ax.set_xlim(0, xmax * 1.22); ax.set_xticks([xmax * q / 5 for q in range(6)])
+            ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0)
+            ax.set_title(f"{'CoTControl' if suite == 'cotcontrol' else 'ReasonIF'} — {CKL[lbl]}", loc="left", fontsize=10.5, color=INK)
+            if i == 1: ax.set_xlabel(xlab, color=INK2)
+    fig.legend(handles=[Line2D([0],[0], marker="o", ls="", ms=8, color=LIGHT, markeredgecolor=SURF, label="rollouts without narration"), Line2D([0],[0], marker="o", ls="", ms=8, color=BLUE, markeredgecolor=SURF, label="rollouts with narration")],
+               frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.93), ncol=2, fontsize=9)
+    fig.suptitle(f"{title} (n without/with)", x=0.01, ha="left", y=0.975, fontsize=12, color=INK); fig.subplots_adjust(top=0.86, bottom=0.07, left=0.17, right=0.97)
+    fig.savefig(OUT / fname); plt.close(fig)
+P("Read with the strip test in mind: these are *correlations across rollouts*, not the effect of removing narration from a given rollout. A rollout that narrates less may differ in many other ways (trace length, degenerate outputs, question difficulty). On CoTControl the non-narrating base minority is dominated by degenerate traces, which is why it scores lower on several conditions despite containing no narration.\n")
 P("\n![Accuracy conditional on narration](figures/llm_accuracy_by_narration.png)\n")
 P("At base on CoTControl, the ~10 % of rollouts *without* any narration answer correctly far less often (≈ 25–40 %) than the narrating majority (≈ 55 %). This is selection, not a cost of silence: the non-narrating base rollouts are disproportionately the degenerate ones (near-empty reasoning, or a trace that only emits the answer line), and the pattern is absent on ReasonIF where the sample of non-narrators is tiny. After SFT the split cannot be read the same way because the non-narrating group becomes the majority.\n")
 fig, axes = plt.subplots(1, 2, figsize=(11, 4.6), dpi=150, gridspec_kw={"wspace": 0.55})

@@ -254,6 +254,13 @@ Rule-based classification of each LLM-labelled sentence (precedence: self-check 
 | reasonif | no_comma | base | 0.0 % (n 11) | 0.0 % (n 37) | 90.0 % | 94.6 % |
 | reasonif | no_comma | step-60 | 40.0 % (n 20) | 0.0 % (n 1) | 90.0 % | 100.0 % |
 
+![Continuous compliance conditional on narration](figures/llm_compliance_by_narration_cont.png)
+
+![Binary compliance conditional on narration](figures/llm_compliance_by_narration_bin.png)
+
+Read with the strip test in mind: these are *correlations across rollouts*, not the effect of removing narration from a given rollout. A rollout that narrates less may differ in many other ways (trace length, degenerate outputs, question difficulty). On CoTControl the non-narrating base minority is dominated by degenerate traces, which is why it scores lower on several conditions despite containing no narration.
+
+
 ![Accuracy conditional on narration](figures/llm_accuracy_by_narration.png)
 
 At base on CoTControl, the ~10 % of rollouts *without* any narration answer correctly far less often (≈ 25–40 %) than the narrating majority (≈ 55 %). This is selection, not a cost of silence: the non-narrating base rollouts are disproportionately the degenerate ones (near-empty reasoning, or a trace that only emits the answer line), and the pattern is absent on ReasonIF where the sample of non-narrators is tiny. After SFT the split cannot be read the same way because the non-narrating group becomes the majority.
