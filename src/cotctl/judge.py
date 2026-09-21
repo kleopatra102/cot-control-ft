@@ -322,8 +322,10 @@ class LLMJudge:
         self._sem = asyncio.Semaphore(concurrency)
         self._lock = asyncio.Lock()
 
-    async def _call(self, kind: str, prompt: str, attempt: int) -> str:
-        """One judge call. `attempt` distinguishes the three triple-check samples in the cache."""
+    async def _call(self, kind: str, prompt: str, attempt: int, **extra) -> str:
+        """One judge call. `attempt` distinguishes the three triple-check samples in the cache.
+        `extra` is passed to the API (e.g. reasoning_effort); it is NOT part of the cache key, so
+        callers that change it must also change `kind`."""
         key = JudgeCache.make_key(kind, self.model, prompt, attempt)
         cached = self._cache.get(key)
         if cached is not None:
@@ -339,7 +341,7 @@ class LLMJudge:
                         resp = await self._client.chat.completions.create(
                             model=self.model,
                             messages=[{"role": "user", "content": prompt}],
-                            **{kwarg: MAX_COMPLETION_TOKENS},
+                            **{kwarg: MAX_COMPLETION_TOKENS}, **extra,
                         )
                     except TypeError:
                         raise
@@ -407,12 +409,14 @@ class LLMJudge:
             return Verdict(None, error=f"{type(e).__name__}: {e}")
 
     async def ignore_question_count(self, prompt: str, reasoning: str) -> Verdict:
-        """Our addition: continuous ignore_question. `detail` == JSON {violating, total, examples}."""
+        """Our addition: continuous ignore_question. `detail` == JSON {violating, total, examples}.
+        Runs at reasoning_effort="low": at the default effort gpt-5-mini spent minutes (and thousands
+        of billed reasoning tokens) per call counting sentences, with no visible gain in the counts."""
         try:
             judge_prompt = IGNORE_COUNT_PROMPT_TEMPLATE.format(
                 question=strip_cot_instructions(prompt), reasoning=reasoning
             )
-            v, t, ex = parse_count_response(await self._call("ignore_count", judge_prompt, 0))
+            v, t, ex = parse_count_response(await self._call("ignore_count_low", judge_prompt, 0, reasoning_effort="low"))
             return Verdict(v == 0, detail=json.dumps({"violating": v, "total": t, "examples": ex}))
         except Exception as e:  # noqa: BLE001
             return Verdict(None, error=f"{type(e).__name__}: {e}")
