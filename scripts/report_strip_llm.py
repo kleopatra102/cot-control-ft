@@ -182,9 +182,9 @@ for ax, suite, title in zip(axes, ("cotcontrol", "reasonif"), ("CoTControl", "Re
         for i, v in zip(x, vals): ax.text(i + off, v + 1.5, f"{v:.0f}", ha="center", va="bottom", fontsize=8.5, color=INK2)
     ax.set_xticks(list(x)); ax.set_xticklabels([CKL[c] for c in CK], color=INK2); ax.set_ylim(0, 112); ax.set_yticks(range(0, 101, 20)); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
     ax.spines["left"].set_visible(False); ax.tick_params(length=0); ax.set_title(title, loc="left", fontsize=11, color=INK, pad=10)
-axes[0].set_ylabel("meta-discussion, % of rollouts", color=INK2)
+axes[0].set_ylabel("% of rollouts with ≥ 1 narration sentence", color=INK2)
 h_, l_ = axes[0].get_legend_handles_labels(); fig.legend(h_, l_, frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.93), ncol=3, fontsize=8.5)
-fig.suptitle("Meta-discussion rate under three measures", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.86)); fig.savefig(OUT / "llm_three_measures.png"); plt.close(fig)
+fig.suptitle("Share of rollouts with any meta-discussion, under three measures", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.86)); fig.savefig(OUT / "llm_three_measures.png"); plt.close(fig)
 
 # per-mode strictness
 P("### Per condition: which measure is stricter?\n")
@@ -197,6 +197,27 @@ for suite in ("cotcontrol", "reasonif"):
             P(f"| {suite} | {m} | {lbl} | {pct(mean([r['regex_meta'] for r in xs]),0)} | {pct(mean([r['capped_judge_meta'] for r in xs if r['capped_judge_meta'] is not None]),0)} | {pct(mean([r['llm_meta'] for r in xs]),0)} | {sum(r['regex_meta'] and not r['llm_meta'] for r in xs)} | {sum(r['llm_meta'] and not r['regex_meta'] for r in xs)} |")
 P("")
 # sentence-level precision / recall of regex patterns
+P("![Per-condition rates under the three measures](figures/llm_per_condition_measures.png)\n")
+# Fig: per condition, three measures, base vs step-60 (two rows)
+allm = [("cotcontrol", m) for m in CMODES] + [("reasonif", m) for m in RMODES]
+fig, axes = plt.subplots(2, 1, figsize=(10.5, 6.6), dpi=150, sharex=True)
+for ax, lbl in zip(axes, CK):
+    x = range(len(allm)); w = 0.26
+    for off, key, col, lab in ((-0.27, "regex_meta", ORANGE, "METR regex, full trace"), (0.0, "capped_judge_meta", AQUA, "paper's judge, first 10,000 chars"), (0.27, "llm_meta", BLUE, "full-trace LLM lister")):
+        vals = []
+        for suite, m in allm:
+            xs = [r for r in R[(lbl, suite)] if r["mode"] == m and r[key] is not None]
+            vals.append(100 * mean([r[key] for r in xs]) if xs else 0)
+        ax.bar([i + off for i in x], vals, width=w, color=col, label=lab, zorder=3)
+    ax.set_ylim(0, 100); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_visible(False); ax.tick_params(length=0)
+    ax.set_ylabel("% rollouts with narration", color=INK2); ax.set_title(CKL[lbl], loc="left", fontsize=10.5, color=INK)
+    ax.axvline(len(CMODES) - 0.5, color=BASE, lw=1)
+axes[1].set_xticks(list(range(len(allm)))); axes[1].set_xticklabels([m.replace("_", "\n") for _, m in allm], fontsize=7.5, color=INK2)
+axes[0].text(len(CMODES) / 2 - 0.5, 104, "CoTControl", ha="center", fontsize=9, color=MUTED); axes[0].text(len(CMODES) + len(RMODES) / 2 - 0.5, 104, "ReasonIF", ha="center", fontsize=9, color=MUTED)
+h_, l_ = axes[0].get_legend_handles_labels(); fig.legend(h_, l_, frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.95), ncol=3, fontsize=8.5)
+fig.suptitle("Per condition: share of rollouts with any meta-discussion, three measures", x=0.01, ha="left", fontsize=12, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.9)); fig.savefig(OUT / "llm_per_condition_measures.png", bbox_inches="tight"); plt.close(fig)
+
 P("### Sentence level: METR's regex patterns against the LLM labels\n")
 P("Unit = sentence (split at `.!?` + space or newline). A regex hit is a true positive if the LLM also listed that sentence. Recall = share of LLM-labelled sentences that any pattern catches.\n")
 P("| ckpt | pattern | hits | precision |\n|---|---|---:|---:|")
@@ -224,6 +245,29 @@ if pats:
     ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("precision: % of pattern hits the LLM also labelled narration", color=INK2)
     ax.legend(frameon=False, loc="lower right", fontsize=9); ax.set_title("Which METR regex patterns are trustworthy", loc="left", fontsize=11, color=INK)
     fig.tight_layout(); fig.savefig(OUT / "llm_regex_precision.png", bbox_inches="tight"); plt.close(fig)
+# Fig: sentence-level overlap regex vs LLM
+P("![Sentence-level overlap](figures/llm_sentence_overlap.png)\n")
+fig, ax = plt.subplots(figsize=(8, 2.8), dpi=150)
+cats = []
+for lbl in CK:
+    for suite in ("cotcontrol", "reasonif"):
+        us = [u for r in R[(lbl, suite)] for u in r["units"]]
+        if not us: continue
+        both = sum(1 for u in us if u["llm"] and u["regex"]); ro = sum(1 for u in us if u["regex"] and not u["llm"]); lo = sum(1 for u in us if u["llm"] and not u["regex"])
+        cats.append((f"{lbl} / {suite}", ro, both, lo))
+ys = list(range(len(cats)))[::-1]
+for y, (name, ro, both, lo) in zip(ys, cats):
+    tot = ro + both + lo
+    ax.barh(y, 100 * ro / tot, color=ORANGE, height=0.55, zorder=3, label="regex only" if y == ys[0] else None)
+    ax.barh(y, 100 * both / tot, left=100 * ro / tot + 0.4, color=AQUA, height=0.55, zorder=3, label="both" if y == ys[0] else None)
+    ax.barh(y, 100 * lo / tot, left=100 * (ro + both) / tot + 0.8, color=BLUE, height=0.55, zorder=3, label="LLM only" if y == ys[0] else None)
+    ax.text(101.5, y, f"n = {tot:,}", va="center", fontsize=8.5, color=INK2)
+ax.set_yticks(ys); ax.set_yticklabels([c[0] for c in cats], color=INK2, fontsize=9); ax.set_xlim(0, 118); ax.set_xticks(range(0, 101, 20)); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
+ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("% of sentences flagged by either detector", color=INK2)
+ax.legend(frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=3, fontsize=9)
+ax.set_title("The two detectors mostly flag different sentences", loc="left", fontsize=11, color=INK, pad=26)
+fig.tight_layout(); fig.savefig(OUT / "llm_sentence_overlap.png", bbox_inches="tight"); plt.close(fig)
+
 # disagreement examples
 P("### Disagreement examples\n")
 for lbl in CK:
@@ -254,6 +298,43 @@ for suite in ("cotcontrol", "reasonif"):
         xs = [r for r in R[(lbl, suite)] if r["llm_meta"] and r["first_llm_pos"] is not None]
         if xs: P(f"| {suite} | first narration sentence, median position in trace ({lbl}) | | | {100*st.median(r['first_llm_pos'] for r in xs):.0f} % of trace | last: {100*st.median(r['last_llm_pos'] for r in xs):.0f} % |")
 P("\nCoTControl prompts explicitly told the model *not* to mention the constraint; ReasonIF prompts did not. Narration on CoTControl is therefore disobedience of an instruction, on ReasonIF it is unprompted.\n")
+P("![Per-mode narration rate, base vs step-60](figures/llm_per_mode_sft.png)\n\n![Narration sentences per trace](figures/llm_sentences_per_trace.png)\n\n![Where the first narration sentence sits](figures/llm_first_position.png)\n")
+# Fig: per-mode LLM rate base -> step-60 (dumbbell)
+modes_all = [("cotcontrol", m) for m in CMODES] + [("reasonif", m) for m in RMODES]
+rows_ = [(s_, m) for s_, m in modes_all if R[("base", s_)] and any(r["mode"] == m for r in R[("step-60", s_)])]
+fig, ax = plt.subplots(figsize=(8.5, 0.6 + 0.4 * len(rows_)), dpi=150); ys = list(range(len(rows_)))[::-1]
+for y, (s_, m) in zip(ys, rows_):
+    pts = [100 * (mean([r["llm_meta"] for r in R[(c, s_)] if r["mode"] == m]) or 0) for c in CK]
+    ax.plot(pts, [y, y], color=GRID, lw=2, zorder=2)
+    for c, p_, col in zip(CK, pts, (LIGHT, BLUE)): ax.scatter(p_, y, s=64, color=col, edgecolor=SURF, linewidth=2, zorder=4)
+    n60 = sum(1 for r in R[("step-60", s_)] if r["mode"] == m); ax.text(103, y, f"n₆₀={n60}", va="center", fontsize=8, color=MUTED)
+ax.set_yticks(ys); ax.set_yticklabels([m for _, m in rows_], color=INK2, fontsize=9); ax.set_xlim(0, 115); ax.set_xticks(range(0, 101, 20)); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
+ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("% of rollouts with ≥ 1 narration sentence (full-trace LLM)", color=INK2)
+ax.axhline(len(RMODES) - 0.5, color=BASE, lw=1)
+ax.legend(handles=[Line2D([0],[0], marker="o", ls="", ms=8, color=c, markeredgecolor=SURF, label=CKL[l]) for l, c in zip(CK, (LIGHT, BLUE))], frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=9)
+ax.set_title("SFT cuts narration in every condition", loc="left", fontsize=11, color=INK, pad=26)
+fig.tight_layout(); fig.savefig(OUT / "llm_per_mode_sft.png", bbox_inches="tight"); plt.close(fig)
+# Fig: ECDF of narration sentences per trace, CoTControl, paired subset
+fig, axes = plt.subplots(1, 2, figsize=(9.5, 3.6), dpi=150)
+for ax, suite, title in zip(axes, ("cotcontrol", "reasonif"), ("CoTControl", "ReasonIF")):
+    b_ = {(r["sample_id"], r["mode"]): r for r in R[("base", suite)]}; s_ = {(r["sample_id"], r["mode"]): r for r in R[("step-60", suite)]}
+    keys = sorted(set(b_) & set(s_))
+    for c, d_, col in (("base", b_, LIGHT), ("step-60", s_, BLUE)):
+        v = sorted(d_[k]["n_llm_sentences"] for k in keys); n = len(v)
+        if n: ax.step(v, [100 * (i + 1) / n for i in range(n)], where="post", color=col, lw=2, label=f"{CKL[c]} (median {int(st.median(v))})", zorder=3)
+    ax.set_xlim(0, 80); ax.set_ylim(0, 100); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_visible(False); ax.tick_params(length=0)
+    ax.set_xlabel("narration sentences per trace", color=INK2); ax.set_title(f"{title} (paired, n={len(keys)})", loc="left", fontsize=10.5, color=INK); ax.legend(frameon=False, loc="lower right", fontsize=9)
+axes[0].set_ylabel("% of traces (cumulative)", color=INK2)
+fig.suptitle("Narration sentences per trace, before and after SFT", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(OUT / "llm_sentences_per_trace.png"); plt.close(fig)
+# Fig: ECDF of first narration position (fraction of trace), CoTControl
+fig, ax = plt.subplots(figsize=(8, 3.6), dpi=150)
+for c, col in zip(CK, (LIGHT, BLUE)):
+    v = sorted(100 * r["first_llm_pos"] for r in R[(c, "cotcontrol")] if r["llm_meta"] and r["first_llm_pos"] is not None); n = len(v)
+    if n: ax.step(v, [100 * (i + 1) / n for i in range(n)], where="post", color=col, lw=2, label=f"{CKL[c]} (median {st.median(v):.0f} %)", zorder=3)
+ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_visible(False); ax.tick_params(length=0)
+ax.set_xlabel("position of the first narration sentence, % of trace length", color=INK2); ax.set_ylabel("% of narrating traces (cumulative)", color=INK2)
+ax.legend(frameon=False, loc="lower right", fontsize=9); ax.set_title("After SFT the first narration sentence comes much later in the trace (CoTControl)", loc="left", fontsize=11, color=INK)
+fig.tight_layout(); fig.savefig(OUT / "llm_first_position.png"); plt.close(fig)
 
 # ---------------------------------------------------------------- 4. narration units violating (LLM labels)
 P("## 4. Do the narration sentences themselves violate the condition?\n")
@@ -322,6 +403,22 @@ for suite in ("cotcontrol", "reasonif"):
         if not ss: continue
         c = Counter(kind(s) for s in ss); n = len(ss)
         P(f"| {suite} | {lbl} | {n} | {pct(c['restating']/n)} | {pct(c['self-check']/n)} | {pct(c['planning']/n)} | {pct(c['other']/n)} |")
+P("\n![Narration taxonomy](figures/llm_taxonomy.png)\n")
+fig, ax = plt.subplots(figsize=(8, 2.8), dpi=150); rows_t = []
+for suite in ("cotcontrol", "reasonif"):
+    for lbl in CK:
+        ss = [x for r in R[(lbl, suite)] for x in r["llm_sentences"]]
+        if ss: c = Counter(kind(x) for x in ss); rows_t.append((f"{suite} / {lbl}", [100 * c[k] / len(ss) for k in ("restating", "self-check", "planning", "other")], len(ss)))
+ys = list(range(len(rows_t)))[::-1]; cols = (BLUE, ORANGE, AQUA, BASE); labs = ("restating the rule", "self-check", "planning around it", "other")
+for y, (name, vals, n) in zip(ys, rows_t):
+    left = 0
+    for v, col, lab in zip(vals, cols, labs):
+        ax.barh(y, v, left=left, color=col, height=0.55, zorder=3, label=lab if y == ys[0] else None); left += v + 0.4
+    ax.text(103, y, f"n = {n:,}", va="center", fontsize=8.5, color=INK2)
+ax.set_yticks(ys); ax.set_yticklabels([r[0] for r in rows_t], color=INK2, fontsize=9); ax.set_xlim(0, 120); ax.set_xticks(range(0, 101, 20)); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
+ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("% of LLM-labelled narration sentences (rule-based classes)", color=INK2)
+ax.legend(frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=4, fontsize=9); ax.set_title("What the narration sentences do", loc="left", fontsize=11, color=INK, pad=26)
+fig.tight_layout(); fig.savefig(OUT / "llm_taxonomy.png", bbox_inches="tight"); plt.close(fig)
 P("\n## 6. Compliance and accuracy conditional on narration\n")
 P("| suite | condition | ckpt | compliant, no narration | compliant, narration | correct, no narration | correct, narration |\n|---|---|---|---:|---:|---:|---:|")
 for suite in ("cotcontrol", "reasonif"):
@@ -331,6 +428,25 @@ for suite in ("cotcontrol", "reasonif"):
             if not xs: continue
             no = [r for r in xs if not r["llm_meta"]]; ye = [r for r in xs if r["llm_meta"]]
             P(f"| {suite} | {m} | {lbl} | {pct(mean([sc(r,'original','binary') for r in no]))} (n {len(no)}) | {pct(mean([sc(r,'original','binary') for r in ye]))} (n {len(ye)}) | {pct(mean([r['correct'] for r in no]))} | {pct(mean([r['correct'] for r in ye]))} |")
+
+P("\n![Accuracy conditional on narration](figures/llm_accuracy_by_narration.png)\n")
+P("At base on CoTControl, the ~10 % of rollouts *without* any narration answer correctly far less often (≈ 25–40 %) than the narrating majority (≈ 55 %). This is selection, not a cost of silence: the non-narrating base rollouts are disproportionately the degenerate ones (near-empty reasoning, or a trace that only emits the answer line), and the pattern is absent on ReasonIF where the sample of non-narrators is tiny. After SFT the split cannot be read the same way because the non-narrating group becomes the majority.\n")
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.6), dpi=150, gridspec_kw={"wspace": 0.55})
+for ax, suite, modes_ in zip(axes, ("cotcontrol", "reasonif"), (CMODES, RMODES)):
+    ys = list(range(len(modes_)))[::-1]
+    for y, m in zip(ys, modes_):
+        xs = [r for r in R[("base", suite)] if r["mode"] == m and r["llm_meta"] is not None and r["correct"] is not None]
+        no = mean([r["correct"] for r in xs if not r["llm_meta"]]); ye = mean([r["correct"] for r in xs if r["llm_meta"]])
+        if no is None or ye is None: continue
+        ax.plot([100 * no, 100 * ye], [y, y], color=GRID, lw=2, zorder=2)
+        ax.scatter(100 * no, y, s=64, color=LIGHT, edgecolor=SURF, linewidth=2, zorder=4); ax.scatter(100 * ye, y, s=64, color=BLUE, edgecolor=SURF, linewidth=2, zorder=5)
+        ax.text(102, y, f"n {sum(1 for r in xs if not r['llm_meta'])}/{sum(1 for r in xs if r['llm_meta'])}", va="center", fontsize=7.5, color=MUTED)
+    ax.set_yticks(ys); ax.set_yticklabels(modes_, color=INK2, fontsize=9); ax.set_xlim(0, 118); ax.set_xticks(range(0, 101, 20)); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
+    ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("answer accuracy, % (base)", color=INK2)
+    ax.set_title("CoTControl" if suite == "cotcontrol" else "ReasonIF", loc="left", fontsize=10.5, color=INK)
+fig.legend(handles=[Line2D([0],[0], marker="o", ls="", ms=8, color=LIGHT, markeredgecolor=SURF, label="rollouts without narration"), Line2D([0],[0], marker="o", ls="", ms=8, color=BLUE, markeredgecolor=SURF, label="rollouts with narration")],
+           frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.94), ncol=2, fontsize=9)
+fig.suptitle("Does narrating the constraint cost accuracy? (base, n without/with)", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.9)); fig.savefig(OUT / "llm_accuracy_by_narration.png", bbox_inches="tight"); plt.close(fig)
 
 # ---------------------------------------------------------------- 7. validity checks
 P("\n## 7. Validity checks\n")

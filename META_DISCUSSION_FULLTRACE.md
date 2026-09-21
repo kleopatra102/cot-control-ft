@@ -112,6 +112,8 @@ Rollout-level rate under: METR's regex (seven patterns, whole trace, any hit); t
 | reasonif | no_comma | base | 94 % | 71 % | 77 % | 8 | 0 |
 | reasonif | no_comma | step-60 | 43 % | 29 % | 5 % | 8 | 0 |
 
+![Per-condition rates under the three measures](figures/llm_per_condition_measures.png)
+
 ### Sentence level: METR's regex patterns against the LLM labels
 
 Unit = sentence (split at `.!?` + space or newline). A regex hit is a true positive if the LLM also listed that sentence. Recall = share of LLM-labelled sentences that any pattern catches.
@@ -138,6 +140,8 @@ Unit = sentence (split at `.!?` + space or newline). A regex hit is a true posit
 | step-60 | **recall of LLM sentences** | 3384 | 19.1 % |
 
 ![Regex pattern precision](figures/llm_regex_precision.png)
+
+![Sentence-level overlap](figures/llm_sentence_overlap.png)
 
 ### Disagreement examples
 
@@ -173,6 +177,12 @@ Unit = sentence (split at `.!?` + space or newline). A regex hit is a true posit
 
 CoTControl prompts explicitly told the model *not* to mention the constraint; ReasonIF prompts did not. Narration on CoTControl is therefore disobedience of an instruction, on ReasonIF it is unprompted.
 
+![Per-mode narration rate, base vs step-60](figures/llm_per_mode_sft.png)
+
+![Narration sentences per trace](figures/llm_sentences_per_trace.png)
+
+![Where the first narration sentence sits](figures/llm_first_position.png)
+
 ## 4. Do the narration sentences themselves violate the condition?
 
 | suite | condition | base: narration sentences violating | step-60 |
@@ -203,6 +213,9 @@ Rule-based classification of each LLM-labelled sentence (precedence: self-check 
 | cotcontrol | step-60 | 4020 | 31.0 % | 13.8 % | 26.3 % | 28.8 % |
 | reasonif | base | 3084 | 24.1 % | 17.3 % | 15.2 % | 43.4 % |
 | reasonif | step-60 | 66 | 21.2 % | 6.1 % | 30.3 % | 42.4 % |
+
+![Narration taxonomy](figures/llm_taxonomy.png)
+
 
 ## 6. Compliance and accuracy conditional on narration
 
@@ -238,6 +251,11 @@ Rule-based classification of each LLM-labelled sentence (precedence: self-check 
 | reasonif | json_format | step-60 | 0.0 % (n 10) | 0.0 % (n 2) | 90.0 % | 100.0 % |
 | reasonif | no_comma | base | 0.0 % (n 11) | 0.0 % (n 37) | 90.0 % | 94.6 % |
 | reasonif | no_comma | step-60 | 40.0 % (n 20) | 0.0 % (n 1) | 90.0 % | 100.0 % |
+
+![Accuracy conditional on narration](figures/llm_accuracy_by_narration.png)
+
+At base on CoTControl, the ~10 % of rollouts *without* any narration answer correctly far less often (≈ 25–40 %) than the narrating majority (≈ 55 %). This is selection, not a cost of silence: the non-narrating base rollouts are disproportionately the degenerate ones (near-empty reasoning, or a trace that only emits the answer line), and the pattern is absent on ReasonIF where the sample of non-narrators is tiny. After SFT the split cannot be read the same way because the non-narrating group becomes the majority.
+
 
 ## 7. Validity checks
 
