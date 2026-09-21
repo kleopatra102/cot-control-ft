@@ -71,3 +71,46 @@ the GPU window allows (12 / 16 / 20).
 
 E2 quartets: 535 items — 150 each for uppercase, lowercase, alternating (CoTControl); 37 english_capital
 and 48 no_comma (ReasonIF; all available). Extraction running.
+
+## E2 — style and controllability directions from quartets, base model (2026-09-22)
+
+**Data.** 535 quartets built (A instruction+original, B instruction+transformed, C plain+original, D
+plain+transformed); the 8,000-token cap applied after the OOM kept **154**: lowercase 68, uppercase 34,
+english_capital 24, no_comma 28. **alternating_case was lost entirely** (its per-letter transform inflates
+tokenisation past the cap) — to be recovered with a 12,000-token cap now that expandable segments are on.
+Whole-trace mean pooling over the reasoning span; 70/30 item split; paired within-item tests.
+
+| layer | style (D−C) consistency | instruction (A−C) consistency | ‖A−C‖/‖act‖ | controllability residual consistency | ‖resid‖/‖style‖ | cos(resid, style) | scale k | orthogonalised residual consistency |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 8 | 0.98 | 1.00 | 0.004 | 1.00 | 0.023 | −0.21 | 0.995 | 0.98 |
+| 12 | 0.98 | 1.00 | 0.006 | 1.00 | 0.038 | −0.20 | 0.993 | 1.00 |
+| 16 | 1.00 | 1.00 | 0.010 | 1.00 | 0.052 | −0.10 | 0.995 | 1.00 |
+| 20 | 0.98 | 1.00 | 0.022 | 1.00 | 0.055 | 0.01 | 1.001 | 1.00 |
+| 24 | 0.98 | 1.00 | 0.025 | 0.91 | 0.054 | 0.20 | 1.011 | 1.00 |
+
+"Consistency" = share of held-out items whose within-item difference projects positively onto the direction
+fitted on the other 70 %. Unpaired AUROCs (0.70–0.81 for style) understate everything here because
+whole-trace vectors vary far more between questions than within a quartet; the paired numbers are the
+meaningful ones.
+
+**Findings.**
+1. **Style directions are real and per-condition.** Uppercase and english_capital share one axis (cosine
+   0.98). Lowercase is *orthogonal* to uppercase (0.01): lowercasing changes few tokens (sentence-initial
+   capitals) and is not the negative of uppercasing. no_comma is weakly related to lowercase (0.34).
+   Norms are tiny at mid depth (‖style‖ 0.5–0.9 at layers 8–16 vs ‖act‖ ≈ 31) and grow to 3–6 at layers
+   20–24: whole-trace mean representations are nearly case-invariant until late layers.
+2. **The instruction's presence shifts the reading of the same trace consistently** (100 %), but by only
+   0.4–2.5 % of the activation norm — a prompt-content signature.
+3. **A controllability residual exists and is not a rescaled style shift.** (B−A) − (D−C) is consistent on
+   100 % of held-out items at layers 8–20, its cosine with the style direction is |0.2| or less, the
+   instruction neither enlarges nor shrinks the style shift (k = 0.99–1.01), and after projecting out both
+   the style and the instruction directions the leftover is still 98–100 % consistent at 2–5 % of the style
+   norm. Per condition at layer 20: 100 % on all four. Interpretation: with the instruction present, the
+   model represents a compliant trace differently from a non-compliant one in a way that is neither the
+   format nor the instruction itself — the interaction a controllability direction should be.
+
+**Caveats before steering with it.** 154 items, four conditions, no alternating_case; B/D are teacher-forced
+transforms; whole-trace pooling; the residual is ~5 % of an already small style norm (≈0.05 in activation
+units at layer 16, 0.3 at layer 24), so steering coefficients would be large multiples of it. Validation
+against the natural ReasonIF compliant rollouts (≈17 base, ≈70 step-60) is the next check: their
+(compliant − non-compliant) difference under the instruction should project positively on this residual.
