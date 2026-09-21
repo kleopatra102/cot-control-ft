@@ -25,14 +25,63 @@ CMODES = ["uppercase_thinking", "lowercase_thinking", "alternating_case", "word_
 RMODES = ["reasoning_language", "number_words", "english_capital", "end_checker", "json_format", "no_comma"]
 MODES = {"cotcontrol": CMODES, "reasonif": RMODES}
 def load(p): return [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()] if p.exists() else []
-R = defaultdict(list)
+R = defaultdict(list); DROPPED = Counter()
 for lbl in CK:
     for suite in ("cotcontrol", "reasonif"):
-        for r in load(REPO / f"results/strip_llm/rollouts_{lbl}_{suite}.jsonl"): R[(lbl, suite)].append(r)
+        for r in load(REPO / f"results/strip_llm/rollouts_{lbl}_{suite}.jsonl"):
+            if r["llm_error"]: DROPPED[(lbl, suite)] += 1; continue   # unlabelled trace != trace without narration
+            R[(lbl, suite)].append(r)
 text = {}
 for lbl in CK:
     for suite in ("cotcontrol", "reasonif"):
         for r in load(REPO / f"results/{lbl}/{suite}_rollouts.jsonl"): text[(lbl, suite, r["sample_id"], r["mode"])] = r.get("reasoning") or ""
+# ---- re-match LLM sentences to units with quote/markdown normalisation, rebuild `llm` strips, re-grade locally
+from cotctl.graders.cotcontrol import grade_cotcontrol, _META_PATTERNS as _PATS
+from cotctl.graders.continuous_v2 import score_v2
+from cotctl.graders.reasonif import grade_reasonif
+from cotctl.graders.continuous_reasonif import score_reasonif
+_PATC = [(p_, re.compile(p_)) for p_ in _PATS]
+_QUOTES = str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "`": "'"})
+def norm2(x: str) -> str:
+    x = x.replace("\\\"", '"').replace("\\'", "'").translate(_QUOTES)
+    x = re.sub(r"[*_#>]+", " ", x)            # markdown emphasis / bullets / headers
+    return re.sub(r"\s+", " ", x).strip().lower()
+META = {}
+for lbl in CK:
+    for r in load(REPO / f"results/{lbl}/cotcontrol_rollouts.jsonl"): META[(lbl, "cotcontrol", r["sample_id"])] = (r["meta"].get("keywords") or [], {})
+    for r in load(REPO / f"results/{lbl}/reasonif_rollouts.jsonl"): META[(lbl, "reasonif", r["sample_id"])] = ([], r["meta"].get("constraint_args") or {})
+UNC = {}
+for lbl in CK:
+    kw = {k[2]: v[0] for k, v in META.items() if k[0] == lbl and k[1] == "cotcontrol" and v[0]}
+    for r in load(REPO / f"results/{lbl}/unconstrained_rollouts.jsonl"):
+        if r["sample_id"] in kw and r.get("think_status") == "ok": UNC[(lbl, r["sample_id"])] = count_keyword_uses(r.get("reasoning") or "", kw[r["sample_id"]])
+MATCH = Counter()
+for (lbl, suite), rs in R.items():
+    for r in rs:
+        t = text[(lbl, suite, r["sample_id"], r["mode"])]
+        ns = [norm2(x) for x in r["llm_sentences"]]; ns = [x for x in ns if len(x) >= 12]
+        MATCH[(lbl, suite, "sentences")] += len(r["llm_sentences"]); MATCH[(lbl, suite, "matched_old")] += r["n_llm_units"]
+        units, pos, hit_s = [], 0, set()
+        for u in sr.split_keep(t):
+            nu = norm2(u); llm = False
+            if nu:
+                for i, v in enumerate(ns):
+                    if v in nu or (len(nu) >= 60 and nu in v): llm = True; hit_s.add(i)
+            units.append({"start": pos, "len": len(u), "llm": llm, "regex": [n for n, rx in _PATC if rx.search(u.lower())]}); pos += len(u)
+        MATCH[(lbl, suite, "matched_new")] += len(hit_s)
+        r["units"] = [u for u in units if u["llm"] or u["regex"]]; r["n_llm_units"] = sum(u["llm"] for u in units)
+        llm_txt = "".join(t[u["start"]:u["start"]+u["len"]] for u in units if not u["llm"])
+        r["removed"]["llm"] = 1 - len(llm_txt) / len(t)
+        r["first_llm_pos"] = next((u["start"] / len(t) for u in units if u["llm"]), None)
+        r["last_llm_pos"] = next((u["start"] / len(t) for u in reversed(units) if u["llm"]), None)
+        if r["mode"] == "ignore_question": continue     # judge-scored; keep the run's counts
+        kws, args = META.get((lbl, suite, r["sample_id"]), ([], {}))
+        if suite == "cotcontrol":
+            b_, c_ = grade_cotcontrol(r["mode"], llm_txt, keywords=kws), score_v2(r["mode"], llm_txt, keywords=kws, unconstrained_uses=UNC.get((lbl, r["sample_id"])))
+        else:
+            b_, c_ = grade_reasonif(r["mode"], llm_txt, args), score_reasonif(r["mode"], llm_txt, args)
+        r["scores"]["llm"] = {"binary": b_, "continuous": c_}
+
 def mean(xs): xs = [x for x in xs if x is not None]; return (st.mean(xs) if xs else None)
 def pct(x, d=1): return "—" if x is None else f"{100*x:.{d}f} %"
 def f3(x): return "—" if x is None else f"{x:.3f}"
@@ -47,8 +96,8 @@ def boot_ci(pairs, n=4000, seed=0):
 
 md = []; P = md.append
 P("# Meta-discussion on the full trace: LLM labels, strip-and-regrade, three measures compared\n")
-missing = [f"{l}/{s}" for l in CK for s in ("cotcontrol", "reasonif") if not R[(l, s)]]
-if missing: P(f"> **PRELIMINARY — incomplete run.** Missing sets: {', '.join(missing)}. The OpenAI account was deactivated mid-run (2026-09-21); sections that compare checkpoints are empty or base-only until the run resumes.\n")
+cov = "; ".join(f"{l}/{s}: {len(R[(l, s)])} labelled" + (f", {DROPPED[(l, s)]} unlabelled (API errors, excluded)" if DROPPED[(l, s)] else "") for l in CK for s in ("cotcontrol", "reasonif"))
+P(f"> **Coverage.** {cov}. Base is complete. Step-60 is a budget-limited subset: the first 60 gradeable rollouts per CoTControl mode, and the ReasonIF rollouts labelled before the OpenRouter balance ran out (the OpenAI account was deactivated mid-run on 2026-09-21). Not run for step-60: the ignore_question count prompt and the 50-rollout self-consistency pass. Paired base→step-60 comparisons use only rollouts labelled at both checkpoints.\n")
 P("*Generated by `scripts/report_strip_llm.py` from `results/strip_llm/`. This file supersedes the meta-discussion "
   "sections of `META_DISCUSSION.md` (regex + capped judge) and the regex-based `STRIP_TEST.md`; both are kept unchanged for the record.*\n")
 
@@ -199,10 +248,10 @@ for suite in ("cotcontrol", "reasonif"):
                           ("narration sentences per 1,000 words", lambda r: 1000 * r["n_llm_sentences"] / max(r["words"], 1), lambda x: f"{x:.2f}"),
                           ("share of trace deleted", lambda r: r["removed"]["llm"], lambda x: f"{100*x:.2f} %")):
         pairs = [(fn(b[k]), fn(s6[k])) for k in keys]; ci = boot_ci(pairs)
-        P(f"| {suite} | {name} | {fmt(st.mean(a for a,_ in pairs))} | {fmt(st.mean(c for _,c in pairs))} | {fmt(st.mean(c-a for a,c in pairs)).replace('%',' pp') if '%' in fmt(0.5) else fmt(st.mean(c-a for a,c in pairs))} | [{fmt(ci[0]).replace('%',' pp') if '%' in fmt(0.5) else fmt(ci[0])}, {fmt(ci[1]).replace('%',' pp') if '%' in fmt(0.5) else fmt(ci[1])}] |")
+        P(f"| {suite} | {name} | {fmt(st.mean(a for a,_ in pairs))} | {fmt(st.mean(c for _,c in pairs))} | {fmt(st.mean(c-a for a,c in pairs)).replace(' %',' pp') if '%' in fmt(0.5) else fmt(st.mean(c-a for a,c in pairs))} | [{fmt(ci[0]).replace(' %',' pp') if '%' in fmt(0.5) else fmt(ci[0])}, {fmt(ci[1]).replace(' %',' pp') if '%' in fmt(0.5) else fmt(ci[1])}] |")
     # positions
     for lbl in CK:
-        xs = [r for r in R[(lbl, suite)] if r["llm_meta"]]
+        xs = [r for r in R[(lbl, suite)] if r["llm_meta"] and r["first_llm_pos"] is not None]
         if xs: P(f"| {suite} | first narration sentence, median position in trace ({lbl}) | | | {100*st.median(r['first_llm_pos'] for r in xs):.0f} % of trace | last: {100*st.median(r['last_llm_pos'] for r in xs):.0f} % |")
 P("\nCoTControl prompts explicitly told the model *not* to mention the constraint; ReasonIF prompts did not. Narration on CoTControl is therefore disobedience of an instruction, on ReasonIF it is unprompted.\n")
 
@@ -254,8 +303,8 @@ if vm:
         for l, p, col in zip(CK, pts, (LIGHT, BLUE)): ax.scatter(p, y, s=64, color=col, edgecolor=SURF, linewidth=2, zorder=4)
     ax.set_yticks(ys); ax.set_yticklabels([m for _, m in vm], color=INK2, fontsize=9); ax.set_xlim(0, 105); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
     ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0); ax.set_xlabel("% of LLM-labelled narration sentences that break the condition's rule", color=INK2)
-    ax.legend(handles=[Line2D([0],[0], marker="o", ls="", ms=8, color=c, markeredgecolor=SURF, label=CKL[l]) for l, c in zip(CK, (LIGHT, BLUE))], frameon=False, loc="lower left", fontsize=9)
-    ax.set_title("Narration sentences that violate their own condition", loc="left", fontsize=11, color=INK); fig.tight_layout(); fig.savefig(OUT / "llm_units_violating.png", bbox_inches="tight"); plt.close(fig)
+    ax.legend(handles=[Line2D([0],[0], marker="o", ls="", ms=8, color=c, markeredgecolor=SURF, label=CKL[l]) for l, c in zip(CK, (LIGHT, BLUE))], frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=9)
+    ax.set_title("Narration sentences that violate their own condition", loc="left", fontsize=11, color=INK, pad=26); fig.tight_layout(); fig.savefig(OUT / "llm_units_violating.png", bbox_inches="tight"); plt.close(fig)
 
 # ---------------------------------------------------------------- 5. taxonomy, conditional compliance/accuracy
 P("## 5. What kind of narration is it?\n")
@@ -286,7 +335,9 @@ for suite in ("cotcontrol", "reasonif"):
 # ---------------------------------------------------------------- 7. validity checks
 P("\n## 7. Validity checks\n")
 cons = load(REPO / "results/strip_llm/consistency.jsonl")
-if cons:
+if len(cons) < 20:
+    P(f"**Self-consistency of the lister: not run.** The planned 50-rollout second-sample pass was cut for budget. The only evidence is the {len(cons)}-rollout smoke test: both samples agreed on whether narration was present; sentence-level Jaccard overlap was 44 %, i.e. the judge (fixed default temperature) lists a somewhat different set of sentences each time. Treat rollout-level rates as stable and per-sentence counts as ±20–50 % noisy.\n")
+elif cons:
     ok = [c for c in cons if not any(c["err"])]
     roll = mean([bool(c["s1"]) == bool(c["s2"]) for c in ok])
     jac = mean([len(set(map(str.strip, c["s1"])) & set(map(str.strip, c["s2"]))) / max(1, len(set(map(str.strip, c["s1"])) | set(map(str.strip, c["s2"])))) for c in ok if c["s1"] or c["s2"]])
@@ -297,8 +348,11 @@ if iq:
     agree = mean([sc(r, "original", "binary") == r["bin_graded_original"] for r in iq])
     P(f"**ignore_question count prompt vs the paper's T/F grader** on the same {len(iq)} original traces: binary agreement **{pct(agree)}** "
       f"(count-prompt compliant {pct(mean([sc(r,'original','binary') for r in iq]))}, T/F compliant {pct(mean([r['bin_graded_original'] for r in iq]))}).\n")
-errs = sum(1 for k in R for r in R[k] if r["llm_error"]); tot = sum(len(v) for v in R.values())
-P(f"Labelling errors: {errs} of {tot} rollouts.\n")
+for (lbl, suite) in sorted({(k[0], k[1]) for k in MATCH}):
+    S_, o_, n_ = MATCH[(lbl, suite, "sentences")], MATCH[(lbl, suite, "matched_old")], MATCH[(lbl, suite, "matched_new")]
+    if S_: P(f"**Sentence matching** ({lbl}/{suite}): {S_:,} judge-listed sentences; matched to a trace unit {pct(n_/S_)} after quote/markdown normalisation (run-time matcher: {pct(o_/S_)}). Unmatched sentences are ones the judge paraphrased or truncated; they are not deleted in the `llm` variant, so the strip test is slightly conservative.\n")
+tot = sum(len(v) for v in R.values()) + sum(DROPPED.values())
+P(f"Labelling errors (excluded from every table above): {sum(DROPPED.values())} of {tot} rollouts — " + ", ".join(f"{l}/{s} {n}" for (l, s), n in DROPPED.items()) + ".\n")
 
 # ---------------------------------------------------------------- 8. methodology
 P("""## 8. Method
@@ -322,7 +376,8 @@ P("""## 8. Method
 ## 9. Limitations
 
 - The lister is a stochastic LLM at fixed temperature; §7 quantifies it. It is inclusive about compliance-checking sentences ("Check for commas again: None.") which the definition counts; a stricter reading would lower sentence counts but not rollout rates much.
-- Matching LLM sentences back to units is by containment; a paraphrased or truncated quotation from the judge fails to match and that sentence is not deleted (undercounts `n_llm_units` relative to `n_llm_sentences`).
+- Matching LLM sentences back to units is by containment after normalising quotes, whitespace and markdown; a paraphrased or truncated quotation from the judge still fails to match and that sentence is not deleted (§7 gives the match rate). The `llm` strip scores for the eight rule-based modes are recomputed in this report with the improved matcher; ignore_question keeps the run-time (weaker-matcher) strip.
+- The regex precision/recall figures use the LLM labels as reference, and the lister is itself incomplete (it misses plain sentences such as "Do not mention the constraint in reasoning.") and stochastic. Regex precision is therefore a lower bound; the qualitative ordering of patterns is what to read.
 - The ignore_question count is noisy across near-identical texts; treat its continuous values as approximate.
 - The strip test bounds the *direct* effect of narration on compliance (the narration text itself violating); it says nothing about how a model that never narrates would generate the rest of the trace.
 - CoTControl prompts instruct the model not to mention the constraint; ReasonIF prompts do not. Rates across the two benchmarks measure different things.

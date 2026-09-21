@@ -646,3 +646,33 @@ running the loop *and* the log watcher, because both shells' command lines conta
 patterns to the start of the command line (`pgrep -f '^python scripts/strip_llm.py'`), or record
 the PID at launch (`$!`) and kill that. Never match a bare filename. No data lost: every judge call
 is cached (243 calls, 241/2,594 base rollouts) and the run resumes from the cache.
+
+### Issues from the full-trace LLM labelling run (2026-09-21/22)
+
+**36. Cost estimate missed by 2× because reasoning tokens are invisible.** The ignore_question count
+prompt made gpt-5-mini reason for minutes per call at the default effort; those tokens are billed as
+output but never appear in the response, so per-call cost was estimated from visible text. 612 such
+calls (≈ $8) were discarded and redone at `reasoning_effort="low"` (34 s, ~4× cheaper, same counts
+within noise). **Practice:** for reasoning models, read `usage.completion_tokens` (includes
+reasoning) on the smoke test and set `reasoning_effort` explicitly before a large run.
+
+**37. Provider account deactivated mid-run.** OpenAI returned 401 `account_deactivated` after
+~4,000 calls; 2,116 step-60 calls failed instantly. Everything completed was cached and the run
+resumed on OpenRouter with `--cache-model gpt-5-mini` so the cache keys did not change with the model
+id. OpenRouter then refused calls at $0.85 remaining because it reserves the worst-case cost per
+request. Final coverage is a budget-limited step-60 subset (60/mode CoTControl, ~100 of 270
+ReasonIF), stated in the report banner. **Practice:** cache under a provider-independent key from
+the start; check the balance *and* the per-request reservation before assuming a budget suffices.
+
+**38. Judge output does not match the trace verbatim.** The lister escapes quotation marks (`\"`),
+merges two quoted lines into one, and paraphrases ~14 % of the sentences it "quotes verbatim". The
+run-time matcher therefore deleted only 75 % of listed sentences; quote/markdown normalisation in the
+report raised this to 79 %, the rest is paraphrase. Strip results are correspondingly conservative;
+sentence-level regex precision/recall against these labels are lower bounds. **Practice:** measure
+the quote-to-text match rate before using an LLM's "verbatim" output as a deletion mask.
+
+**39. Re-running the pipeline overwrote a finished output with a partial one.** The per-suite
+output file is rewritten on every run; relaunching with `--skip-iq` to save credit rewrote the
+*base* file without its (already cached) ignore_question counts, silently. Restored by one more
+cached replay. **Practice:** never let a budget flag applied to one label change what is written for
+another; write outputs per (label, suite, stage) or refuse to overwrite a file with fewer fields.

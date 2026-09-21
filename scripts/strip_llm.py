@@ -60,14 +60,17 @@ async def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--labels", nargs="+", default=["base", "step-60"])
     ap.add_argument("--suites", nargs="+", default=["cotcontrol", "reasonif"])
-    ap.add_argument("--per-mode-limit", type=int, default=None, help="debug: rollouts per (label, suite, mode)")
+    ap.add_argument("--per-mode-limit", type=int, default=None, help="rollouts per (label, suite, mode)")
+    ap.add_argument("--limit-labels", nargs="*", default=None, help="apply --per-mode-limit only to these labels")
+    ap.add_argument("--skip-iq", action="store_true", help="skip the ignore_question count calls")
+    ap.add_argument("--max-retries", type=int, default=6)
     ap.add_argument("--concurrency", type=int, default=24)
     ap.add_argument("--consistency", type=int, default=50, help="rollouts relabelled a second time (cotcontrol base)")
     ap.add_argument("--model", default=os.environ.get("JUDGE_MODEL", "gpt-5-mini"))
     ap.add_argument("--cache-model", default="gpt-5-mini", help="model name used in cache keys (keep gpt-5-mini when switching endpoints)")
     a = ap.parse_args()
     (OUT / "run.pid").write_text(str(os.getpid()))
-    judge = LLMJudge(model=a.model, cache_path=OUT / "judge_cache.jsonl", concurrency=a.concurrency, max_retries=6, cache_model=a.cache_model)
+    judge = LLMJudge(model=a.model, cache_path=OUT / "judge_cache.jsonl", concurrency=a.concurrency, max_retries=a.max_retries, cache_model=a.cache_model)
     print(f"judge {a.model} @ {judge.base_url}  pid {os.getpid()}", flush=True)
     capped = {(v["label"], v["suite"], v["sample_id"], v["mode"]): v for v in load(REPO / "results/meta_judge/meta_verdicts.jsonl")}
     console = []
@@ -75,7 +78,7 @@ async def main() -> int:
         for suite in a.suites:
             t0 = time.time()
             rows = [r for r in load(REPO / f"results/{label}/{suite}_rollouts.jsonl") if not r.get("error") and r.get("think_status") == "ok" and r.get("reasoning")]
-            if a.per_mode_limit:
+            if a.per_mode_limit and (not a.limit_labels or label in a.limit_labels):
                 seen = defaultdict(int); keep = []
                 for r in rows:
                     if seen[r["mode"]] < a.per_mode_limit: keep.append(r); seen[r["mode"]] += 1
@@ -117,7 +120,9 @@ async def main() -> int:
                 if suite == "cotcontrol" and m == "ignore_question": iq.append((rec, r["prompt"], texts))
                 recs.append(rec)
             # ---- ignore_question via count prompt
-            if iq:
+            if iq and a.skip_iq:
+                print(f"[{label}/{suite}] ignore_question: count calls skipped (--skip-iq)", flush=True)
+            elif iq:
                 print(f"[{label}/{suite}] ignore_question: {len(iq)} rollouts x 3 count calls", flush=True)
                 items = [(p, texts[k]) for rec, p, texts in iq for k in ("original", "llm", "regex")]
                 cv = await judge.judge_many("ignore_count", items, desc=f"{label} iq count")
