@@ -94,7 +94,8 @@ for suite in ("cotcontrol", "reasonif"):
                 ax.scatter(o, y, s=64, color=LIGHT, edgecolor=SURF, linewidth=2, zorder=5)
                 if l_ is not None:
                     ax.scatter(l_, y, s=64, color=BLUE, edgecolor=SURF, linewidth=2, zorder=6)
-                    if abs(l_ - o) >= (3 if s == "binary" else 0.03): ax.annotate(f"{l_-o:+.0f}" if s == "binary" else f"{l_-o:+.2f}", xy=(l_, y), xytext=(8, 0), textcoords="offset points", va="center", fontsize=8.5, color=INK2)
+                    if abs(l_ - o) >= (3 if s == "binary" else 0.03):
+                        ax.annotate(f"{l_-o:+.0f}" if s == "binary" else f"{l_-o:+.2f}", xy=(max(o, l_, rg or 0), y), xytext=(8, 0), textcoords="offset points", va="center", fontsize=8.5, color=INK2)
             ax.set_xlim(0, xmax); ax.set_yticks(ys); ax.set_yticklabels(modes, color=INK2, fontsize=9); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
             ax.spines["left"].set_color(BASE); ax.spines["bottom"].set_color(BASE); ax.tick_params(length=0)
             if i == 1: ax.set_xlabel(xlab, color=INK2)
@@ -128,8 +129,8 @@ for ax, suite, title in zip(axes, ("cotcontrol", "reasonif"), ("CoTControl", "Re
         vals = [100 * (mean([r[key] for r in R[(c, suite)] if r[key] is not None]) or 0) for c in CK]
         ax.bar([i + off for i in x], vals, width=w, color=col, label=lab, zorder=3)
         for i, v in zip(x, vals): ax.text(i + off, v + 1.5, f"{v:.0f}", ha="center", va="bottom", fontsize=8.5, color=INK2)
-    ax.set_xticks(list(x)); ax.set_xticklabels([CKL[c] for c in CK], color=INK2); ax.set_ylim(0, 100); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
-    ax.spines["left"].set_visible(False); ax.tick_params(length=0); ax.set_title(title, loc="left", fontsize=11, color=INK)
+    ax.set_xticks(list(x)); ax.set_xticklabels([CKL[c] for c in CK], color=INK2); ax.set_ylim(0, 112); ax.set_yticks(range(0, 101, 20)); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True)
+    ax.spines["left"].set_visible(False); ax.tick_params(length=0); ax.set_title(title, loc="left", fontsize=11, color=INK, pad=10)
 axes[0].set_ylabel("meta-discussion, % of rollouts", color=INK2)
 h_, l_ = axes[0].get_legend_handles_labels(); fig.legend(h_, l_, frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.93), ncol=3, fontsize=8.5)
 fig.suptitle("Meta-discussion rate under three measures", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.86)); fig.savefig(OUT / "llm_three_measures.png"); plt.close(fig)
