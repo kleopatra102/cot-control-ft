@@ -133,7 +133,7 @@ flash-linear-attention kernels (275 tok/s aggregate at batch 8). 400 rollouts, ~
 the two classes sit 3.4 apart along the unit direction at layer 16; −7 is ≈ 2 gaps, −14 ≈ 4 gaps (≈ 45 % of
 the activation norm).
 
-![Dose-response](figures/steer_dose_response.png)
+![Dose-response](figures/steer_dose_response_base.png)
 
 | layer | coef | mode | closed think / 20 | trunc % | binary | continuous | accuracy | regex meta | tokens |
 |---:|---:|---|---:|---:|---:|---:|---:|---:|---:|

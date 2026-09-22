@@ -78,7 +78,7 @@ ax.legend(frameon=False, fontsize=8.5, loc="lower left"); ax.set_title("Paired c
 fig.tight_layout(); fig.savefig(OUT / "steer_e2_structure.png", bbox_inches="tight"); plt.close(fig)
 
 # ---- Fig 5: S1 usable band (closed think blocks) + paired narration-density deltas
-E = json.load(open(REPO / "results/steer/steered_eval.json")); agg = E["agg"]; rows = E["rows"]
+E = json.load(open(REPO / "results/steer/steered_eval_base.json")); agg = E["agg"]; rows = E["rows"]
 fig, axes = plt.subplots(1, 2, figsize=(10.5, 3.9), dpi=150)
 ax = axes[0]; coefs = [-14, -7, 0, 7]; Ls = [12, 16, 20]; ramp = {12: LIGHT, 16: BLUE, 20: DARK}
 for L in Ls:
