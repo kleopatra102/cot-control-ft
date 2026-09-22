@@ -26,6 +26,15 @@ trace: median first narration sentence at 2 % of the trace at base, 39 % at step
 sits between them and is the reference here. Per trace at base: 22.7 narration sentences, 6.1 per 1,000 words,
 6.7 % of the text.
 
+**The two detectors mostly flag different sentences.** At sentence level the regex and the lister agree on
+only 15 % of the sentences either flags at base (89,376 flagged sentences): 46 % are regex-only, mostly the
+bare `constraint` pattern on ordinary usage ("symmetry constraints", "Is there any other constraint?"), and
+40 % are LLM-only, narration phrased without any of the seven trigger words ("Constraint 1: …" headers,
+"I need to make sure the reasoning text follows the pattern"). Rollout-level rates agree far better (93 %)
+because most traces contain both kinds.
+
+![The two detectors mostly flag different sentences](figures/llm_sentence_overlap.png)
+
 **Per condition** the picture is uniform: at base every CoTControl mode is above 77 % (lister) — from
 uppercase 77 % to meow_between_words 96 % — and every ReasonIF type above 60 %. Narration is not a quirk of
 one constraint.
