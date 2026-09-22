@@ -137,13 +137,13 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
 }
 // 9 steering works (S2)
 {
-  const s = pres.addSlide(); title(s, "4.3 · Steering: narration down in 7 of 9 modes, compliance flat", "Layer 16, coefficient −7 · all nine CoTControl modes, 30 prompts each · steered minus unsteered on the same prompt");
-  fig(s, "steer_s2_paired.png", 0.3, 1.3, 9.4, 2.7);
+  const s = pres.addSlide(); title(s, "4.3 · Steering: less narration, same compliance", "Layer 16, coefficient −7 · all nine CoTControl modes, 30 prompts each · steered minus unsteered on the same prompt");
+  fig(s, "steer_s2_paired.png", 0.3, 1.3, 9.4, 2.6);
   bullets(s, [
     "Narration density 8.3 → 4.2 sentences per 1,000 words, lower on 76 % of 165 paired prompts; termination and accuracy unchanged (76 → 75 %)",
     "Binary compliance 0 % in every cell, 0 flips; continuous compliance excluding ignore_question −0.007 (80 % CI −0.019 to +0.005): a null",
     "ignore_question collapses 0.30 → 0.02: there “I must not think about the question” is the compliant content — steering it away leaves only question-discussion",
-  ], 0.5, 4.05, 9.0, 1.15, 10.5);
+  ], 0.5, 3.95, 9.0, 1.3, 10.5);
 }
 // 10 failure modes
 {
@@ -157,7 +157,7 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
 }
 // 10b SFT vs steering: narration-free traces per mode
 {
-  const s = pres.addSlide(); title(s, "SFT frees every mode of narration; steering only the form constraints", "Traces with no narration sentence at all, per mode · unsteered vs steering (layer 16, −7) vs SFT (step-60)");
+  const s = pres.addSlide(); title(s, "Narration-free traces: SFT yes, steering only for form", "Traces with no narration sentence at all, per mode · unsteered vs steering (layer 16, −7) vs SFT (step-60)");
   fig(s, "steer_s2_narration_free.png", 0.3, 1.3, 9.4, 3.0);
   bullets(s, [
     "Steering: 1 % → 24 % overall — case modes 27–42 %, ignore_question 64 %, end / meow / repeat 8–10 %, word-suppression modes 0–5 %",
