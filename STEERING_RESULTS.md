@@ -114,3 +114,66 @@ transforms; whole-trace pooling; the residual is ~5 % of an already small style 
 units at layer 16, 0.3 at layer 24), so steering coefficients would be large multiples of it. Validation
 against the natural ReasonIF compliant rollouts (≈17 base, ≈70 step-60) is the next check: their
 (compliant − non-compliant) difference under the instruction should project positively on this residual.
+
+## S1 — steering the base model against the meta-discussion direction (2026-09-22)
+
+**Setup.** Direction from E1b (`directions_base_cotcontrol_base_s.pt`, mean-pooled), added to the residual
+stream at every position during generation. Layers 12 / 16 / 20 × coefficients −7 / −14 / +7, plus one
+unsteered baseline (coefficient 0). Conditions uppercase_thinking and word_suppression, 20 stored eval
+prompts each; sampling as in the main eval (temperature 1.0, top-p 0.95, top-k 20); token cap 8,192;
+flash-linear-attention kernels (275 tok/s aggregate at batch 8). 400 rollouts, ~3 h. Coefficient scale:
+the two classes sit 3.4 apart along the unit direction at layer 16; −7 is ≈ 2 gaps, −14 ≈ 4 gaps (≈ 45 % of
+the activation norm).
+
+![Dose-response](figures/steer_dose_response.png)
+
+| layer | coef | mode | closed think / 20 | trunc % | binary | continuous | accuracy | regex meta | tokens |
+|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| 16 | 0 | uppercase | 12 | 40 | 0 % | 0.114 | 83 % | 92 % | 6,948 |
+| 16 | 0 | word_supp | 11 | 55 | 0 % | 0.425 | 89 % | 100 % | 7,511 |
+| 16 | −7 | uppercase | 12 | 40 | 0 % | 0.116 | 92 % | **58 %** | 6,472 |
+| 16 | −7 | word_supp | 12 | 50 | 0 % | 0.542 | 80 % | 100 % | 6,945 |
+| 16 | −14 | uppercase | 4 | 80 | 0 % | 0.101 | 75 % | 0 % | 7,729 |
+| 16 | −14 | word_supp | 6 | 80 | 0 % | 0.692 | 60 % | 17 % | 7,959 |
+| 16 | +7 | uppercase | 7 | 75 | 0 % | 0.129 | 50 % | 100 % | 7,766 |
+| 16 | +7 | word_supp | 5 | 75 | 0 % | 0.347 | 80 % | 100 % | 7,884 |
+| 20 | −7 | uppercase | 16 | 30 | 0 % | 0.167 | 86 % | 100 % | 5,714 |
+| 20 | −7 | word_supp | 8 | 60 | 0 % | 0.507 | 75 % | 100 % | 7,606 |
+| 20 | −14 | uppercase | 16 | 25 | 0 % | 0.141 | 87 % | 94 % | 6,296 |
+| 20 | −14 | word_supp | 11 | 50 | 0 % | 0.568 | 80 % | 100 % | 6,804 |
+| 20 | +7 | uppercase | 15 | 25 | 0 % | 0.135 | 80 % | 100 % | 7,217 |
+| 20 | +7 | word_supp | 7 | 65 | 0 % | 0.487 | 57 % | 100 % | 7,311 |
+| 12 | −7 | uppercase / word_supp | 8 / 7 | 65 / 75 | 0 % | 0.109 / 0.159 | 75 / 80 % | 100 % | 7,491 / 7,932 |
+| 12 | −14, +7 | both | 0–1 | 95–100 | — | — | — | — | 8,192 |
+
+**Layer verdict.** Layer 12 is unusable: at ±14 nothing terminates, at −7 termination halves. Layer 16
+is usable at −7 (termination equal to baseline) and breaks at ±14 (10–12 of 40 close, traces run to the
+cap, accuracy falls). Layer 20 tolerates every coefficient tested: 22–27 of 40 close, traces get *shorter*
+under negative steering (5.7–6.8k vs 7.2k tokens), accuracy within 10 pp of baseline. So the probe table's
+flatness across layers did not carry over to steering: robustness to the intervention increases with depth.
+
+**Narration (regex, provisional).** At layer 16, −7 cut regex-detected narration on uppercase from 92 % to
+58 % of gradeable rollouts (12 each) and −14 to 0 % (4 rollouts). At layer 20 the regex barely moved
+(94–100 %). The METR regex is dominated by the bare `constraint` pattern and is a coarse instrument here;
+**the full-trace LLM lister is the measure that decides this, and it is pending: 144 of 159 lister calls
+failed with HTTP 402 (API credit exhausted). 15 judged rollouts are cached; the column fills in when credit
+is restored.**
+
+**Compliance.** Binary stays 0 % in every cell. Continuous compliance on uppercase is flat under all
+conditions (0.10–0.17 vs 0.11). On word_suppression it rises under negative steering at layers 16 and 20
+(0.43 → 0.51–0.69) and falls under positive steering at layer 16 (0.35). With 5–12 gradeable rollouts per
+cell and truncation selecting which survive, this is suggestive, not a result; S2 with all modes and larger
+n is where it is tested.
+
+**Degradation.** Accuracy drops appear only where termination fails (layer 12; layer 16 at ±14). Where the
+model still terminates, accuracy stays within 10 pp of baseline.
+
+**Provisional reading against the predictions.** Steering can lower narration at layer 16 without harming
+compliance or accuracy at −7 (prediction met on the regex measure, LLM pending). No sign that suppressing
+narration *lowers* compliance — the "narration is tracking" hypothesis has no support so far; if anything
+word_suppression moved the other way. The ±14 failures show the intervention has a narrow usable band at
+mid depth and a wider one at layer 20.
+
+**Limitations.** 20 prompts per cell; 40–80 % truncation at the 8,192 cap because the base model's traces
+are long (median ≈ 6k tokens), so gradeable n is 4–16; truncation is not independent of the steering
+condition; single direction, single pooling; base model only.
