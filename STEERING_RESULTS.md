@@ -190,12 +190,36 @@ model still terminates, accuracy stays within 10 pp of baseline.
 predicted direction, at a coefficient that leaves termination, accuracy and compliance intact. Prediction
 "≥ 20 pp lower narration rate" was the wrong statistic — the rate is saturated — but the density prediction it
 stood for is met. (2) Suppressing narration did **not** lower compliance anywhere the model still terminated;
-paired continuous scores moved slightly up. That is prediction (a): narration is a symptom, not the
-mechanism by which the model tracks the constraint. Together with the strip test (deleting narration flips
-0 %), both the direct and the indirect route from "less narration" to "more compliance" are now closed for
-this model at this scale; the small positive compliance shifts are the one thing S2 should look at. (3) The
+paired continuous scores moved slightly up. That is prediction (a). The right wording is not "narration is
+a symptom": a narration sentence in prose *is* a violation in most modes (`NARRATION_VS_CONDITIONS.md`), so
+narration is one genuine cause of non-compliance. But non-compliance is over-determined — the body violates
+in 90–99 % of its own sentences — so removing that one cause, whether by deletion (strip test: 0 % flips) or
+by steering (this run: compliance flat to slightly up), does not change the verdict. Narration and the body
+violations co-occur; suppressing the former does not repair the latter, and there is no sign that narration
+is *how* the model tracks the constraint. The small positive compliance shifts are the one thing S2 should
+look at. (3) The
 usable band is narrow at mid depth (−7 works, −14 breaks) and the effect vanishes by layer 20.
+
+**What the non-terminating traces do.** Read directly (`results/steer/rollouts_*_c-14.jsonl`, `_c+7.jsonl`):
+they start normally and then fall into repetition loops in the last third. Under strong *negative* steering
+(layer 16 −14, layer 12 −14) the loop is content fragments — option letters, numbers, short formulas —
+repeated with no narration at all ("*   Option D. *   Wait. *   Option C. *   Option D." ×dozens; 89 of 134
+final sentences exact duplicates; at layer 12, "**D**" repeated 209 times). Under *positive* steering
+(layer 16 +7) the loop is narration: "(Wait, I need to make sure I don't use the word 'entangled' in this
+text block). Okay. Okay, I'm writing the thought block now." repeated 60 times, or "I will not use the word
+'formats'. Okay, I will write the thought block now." — the model narrates the constraint instead of
+solving. So the direction's sign is visible even in the failure mode: pushing away removes constraint-talk
+and leaves bare content loops; pushing toward produces constraint-talk loops. Termination fails because the
+`</think>` decision never fires once the trace is in a loop; accuracy is scored on an empty answer.
 
 **Limitations.** 20 prompts per cell; 40–80 % truncation at the 8,192 cap because the base model's traces
 are long (median ≈ 6k tokens), so gradeable n is 4–16; truncation is not independent of the steering
 condition; single direction, single pooling; base model only.
+
+
+## S2 — all nine modes, layer 16, coefficients 0 and −7 (launched 2026-09-22 11:40)
+
+30 stored prompts per mode, cap 10,000 tokens, batch 8; 540 rollouts, ≈ 4–5 h. Purpose: does the layer-16
+narration reduction generalise across modes, and is the small positive compliance shift real with larger n?
+ignore_question binary needs the judge and is not graded locally; its continuous score comes from the count
+prompt at evaluation time. Results appended when the run completes.
