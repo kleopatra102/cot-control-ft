@@ -40,6 +40,14 @@ async def main() -> int:
         verd = await judge.judge_many("narration_full", [(r["prompt"], r["reasoning"]) for r in items], desc="narration lister")
         for r, v in zip(items, verd):
             r["llm_meta"] = (bool(v.compliant) if v.error is None else None); r["llm_n_sent"] = (len(json.loads(v.detail)) if v.error is None and v.detail else None); r["llm_error"] = v.error
+        # ignore_question: binary + continuous from the count prompt (violating / total sentences)
+        iq = [r for r in items if r["mode"] == "ignore_question"]
+        if iq:
+            from cotctl.graders.continuous_v2 import score_ignore_question
+            cv = await judge.judge_many("ignore_count", [(r["prompt"], r["reasoning"]) for r in iq], desc="ignore_question count")
+            for r, v in zip(iq, cv):
+                if v.detail:
+                    d = json.loads(v.detail); r["compliant"] = d["violating"] == 0; r["continuous"] = score_ignore_question(d["violating"], d["total"])
     for r in rows: r.pop("prompt"); r.pop("reasoning")
     # aggregate
     def mean(xs): xs = [x for x in xs if x is not None]; return st.mean(xs) if xs else None

@@ -135,14 +135,15 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   fig(s, "steer_auroc_per_mode.png", 5.9, 1.3, 3.7, 3.7);
   bullets(s, ["Narration +3.4 ± 2.0, non-narration 0.2 ± 2.5", "Holds in all 15 conditions (AUROC 0.69–0.93), including the benchmark it was never fitted on"], 0.5, 3.85, 5.3, 1.2, 12);
 }
-// 9 steering works
+// 9 steering works (S2)
 {
-  const s = pres.addSlide(); title(s, "4.3 · Steering works on narration, not on compliance", "Layer 16, coefficient −7 · base model, 20 prompts per cell · coefficient × unit direction added at every position");
-  fig(s, "steer_dose_response_base.png", 0.3, 1.3, 9.4, 3.35);
+  const s = pres.addSlide(); title(s, "4.3 · Steering works on narration in 7 of 9 modes — not on compliance", "Layer 16, coefficient −7 · all nine CoTControl modes, 30 prompts each · steered minus unsteered on the same prompt");
+  fig(s, "steer_s2_paired.png", 0.3, 1.3, 9.4, 3.15);
   bullets(s, [
-    "Narration density halves at −7 (word suppression 6.3 → 3.8 per 1,000 words, lower on 7 of 7 paired prompts); +7 doubles it",
-    "Binary compliance 0 % in every cell; continuous flat or slightly up; accuracy within 10 pp",
-  ], 0.5, 4.7, 9.0, 0.7, 11.5);
+    "Narration density 8.3 → 4.2 sentences per 1,000 words, lower on 76 % of 165 paired prompts; termination and accuracy unchanged (76 → 75 %)",
+    "Binary compliance 0 % in every cell, 0 flips; continuous compliance excluding ignore_question −0.007 (80 % CI −0.019 to +0.005): a null",
+    "ignore_question collapses 0.30 → 0.02: there “I must not think about the question” is the compliant content — steering it away leaves only question-discussion",
+  ], 0.5, 4.5, 9.0, 0.75, 10.5);
 }
 // 10 failure modes
 {
@@ -154,19 +155,14 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   ], { x: 0.5, y: 4.5, w: 9.0, h: 0.7, fontFace: F, fontSize: 11, color: INK2, isTextBox: true, margin: 0, valign: "top" });
   footer(s, "Layer 12 breaks at every coefficient; layer 20 is robust but inert (narration does not fall there)");
 }
-// 10b SFT vs steering: narration-free traces
+// 10b SFT vs steering: narration-free traces per mode
 {
-  const s = pres.addSlide(); title(s, "SFT creates narration-free traces; steering only thins narration", "Full-trace LLM lister · CoTControl · SFT = step-60 (all modes) · steering = layer 16, −7 (uppercase + word suppression, n 24)");
-  const common = { fontFace: F, catAxisLabelColor: INK2, valAxisLabelColor: MUTED, catAxisLabelFontSize: 11, valAxisLabelFontSize: 10, valGridLine: { color: GRID, size: 1 }, catGridLine: { style: "none" }, showLegend: false, showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 11, dataLabelColor: INK2, barGapWidthPct: 60, valAxisLineShow: false, catAxisLineShow: false };
-  s.addChart(pres.ChartType.bar, [{ name: "narration-free", labels: ["unsteered base", "steering, layer 16 −7", "SFT, step-60"], values: [11, 17, 56] }],
-    { ...common, x: 0.5, y: 1.4, w: 4.4, h: 3.1, barDir: "col", chartColors: [MUTED, BLUE, NAVY], valAxisMaxVal: 70, valAxisMinVal: 0, showTitle: true, title: "Traces with no narration at all, %", titleFontSize: 12, titleColor: INK, titleFontFace: F, dataLabelFormatCode: "0\"%\"" });
-  s.addChart(pres.ChartType.bar, [{ name: "density", labels: ["unsteered base", "steering, layer 16 −7", "SFT, step-60"], values: [6.1, 3.9, 1.8] }],
-    { ...common, x: 5.1, y: 1.4, w: 4.4, h: 3.1, barDir: "col", chartColors: [MUTED, BLUE, NAVY], valAxisMaxVal: 8, valAxisMinVal: 0, showTitle: true, title: "Narration sentences per 1,000 words", titleFontSize: 12, titleColor: INK, titleFontFace: F, dataLabelFormatCode: "0.0" });
+  const s = pres.addSlide(); title(s, "SFT creates narration-free traces everywhere; steering only for constraints about form", "Traces with no narration sentence at all, per mode · unsteered vs steering (layer 16, −7) vs SFT (step-60)");
+  fig(s, "steer_s2_narration_free.png", 0.3, 1.3, 9.4, 3.3);
   bullets(s, [
-    "Steering lowers the propensity everywhere but leaves narration in nearly every trace (0 of 12 word-suppression traces became narration-free; median still 11 sentences)",
-    "The coefficient that does remove it (−14) breaks generation. SFT removes it outright from more than half the traces while keeping them intact",
-  ], 0.5, 4.6, 9.0, 0.6, 11);
-  footer(s, "Steering densities use the two-mode subset it was run on (unsteered 5.3 → 3.9 on that subset); the 6.1 baseline is the full base set");
+    "Steering: 1 % → 24 % overall — case modes 27–42 %, ignore_question 64 %, end / meow / repeat 8–10 %, word-suppression modes 0–5 %",
+    "SFT: 37–73 % in every mode, 56 % overall (89 % on ReasonIF). Steering lowers the propensity to narrate; SFT switches it off in most traces",
+  ], 0.5, 4.65, 9.0, 0.6, 11);
 }
 // 11 ceiling
 {
@@ -182,10 +178,10 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   s.addText("What we learned", { x: 0.6, y: 0.5, w: 8.8, h: 0.6, fontFace: F, fontSize: 28, bold: true, color: WHITE, isTextBox: true, margin: 0 });
   s.addText([
     { text: "Meta-discussion is pervasive and, sentence for sentence, a violation — including where it need not be (lowercase).", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
-    { text: "It can be reduced, but differently: SFT creates narration-free traces (56 %); steering halves density but leaves narration in nearly every trace. Prompting does nothing.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
-    { text: "Reducing it does not raise compliance. Deleting it flips 0 of 2,588 traces; steering it away leaves compliance flat.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
-    { text: "Non-compliance is over-determined: narration is one cause among many, and the body violates on its own.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
-    { text: "Worth doing for monitorability — a narrating trace is more legible — not as a route to controllability.", options: { bullet: true } },
+    { text: "It can be reduced, but differently: SFT creates narration-free traces in every mode (56 %); steering halves density and frees traces only for constraints about form (24 %). Prompting does nothing.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
+    { text: "Reducing it does not raise compliance: deleting it flips 0 of 2,588 traces; steering it away in nine modes flips 0 of 391 and leaves continuous compliance flat.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
+    { text: "Where narration was the compliant content (ignore_question), removing it removes the compliance: 0.30 → 0.02.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
+    { text: "Non-compliance is over-determined. Reducing meta-discussion is worth doing for monitorability, not as a route to controllability.", options: { bullet: true } },
   ], { x: 0.6, y: 1.3, w: 8.8, h: 3.6, fontFace: F, fontSize: 15, color: WHITE, isTextBox: true, valign: "top", margin: 0 });
 }
 // 13 caveats
@@ -194,7 +190,7 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   bullets(s, [
     "One model (Qwen3.5-9B), one SFT recipe (METR's, 240 examples), one steering method (constant vector, all positions)",
     "Step-60 labelling sets are partial (540 CoTControl, 105 ReasonIF) — budget",
-    "Steering S1: 20 prompts per cell, two conditions; 40–80 % of traces hit the 8,192-token cap, gradeable n 4–16. S2 (nine modes, 30 prompts, cap 10,000) is running",
+    "Steering: S2 has 30 prompts per mode, 391 gradeable of 540 (28 % hit the 10,000-token cap); one coefficient (−7) at one layer (16), chosen from the S1 sweep on two modes",
     "The LLM lister is stochastic at fixed temperature: rollout rates stable, sentence counts ±20–50 %; 21–31 % of its quotes could not be matched to a trace unit and were not deleted (strip test slightly conservative)",
     "The paper's judge truncates at 10,000 characters; narration moves later after SFT, so that judge overstates the SFT drop (−50 pp vs −46 pp full-trace)",
     "Code and data: github.com/AleksandraDagil/cot-control-ft — META_DISCUSSION_FULLTRACE.md, STEERING_RESULTS.md, META_DISCUSSION_SUMMARY.md",

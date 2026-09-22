@@ -233,3 +233,51 @@ condition; single direction, single pooling; base model only.
 narration reduction generalise across modes, and is the small positive compliance shift real with larger n?
 ignore_question binary needs the judge and is not graded locally; its continuous score comes from the count
 prompt at evaluation time. Results appended when the run completes.
+
+### S2 results (2026-09-22, evening)
+
+540 rollouts, 391 gradeable (195 unsteered, 196 steered — steering at −7 does **not** reduce termination at
+the 10,000-token cap). Full-trace lister on 389; ignore_question graded with the count prompt (53).
+Paired analysis (same prompt, steered minus unsteered): `scripts/steer/paired_s2.py`,
+`results/steer/s2_paired.json`.
+
+![S2 paired effects per mode](figures/steer_s2_paired.png)
+
+| mode | paired n | narration density 0 → −7 (per 1,000 words) | paired Δ [80 % CI] | prompts lower | narration-free 0 → −7 | continuous 0 → −7 | paired Δ | binary | accuracy 0 → −7 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| uppercase_thinking | 19 | 6.8 → 4.6 | −2.5 [−4.4, −0.7] | 63 % | 5 → 42 % | 0.167 → 0.120 | −0.050 | 0 / 0 | 86 → 83 % |
+| lowercase_thinking | 23 | 7.0 → 2.0 | −5.7 [−6.9, −4.6] | 96 % | 0 → 42 % | 0.941 → 0.925 | −0.016 | 0 / 0 | 70 → 75 % |
+| alternating_case | 6 | 6.9 → 3.2 | −5.5 [−8.3, −2.8] | 67 % | 0 → 27 % | 0.372 → 0.366 | −0.095 | 0 / 0 | 50 → 60 % |
+| word_suppression | 19 | 6.5 → 3.8 | −2.9 [−4.0, −1.8] | 79 % | 0 → 0 % | 0.410 → 0.482 | +0.056 (47 % higher) | 0 / 0 | 90 → 82 % |
+| multiple_word_suppression | 16 | 8.1 → 7.4 | −0.6 [−3.5, +2.0] | 62 % | 0 → 5 % | 0.104 → 0.074 | −0.016 | 0 / 0 | 76 → 74 % |
+| repeat_sentences | 20 | 7.8 → 7.3 | −0.6 [−2.0, +0.8] | 60 % | 0 → 10 % | 0.287 → 0.292 | +0.005 | 0 / 0 | 81 → 79 % |
+| end_of_sentence | 24 | 7.1 → 3.4 | −3.8 [−5.1, −2.5] | 75 % | 0 → 8 % | 0.036 → 0.053 | +0.014 | 0 / 0 | 72 → 71 % |
+| meow_between_words | 16 | 6.2 → 4.3 | −1.8 [−2.9, −0.8] | 71 % | 0 → 10 % | 0.138 → 0.127 | −0.023 | 0 / 0 | 70 → 75 % |
+| **ignore_question** | 24 | 15.3 → 2.7 | **−13.6 [−17.1, −10.4]** | 92 % | 4 → 64 % | **0.301 → 0.018** | **−0.305** (12 % higher) | 0 / 0 | 75 → 79 % |
+| **all modes** | 165 | 8.3 → 4.2 | **−4.4 [−5.3, −3.7]** | 76 % | 1 → 24 % | | −0.050 [−0.067, −0.032]; **excl. ignore_question −0.007 [−0.019, +0.005]** | 0 flips | 76 → 75 % |
+
+![Narration-free traces per mode: unsteered, steered, SFT](figures/steer_s2_narration_free.png)
+
+**Findings.**
+1. **Narration falls in 7 of 9 modes** with 80 % CIs clear of zero, overall −4.4 sentences per 1,000 words
+   (halved), lower on 76 % of 165 paired prompts. Flat in multiple_word_suppression and repeat_sentences.
+   Largest in ignore_question (15.3 → 2.7), where the base model narrates most.
+2. **Steering does create narration-free traces — but only in some modes.** Overall 1 % → 24 %. Case modes
+   27–42 %, ignore_question 64 %, end/meow/repeat 8–10 %, suppression modes 0–5 %. SFT reaches 37–73 % in every
+   mode (56 % overall). This corrects S1's two-mode reading ("does not create narration-free traces"): it does
+   for constraints about *form*, not for constraints about *words*.
+3. **Compliance does not improve anywhere.** Binary 0 % in all 18 cells, 0 flips either way. Continuous,
+   excluding ignore_question: −0.007 [−0.019, +0.005], higher on 38 % of prompts — a null. S1's word_suppression
+   uptick shrinks to +0.056 with 47 % of prompts higher, i.e. nothing.
+4. **On ignore_question, removing narration *destroys* compliance** (0.30 → 0.02, lower on 88 % of prompts).
+   The mechanism is the same one the strip test exposed: there the constraint is "do not think about the
+   question", so the narration sentences ("I must not reason about this question") are exactly the sentences
+   that comply; what remains when they are steered away is question-discussion. Narration was the compliant
+   part of the trace.
+5. **No degradation at −7:** termination 195 vs 196 of 270; accuracy 76 → 75 %.
+
+**Reading.** The direction is causally effective across constraints, not just the two S1 tested. It changes
+what the model *says about* the rule, not whether the body *follows* it; and where saying is the rule
+(ignore_question), it removes the compliance too. Both routes from "less narration" to "more compliance" —
+deletion (strip test, 0 flips of 2,588) and generation (steering, 0 flips of 391, continuous null) — are
+closed for this model.

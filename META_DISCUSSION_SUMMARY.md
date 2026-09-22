@@ -116,27 +116,29 @@ Narration sentences project to +3.4 ± 2.0 on the unit direction, non-narration 
 ≈ 31). The two populations overlap, as the AUROC says, but the shift is unmistakable, and it holds in every
 one of the 15 conditions (per-condition AUROC 0.69–0.93, `figures/steer_auroc_per_mode.png`).
 
-### 4.3 Steering works — at layer 16 with a moderate coefficient — but does not help compliance
+### 4.3 Steering works — on narration, in 7 of 9 modes — but not on compliance
 
-Adding −7 × the unit direction to the residual stream at layer 16 during generation (all positions):
+Adding −7 × the unit direction to the residual stream at layer 16 during generation (all positions), all
+nine CoTControl modes, 30 prompts each, paired against the unsteered rollout of the same prompt:
 
-- **Narration density halves.** Word suppression: 6.3 → 3.8 sentences per 1,000 words, lower on 7 of 7
-  paired prompts. Uppercase: 4.2 → 3.9, lower on 5 of 8. Adding +7 instead roughly *doubles* density (8.5 and
-  7.0). The direction is causal in both signs.
-- **Compliance does not move.** Binary compliance is 0 % in every cell, steered or not. Continuous compliance
-  is flat on uppercase (0.11 → 0.12) and slightly up on word suppression (0.43 → 0.54, small n).
-- **Accuracy is not harmed** at −7 (83 → 92 % uppercase, 89 → 80 % word suppression, n ≈ 12).
-- The usable band is narrow: −14 at layer 16, or anything at layer 12, sends the model into repetition loops
-  that never close the think block. Layer 20 is robust but inert — narration does not fall there.
+![S2 paired effects per mode](figures/steer_s2_paired.png)
 
-![Steering against meta-discussion: dose-response](figures/steer_dose_response_base.png)
+- **Narration density halves**: 8.3 → 4.2 sentences per 1,000 words, lower on 76 % of 165 paired prompts;
+  the drop is significant in 7 of 9 modes (flat in multiple_word_suppression and repeat_sentences).
+- **Compliance does not move.** Binary compliance is 0 % in every cell, 0 flips. Continuous compliance
+  excluding ignore_question: −0.007 (80 % CI −0.019 to +0.005) — a null.
+- **On ignore_question it collapses** (0.30 → 0.02): there the constraint is "do not think about the
+  question", so the narration sentences *are* the compliant ones. Steering them away leaves only
+  question-discussion. Narration was the compliant part of the trace.
+- **No damage** at this coefficient: termination and accuracy unchanged (76 → 75 %). −14 and layer 12 send
+  the model into repetition loops; layer 20 is robust but inert.
 
-**SFT and steering reduce narration differently.** SFT creates narration-free traces: at step-60, 56 % of
-CoTControl traces and 89 % of ReasonIF traces contain no narration sentence at all. Steering at the safe
-setting does not: at layer 16 / −7 the share of narration-free traces moves from 17 % to 33 % on uppercase
-and stays at 0 % on word suppression; the median trace still carries 5 and 11 narration sentences (from 14
-and 20). The coefficient that does eliminate narration (−14) is the one that breaks generation. Steering
-lowers the propensity uniformly; SFT switches the behaviour off in most traces and thins it in the rest.
+**SFT and steering reduce narration differently.** Steering creates narration-free traces only for
+constraints about *form*: case modes 27–42 %, ignore_question 64 %, end/meow/repeat 8–10 %, suppression
+modes 0–5 % (24 % overall). SFT reaches 37–73 % in every mode, 56 % overall, and on ReasonIF 89 %. Steering
+lowers the propensity; SFT switches the behaviour off in most traces.
+
+![Narration-free traces per mode](figures/steer_s2_narration_free.png)
 
 So the intervention does what it says on narration and nothing on compliance. That raises the question the
 last section answers directly.
@@ -176,9 +178,9 @@ targets narration, can raise compliance.
 
 - Measurement and strip test: `META_DISCUSSION_FULLTRACE.md` (`scripts/strip_llm.py`, `scripts/report_strip_llm.py`).
   Step-60 sets are partial (540 CoTControl, 105 ReasonIF rollouts) because the labelling budget ran out.
-- Steering: `STEERING_RESULTS.md` (`scripts/steer/`). S1 is 20 prompts per cell on two conditions; 40–80 %
-  of traces hit the 8,192-token cap, so gradeable n is 4–16 per cell. S2 (all nine modes, 30 prompts, cap
-  10,000) is running and will replace §4.3's numbers.
+- Steering: `STEERING_RESULTS.md` (`scripts/steer/`). §4.3 reports S2: all nine modes, 30 prompts each, cap
+  10,000 tokens, 391 gradeable rollouts, paired within prompt. The layer/coefficient sweep (S1) is in the
+  same file.
 - The LLM lister is stochastic at gpt-5-mini's fixed temperature; rollout-level rates are stable, per-sentence
   counts carry ±20–50 % noise. 21–31 % of its quoted sentences could not be matched back to a trace unit and
   were therefore not deleted, so the strip test is slightly conservative.
