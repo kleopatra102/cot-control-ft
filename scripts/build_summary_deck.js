@@ -154,6 +154,20 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   ], { x: 0.5, y: 4.5, w: 9.0, h: 0.7, fontFace: F, fontSize: 11, color: INK2, isTextBox: true, margin: 0, valign: "top" });
   footer(s, "Layer 12 breaks at every coefficient; layer 20 is robust but inert (narration does not fall there)");
 }
+// 10b SFT vs steering: narration-free traces
+{
+  const s = pres.addSlide(); title(s, "SFT creates narration-free traces; steering only thins narration", "Full-trace LLM lister · CoTControl · SFT = step-60 (all modes) · steering = layer 16, −7 (uppercase + word suppression, n 24)");
+  const common = { fontFace: F, catAxisLabelColor: INK2, valAxisLabelColor: MUTED, catAxisLabelFontSize: 11, valAxisLabelFontSize: 10, valGridLine: { color: GRID, size: 1 }, catGridLine: { style: "none" }, showLegend: false, showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 11, dataLabelColor: INK2, barGapWidthPct: 60, valAxisLineShow: false, catAxisLineShow: false };
+  s.addChart(pres.ChartType.bar, [{ name: "narration-free", labels: ["unsteered base", "steering, layer 16 −7", "SFT, step-60"], values: [11, 17, 56] }],
+    { ...common, x: 0.5, y: 1.4, w: 4.4, h: 3.1, barDir: "col", chartColors: [MUTED, BLUE, NAVY], valAxisMaxVal: 70, valAxisMinVal: 0, showTitle: true, title: "Traces with no narration at all, %", titleFontSize: 12, titleColor: INK, titleFontFace: F, dataLabelFormatCode: "0\"%\"" });
+  s.addChart(pres.ChartType.bar, [{ name: "density", labels: ["unsteered base", "steering, layer 16 −7", "SFT, step-60"], values: [6.1, 3.9, 1.8] }],
+    { ...common, x: 5.1, y: 1.4, w: 4.4, h: 3.1, barDir: "col", chartColors: [MUTED, BLUE, NAVY], valAxisMaxVal: 8, valAxisMinVal: 0, showTitle: true, title: "Narration sentences per 1,000 words", titleFontSize: 12, titleColor: INK, titleFontFace: F, dataLabelFormatCode: "0.0" });
+  bullets(s, [
+    "Steering lowers the propensity everywhere but leaves narration in nearly every trace (0 of 12 word-suppression traces became narration-free; median still 11 sentences)",
+    "The coefficient that does remove it (−14) breaks generation. SFT removes it outright from more than half the traces while keeping them intact",
+  ], 0.5, 4.6, 9.0, 0.6, 11);
+  footer(s, "Steering densities use the two-mode subset it was run on (unsteered 5.3 → 3.9 on that subset); the 6.1 baseline is the full base set");
+}
 // 11 ceiling
 {
   const s = pres.addSlide(); title(s, "5 · If narration were gone, would compliance rise?  No", "Delete every LLM-labelled narration sentence from every stored trace and re-grade: the ceiling for any narration-only method");
@@ -168,7 +182,7 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   s.addText("What we learned", { x: 0.6, y: 0.5, w: 8.8, h: 0.6, fontFace: F, fontSize: 28, bold: true, color: WHITE, isTextBox: true, margin: 0 });
   s.addText([
     { text: "Meta-discussion is pervasive and, sentence for sentence, a violation — including where it need not be (lowercase).", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
-    { text: "It can be reduced: SFT halves the rate, steering halves the density. Prompting does nothing.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
+    { text: "It can be reduced, but differently: SFT creates narration-free traces (56 %); steering halves density but leaves narration in nearly every trace. Prompting does nothing.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
     { text: "Reducing it does not raise compliance. Deleting it flips 0 of 2,588 traces; steering it away leaves compliance flat.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
     { text: "Non-compliance is over-determined: narration is one cause among many, and the body violates on its own.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
     { text: "Worth doing for monitorability — a narrating trace is more legible — not as a route to controllability.", options: { bullet: true } },

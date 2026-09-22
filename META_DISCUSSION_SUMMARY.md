@@ -131,6 +131,13 @@ Adding −7 × the unit direction to the residual stream at layer 16 during gene
 
 ![Steering against meta-discussion: dose-response](figures/steer_dose_response_base.png)
 
+**SFT and steering reduce narration differently.** SFT creates narration-free traces: at step-60, 56 % of
+CoTControl traces and 89 % of ReasonIF traces contain no narration sentence at all. Steering at the safe
+setting does not: at layer 16 / −7 the share of narration-free traces moves from 17 % to 33 % on uppercase
+and stays at 0 % on word suppression; the median trace still carries 5 and 11 narration sentences (from 14
+and 20). The coefficient that does eliminate narration (−14) is the one that breaks generation. Steering
+lowers the propensity uniformly; SFT switches the behaviour off in most traces and thins it in the rest.
+
 So the intervention does what it says on narration and nothing on compliance. That raises the question the
 last section answers directly.
 
