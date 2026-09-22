@@ -17,6 +17,8 @@ logistic-regression probe as floor and ceiling.
 | 24 | mean | 0.828 | 0.838 | 0.810 | 0.41 | 0.865 | 0.149 |
 | 8–24 | last | 0.71–0.76 | 0.72–0.77 | 0.64–0.70 | ~0.5 | 0.82–0.85 | |
 
+![Probe AUROC by layer](figures/steer_probe_by_layer.png)
+
 **Reading.** A linear meta-discussion direction exists at every layer tested, flat across depth. The
 mean-difference direction reaches the logistic-probe ceiling (0.84 vs 0.84–0.87), so nothing linearly
 decodable is left on the table. Leave-one-mode-out is as high as held-out-questions, so the direction is
@@ -65,6 +67,10 @@ meow 0.855, repeat_sentences 0.819, alternating_case 0.798, ignore_question 0.79
 multiple_word_suppression 0.772. The weakest three are the modes where the LLM labels are noisiest
 (saturated traces in multiple_word_suppression; task-vs-constraint ambiguity in ignore_question).
 
+![Per-condition AUROC at layer 16](figures/steer_auroc_per_mode.png)
+
+![Projection distributions at layer 16](figures/steer_projection_hist.png)
+
 Steering (S1) uses `directions_base_cotcontrol_base_s.pt`, layer 16, mean. Layer choice is a convention:
 the table does not separate layers 8–24, so S1 should be read as one point of a layer sweep to be done if
 the GPU window allows (12 / 16 / 20).
@@ -92,6 +98,8 @@ Whole-trace mean pooling over the reasoning span; 70/30 item split; paired withi
 fitted on the other 70 %. Unpaired AUROCs (0.70–0.81 for style) understate everything here because
 whole-trace vectors vary far more between questions than within a quartet; the paired numbers are the
 meaningful ones.
+
+![E2 structure: style cosines and paired consistency](figures/steer_e2_structure.png)
 
 **Findings.**
 1. **Style directions are real and per-condition.** Uppercase and english_capital share one axis (cosine
@@ -211,6 +219,8 @@ text block). Okay. Okay, I'm writing the thought block now." repeated 60 times, 
 solving. So the direction's sign is visible even in the failure mode: pushing away removes constraint-talk
 and leaves bare content loops; pushing toward produces constraint-talk loops. Termination fails because the
 `</think>` decision never fires once the trace is in a loop; accuracy is scored on an empty answer.
+
+![S1 usable band and paired narration change](figures/steer_s1_band_and_paired.png)
 
 **Limitations.** 20 prompts per cell; 40–80 % truncation at the 8,192 cap because the base model's traces
 are long (median ≈ 6k tokens), so gradeable n is 4–16; truncation is not independent of the steering
