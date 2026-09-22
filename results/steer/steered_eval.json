@@ -1156,9 +1156,9 @@
    "regex_meta": true,
    "tokens": 5702,
    "reasoning_words": 3540,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 7,
+   "llm_error": null
   },
   {
    "layer": 12,
@@ -1308,9 +1308,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 4399,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 10,
+   "llm_error": null
   },
   {
    "layer": 12,
@@ -1547,9 +1547,9 @@
    "regex_meta": true,
    "tokens": 5453,
    "reasoning_words": 3078,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 12,
@@ -1564,9 +1564,9 @@
    "regex_meta": true,
    "tokens": 6889,
    "reasoning_words": 2585,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 3,
+   "llm_error": null
   },
   {
    "layer": 12,
@@ -1727,9 +1727,9 @@
    "regex_meta": true,
    "tokens": 6922,
    "reasoning_words": 2759,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 10,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1744,9 +1744,9 @@
    "regex_meta": true,
    "tokens": 6159,
    "reasoning_words": 2934,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 20,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1761,9 +1761,9 @@
    "regex_meta": true,
    "tokens": 6325,
    "reasoning_words": 4067,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 54,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1778,9 +1778,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 3540,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 10,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1795,9 +1795,9 @@
    "regex_meta": true,
    "tokens": 3528,
    "reasoning_words": 2050,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 19,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1826,9 +1826,9 @@
    "regex_meta": true,
    "tokens": 7135,
    "reasoning_words": 4681,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 17,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1843,9 +1843,9 @@
    "regex_meta": true,
    "tokens": 6983,
    "reasoning_words": 3349,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 24,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1874,9 +1874,9 @@
    "regex_meta": true,
    "tokens": 8032,
    "reasoning_words": 4531,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 17,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1905,9 +1905,9 @@
    "regex_meta": true,
    "tokens": 7887,
    "reasoning_words": 4327,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -1964,9 +1964,9 @@
    "regex_meta": true,
    "tokens": 8038,
    "reasoning_words": 3390,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 20,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2009,9 +2009,9 @@
    "regex_meta": true,
    "tokens": 6022,
    "reasoning_words": 2388,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 20,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2040,9 +2040,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 5191,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 23,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2057,9 +2057,9 @@
    "regex_meta": true,
    "tokens": 8113,
    "reasoning_words": 4200,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2074,9 +2074,9 @@
    "regex_meta": true,
    "tokens": 6252,
    "reasoning_words": 3345,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 43,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2105,9 +2105,9 @@
    "regex_meta": false,
    "tokens": 4912,
    "reasoning_words": 3120,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2122,9 +2122,9 @@
    "regex_meta": true,
    "tokens": 5744,
    "reasoning_words": 2866,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 23,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2139,9 +2139,9 @@
    "regex_meta": true,
    "tokens": 6589,
    "reasoning_words": 2996,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 20,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2170,9 +2170,9 @@
    "regex_meta": true,
    "tokens": 5900,
    "reasoning_words": 3361,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2187,9 +2187,9 @@
    "regex_meta": true,
    "tokens": 6316,
    "reasoning_words": 2622,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2218,9 +2218,9 @@
    "regex_meta": true,
    "tokens": 7523,
    "reasoning_words": 4586,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 17,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2235,9 +2235,9 @@
    "regex_meta": true,
    "tokens": 6422,
    "reasoning_words": 3428,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 8,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2252,9 +2252,9 @@
    "regex_meta": true,
    "tokens": 2847,
    "reasoning_words": 1599,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 9,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2269,9 +2269,9 @@
    "regex_meta": true,
    "tokens": 7093,
    "reasoning_words": 3752,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 8,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2387,9 +2387,9 @@
    "regex_meta": true,
    "tokens": 6188,
    "reasoning_words": 4026,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 27,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2418,9 +2418,9 @@
    "regex_meta": true,
    "tokens": 6039,
    "reasoning_words": 4053,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 28,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2477,9 +2477,9 @@
    "regex_meta": true,
    "tokens": 7515,
    "reasoning_words": 4093,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 19,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2634,9 +2634,9 @@
    "regex_meta": true,
    "tokens": 7984,
    "reasoning_words": 4338,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 37,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2651,9 +2651,9 @@
    "regex_meta": true,
    "tokens": 7071,
    "reasoning_words": 4122,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 33,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2668,9 +2668,9 @@
    "regex_meta": true,
    "tokens": 8071,
    "reasoning_words": 4433,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 38,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2727,9 +2727,9 @@
    "regex_meta": true,
    "tokens": 6008,
    "reasoning_words": 3272,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 19,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2758,9 +2758,9 @@
    "regex_meta": true,
    "tokens": 5489,
    "reasoning_words": 3150,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 57,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2775,9 +2775,9 @@
    "regex_meta": true,
    "tokens": 5410,
    "reasoning_words": 3176,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 20,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2834,9 +2834,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 1564,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 82,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2879,9 +2879,9 @@
    "regex_meta": true,
    "tokens": 7458,
    "reasoning_words": 4124,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 13,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -2952,9 +2952,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 4389,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 40,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3011,9 +3011,9 @@
    "regex_meta": false,
    "tokens": 7121,
    "reasoning_words": 3180,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3028,9 +3028,9 @@
    "regex_meta": false,
    "tokens": 7385,
    "reasoning_words": 3867,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3059,9 +3059,9 @@
    "regex_meta": false,
    "tokens": 8192,
    "reasoning_words": 3261,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3090,9 +3090,9 @@
    "regex_meta": false,
    "tokens": 7409,
    "reasoning_words": 2620,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3177,9 +3177,9 @@
    "regex_meta": false,
    "tokens": 6192,
    "reasoning_words": 851,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3250,9 +3250,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 2535,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3365,9 +3365,9 @@
    "regex_meta": false,
    "tokens": 5825,
    "reasoning_words": 3229,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3382,9 +3382,9 @@
    "regex_meta": false,
    "tokens": 6148,
    "reasoning_words": 1901,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3455,9 +3455,9 @@
    "regex_meta": false,
    "tokens": 4984,
    "reasoning_words": 2387,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3486,9 +3486,9 @@
    "regex_meta": false,
    "tokens": 6545,
    "reasoning_words": 2450,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3576,9 +3576,9 @@
    "regex_meta": true,
    "tokens": 2678,
    "reasoning_words": 1552,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 6,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3607,9 +3607,9 @@
    "regex_meta": true,
    "tokens": 3571,
    "reasoning_words": 2008,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 8,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3624,9 +3624,9 @@
    "regex_meta": true,
    "tokens": 5678,
    "reasoning_words": 3081,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 3,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3655,9 +3655,9 @@
    "regex_meta": true,
    "tokens": 7170,
    "reasoning_words": 3597,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 12,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3686,9 +3686,9 @@
    "regex_meta": true,
    "tokens": 6675,
    "reasoning_words": 3651,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 10,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3717,9 +3717,9 @@
    "regex_meta": true,
    "tokens": 7145,
    "reasoning_words": 3379,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 8,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3734,9 +3734,9 @@
    "regex_meta": true,
    "tokens": 5448,
    "reasoning_words": 2539,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 11,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3751,9 +3751,9 @@
    "regex_meta": true,
    "tokens": 5524,
    "reasoning_words": 2540,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3768,9 +3768,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 3470,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 12,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3827,9 +3827,9 @@
    "regex_meta": true,
    "tokens": 7769,
    "reasoning_words": 3191,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3844,9 +3844,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 3044,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 18,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3875,9 +3875,9 @@
    "regex_meta": true,
    "tokens": 6168,
    "reasoning_words": 2601,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 16,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3909,9 +3909,9 @@
    "regex_meta": true,
    "tokens": 6705,
    "reasoning_words": 3647,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 28,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3926,9 +3926,9 @@
    "regex_meta": false,
    "tokens": 4816,
    "reasoning_words": 2672,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 3,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3943,9 +3943,9 @@
    "regex_meta": true,
    "tokens": 4472,
    "reasoning_words": 1893,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -3974,9 +3974,9 @@
    "regex_meta": true,
    "tokens": 7211,
    "reasoning_words": 3500,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 24,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -4005,9 +4005,9 @@
    "regex_meta": true,
    "tokens": 4607,
    "reasoning_words": 1743,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 5,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -4050,9 +4050,9 @@
    "regex_meta": false,
    "tokens": 8053,
    "reasoning_words": 3586,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -4067,9 +4067,9 @@
    "regex_meta": false,
    "tokens": 6163,
    "reasoning_words": 3138,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -4112,9 +4112,9 @@
    "regex_meta": false,
    "tokens": 2595,
    "reasoning_words": 1141,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -4157,9 +4157,9 @@
    "regex_meta": true,
    "tokens": 4156,
    "reasoning_words": 2045,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 16,
+   "llm_error": null
   },
   {
    "layer": 16,
@@ -4174,9 +4174,9 @@
    "regex_meta": false,
    "tokens": 7499,
    "reasoning_words": 3306,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": false,
+   "llm_n_sent": 0,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4205,9 +4205,9 @@
    "regex_meta": true,
    "tokens": 4967,
    "reasoning_words": 3247,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 33,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4222,9 +4222,9 @@
    "regex_meta": true,
    "tokens": 5591,
    "reasoning_words": 2520,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4239,9 +4239,9 @@
    "regex_meta": true,
    "tokens": 4781,
    "reasoning_words": 3081,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4256,9 +4256,9 @@
    "regex_meta": true,
    "tokens": 4776,
    "reasoning_words": 3127,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 18,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4273,9 +4273,9 @@
    "regex_meta": true,
    "tokens": 5388,
    "reasoning_words": 3309,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 33,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4318,9 +4318,9 @@
    "regex_meta": true,
    "tokens": 6182,
    "reasoning_words": 3455,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 27,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4475,9 +4475,9 @@
    "regex_meta": true,
    "tokens": 8043,
    "reasoning_words": 4233,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 19,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4492,9 +4492,9 @@
    "regex_meta": true,
    "tokens": 6753,
    "reasoning_words": 3417,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 58,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4509,9 +4509,9 @@
    "regex_meta": true,
    "tokens": 5883,
    "reasoning_words": 3311,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 20,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4526,9 +4526,9 @@
    "regex_meta": true,
    "tokens": 6474,
    "reasoning_words": 3673,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 50,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4543,9 +4543,9 @@
    "regex_meta": true,
    "tokens": 8141,
    "reasoning_words": 4953,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4560,9 +4560,9 @@
    "regex_meta": true,
    "tokens": 7756,
    "reasoning_words": 3915,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 25,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4591,9 +4591,9 @@
    "regex_meta": true,
    "tokens": 6168,
    "reasoning_words": 2703,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 18,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4608,9 +4608,9 @@
    "regex_meta": true,
    "tokens": 5839,
    "reasoning_words": 3575,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 32,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4625,9 +4625,9 @@
    "regex_meta": true,
    "tokens": 7507,
    "reasoning_words": 4040,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 16,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4642,9 +4642,9 @@
    "regex_meta": true,
    "tokens": 7501,
    "reasoning_words": 2983,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 8,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4659,9 +4659,9 @@
    "regex_meta": true,
    "tokens": 7231,
    "reasoning_words": 4316,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 34,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4690,9 +4690,9 @@
    "regex_meta": true,
    "tokens": 6775,
    "reasoning_words": 4186,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 22,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4707,9 +4707,9 @@
    "regex_meta": true,
    "tokens": 7447,
    "reasoning_words": 3746,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 24,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4724,9 +4724,9 @@
    "regex_meta": true,
    "tokens": 6610,
    "reasoning_words": 3640,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 28,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4741,9 +4741,9 @@
    "regex_meta": true,
    "tokens": 6707,
    "reasoning_words": 3707,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 17,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4800,9 +4800,9 @@
    "regex_meta": true,
    "tokens": 6586,
    "reasoning_words": 2995,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 52,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4817,9 +4817,9 @@
    "regex_meta": true,
    "tokens": 4394,
    "reasoning_words": 1787,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4834,9 +4834,9 @@
    "regex_meta": true,
    "tokens": 2754,
    "reasoning_words": 1546,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 7,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4865,9 +4865,9 @@
    "regex_meta": true,
    "tokens": 3201,
    "reasoning_words": 1919,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4882,9 +4882,9 @@
    "regex_meta": true,
    "tokens": 5860,
    "reasoning_words": 3453,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 13,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4899,9 +4899,9 @@
    "regex_meta": true,
    "tokens": 6626,
    "reasoning_words": 4036,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4930,9 +4930,9 @@
    "regex_meta": true,
    "tokens": 6149,
    "reasoning_words": 2745,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 9,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4947,9 +4947,9 @@
    "regex_meta": true,
    "tokens": 6381,
    "reasoning_words": 3784,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 27,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4978,9 +4978,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 4144,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 9,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -4995,9 +4995,9 @@
    "regex_meta": true,
    "tokens": 5467,
    "reasoning_words": 2515,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 9,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5082,9 +5082,9 @@
    "regex_meta": true,
    "tokens": 7548,
    "reasoning_words": 3027,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 13,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5099,9 +5099,9 @@
    "regex_meta": true,
    "tokens": 5788,
    "reasoning_words": 2235,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 27,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5130,9 +5130,9 @@
    "regex_meta": true,
    "tokens": 4451,
    "reasoning_words": 1816,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 28,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5147,9 +5147,9 @@
    "regex_meta": true,
    "tokens": 3510,
    "reasoning_words": 1588,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 32,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5164,9 +5164,9 @@
    "regex_meta": true,
    "tokens": 7143,
    "reasoning_words": 4227,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 24,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5181,9 +5181,9 @@
    "regex_meta": true,
    "tokens": 5576,
    "reasoning_words": 3164,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 12,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5198,9 +5198,9 @@
    "regex_meta": true,
    "tokens": 5016,
    "reasoning_words": 2277,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 21,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5215,9 +5215,9 @@
    "regex_meta": true,
    "tokens": 6836,
    "reasoning_words": 3162,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 3,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5232,9 +5232,9 @@
    "regex_meta": true,
    "tokens": 7035,
    "reasoning_words": 3427,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 37,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5263,9 +5263,9 @@
    "regex_meta": true,
    "tokens": 5573,
    "reasoning_words": 2244,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 2,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5280,9 +5280,9 @@
    "regex_meta": true,
    "tokens": 7801,
    "reasoning_words": 3330,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 27,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5297,9 +5297,9 @@
    "regex_meta": true,
    "tokens": 5168,
    "reasoning_words": 2715,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 4,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5314,9 +5314,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 4180,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 6,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5331,9 +5331,9 @@
    "regex_meta": false,
    "tokens": 3640,
    "reasoning_words": 2274,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 2,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5362,9 +5362,9 @@
    "regex_meta": true,
    "tokens": 7292,
    "reasoning_words": 3207,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 31,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5379,9 +5379,9 @@
    "regex_meta": true,
    "tokens": 4076,
    "reasoning_words": 1918,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 6,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5424,9 +5424,9 @@
    "regex_meta": true,
    "tokens": 7403,
    "reasoning_words": 3566,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 35,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5441,9 +5441,9 @@
    "regex_meta": true,
    "tokens": 4432,
    "reasoning_words": 1929,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 5,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5458,9 +5458,9 @@
    "regex_meta": true,
    "tokens": 3155,
    "reasoning_words": 1354,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 17,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5475,9 +5475,9 @@
    "regex_meta": true,
    "tokens": 5389,
    "reasoning_words": 3493,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 17,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5506,9 +5506,9 @@
    "regex_meta": true,
    "tokens": 7595,
    "reasoning_words": 4898,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 26,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5523,9 +5523,9 @@
    "regex_meta": true,
    "tokens": 6495,
    "reasoning_words": 3831,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 25,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5582,9 +5582,9 @@
    "regex_meta": true,
    "tokens": 7396,
    "reasoning_words": 4580,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 13,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5599,9 +5599,9 @@
    "regex_meta": true,
    "tokens": 8006,
    "reasoning_words": 3080,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 25,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5616,9 +5616,9 @@
    "regex_meta": true,
    "tokens": 7668,
    "reasoning_words": 4082,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 29,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5717,9 +5717,9 @@
    "regex_meta": true,
    "tokens": 8111,
    "reasoning_words": 3998,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 15,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5762,9 +5762,9 @@
    "regex_meta": true,
    "tokens": 6514,
    "reasoning_words": 3138,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 36,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5779,9 +5779,9 @@
    "regex_meta": true,
    "tokens": 5518,
    "reasoning_words": 3301,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 31,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5796,9 +5796,9 @@
    "regex_meta": true,
    "tokens": 6262,
    "reasoning_words": 3217,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 10,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5813,9 +5813,9 @@
    "regex_meta": true,
    "tokens": 3502,
    "reasoning_words": 2010,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 3,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5830,9 +5830,9 @@
    "regex_meta": true,
    "tokens": 3037,
    "reasoning_words": 1238,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 19,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5861,9 +5861,9 @@
    "regex_meta": true,
    "tokens": 2879,
    "reasoning_words": 1082,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 2,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5878,9 +5878,9 @@
    "regex_meta": true,
    "tokens": 3271,
    "reasoning_words": 1799,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 11,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5895,9 +5895,9 @@
    "regex_meta": true,
    "tokens": 3903,
    "reasoning_words": 1470,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 2,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5926,9 +5926,9 @@
    "regex_meta": true,
    "tokens": 7658,
    "reasoning_words": 3729,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 12,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5957,9 +5957,9 @@
    "regex_meta": true,
    "tokens": 1991,
    "reasoning_words": 1028,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 8,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -5974,9 +5974,9 @@
    "regex_meta": true,
    "tokens": 6703,
    "reasoning_words": 2989,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 5,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -6005,9 +6005,9 @@
    "regex_meta": true,
    "tokens": 3715,
    "reasoning_words": 1801,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 12,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -6022,9 +6022,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 3295,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 6,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -6039,9 +6039,9 @@
    "regex_meta": true,
    "tokens": 8192,
    "reasoning_words": 3912,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 16,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -6056,9 +6056,9 @@
    "regex_meta": true,
    "tokens": 4711,
    "reasoning_words": 2443,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 14,
+   "llm_error": null
   },
   {
    "layer": 20,
@@ -6073,9 +6073,9 @@
    "regex_meta": true,
    "tokens": 5465,
    "reasoning_words": 2307,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_error": "APIStatusError: Error code: 402 - {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'org_3BjElizLvsSRA7YuwIa0dLBVP4B'}"
+   "llm_meta": true,
+   "llm_n_sent": 9,
+   "llm_error": null
   }
  ],
  "agg": [
@@ -6094,7 +6094,8 @@
    "llm_n_sent": 0,
    "llm_judged": 1,
    "tokens": 8192,
-   "words": 883
+   "words": 883,
+   "llm_density": 0.0
   },
   {
    "layer": 12,
@@ -6111,7 +6112,8 @@
    "llm_n_sent": null,
    "llm_judged": 0,
    "tokens": 8192,
-   "words": null
+   "words": null,
+   "llm_density": null
   },
   {
    "layer": 12,
@@ -6124,11 +6126,12 @@
    "continuous": 0.10854005196369026,
    "accuracy": 0.75,
    "regex_meta": 1,
-   "llm_meta": 1,
-   "llm_n_sent": 7,
-   "llm_judged": 5,
+   "llm_meta": 0.875,
+   "llm_n_sent": 6,
+   "llm_judged": 8,
    "tokens": 7490.75,
-   "words": 2866.125
+   "words": 2866.125,
+   "llm_density": 2.2307175256268557
   },
   {
    "layer": 12,
@@ -6142,10 +6145,11 @@
    "accuracy": 0.8,
    "regex_meta": 1,
    "llm_meta": 1,
-   "llm_n_sent": 16,
-   "llm_judged": 5,
+   "llm_n_sent": 13.857142857142858,
+   "llm_judged": 7,
    "tokens": 7931.7,
-   "words": 3724
+   "words": 3724,
+   "llm_density": 3.956713845637842
   },
   {
    "layer": 12,
@@ -6162,7 +6166,8 @@
    "llm_n_sent": null,
    "llm_judged": 0,
    "tokens": 8192,
-   "words": null
+   "words": null,
+   "llm_density": null
   },
   {
    "layer": 12,
@@ -6179,7 +6184,8 @@
    "llm_n_sent": 18,
    "llm_judged": 1,
    "tokens": 8167.45,
-   "words": 4193
+   "words": 4193,
+   "llm_density": 4.2928690674934415
   },
   {
    "layer": 16,
@@ -6192,11 +6198,12 @@
    "continuous": 0.10094898945871886,
    "accuracy": 0.75,
    "regex_meta": 0,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 0,
+   "llm_n_sent": 0,
+   "llm_judged": 4,
    "tokens": 7728.7,
-   "words": 2491.75
+   "words": 2491.75,
+   "llm_density": 0.0
   },
   {
    "layer": 16,
@@ -6209,11 +6216,12 @@
    "continuous": 0.6916489563483108,
    "accuracy": 0.6,
    "regex_meta": 0.16666666666666666,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 0,
+   "llm_n_sent": 0,
+   "llm_judged": 6,
    "tokens": 7958.95,
-   "words": 2719
+   "words": 2719,
+   "llm_density": 0.0
   },
   {
    "layer": 16,
@@ -6226,11 +6234,12 @@
    "continuous": 0.11648299497838156,
    "accuracy": 0.9166666666666666,
    "regex_meta": 0.5833333333333334,
-   "llm_meta": 1,
-   "llm_n_sent": 4,
-   "llm_judged": 1,
+   "llm_meta": 0.6666666666666666,
+   "llm_n_sent": 9.166666666666666,
+   "llm_judged": 12,
    "tokens": 6471.55,
-   "words": 2484.6666666666665
+   "words": 2484.6666666666665,
+   "llm_density": 3.9375090307359923
   },
   {
    "layer": 16,
@@ -6244,10 +6253,11 @@
    "accuracy": 0.8,
    "regex_meta": 1,
    "llm_meta": 1,
-   "llm_n_sent": 9,
-   "llm_judged": 1,
+   "llm_n_sent": 10.583333333333334,
+   "llm_judged": 12,
    "tokens": 6944.55,
-   "words": 2881.5
+   "words": 2881.5,
+   "llm_density": 3.7616236616493595
   },
   {
    "layer": 16,
@@ -6260,11 +6270,12 @@
    "continuous": 0.11368054865537983,
    "accuracy": 0.8333333333333334,
    "regex_meta": 0.9166666666666666,
-   "llm_meta": 1,
-   "llm_n_sent": 3,
-   "llm_judged": 1,
+   "llm_meta": 0.8333333333333334,
+   "llm_n_sent": 13.333333333333334,
+   "llm_judged": 12,
    "tokens": 6948.25,
-   "words": 3221.0833333333335
+   "words": 3221.0833333333335,
+   "llm_density": 4.181153047769902
   },
   {
    "layer": 16,
@@ -6277,11 +6288,12 @@
    "continuous": 0.425314369027024,
    "accuracy": 0.8888888888888888,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 21.727272727272727,
+   "llm_judged": 11,
    "tokens": 7511.05,
-   "words": 3677.090909090909
+   "words": 3677.090909090909,
+   "llm_density": 6.264509204277456
   },
   {
    "layer": 16,
@@ -6294,11 +6306,12 @@
    "continuous": 0.1285894273220592,
    "accuracy": 0.5,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 38.42857142857143,
+   "llm_judged": 7,
    "tokens": 7765.8,
-   "words": 3444
+   "words": 3444,
+   "llm_density": 14.781003793171623
   },
   {
    "layer": 16,
@@ -6311,11 +6324,12 @@
    "continuous": 0.34663818433610427,
    "accuracy": 0.8,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 28.8,
+   "llm_judged": 5,
    "tokens": 7883.85,
-   "words": 4126.4
+   "words": 4126.4,
+   "llm_density": 6.958408324630396
   },
   {
    "layer": 20,
@@ -6328,11 +6342,12 @@
    "continuous": 0.14070383145929752,
    "accuracy": 0.8666666666666667,
    "regex_meta": 0.9375,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 17.1875,
+   "llm_judged": 16,
    "tokens": 6295.6,
-   "words": 2814
+   "words": 2814,
+   "llm_density": 6.499829068097213
   },
   {
    "layer": 20,
@@ -6345,11 +6360,12 @@
    "continuous": 0.5681269121345119,
    "accuracy": 0.8,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 14.272727272727273,
+   "llm_judged": 11,
    "tokens": 6804.4,
-   "words": 2835.5454545454545
+   "words": 2835.5454545454545,
+   "llm_density": 5.425326296578728
   },
   {
    "layer": 20,
@@ -6362,11 +6378,12 @@
    "continuous": 0.1669462555252488,
    "accuracy": 0.8571428571428571,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 12.25,
+   "llm_judged": 16,
    "tokens": 5714.05,
-   "words": 2422.4375
+   "words": 2422.4375,
+   "llm_density": 5.313365316548516
   },
   {
    "layer": 20,
@@ -6379,11 +6396,12 @@
    "continuous": 0.5068022110541337,
    "accuracy": 0.75,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 20.875,
+   "llm_judged": 8,
    "tokens": 7605.95,
-   "words": 3664.5
+   "words": 3664.5,
+   "llm_density": 6.383477006659227
   },
   {
    "layer": 20,
@@ -6396,11 +6414,12 @@
    "continuous": 0.1350092330740267,
    "accuracy": 0.8,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 27.933333333333334,
+   "llm_judged": 15,
    "tokens": 7216.9,
-   "words": 3677.3333333333335
+   "words": 3677.3333333333335,
+   "llm_density": 7.831641635892287
   },
   {
    "layer": 20,
@@ -6413,11 +6432,12 @@
    "continuous": 0.4865189879769123,
    "accuracy": 0.5714285714285714,
    "regex_meta": 1,
-   "llm_meta": null,
-   "llm_n_sent": null,
-   "llm_judged": 0,
+   "llm_meta": 1,
+   "llm_n_sent": 22.571428571428573,
+   "llm_judged": 7,
    "tokens": 7311.2,
-   "words": 3281.714285714286
+   "words": 3281.714285714286,
+   "llm_density": 6.8993119152430715
   }
  ]
 }

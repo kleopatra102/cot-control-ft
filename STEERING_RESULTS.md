@@ -152,27 +152,49 @@ cap, accuracy falls). Layer 20 tolerates every coefficient tested: 22–27 of 40
 under negative steering (5.7–6.8k vs 7.2k tokens), accuracy within 10 pp of baseline. So the probe table's
 flatness across layers did not carry over to steering: robustness to the intervention increases with depth.
 
-**Narration (regex, provisional).** At layer 16, −7 cut regex-detected narration on uppercase from 92 % to
-58 % of gradeable rollouts (12 each) and −14 to 0 % (4 rollouts). At layer 20 the regex barely moved
-(94–100 %). The METR regex is dominated by the bare `constraint` pattern and is a coarse instrument here;
-**the full-trace LLM lister is the measure that decides this, and it is pending: 144 of 159 lister calls
-failed with HTTP 402 (API credit exhausted). 15 judged rollouts are cached; the column fills in when credit
-is restored.**
+**Narration (full-trace LLM lister, 158 of 159 gradeable rollouts judged).** Nearly every trace still
+contains at least one narration sentence, so the *rate* saturates near 100 % and the informative measure
+is narration **density**: LLM-labelled sentences per 1,000 words of reasoning, compared pairwise against the
+unsteered rollout of the same prompt.
 
-**Compliance.** Binary stays 0 % in every cell. Continuous compliance on uppercase is flat under all
-conditions (0.10–0.17 vs 0.11). On word_suppression it rises under negative steering at layers 16 and 20
-(0.43 → 0.51–0.69) and falls under positive steering at layer 16 (0.35). With 5–12 gradeable rollouts per
-cell and truncation selecting which survive, this is suggestive, not a result; S2 with all modes and larger
-n is where it is tested.
+| layer | coef | mode | density | paired n | mean Δ vs baseline | share of prompts lower |
+|---:|---:|---|---:|---:|---:|---:|
+| 16 | 0 | uppercase / word_supp | 4.2 / 6.3 | — | — | — |
+| **16** | **−7** | **word_suppression** | **3.8** | 7 | **−3.9** | **7 / 7** |
+| 16 | −7 | uppercase | 3.9 | 8 | −1.1 | 5 / 8 |
+| 16 | −14 | both | 0.0 / 0.0 | 4 / 5 | −1.8 / −6.1 | 3/4, 5/5 (degraded traces) |
+| 16 | +7 | uppercase / word_supp | 8.5 / 7.0 | 3 / 3 | +1.6 / −1.8 | 1/3, 2/3 (n too small) |
+| 20 | −7 | uppercase / word_supp | 5.3 / 6.4 | 10 / 6 | **+2.3** / −1.4 | 3/10, 4/6 |
+| 20 | −14 | uppercase / word_supp | 6.5 / 5.4 | 10 / 7 | +1.3 / −1.7 | 4/10, 4/7 |
+| 20 | +7 | uppercase / word_supp | 7.8 / 6.9 | 10 / 6 | +2.8 / +0.9 | 3/10, 2/6 |
+| 12 | −7 | uppercase / word_supp | 2.2 / 4.0 | 6 / 5 | −3.9 / −4.5 | 5/6, 4/5 (heavy truncation) |
+
+Reading: **at layer 16, coefficient −7 roughly halves narration density** in word_suppression on every paired
+prompt and reduces it in uppercase on most, with termination, accuracy and compliance unchanged (below).
+−14 drives narration to zero but only in the few traces that still terminate. **At layer 20 negative
+steering does not reduce narration** — uppercase density goes *up* — so layer 20's robustness (§ above) is
+robustness to an inert intervention, not a better steering layer. Layer 12 reduces narration but at the cost
+of termination. The regex agrees directionally at layer 16 (92 → 58 % → 0 %) and is blind at layer 20.
+
+**Compliance.** Binary stays 0 % in every cell. Continuous compliance, paired on the same prompts: layer 16
+−7 gives +0.015 on uppercase (5/8 prompts higher) and **+0.115 on word_suppression (4/7 higher)**; layer 20 −7
+gives +0.061 on uppercase (8/10 higher). No negative-steering cell that still terminates shows a decrease.
+Small n, and truncation selects which rollouts are gradeable, so these are directions of travel, not
+estimates; S2 with all modes and larger n is where they are tested.
 
 **Degradation.** Accuracy drops appear only where termination fails (layer 12; layer 16 at ±14). Where the
 model still terminates, accuracy stays within 10 pp of baseline.
 
-**Provisional reading against the predictions.** Steering can lower narration at layer 16 without harming
-compliance or accuracy at −7 (prediction met on the regex measure, LLM pending). No sign that suppressing
-narration *lowers* compliance — the "narration is tracking" hypothesis has no support so far; if anything
-word_suppression moved the other way. The ±14 failures show the intervention has a narrow usable band at
-mid depth and a wider one at layer 20.
+**Reading against the predictions.** (1) The meta-discussion direction is *causally* effective: at layer 16,
+−7 halves narration density and +7 roughly doubles it (8.5 and 7.0 vs 4.2 and 6.3), a dose-response in the
+predicted direction, at a coefficient that leaves termination, accuracy and compliance intact. Prediction
+"≥ 20 pp lower narration rate" was the wrong statistic — the rate is saturated — but the density prediction it
+stood for is met. (2) Suppressing narration did **not** lower compliance anywhere the model still terminated;
+paired continuous scores moved slightly up. That is prediction (a): narration is a symptom, not the
+mechanism by which the model tracks the constraint. Together with the strip test (deleting narration flips
+0 %), both the direct and the indirect route from "less narration" to "more compliance" are now closed for
+this model at this scale; the small positive compliance shifts are the one thing S2 should look at. (3) The
+usable band is narrow at mid depth (−7 works, −14 breaks) and the effect vanishes by layer 20.
 
 **Limitations.** 20 prompts per cell; 40–80 % truncation at the 8,192 cap because the base model's traces
 are long (median ≈ 6k tokens), so gradeable n is 4–16; truncation is not independent of the steering

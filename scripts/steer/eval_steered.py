@@ -47,7 +47,8 @@ async def main() -> int:
         ok = [r for r in rs if r["ok"]]
         agg.append({"layer": L, "coef": c, "mode": m, "n": len(rs), "gradeable": len(ok), "truncated": mean([r["truncated"] for r in rs]), "binary": mean([r["compliant"] for r in ok]), "continuous": mean([r["continuous"] for r in ok]),
                     "accuracy": mean([r["correct"] for r in rs]), "regex_meta": mean([r["regex_meta"] for r in ok]), "llm_meta": mean([r.get("llm_meta") for r in ok]), "llm_n_sent": mean([r.get("llm_n_sent") for r in ok]), "llm_judged": sum(r.get("llm_meta") is not None for r in ok),
-                    "tokens": mean([r["tokens"] for r in rs]), "words": mean([r["reasoning_words"] for r in ok])})
+                    "tokens": mean([r["tokens"] for r in rs]), "words": mean([r["reasoning_words"] for r in ok]),
+                    "llm_density": mean([1000 * r["llm_n_sent"] / r["reasoning_words"] for r in ok if r.get("llm_n_sent") is not None and r["reasoning_words"] > 0])})
     json.dump({"rows": rows, "agg": agg}, open(REPO / "results/steer/steered_eval.json", "w"), indent=1)
     f = lambda x, p=False: "    —" if x is None else (f"{100*x:5.1f}" if p else f"{x:5.3f}")
     print(f"{'layer':>5} {'coef':>6} {'mode':<20} {'n':>3} {'ok':>3} {'trunc%':>6} | {'bin%':>6} {'cont':>6} {'acc%':>6} | {'regex%':>7} {'LLM%':>6} {'sent':>5} | {'tokens':>7}")
@@ -58,7 +59,7 @@ async def main() -> int:
         import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
         SURF, INK, INK2, MUTED, GRID, BASE = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"; RAMP = {12: "#86b6ef", 16: "#2a78d6", 20: "#104281"}
         plt.rcParams.update({"font.family": "sans-serif", "font.size": 10, "text.color": INK, "axes.labelcolor": INK2, "xtick.color": MUTED, "ytick.color": MUTED, "axes.edgecolor": BASE, "axes.facecolor": SURF, "figure.facecolor": SURF, "savefig.facecolor": SURF, "axes.spines.top": False, "axes.spines.right": False})
-        modes = sorted({g["mode"] for g in agg}); metrics = [("llm_meta", "narration rate (LLM lister), %", True), ("continuous", "continuous compliance", False), ("accuracy", "accuracy, %", True)]
+        modes = sorted({g["mode"] for g in agg}); metrics = [("llm_density", "narration sentences per 1,000 words (LLM lister)", False), ("continuous", "continuous compliance", False), ("accuracy", "accuracy, %", True)]
         fig, axes = plt.subplots(len(modes), len(metrics), figsize=(4.2 * len(metrics), 3.2 * len(modes)), dpi=150, squeeze=False)
         for i, m in enumerate(modes):
             for j, (k, lab, pct) in enumerate(metrics):
