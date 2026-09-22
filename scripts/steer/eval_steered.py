@@ -59,7 +59,7 @@ async def main() -> int:
         import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
         SURF, INK, INK2, MUTED, GRID, BASE = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"; RAMP = {12: "#86b6ef", 16: "#2a78d6", 20: "#104281"}
         plt.rcParams.update({"font.family": "sans-serif", "font.size": 10, "text.color": INK, "axes.labelcolor": INK2, "xtick.color": MUTED, "ytick.color": MUTED, "axes.edgecolor": BASE, "axes.facecolor": SURF, "figure.facecolor": SURF, "savefig.facecolor": SURF, "axes.spines.top": False, "axes.spines.right": False})
-        modes = sorted({g["mode"] for g in agg}); metrics = [("llm_density", "narration sentences per 1,000 words (LLM lister)", False), ("continuous", "continuous compliance", False), ("accuracy", "accuracy, %", True)]
+        modes = sorted({g["mode"] for g in agg}); metrics = [("llm_density", "narration density (sentences per 1,000 words)", False), ("continuous", "continuous compliance", False), ("accuracy", "accuracy, %", True)]
         fig, axes = plt.subplots(len(modes), len(metrics), figsize=(4.2 * len(metrics), 3.2 * len(modes)), dpi=150, squeeze=False)
         for i, m in enumerate(modes):
             for j, (k, lab, pct) in enumerate(metrics):
@@ -70,7 +70,7 @@ async def main() -> int:
                     ax.plot([p[0] for p in pts], [(100 * p[1] if pct else p[1]) for p in pts], marker="o", ms=6, lw=2, color=RAMP.get(L, INK2), markeredgecolor=SURF, label=f"layer {L}")
                 ax.axvline(0, color=GRID, lw=1); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
                 if i == len(modes) - 1: ax.set_xlabel("steering coefficient (× unit direction)", color=INK2)
-                ax.set_title(f"{m} — {lab}", loc="left", fontsize=10, color=INK)
+                ax.set_title(f"{m}\n{lab}", loc="left", fontsize=9.5, color=INK)
                 if pct: ax.set_ylim(0, 100)
         axes[0][0].legend(frameon=False, fontsize=9)
         fig.suptitle("Steering against the meta-discussion direction: dose-response", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.96)); fig.savefig(REPO / "figures/steer_dose_response.png"); plt.close(fig)
