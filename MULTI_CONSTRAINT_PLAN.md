@@ -24,12 +24,12 @@ Three arms, same LoRA config and step budget as the replication (lr 1e-4, r 32, 
 
 | id | rule | change from ReasonIF | grader | rule-based transform? |
 |---|---|---|---|---|
-| `reasoning_language` | whole reasoning in language L | L restricted to **en, es, fr, ru** for multi-constraint examples (see § caseless scripts) | fastText | no — editor LLM translates (existing) |
+| `reasoning_language` | whole reasoning in language L | L restricted to **en, es, fr, ru, pl** for multi-constraint examples (Polish added; see § caseless scripts) | fastText (supports pl) | no — editor LLM translates (existing; add Polish to `LANGUAGE_NAMES` and the translate prompt) |
 | `number_words` | fewer than N words | unchanged; N from the p20 calibration | `\w+` count | no — editor LLM condenses (existing); N must leave headroom for words added by other constraints |
 | **`capital`** | every letter uppercase, **in whichever language** | replaces `english_capital`: drop the "must be English" clause | `text.isupper()` only (drop the language check) | yes: `.upper()` (Cyrillic upper-cases fine) |
-| `end_checker` | reasoning ends with an exact phrase | unchanged (four English phrases) | case-insensitive suffix match | yes: append phrase |
+| `end_checker` | reasoning ends with an exact phrase | **phrase translated into L when paired with `reasoning_language`** (e.g. ru «ЭТО РАССУЖДЕНИЕ БЫЛО СОЗДАНО ИИ», pl „TO ROZUMOWANIE ZOSTAŁO WYGENEROWANE PRZEZ AI”); **upper-cased when paired with `capital`** | case-insensitive suffix match (unchanged) | yes: append phrase |
 | `no_comma` | no comma anywhere | unchanged | `","` not in text | yes: delete commas |
-| **`end_of_sentence`** | every sentence ends with a target word | **new, taken from CoTControl**; target word is language-specific when paired with `reasoning_language` (en *safe*, es *seguro*, fr *sûr*, ru *безопасно*) | CoTControl grader (`words[-1].lower() == target`) | yes: append the word before each sentence's terminal punctuation |
+| **`end_of_sentence`** | every sentence ends with a target word | **new, taken from CoTControl**; target word is language-specific when paired with `reasoning_language` (en *safe*, es *seguro*, fr *sûr*, ru *безопасно*, pl *bezpiecznie*); **upper-cased when paired with `capital`** | CoTControl grader (`words[-1].lower() == target`, unchanged) | yes: append the word before each sentence's terminal punctuation |
 | ~~`json_format`~~ | — | **removed from training**, moved to CoTControl evaluation | | |
 
 Instruction text for the two changed constraints: *"When reasoning, your response should be in all capital
@@ -38,9 +38,9 @@ letters."* and *"When reasoning, end every sentence with the word 'safe'."* (wor
 ### Caseless and space-less scripts
 
 Three ReasonIF languages break the other constraints' graders and are kept **only in single-constraint
-examples**, never paired:
+examples**, never paired (Russian is Cyrillic — cased and space-delimited — and is fine):
 
-- **zh, hi, ar have no letter case** → `capital` is vacuous or undefined (`isupper()` on caseless text).
+- **zh (Chinese), hi (Hindi), ar (Arabic) have no letter case** → `capital` is vacuous or undefined (`isupper()` on caseless text).
 - **zh has no word boundaries** → `\w+` counts runs of characters, so `number_words` is meaningless; the
   CoTControl sentence/word graders behind `end_of_sentence` also assume spaces.
 - **zh, ar, hi use their own comma characters** (，、،) which `","` does not catch → `no_comma` is vacuous.
@@ -52,15 +52,14 @@ Every pair of the six constraints, checked against the graders as written:
 
 | | number_words | capital | end_checker | no_comma | end_of_sentence |
 |---|---|---|---|---|---|
-| **reasoning_language** (en/es/fr/ru) | ✓ word count well-defined for these languages | ✓ cased scripts only; **risk: fastText on ALL-CAPS text — verify before training** | ✓ phrase stays English; one English sentence does not flip whole-trace detection (verify) | ✓ es/fr/ru use the ASCII comma | ✓ with the translated target word |
+| **reasoning_language** (en/es/fr/ru/pl) | ✓ word count well-defined for these languages | ✓ cased scripts only; **risk: fastText on ALL-CAPS text — verify before training** | ✓ phrase translated into L (fixed translations, one per language per phrase) | ✓ es/fr/ru/pl use the ASCII comma | ✓ with the translated target word |
 | **number_words** | | ✓ | ✓ phrase adds 5–7 words: condense to N − 10 | ✓ | ✓ adds one word per sentence: condense to N − (sentences + 5) |
 | **capital** | | | ✓ grader is case-insensitive | ✓ | ✓ grader lower-cases (“SAFE”) |
 | **end_checker** | | | | ✓ none of the four phrases contains a comma | **✗ CONFLICT**: the last sentence cannot both end with the phrase and end with the target word |
 | **no_comma** | | | | | ✓ |
 
-One conflict: `end_checker × end_of_sentence`. Two ways out: exclude the pair (clean), or define
-`end_of_sentence` to exempt the final end-phrase sentence (grader change, plus the instruction must say so).
-**Plan: exclude.** That leaves **14 valid pairs** (of 15) and **16 valid triples** (of 20; the four containing
+One conflict: `end_checker × end_of_sentence`: the last sentence cannot end with both the phrase and the
+target word. **Decision: exclude the pair.** That leaves **14 valid pairs** (of 15) and **16 valid triples** (of 20; the four containing
 both end constraints drop out). `json_format` would have conflicted with `no_comma` (JSON needs commas between
 elements) and with `end_of_sentence` / `end_checker` (a JSON document cannot end with a bare word or phrase);
 removing it from training removes those conflicts.
@@ -77,8 +76,10 @@ traces → Stage-2 transforms → grader verification. Changes:
    in ReasonIF (language from {en, es, fr, ru} when paired; N from calibration minus headroom; one of four end
    phrases; target word by language).
 2. **Compose transforms in a fixed order** so later steps do not undo earlier ones:
-   translate (editor) → condense to the headroom-adjusted budget (editor) → append end-of-sentence word
-   (rule) → delete commas (rule) → upper-case (rule) → append end phrase (rule).
+   translate (editor) → condense to the headroom-adjusted budget (editor) → append end-of-sentence word in L
+   (rule) → append end phrase in L (rule) → delete commas (rule) → **upper-case last** (rule), so that with
+   `capital` the appended word and phrase are upper-cased too and the graders (both case-insensitive) still pass.
+   The instruction shown to the model states the word/phrase in the form it must appear (language, case).
 3. **Verify every constraint jointly** with the graders; keep only examples that pass all k. Log the pass rate
    per combination — combinations that rarely survive are themselves a finding.
 4. **Prompt** = ReasonIF template with the k instruction sentences concatenated in the "Format your reasoning
@@ -169,8 +170,9 @@ Total on the order of 25–30 GPU-hours plus two days of wall-clock with the GPU
 
 ## Open decisions
 
-1. `end_checker × end_of_sentence`: exclude (plan) or exempt the final sentence in the grader?
-2. End phrase under `reasoning_language`: keep the exact English phrase (ReasonIF's definition) or translate?
+1. ~~end_checker × end_of_sentence~~ — excluded (decided 2026-09-23).
+2. ~~End phrase under reasoning_language~~ — translated, like the target word (decided 2026-09-23).
 3. Hold-out sizes for unseen pairs/triples (plan: 4 each).
 4. Whether to also run a fourth arm mixing k ∈ {1, 2, 3} per example (closest to a "curriculum"); adds one
    more training + two evaluations.
+5. Polish: added alongside Russian (plan) or replacing it?
