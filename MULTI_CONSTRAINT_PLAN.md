@@ -181,6 +181,13 @@ Known property carried over from the replication's data: 684 of 937 Stage-1 trac
 inside the think block with `<answer>` tags, so upper-cased rows contain `</ANSWER>` inside the reasoning.
 Harmless for grading (the answer field is separate) but visible in the text.
 
+## Judge budget (decided 2026-09-23)
+
+Only `ignore_question` compliance uses the LLM judge (gpt-5-mini, paper prompt), under $1 per checkpoint.
+**The full-trace meta-discussion lister is not run on the multi-constraint evaluations for now** (≈ $10 per
+checkpoint if added later; rollouts are stored, so it can be run retrospectively). Editor cost for all four
+datasets: 2,251 gpt-4.1-mini calls, ≈ $3.40.
+
 ## Predictions, written before running
 
 1. In-distribution: P2 and T3 reach lower per-constraint compliance than S1 on singles at step-60 (harder
