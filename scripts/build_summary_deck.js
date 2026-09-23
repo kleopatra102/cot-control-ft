@@ -145,15 +145,16 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
     "ignore_question collapses 0.30 → 0.02: there “I must not think about the question” is the compliant content — steering it away leaves only question-discussion",
   ], 0.5, 3.95, 9.0, 1.3, 10.5);
 }
-// 10 failure modes
+// 10 dose-response all modes
 {
-  const s = pres.addSlide(); title(s, "4.3 · A narrow usable band; failures carry the sign", "Termination by layer and coefficient; paired narration change per prompt");
-  fig(s, "steer_s1_band_and_paired.png", 0.3, 1.25, 9.4, 3.2);
-  s.addText([
-    { text: "Pushed away (−14): ", options: { bold: true } }, { text: "“Option D. Wait. Option C. Option D.” × dozens — bare content loops, no constraint-talk.   ", options: {} },
-    { text: "Pushed toward (+7): ", options: { bold: true } }, { text: "“(Wait, I need to make sure I don't use the word 'entangled'). Okay, I'm writing the thought block now.” × 60.", options: {} },
-  ], { x: 0.5, y: 4.5, w: 9.0, h: 0.7, fontFace: F, fontSize: 11, color: INK2, isTextBox: true, margin: 0, valign: "top" });
-  footer(s, "Layer 12 breaks at every coefficient; layer 20 is robust but inert (narration does not fall there)");
+  const s = pres.addSlide(); title(s, "4.3 · Pushing harder removes narration, not non-compliance", "Layer 16, coefficients −14 / −7 / 0 / +7, all nine modes, 270 rollouts per coefficient (pooled)");
+  fig(s, "steer_dose_all_pooled.png", 0.3, 1.3, 9.4, 2.35);
+  bullets(s, [
+    "Narration falls monotonically: 8.3 → 4.2 → 0.2 sentences per 1,000 words; at −14, 91 % of traces are narration-free in every mode — including the word-suppression modes −7 never freed",
+    "But at −14 only 52 % of traces terminate and the survivors lose 23 pp of accuracy on the same prompts (46 % vs 76 %); at +7 only 28 % terminate",
+    "Continuous compliance excluding ignore_question is flat at every coefficient (0.32 / 0.32 / 0.29 / 0.22); binary 0 % in all 36 cells",
+  ], 0.5, 3.75, 9.0, 1.4, 11);
+  footer(s, "Over-steered traces collapse into repetition loops: content fragments when pushed away from narration, constraint-talk when pushed toward it (S1). Per-mode curves: STEERING_RESULTS.md S2b");
 }
 // 10b SFT vs steering: narration-free traces per mode
 {
@@ -178,7 +179,7 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   s.addText("What we learned", { x: 0.6, y: 0.5, w: 8.8, h: 0.6, fontFace: F, fontSize: 28, bold: true, color: WHITE, isTextBox: true, margin: 0 });
   s.addText([
     { text: "Meta-discussion is pervasive and, sentence for sentence, a violation — including where it need not be (lowercase).", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
-    { text: "It can be reduced, but differently: SFT creates narration-free traces in every mode (56 %); steering halves density and frees traces only for constraints about form (24 %). Prompting does nothing.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
+    { text: "It can be reduced, but differently: SFT creates narration-free traces in every mode (56 %) with intact traces; moderate steering halves density (24 % free); strong steering frees 91 % but halves termination and costs 23 pp of accuracy. Prompting does nothing.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
     { text: "Reducing it does not raise compliance: deleting it flips 0 of 2,588 traces; steering it away in nine modes flips 0 of 391 and leaves continuous compliance flat.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
     { text: "Where narration was the compliant content (ignore_question), removing it removes the compliance: 0.30 → 0.02.", options: { bullet: true, breakLine: true, paraSpaceAfter: 12 } },
     { text: "Non-compliance is over-determined. Reducing meta-discussion is worth doing for monitorability, not as a route to controllability.", options: { bullet: true } },
@@ -190,7 +191,7 @@ function fig(slide, name, x, y, w, h) { slide.addImage({ path: FIG + name, x, y,
   bullets(s, [
     "One model (Qwen3.5-9B), one SFT recipe (METR's, 240 examples), one steering method (constant vector, all positions)",
     "Step-60 labelling sets are partial (540 CoTControl, 105 ReasonIF) — budget",
-    "Steering: S2 has 30 prompts per mode, 391 gradeable of 540 (28 % hit the 10,000-token cap); one coefficient (−7) at one layer (16), chosen from the S1 sweep on two modes",
+    "Steering: 30 prompts per mode at layer 16, coefficients −14 / −7 / 0 / +7 (1,080 rollouts, 606 gradeable); layer chosen from the S1 sweep on two modes; one steering method (constant vector, all positions)",
     "The LLM lister is stochastic at fixed temperature: rollout rates stable, sentence counts ±20–50 %; 21–31 % of its quotes could not be matched to a trace unit and were not deleted (strip test slightly conservative)",
     "The paper's judge truncates at 10,000 characters; narration moves later after SFT, so that judge overstates the SFT drop (−50 pp vs −46 pp full-trace)",
     "Code and data: github.com/AleksandraDagil/cot-control-ft — META_DISCUSSION_FULLTRACE.md, STEERING_RESULTS.md, META_DISCUSSION_SUMMARY.md",

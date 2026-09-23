@@ -140,6 +140,13 @@ lowers the propensity; SFT switches the behaviour off in most traces.
 
 ![Narration-free traces per mode](figures/steer_s2_narration_free.png)
 
+**Pushing harder does not help.** Across −14 / −7 / 0 / +7 at layer 16, all nine modes, narration falls
+monotonically (8.3 → 4.2 → 0.2 sentences per 1,000 words) and −14 does produce narration-free traces in every
+mode (91 %) — but only 52 % of traces terminate and the survivors lose 23 pp of accuracy on the same prompts.
+Continuous compliance excluding ignore_question is flat at every coefficient (0.32 / 0.32 / 0.29 / 0.22).
+
+![Pooled dose-response across coefficients](figures/steer_dose_all_pooled.png)
+
 So the intervention does what it says on narration and nothing on compliance. That raises the question the
 last section answers directly.
 

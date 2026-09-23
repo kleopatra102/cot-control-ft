@@ -30,9 +30,11 @@ def grid(metric, ylabel, fname, pct=False, ylim=None, title=""):
     for ax, m in zip(axes.flat, MODES):
         pts = [(c, M[m][c][metric][0], M[m][c][metric][1]) for c in coefs if M[m][c][metric][0] is not None]
         ax.plot([p[0] for p in pts], [(100 * p[1] if pct else p[1]) for p in pts], marker="o", ms=6, lw=2, color=BLUE, markeredgecolor=SURF)
-        for c, v, n in pts: ax.annotate(f"n={n}", xy=(c, 100 * v if pct else v), xytext=(0, 7), textcoords="offset points", ha="center", fontsize=7, color=MUTED)
+        for c, v, n in pts:
+            yv = 100 * v if pct else v; high = (pct and yv > 85) or (not pct and ylim is None and yv >= max((100 * q[1] if pct else q[1]) for q in pts) * 0.97)
+            ax.annotate(f"n={n}", xy=(c, yv), xytext=(0, -13 if high else 7), textcoords="offset points", ha="center", fontsize=7, color=MUTED)
         ax.axvline(0, color=GRID, lw=1); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
-        ax.set_title(m, loc="left", fontsize=9.5, color=INK); ax.set_xticks(coefs)
+        ax.set_title(m, loc="left", fontsize=9.5, color=INK, pad=10); ax.set_xticks(coefs)
         if ylim: ax.set_ylim(*ylim)
     for ax in axes[-1]: ax.set_xlabel("steering coefficient", color=INK2)
     for ax in axes[:, 0]: ax.set_ylabel(ylabel, color=INK2, fontsize=9)
@@ -48,7 +50,7 @@ pooled = {c: {"closed": sum(1 for r in rows if r["coef"] == c and r["ok"]) / max
 for ax, (k, lab, pct) in zip(axes, (("closed", "traces that terminate, %", True), ("density", "narration / 1,000 words", False), ("free", "narration-free traces, %", True), ("cont_ex_iq", "continuous compliance (excl. ignore_question)", False))):
     ys = [(100 * pooled[c][k] if pct else pooled[c][k]) for c in coefs]; ax.plot(coefs, ys, marker="o", ms=7, lw=2, color=BLUE, markeredgecolor=SURF)
     for c, y in zip(coefs, ys): ax.annotate(f"{y:.0f}" if pct else f"{y:.2f}", xy=(c, y), xytext=(0, 7), textcoords="offset points", ha="center", fontsize=8, color=INK2)
-    ax.axvline(0, color=GRID, lw=1); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.set_xticks(coefs); ax.set_title(lab, loc="left", fontsize=9.5, color=INK); ax.set_xlabel("coefficient", color=INK2)
+    ax.axvline(0, color=GRID, lw=1); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.set_xticks(coefs); ax.set_title(lab, loc="left", fontsize=9.5, color=INK, pad=12); ax.set_xlabel("coefficient", color=INK2)
     if pct: ax.set_ylim(0, 100)
 fig.suptitle("Pooled over all nine modes (270 rollouts per coefficient)", x=0.01, ha="left", fontsize=12, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.9)); fig.savefig(REPO / "figures/steer_dose_all_pooled.png", bbox_inches="tight"); plt.close(fig)
 print("wrote figures/steer_dose_all_{density,free,continuous,pooled}.png")

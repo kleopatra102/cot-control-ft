@@ -281,3 +281,52 @@ what the model *says about* the rule, not whether the body *follows* it; and whe
 (ignore_question), it removes the compliance too. Both routes from "less narration" to "more compliance" —
 deletion (strip test, 0 flips of 2,588) and generation (steering, 0 flips of 391, continuous null) — are
 closed for this model.
+
+### S2b — the full dose-response, all nine modes (2026-09-23)
+
+Coefficients −14 and +7 added to S2's 0 and −7 at layer 16, same 30 prompts per mode, cap 10,000 tokens
+(540 more rollouts; 606 gradeable of 1,080 in total; lister judged 603). `scripts/steer/dose_all_modes.py`.
+
+![Pooled dose-response](figures/steer_dose_all_pooled.png)
+
+| coef | traces that terminate | accuracy (terminated) | narration / 1,000 words | narration-free traces | continuous, excl. ignore_question | continuous, ignore_question | binary |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| −14 | 52 % | **46 %** | **0.22** | **91 %** | 0.291 | 0.001 | 0 % |
+| −7 | 73 % | 75 % | 4.17 | 24 % | 0.317 | 0.018 | 0 % |
+| 0 | 72 % | 76 % | 8.30 | 1 % | 0.321 | 0.301 | 0 % |
+| +7 | **28 %** | 68 % | 7.97 | 0 % | 0.222 | 0.299 | 0 % |
+
+Paired against the unsteered rollout of the same prompt, both terminated: **−14: accuracy −23 pp [−29, −17]
+(n 104), narration −8.7 per 1,000 words [−9.6, −7.8], continuous excl. ignore_question −0.019 [−0.045,
++0.007]. +7: accuracy −4 pp [−8, 0] (n 51), narration +0.9 [−0.1, +1.9], continuous −0.030 [−0.057, −0.006].**
+
+![Narration density per mode](figures/steer_dose_all_density.png)
+
+![Narration-free traces per mode](figures/steer_dose_all_free.png)
+
+![Continuous compliance per mode](figures/steer_dose_all_continuous.png)
+
+**Findings.**
+1. **The dose-response is monotone in narration in every mode.** −14 drives density to 0.0–1.1 per 1,000
+   words in all nine, −7 roughly halves it in seven, +7 leaves it flat or higher (multiple_word_suppression
+   16 per 1,000 words in the single trace that terminated).
+2. **−14 does create narration-free traces everywhere — 80–100 % in every mode, including the
+   word-suppression modes that −7 never freed.** But it costs half the traces (52 % terminate) and, among the
+   survivors, **23 percentage points of accuracy** on the same prompts (46 % vs 76 %): the traces that end are
+   shorter (2,779 vs 3,669 words) and are the ones that collapsed into fragment loops before recovering an
+   answer. Narration-free at this strength is not a working model.
+3. **Compliance does not rise at any coefficient.** Binary 0 % in all 36 cells. Continuous excluding
+   ignore_question: 0.32 → 0.32 → 0.29 → 0.22 from 0 to −7 to −14 to +7; the −14 paired change is −0.019
+   with a CI straddling zero, +7 is −0.030. The per-mode curves in the continuous figure are noise around
+   flat except ignore_question, which drops to zero as soon as narration is steered away (its narration was
+   the compliant content). The two apparent rises at −14 (word_suppression 0.41 → 0.58,
+   multiple_word_suppression 0.10 → 0.28) are fewer forbidden-word uses in shorter, degenerate traces, not
+   better reasoning.
+4. **+7 is the mirror failure:** 28 % terminate, and the survivors narrate as much as unsteered traces while
+   the non-survivors are the constraint-talk loops seen in S1.
+
+**Reading.** Across four coefficients and nine modes the meta-discussion direction moves exactly one thing,
+how much the model talks about the rule, with a usable window at about −7. Pushing further buys
+narration-free traces at the price of coherence and accuracy, and at no coefficient does the body of the
+trace follow the constraint more. Steering against meta-discussion is a monitorability lever, not a
+controllability one.
