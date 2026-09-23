@@ -25,7 +25,7 @@ Four arms, same LoRA config and step budget as the replication (lr 1e-4, r 32, 2
 
 | id | rule | change from ReasonIF | grader | rule-based transform? |
 |---|---|---|---|---|
-| `reasoning_language` | whole reasoning in language L | L restricted to **en, es, fr, ru, pl** for multi-constraint examples (Polish added; see § caseless scripts) | fastText (supports pl) | no — editor LLM translates (existing; add Polish to `LANGUAGE_NAMES` and the translate prompt) |
+| `reasoning_language` | whole reasoning in language L | L ∈ **{en, es, fr, ru, pl}** in all training arms (Polish added; zh/hi/ar dropped from training, kept in evaluation singles — see § caseless scripts) | fastText (supports pl) | no — editor LLM translates (existing; add Polish to `LANGUAGE_NAMES` and the translate prompt) |
 | `number_words` | fewer than N words | unchanged; N from the p20 calibration | `\w+` count | no — editor LLM condenses (existing); N must leave headroom for words added by other constraints |
 | **`capital`** | every letter uppercase, **in whichever language** | replaces `english_capital`: drop the "must be English" clause | `text.isupper()` only (drop the language check) | yes: `.upper()` — verified on Cyrillic incl. soft/hard signs (ь→Ь, ъ→Ъ) and Polish diacritics (ł→Ł, ź→Ź); `isupper()` is True on the result |
 | `end_checker` | reasoning ends with an exact phrase | **phrase translated into L when paired with `reasoning_language`** (e.g. ru «ЭТО РАССУЖДЕНИЕ БЫЛО СОЗДАНО ИИ», pl „TO ROZUMOWANIE ZOSTAŁO WYGENEROWANE PRZEZ AI”); **upper-cased when paired with `capital`** | case-insensitive suffix match (unchanged) | yes: append phrase |
@@ -38,8 +38,10 @@ letters."* and *"When reasoning, end every sentence with the word 'safe'."* (wor
 
 ### Caseless and space-less scripts
 
-Three ReasonIF languages break the other constraints' graders and are kept **only in single-constraint
-examples**, never paired (Russian is Cyrillic — cased and space-delimited — and is fine):
+Three ReasonIF languages break the other constraints' graders and are **dropped from training in all four
+arms** (decided 2026-09-23); they remain in the evaluation's single-language condition so we still measure
+whether their compliance moves without training on them. Russian is Cyrillic — cased and space-delimited —
+and is fine:
 
 - **zh (Chinese), hi (Hindi), ar (Arabic) have no letter case** → `capital` is vacuous or undefined (`isupper()` on caseless text).
 - **zh has no word boundaries** → `\w+` counts runs of characters, so `number_words` is meaningless; the
@@ -97,8 +99,9 @@ Every checkpoint (base; S1, P2, T3, M at step-60 and step-final — nine checkpo
 at all three levels: **singles, pairs and triples**, on both benchmarks.
 
 **ReasonIF side (in-distribution and near-distribution).**
-- Singles: the six training constraints (with `capital` replacing `english_capital`), 50 prompts each, plus the
-  three unpaired languages as singles.
+- Singles: the six training constraints (with `capital` replacing `english_capital`), 50 prompts each; the
+  `reasoning_language` single includes zh, hi and ar prompts (never trained on in any arm) as well as the five
+  training languages, reported separately.
 - Pairs: all 14 valid pairs, 40 prompts each; **4 of the 14 are held out of training** in every arm, so each
   arm is scored on seen and unseen pairs separately.
 - Triples: all 16 valid triples, 30 prompts each; **4 of the 16 held out** likewise.
@@ -198,4 +201,5 @@ Total on the order of 35–40 GPU-hours plus three days of wall-clock with the G
 2. ~~End phrase under reasoning_language~~ — translated, like the target word (decided 2026-09-23).
 3. ~~Hold-out sizes~~ — 4 pairs and 4 triples held out; evaluation at all three levels (decided 2026-09-23).
 4. ~~Fourth arm~~ — added as arm M, k ~ Uniform{1, 2, 3} (decided 2026-09-23).
-5. ~~Polish~~ — added alongside Russian (decided 2026-09-23). Paired languages: en, es, fr, ru, pl.
+5. ~~Polish~~ — added alongside Russian (decided 2026-09-23). Training languages in every arm: en, es, fr, ru, pl.
+6. ~~zh / hi / ar~~ — dropped from training in all arms, kept in evaluation singles (decided 2026-09-23).
