@@ -6,7 +6,7 @@
 Rollouts -> results/multi_eval/<label>/rollouts.jsonl (resumable); grades -> graded.jsonl; summary.json.
 """
 from __future__ import annotations
-import argparse, asyncio, json, statistics as st, sys
+import argparse, asyncio, json, os, statistics as st, sys
 from collections import defaultdict
 from pathlib import Path
 import yaml
@@ -43,7 +43,7 @@ def main() -> int:
         from cotctl.judge import LLMJudge
         pend = [r for r in rollouts if "ignore_question" in r["meta"].get("modes", []) and r.get("think_status") == "ok" and (r.get("reasoning") or "").strip()]
         if pend:
-            judge = LLMJudge(model=cfg["judge"]["model"], cache_path=out / "judge_cache.jsonl", concurrency=int(cfg["judge"].get("concurrency", 16)))
+            judge = LLMJudge(model=os.environ.get("JUDGE_MODEL", "gpt-5-mini"), cache_path=out / "judge_cache.jsonl", concurrency=int(cfg["judge"].get("concurrency", 16)))  # OpenAI direct via JUDGE_API_KEY/JUDGE_BASE_URL
             vs = asyncio.run(judge.judge_many("ignore_question", [(r["prompt"], r["reasoning"]) for r in pend], desc="ignore_question judge"))
             judged = {(r["sample_id"], r["mode"]): v.compliant for r, v in zip(pend, vs)}
     unc = {r["sample_id"]: count_keyword_uses(r["reasoning"] or "", r["meta"].get("keywords") or []) for r in rollouts if r["mode"] == "unconstrained" and r.get("think_status") == "ok"}
