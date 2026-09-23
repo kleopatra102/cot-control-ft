@@ -1,6 +1,6 @@
 # Plan: SFT on multiple simultaneous constraints (pairs and triples)
 
-*Status 2026-09-23: plan agreed, all open decisions closed; nothing implemented yet. GPU is free.*
+*Status 2026-09-23: plan agreed; **phase 1 (pre-checks) done — results in § Pre-check results**. Nothing trained yet. GPU is free.*
 
 ## Question
 
@@ -77,9 +77,11 @@ traces → Stage-2 transforms → grader verification. Changes:
    in ReasonIF (language from {en, es, fr, ru, pl} when paired; N from calibration minus headroom; one of four end
    phrases; target word by language).
 2. **Compose transforms in a fixed order** so later steps do not undo earlier ones:
-   translate (editor) → condense to the headroom-adjusted budget (editor) → append end-of-sentence word in L
-   (rule) → append end phrase in L (rule) → delete commas (rule) → **upper-case last** (rule), so that with
-   `capital` the appended word and phrase are upper-cased too and the graders (both case-insensitive) still pass.
+   translate (editor) → condense to the headroom-adjusted budget (editor) → **delete commas** (rule) → append
+   end-of-sentence word in L (rule) → append end phrase in L (rule) → **upper-case last** (rule). Commas must go
+   *before* the end word: deleting the comma in “e.g.,” leaves “e.g. ”, which the grader's splitter reads as a
+   sentence boundary; appending the word first and deleting commas afterwards failed 11 of 43 English traces
+   (pre-check E). Upper-casing last keeps the appended word and phrase capitalised under `capital`.
    The instruction shown to the model states the word/phrase in the form it must appear (language, case).
 3. **Verify every constraint jointly** with the graders; keep only examples that pass all k. Log the pass rate
    per combination — combinations that rarely survive are themselves a finding.
@@ -134,6 +136,26 @@ continuous v2 per constraint, accuracy, truncation, meta-discussion (full-trace 
 METR comparability), and — new — **compliance-with-k as a function of k** for each arm. Noise floor from the
 replication: ReasonIF micro 6.6 ± 0.9 pp across base replicates.
 
+## Pre-check results (2026-09-23)
+
+Run on the replication's SFT traces (43 en, 15 es, 24 fr, 24 ru translated by the editor) and three fresh
+Polish translations. Scripts inline in the session; numbers below are exact.
+
+| check | result | consequence |
+|---|---|---|
+| **A. fastText on ALL-CAPS text** | detected language unchanged on 106 / 106 traces (en 43, es 15, fr 24, ru 24); Polish 3 / 3 | `capital × reasoning_language` is safe |
+| **C. end_of_sentence append → CoTControl grader** | 106 / 106 pass with the language-specific word (safe / seguro / sûr / безопасно); Polish 3 / 3 with *bezpiecznie* | splitter handles es/fr/ru/pl punctuation |
+| **D. words per trace after translation** | en median 1,158 · es 591 · fr 593 · ru 645 · pl ≈ 60 % of the English count | **`number_words` needs a per-language N**: an English-calibrated threshold is met almost automatically by a translated trace. Decision: scale N by the language's median ratio (es/fr 0.51, ru 0.56, pl 0.6) or calibrate per language from unconstrained rollouts (~1 GPU-hour); scaling is the default |
+| **E. joint rule-based survival** (language + capital + no_comma + end constraint) | end_checker variant 106 / 106; end_of_sentence variant 95 / 106 with the original order, **106 / 106 after moving comma deletion before the end word** | transform order fixed (above) |
+| **Polish** | translation by gpt-4.1 at T 0.3 returns clean `<edited>` blocks; fastText pl on original and upper-cased; `isupper()` true; round-trip passes | Polish added to `LANGUAGE_NAMES`; end word *bezpiecznie*; end phrases to be fixed in Polish |
+
+**Editor and judge models (decided 2026-09-23).** Editor for translate/condense: **gpt-4.1-mini at temperature
+0** (the replication used gpt-4.1 at 0.3; the Polish pre-check used gpt-4.1). Judge for `ignore_question`
+compliance: gpt-5-mini with the paper's prompt, for parity (the GPT-5 family does not accept a temperature
+setting). Meta-discussion lister: gpt-5-mini as in the earlier runs, so rates are comparable; if cost matters
+more than comparability, gpt-4.1-mini at temperature 0 is the fallback and should be validated on 100 cached
+traces against the gpt-5-mini labels first.
+
 ## Predictions, written before running
 
 1. In-distribution: P2 and T3 reach lower per-constraint compliance than S1 on singles at step-60 (harder
@@ -148,13 +170,11 @@ replication: ReasonIF micro 6.6 ± 0.9 pp across base replicates.
 
 ## Risks and pre-checks (cheap, before any training)
 
-- **fastText on all-caps text.** Upper-case 100 es/fr/ru traces and check the detected language holds. If
-  detection degrades, `capital × reasoning_language` must be excluded or the grader changed.
+- ~~fastText on all-caps text~~ — passed (pre-check A).
 - **Word-count semantics after translation.** N comes from English-trace calibration; Russian has fewer
   words per idea, French more. Either calibrate N per language (a few hundred unconstrained rollouts per
   language, ~1 GPU-hour) or accept that `number_words` is slightly easier in ru and harder in fr and say so.
-- **Sentence splitting for `end_of_sentence` in Spanish/Russian/French** (¿…?, «…», … ) — test the grader on
-  translated traces before trusting it.
+- ~~Sentence splitting in es/fr/ru/pl~~ — passed (pre-check C).
 - **Pass rate of joint transforms.** Some triples may almost never survive verification (e.g.
   number_words + end_of_sentence + end_checker is excluded already; number_words + end_of_sentence + language
   may be tight). Report the survival rate per combination; drop combinations under 30 %.
