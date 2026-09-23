@@ -676,3 +676,12 @@ output file is rewritten on every run; relaunching with `--skip-iq` to save cred
 *base* file without its (already cached) ignore_question counts, silently. Restored by one more
 cached replay. **Practice:** never let a budget flag applied to one label change what is written for
 another; write outputs per (label, suite, stage) or refuse to overwrite a file with fewer fields.
+
+**36. Final checkpoint silently not saved (2026-09-23, multi-constraint arms).** `train_lora.py` planned
+`ceil(n_examples / 4)` optimizer steps and saved `step-final` only when that exact step was reached. The loop
+drops incomplete accumulation groups, so three of four arms finished one step short (227 vs 228, 226 vs 227,
+227 vs 228) and ended with `step-210` as their last adapter; the fourth arm happened to land exactly on the
+planned count. Caught only because the post-training loss check looked for `step-final/train_metrics.json`.
+Fixed by saving `step-final` unconditionally at loop end; the three arms were retrained (15 min each).
+**Practice:** after any training run, assert the expected final artefact exists before starting downstream
+work; never derive "done" from a planned count when the loop can terminate on a different count.
