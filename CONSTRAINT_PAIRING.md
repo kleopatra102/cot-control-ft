@@ -10,7 +10,7 @@ Six constraints, all imposed on the model's reasoning (the think block), one ins
 
 | constraint | what it requires | argument |
 |---|---|---|
-| `reasoning_language` | the whole reasoning is in language L | L ∈ {English, Spanish, French, Russian, Polish} |
+| `reasoning_language` | the whole reasoning is in language L | L ∈ {English, Spanish, French, Russian, Polish} — Polish is new relative to ReasonIF |
 | `number_words` | fewer than N words | N |
 | `capital` | every letter uppercase, in whichever language the reasoning is in | — |
 | `end_checker` | the reasoning ends with an exact phrase | one of six phrases |
@@ -19,7 +19,8 @@ Six constraints, all imposed on the model's reasoning (the think block), one ins
 
 Relation to ReasonIF's six: `reasoning_language`, `number_words`, `end_checker`, `no_comma` are kept;
 `english_capital` becomes `capital` (the "must be English" part is dropped); `json_format` is removed and
-`end_of_sentence` (from CoTControl) takes its place. Chinese, Hindi and Arabic are not used as languages here.
+`end_of_sentence` (from CoTControl) takes its place. **`reasoning_language` gains Polish** (not in ReasonIF)
+and loses Chinese, Hindi and Arabic, which are not used as languages here.
 
 ## Forbidden combinations
 
