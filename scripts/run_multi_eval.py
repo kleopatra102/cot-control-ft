@@ -38,7 +38,9 @@ def main() -> int:
         client = VLLMClient(model, cfg["server"]["base_url"], concurrency=cfg["server"]["concurrency"]); sampling = SamplingParams(**dict(cfg["sampling"]))
         print(f"{len(reqs)} requests ({len(store)} already stored) -> {out}", flush=True)
         with store: run_sync(client, reqs, sampling, store, desc=f"multi-eval/{a.label}")
-    rollouts = store.read_all(); print(f"grading {len(rollouts)} rollouts", flush=True)
+    wanted = {(r.sample_id, r.mode) for r in reqs}
+    rollouts = [r for r in store.read_all() if (r["sample_id"], r["mode"]) in wanted]  # ignore stored rollouts outside the current request set
+    print(f"grading {len(rollouts)} rollouts", flush=True)
     judged = {}
     if not a.no_judge:
         from cotctl.judge import LLMJudge
@@ -60,9 +62,9 @@ def main() -> int:
         for g in graded: f.write(json.dumps(g, ensure_ascii=False) + "\n")
     def mean(xs): xs = [x for x in xs if x is not None]; return (st.mean(xs) if xs else None)
     summ = {"label": a.label, "n_rollouts": len(rollouts), "conditions": {}}
-    for mode in sorted({g["mode"] for g in graded}):
-        gs = [g for g in graded if g["mode"] == mode]; ok = [g for g in gs if g["think_status"] == "ok"]
-        cons = gs[0]["constraints"]
+    for key in sorted({(g["suite"], g["mode"]) for g in graded}):
+        gs = [g for g in graded if (g["suite"], g["mode"]) == key]; ok = [g for g in gs if g["think_status"] == "ok"]
+        cons = gs[0]["constraints"]; mode = f"{'rif' if key[0] == 'reasonif_multi' else 'cc'}/{key[1]}"  # suite-qualified condition key
         summ["conditions"][mode] = {"suite": gs[0]["suite"], "level": gs[0]["level"], "held_out": gs[0]["held_out"], "n": len(gs), "gradeable": len(ok), "truncated": mean([g["truncated"] for g in gs]),
             "joint_binary": mean([g["joint"] for g in ok]), "per_binary": {c: mean([g["per_binary"].get(c) for g in ok]) for c in cons}, "per_continuous": {c: mean([g["per_continuous"].get(c) for g in ok]) for c in cons},
             "accuracy": mean([g["correct"] for g in gs])}
