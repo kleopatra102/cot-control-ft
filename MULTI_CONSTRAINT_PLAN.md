@@ -1,6 +1,6 @@
 # Plan: SFT on multiple simultaneous constraints (pairs and triples)
 
-*Status 2026-09-23: plan only, nothing implemented. GPU is free (44 MB used).*
+*Status 2026-09-23: plan agreed, all open decisions closed; nothing implemented yet. GPU is free.*
 
 ## Question
 
@@ -178,4 +178,4 @@ Total on the order of 35–40 GPU-hours plus three days of wall-clock with the G
 2. ~~End phrase under reasoning_language~~ — translated, like the target word (decided 2026-09-23).
 3. ~~Hold-out sizes~~ — 4 pairs and 4 triples held out; evaluation at all three levels (decided 2026-09-23).
 4. ~~Fourth arm~~ — added as arm M, k ~ Uniform{1, 2, 3} (decided 2026-09-23).
-5. Polish: added alongside Russian (plan) or replacing it?
+5. ~~Polish~~ — added alongside Russian (decided 2026-09-23). Paired languages: en, es, fr, ru, pl.
