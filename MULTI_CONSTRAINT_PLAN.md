@@ -73,7 +73,7 @@ Same pipeline as the replication (`src/cotctl/sft/`): Multilingual-Thinking pool
 traces → Stage-2 transforms → grader verification. Changes:
 
 1. **Sample a constraint set** per example: k = 2 (P2) or 3 (T3), uniform over valid combinations; arguments as
-   in ReasonIF (language from {en, es, fr, ru} when paired; N from calibration minus headroom; one of four end
+   in ReasonIF (language from {en, es, fr, ru, pl} when paired; N from calibration minus headroom; one of four end
    phrases; target word by language).
 2. **Compose transforms in a fixed order** so later steps do not undo earlier ones:
    translate (editor) → condense to the headroom-adjusted budget (editor) → append end-of-sentence word in L
