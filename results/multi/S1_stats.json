@@ -1,0 +1,90 @@
+{
+ "arm": "S1",
+ "planned": 920,
+ "kept": 919,
+ "dropped": 1,
+ "seconds": 121,
+ "per_combo": {
+  "capital": {
+   "n": 152,
+   "pass": 152
+  },
+  "reasoning_language": {
+   "n": 151,
+   "pass": 150,
+   "fail:reasoning_language": 1
+  },
+  "end_checker": {
+   "n": 153,
+   "pass": 153
+  },
+  "no_comma": {
+   "n": 172,
+   "pass": 172
+  },
+  "number_words": {
+   "n": 134,
+   "pass": 134
+  },
+  "end_of_sentence": {
+   "n": 158,
+   "pass": 158
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 381,
+   "constraints": [
+    "reasoning_language"
+   ],
+   "args": {
+    "language": "fr"
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  }
+ ],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ]
+ }
+}

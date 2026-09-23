@@ -1,6 +1,6 @@
 # Plan: SFT on multiple simultaneous constraints (pairs and triples)
 
-*Status 2026-09-23: plan agreed; **phase 1 (pre-checks) done — results in § Pre-check results**. Nothing trained yet. GPU is free.*
+*Status 2026-09-23: phases 1 (pre-checks) and 2 (datasets) done — see § Pre-check results and § Datasets. Nothing trained yet.*
 
 ## Question
 
@@ -158,6 +158,28 @@ compliance: gpt-5-mini with the paper's prompt, for parity (the GPT-5 family doe
 setting). Meta-discussion lister: gpt-5-mini as in the earlier runs, so rates are comparable; if cost matters
 more than comparability, gpt-4.1-mini at temperature 0 is the fallback and should be validated on 100 cached
 traces against the gpt-5-mini labels first.
+
+## Datasets (built 2026-09-23, `scripts/build_sft_multi.py`, editor gpt-4.1-mini at T = 0)
+
+Stage-1 traces reused from the replication (937 questions, 927 usable). Same question order in every arm
+(seed 42), so the arms are paired at the row level. Rows are kept only if every sampled constraint passes its
+grader on the final text.
+
+| arm | kept / planned | grader failures | k distribution | languages among language rows |
+|---|---:|---|---|---|
+| S1 (singles, rebuilt on the new set) | 919 / 920 | reasoning_language 1 | k=1: 919 | fr 39, es 32, en 31, ru 29, pl 19 |
+| P2 (pairs) | 917 / 920 | reasoning_language 1; 2 translator errors | k=2: 917 | fr 75, es 71, en 68, ru 68, pl 65 |
+| T3 (triples) | 914 / 920 | capital 4, end_of_sentence 1; 1 translator error | k=3: 914 | en 113, pl 109, fr 109, ru 102, es 99 |
+| M (mixed) | 917 / 920 | end_of_sentence 1, reasoning_language 1; 1 translator error | k=1: 277, 2: 317, 3: 323 | es 74, ru 73, fr 72, en 68, pl 55 |
+
+No combination with ≥ 10 rows survived at under 90 %. Constraint frequencies are uneven by construction
+(the excluded end pair and the eight hold-outs remove combinations unevenly): in P2, `no_comma` 376 and
+`end_of_sentence` 373 rows vs `end_checker` 191. Files: `data/sft/multi_{S1,P2,T3,M}.jsonl` (4.8–9.0 MB
+each); per-combination survival in `results/multi/<arm>_stats.json`; sampled plans in `<arm>_plan.json`.
+
+Known property carried over from the replication's data: 684 of 937 Stage-1 traces draft their answer
+inside the think block with `<answer>` tags, so upper-cased rows contain `</ANSWER>` inside the reasoning.
+Harmless for grading (the answer field is separate) but visible in the text.
 
 ## Predictions, written before running
 

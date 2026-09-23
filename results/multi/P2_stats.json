@@ -1,0 +1,126 @@
+{
+ "arm": "P2",
+ "planned": 920,
+ "kept": 917,
+ "dropped": 3,
+ "seconds": 249,
+ "per_combo": {
+  "number_words+end_of_sentence": {
+   "n": 98,
+   "pass": 98
+  },
+  "reasoning_language+number_words": {
+   "n": 72,
+   "pass": 71,
+   "fail:reasoning_language": 1
+  },
+  "reasoning_language+capital": {
+   "n": 99,
+   "pass": 99,
+   "error": 1
+  },
+  "end_of_sentence+capital": {
+   "n": 101,
+   "pass": 101
+  },
+  "no_comma+end_of_sentence": {
+   "n": 92,
+   "pass": 92
+  },
+  "reasoning_language+no_comma": {
+   "n": 95,
+   "pass": 95,
+   "error": 1
+  },
+  "no_comma+end_checker": {
+   "n": 101,
+   "pass": 101
+  },
+  "number_words+no_comma": {
+   "n": 88,
+   "pass": 88
+  },
+  "reasoning_language+end_of_sentence": {
+   "n": 82,
+   "pass": 82
+  },
+  "end_checker+capital": {
+   "n": 90,
+   "pass": 90
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 253,
+   "constraints": [
+    "reasoning_language",
+    "capital"
+   ],
+   "reason": "transform: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 315,
+   "constraints": [
+    "reasoning_language",
+    "no_comma"
+   ],
+   "reason": "transform: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 431,
+   "constraints": [
+    "reasoning_language",
+    "number_words"
+   ],
+   "args": {
+    "language": "es",
+    "num_words": 92
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  }
+ ],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ]
+ }
+}
