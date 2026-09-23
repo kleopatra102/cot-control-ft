@@ -230,8 +230,10 @@ def main() -> int:
                 wandb_run.finish()
                 return 0
 
-    if total_steps not in ckpt_steps:
-        save_ckpt(total_steps, {})
+    # Always leave a `step-final` adapter: the loop may take fewer optimizer steps than planned
+    # (incomplete accumulation groups are dropped), in which case the planned final step is never hit.
+    if not (out_root / "step-final" / "adapter_config.json").exists():
+        save_ckpt(max(step, total_steps), {"loss": accum_loss / cfg.grad_accum if cfg.grad_accum else None, "actual_steps": step})
     metrics_fh.close()
     wandb_run.finish()
     log.info("done: %d steps; metrics at %s", step, metrics_path)
