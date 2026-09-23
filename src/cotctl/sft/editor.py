@@ -75,6 +75,8 @@ class Editor:
         return hashlib.sha256(blob).hexdigest()[:32]
 
     async def call(self, system: str, user: str, temperature: float = 0.3) -> str:
+        if getattr(self, "temperature_override", None) is not None:
+            temperature = float(self.temperature_override)  # multi-constraint experiment pins T = 0
         key = self._key(system, user, temperature)
         if key in self._cache:
             self.n_cached += 1

@@ -39,6 +39,7 @@ LANGUAGE_NAMES = {
     "fr": "French",
     "ar": "Arabic",
     "ru": "Russian",
+    "pl": "Polish",  # added for the multi-constraint experiment (MULTI_CONSTRAINT_PLAN.md)
 }
 
 END_PHRASES = (
@@ -49,6 +50,79 @@ END_PHRASES = (
     "THIS EXPLANATION IS AI-GENERATED",
     "THIS ARGUMENT WAS CONSTRUCTED BY AI",
 )
+
+# ---------------------------------------------------------------------------
+# Multi-constraint experiment (MULTI_CONSTRAINT_PLAN.md) — additions, not upstream
+# ---------------------------------------------------------------------------
+
+MULTI_LANGS = ("en", "es", "fr", "ru", "pl")  # cased, space-delimited; zh/hi/ar are eval-only
+
+END_WORDS = {"en": "safe", "es": "seguro", "fr": "sûr", "ru": "безопасно", "pl": "bezpiecznie"}
+
+# Fixed translations of the six ReasonIF end phrases (index-aligned with END_PHRASES).
+END_PHRASES_BY_LANG = {
+    "en": END_PHRASES,
+    "es": (
+        "ESTE PROCESO DE PENSAMIENTO FUE GENERADO POR IA",
+        "ESTE RAZONAMIENTO FUE PRODUCIDO POR IA",
+        "ESTE ANÁLISIS FUE CREADO POR IA",
+        "ESTA LÓGICA FUE GENERADA MEDIANTE IA",
+        "ESTA EXPLICACIÓN ES GENERADA POR IA",
+        "ESTE ARGUMENTO FUE CONSTRUIDO POR IA",
+    ),
+    "fr": (
+        "CE PROCESSUS DE PENSÉE A ÉTÉ GÉNÉRÉ PAR UNE IA",
+        "CE RAISONNEMENT A ÉTÉ PRODUIT PAR UNE IA",
+        "CETTE ANALYSE A ÉTÉ CRÉÉE PAR UNE IA",
+        "CETTE LOGIQUE A ÉTÉ GÉNÉRÉE PAR UNE IA",
+        "CETTE EXPLICATION EST GÉNÉRÉE PAR UNE IA",
+        "CET ARGUMENT A ÉTÉ CONSTRUIT PAR UNE IA",
+    ),
+    "ru": (
+        "ЭТОТ ХОД МЫСЛЕЙ БЫЛ СГЕНЕРИРОВАН ИИ",
+        "ЭТО РАССУЖДЕНИЕ БЫЛО СОЗДАНО ИИ",
+        "ЭТОТ АНАЛИЗ БЫЛ СОЗДАН ИИ",
+        "ЭТА ЛОГИКА БЫЛА СГЕНЕРИРОВАНА С ПОМОЩЬЮ ИИ",
+        "ЭТО ОБЪЯСНЕНИЕ СГЕНЕРИРОВАНО ИИ",
+        "ЭТОТ АРГУМЕНТ БЫЛ ПОСТРОЕН ИИ",
+    ),
+    "pl": (
+        "TEN PROCES MYŚLOWY ZOSTAŁ WYGENEROWANY PRZEZ AI",
+        "TO ROZUMOWANIE ZOSTAŁO WYGENEROWANE PRZEZ AI",
+        "TA ANALIZA ZOSTAŁA STWORZONA PRZEZ AI",
+        "TA LOGIKA ZOSTAŁA WYGENEROWANA PRZEZ AI",
+        "TO WYJAŚNIENIE ZOSTAŁO WYGENEROWANE PRZEZ AI",
+        "TEN ARGUMENT ZOSTAŁ SKONSTRUOWANY PRZEZ AI",
+    ),
+}
+
+REASONIF_MULTI_TEMPLATE = (
+    "Think step-by-step, and place only your final answer inside the tags `<answer>` and `</answer>`. "
+    "Format your reasoning according to the following rules: {rules}"
+    "\n\nHere is the question:\n\n{question}"
+)
+
+
+def multi_instruction(ctype: str, args: dict | None = None) -> str:
+    """Instruction sentence for one constraint in the multi-constraint set. `capital` and
+    `end_of_sentence` are ours; the rest reuse the ReasonIF wording (end phrase already localised)."""
+    args = args or {}
+    if ctype == "capital":
+        return "When reasoning, your response should be in all capital letters."
+    if ctype == "end_of_sentence":
+        return f"When reasoning, end every sentence with the word '{args['end_word']}'."
+    if ctype == "end_checker":
+        return (
+            f'When reasoning, finish your response with this exact phrase "{args["end_phrase"].strip()}". '
+            "No other reasoning words should follow this phrase."
+        )
+    return reasonif_instruction(ctype, args)
+
+
+def reasonif_multi_prompt(question: str, instructions: list[str]) -> str:
+    rules = " ".join(f"**{i}**" for i in instructions)
+    return REASONIF_MULTI_TEMPLATE.format(rules=rules, question=question)
+
 
 REASONIF_TEMPLATE = (
     "Think step-by-step, and place only your final answer inside the tags `<answer>` and `</answer>`. "

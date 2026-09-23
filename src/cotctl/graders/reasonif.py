@@ -75,6 +75,11 @@ def check_json_format(text: str) -> bool:
     return True
 
 
+def check_capital(text: str) -> bool:
+    """Multi-constraint `capital`: every cased letter is uppercase, any language (no language check)."""
+    return bool(text.strip()) and text.isupper()
+
+
 def check_no_comma(text: str) -> bool:
     return "," not in text
 
@@ -96,4 +101,9 @@ def grade_reasonif(instruction_type: str, reasoning: str, args: dict | None = No
         return check_json_format(reasoning)
     if instruction_type == "no_comma":
         return check_no_comma(reasoning)
+    if instruction_type == "capital":  # multi-constraint experiment
+        return check_capital(reasoning)
+    if instruction_type == "end_of_sentence":  # multi-constraint experiment; CoTControl grader, localised word
+        from .cotcontrol import grade_end_of_sentence
+        return grade_end_of_sentence(reasoning, args["end_word"])
     raise ValueError(f"unknown ReasonIF instruction type: {instruction_type}")
