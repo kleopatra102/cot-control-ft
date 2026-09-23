@@ -21,12 +21,13 @@ def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", default=None); ap.add_argument("--config", default=str(REPO / "configs/base.yaml"))
     ap.add_argument("--word-limits", default=str(REPO / "data/word_limits_Qwen3.5-9B.json")); ap.add_argument("--limit", type=int, default=None, help="debug: cap requests per suite")
     ap.add_argument("--grade-only", action="store_true"); ap.add_argument("--no-judge", action="store_true"); ap.add_argument("--suites", default="reasonif,cotcontrol")
-    ap.add_argument("--n-single-cc", type=int, default=100); ap.add_argument("--n-pair-cc", type=int, default=60); ap.add_argument("--n-triple-cc", type=int, default=60)
+    ap.add_argument("--n-single-cc", type=int, default=50); ap.add_argument("--n-pair-cc", type=int, default=30); ap.add_argument("--n-triple-cc", type=int, default=30); ap.add_argument("--n-unc-cc", type=int, default=50)
+    ap.add_argument("--n-single-rif", type=int, default=30); ap.add_argument("--n-pair-rif", type=int, default=20); ap.add_argument("--n-triple-rif", type=int, default=15)
     a = ap.parse_args(); cfg = yaml.safe_load(open(a.config)); out = REPO / "results/multi_eval" / a.label; out.mkdir(parents=True, exist_ok=True)
     wl = json.load(open(a.word_limits)); wl = wl.get("Qwen3.5-9B", wl)
     reqs = []
-    if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl)
-    if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc)
+    if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl, a.n_single_rif, a.n_pair_rif, a.n_triple_rif)
+    if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc, a.n_unc_cc)
     if a.limit:
         by = defaultdict(list)
         for r in reqs: by[r.meta["suite"]].append(r)

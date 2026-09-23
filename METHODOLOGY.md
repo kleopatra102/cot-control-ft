@@ -685,3 +685,13 @@ planned count. Caught only because the post-training loss check looked for `step
 Fixed by saving `step-final` unconditionally at loop end; the three arms were retrained (15 min each).
 **Practice:** after any training run, assert the expected final artefact exists before starting downstream
 work; never derive "done" from a planned count when the loop can terminate on a different count.
+
+**37. Process-pattern self-match, fourth and fifth time (2026-09-23).** Two more stop commands died with
+exit 144 because `pkill -f`/`pgrep -f` patterns (`run_multi_eval.py`, `vllm serve`) matched the shell issuing
+them. The by-PID rule from #35 was followed for the chain but not for the server lookup. **Mechanical fix
+adopted for every future pattern:** write the first character of the pattern in a bracket class,
+`pgrep -f '[b]in/vllm serve'`, so the regex matches the target's command line but never the literal text of
+the command that contains it. Also: the multi-constraint evaluation was found to run at 4 rollouts/min
+(KV-cache-bound: 13 requests running, 50 waiting, mean completion 11,900 tokens); restarted with fp8 KV cache
+and halved condition sizes (1,790 requests per checkpoint instead of 3,520). Estimate before restart:
+16 h/checkpoint; target after: ≤ 6 h.

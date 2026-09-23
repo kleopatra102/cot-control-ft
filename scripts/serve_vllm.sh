@@ -52,6 +52,7 @@ ARGS=(
   --max-loras 1
   --no-enable-log-requests
 )
+if [[ -n "${KV_DTYPE:-}" ]]; then ARGS+=(--kv-cache-dtype "$KV_DTYPE"); echo "  (kv-cache-dtype=$KV_DTYPE)"; fi
 
 if [[ ${#ADAPTERS[@]} -gt 0 ]]; then
   SPECS=()
