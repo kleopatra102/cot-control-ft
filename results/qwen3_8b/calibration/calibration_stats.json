@@ -1,0 +1,71 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "percentile": 20.0,
+  "n_censored_total": 9,
+  "censored_dropped": false,
+  "n_unusable_think": 0,
+  "limits": {
+    "aime": 3644,
+    "amc": 1522,
+    "arc": 267,
+    "gpqa": 1919,
+    "gsm8k": 272
+  },
+  "per_source": {
+    "aime": {
+      "n": 183,
+      "p20": 3644,
+      "median": 6654,
+      "p80": 13726,
+      "mean": 8122.4,
+      "max": 21280,
+      "n_censored": 6,
+      "pct_censored": 3.3,
+      "p20_identifiable": true
+    },
+    "amc": {
+      "n": 162,
+      "p20": 1522,
+      "median": 3336,
+      "p80": 7418,
+      "mean": 4877.0,
+      "max": 21858,
+      "n_censored": 3,
+      "pct_censored": 1.9,
+      "p20_identifiable": true
+    },
+    "arc": {
+      "n": 177,
+      "p20": 267,
+      "median": 361,
+      "p80": 733,
+      "mean": 567.1,
+      "max": 2928,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    },
+    "gpqa": {
+      "n": 219,
+      "p20": 1919,
+      "median": 3982,
+      "p80": 5699,
+      "mean": 4091.0,
+      "max": 12209,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    },
+    "gsm8k": {
+      "n": 159,
+      "p20": 272,
+      "median": 386,
+      "p80": 689,
+      "mean": 567.1,
+      "max": 3264,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    }
+  }
+}
