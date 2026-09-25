@@ -1,0 +1,97 @@
+{
+ "arm": "S1",
+ "planned": 920,
+ "kept": 920,
+ "dropped": 0,
+ "seconds": 102,
+ "per_combo": {
+  "no_comma": {
+   "n": 174,
+   "pass": 174
+  },
+  "end_checker": {
+   "n": 152,
+   "pass": 152
+  },
+  "capital": {
+   "n": 151,
+   "pass": 151
+  },
+  "end_of_sentence": {
+   "n": 160,
+   "pass": 160
+  },
+  "reasoning_language": {
+   "n": 149,
+   "pass": 149
+  },
+  "number_words": {
+   "n": 134,
+   "pass": 134
+  }
+ },
+ "dropped_rows": [],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ],
+  "4": [
+   [
+    "capital",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_checker",
+    "no_comma",
+    "reasoning_language"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ]
+  ],
+  "5": []
+ }
+}

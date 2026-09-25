@@ -1,0 +1,291 @@
+{
+ "arm": "M5",
+ "planned": 920,
+ "kept": 915,
+ "dropped": 5,
+ "seconds": 246,
+ "per_combo": {
+  "no_comma": {
+   "n": 28,
+   "pass": 28
+  },
+  "number_words": {
+   "n": 32,
+   "pass": 32
+  },
+  "no_comma+end_of_sentence": {
+   "n": 22,
+   "pass": 22
+  },
+  "reasoning_language+number_words+no_comma+end_checker+capital": {
+   "n": 91,
+   "pass": 91
+  },
+  "number_words+no_comma": {
+   "n": 10,
+   "pass": 10
+  },
+  "end_checker": {
+   "n": 34,
+   "pass": 34
+  },
+  "no_comma+end_checker+capital": {
+   "n": 25,
+   "pass": 25
+  },
+  "number_words+no_comma+end_checker+capital": {
+   "n": 40,
+   "pass": 40
+  },
+  "reasoning_language+capital": {
+   "n": 18,
+   "pass": 18
+  },
+  "reasoning_language+number_words+no_comma": {
+   "n": 21,
+   "pass": 21
+  },
+  "reasoning_language+number_words+no_comma+end_of_sentence+capital": {
+   "n": 84,
+   "pass": 84
+  },
+  "reasoning_language+no_comma+end_of_sentence+capital": {
+   "n": 30,
+   "pass": 30
+  },
+  "reasoning_language+no_comma": {
+   "n": 21,
+   "pass": 21
+  },
+  "number_words+no_comma+capital": {
+   "n": 21,
+   "pass": 21
+  },
+  "reasoning_language+number_words+end_checker+capital": {
+   "n": 39,
+   "pass": 39
+  },
+  "number_words+end_of_sentence+capital": {
+   "n": 18,
+   "pass": 17,
+   "fail:end_of_sentence": 1
+  },
+  "reasoning_language+number_words+capital": {
+   "n": 14,
+   "pass": 14
+  },
+  "number_words+no_comma+end_of_sentence+capital": {
+   "n": 26,
+   "pass": 25,
+   "fail:end_of_sentence": 1
+  },
+  "reasoning_language+number_words+no_comma+end_checker": {
+   "n": 38,
+   "pass": 38
+  },
+  "reasoning_language+no_comma+end_checker": {
+   "n": 12,
+   "pass": 12
+  },
+  "end_of_sentence+capital": {
+   "n": 24,
+   "pass": 23,
+   "fail:end_of_sentence": 1
+  },
+  "capital": {
+   "n": 35,
+   "pass": 34,
+   "fail:capital": 1
+  },
+  "reasoning_language+end_checker+capital": {
+   "n": 15,
+   "pass": 15
+  },
+  "reasoning_language+number_words+end_of_sentence+capital": {
+   "n": 35,
+   "pass": 35
+  },
+  "end_of_sentence": {
+   "n": 22,
+   "pass": 22
+  },
+  "end_checker+capital": {
+   "n": 22,
+   "pass": 22
+  },
+  "reasoning_language+end_of_sentence+capital": {
+   "n": 15,
+   "pass": 15
+  },
+  "number_words+end_checker+capital": {
+   "n": 14,
+   "pass": 14
+  },
+  "number_words+no_comma+end_checker": {
+   "n": 12,
+   "pass": 12
+  },
+  "reasoning_language+end_of_sentence": {
+   "n": 17,
+   "pass": 17
+  },
+  "number_words+end_of_sentence": {
+   "n": 7,
+   "pass": 6,
+   "fail:end_of_sentence": 1
+  },
+  "reasoning_language+number_words+end_of_sentence": {
+   "n": 17,
+   "pass": 17
+  },
+  "reasoning_language": {
+   "n": 25,
+   "pass": 25
+  },
+  "no_comma+end_checker": {
+   "n": 14,
+   "pass": 14
+  },
+  "reasoning_language+no_comma+capital": {
+   "n": 10,
+   "pass": 10
+  },
+  "reasoning_language+number_words": {
+   "n": 12,
+   "pass": 12
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 72,
+   "constraints": [
+    "capital"
+   ],
+   "args": {},
+   "failed": [
+    "capital"
+   ]
+  },
+  {
+   "row_idx": 407,
+   "constraints": [
+    "number_words",
+    "end_of_sentence"
+   ],
+   "args": {
+    "end_word": "safe",
+    "num_words": 201
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 516,
+   "constraints": [
+    "number_words",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "end_word": "SAFE",
+    "num_words": 1906
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 605,
+   "constraints": [
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "end_word": "SAFE",
+    "num_words": 303
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 783,
+   "constraints": [
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "end_word": "SAFE"
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  }
+ ],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ],
+  "4": [
+   [
+    "capital",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_checker",
+    "no_comma",
+    "reasoning_language"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ]
+  ],
+  "5": []
+ }
+}
