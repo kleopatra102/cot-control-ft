@@ -35,10 +35,22 @@ constraints, the very thing the singles arm was trained on. Per constraint (§ p
 results file), T3 leads S1 on every one of the six at step-final: end_checker 59 vs 3 %, reasoning_language
 85 vs 39 %, no_comma 45 vs 30 %, capital 28 vs 10 %, end_of_sentence 17 vs 0 %, number_words 76 vs 74 %.
 
+![Each constraint on its own, step-final](figures/multi_per_constraint_singles.png)
+
+Reasoning in the requested language, split by language (6–7 prompts per language per checkpoint, so
+indicative only). Chinese, Hindi and Arabic were dropped from every arm's training data and appear only in
+the evaluation singles; the multi arms still reach them, the singles arm does not:
+
+![reasoning_language by language](figures/multi_language_breakdown.png)
+
 **2. Unseen combinations: the multi-constraint arms generalise; the singles arm does not.** Held-out pairs and
 triples, never in any arm's training data, score as high as seen ones for P2, T3 and M (T3: 60 % on held-out
 pairs vs 47 % seen; 42 vs 40 % on triples). S1 sits at 13 % and 11 %. The arms did not memorise combinations;
 they learned something that composes.
+
+Every evaluated condition at step-final, held-out combinations marked with †:
+
+![Joint compliance per condition, step-final](figures/multi_condition_heatmap.png)
 
 Seen combinations only (10 of 14 pairs, 12 of 16 triples appeared in training):
 
@@ -58,6 +70,8 @@ number_words 76 → 84 → 90 %. The same pattern holds for P2 and M. For S1 it 
 54 %). A prompt with several rules is in-distribution for the multi arms and out-of-distribution for S1, and
 the model appears to attend to each rule *more* when it is one of several, once it has been trained on such
 prompts. The base model shows a weak version of the same effect for reasoning_language (11 → 19 → 17 %).
+
+![Per-constraint compliance by number of rules in the prompt](figures/multi_per_constraint_by_k.png)
 
 **4. Transfer to CoTControl: no arm transfers. Prediction 2 is falsified.**
 
@@ -120,10 +134,14 @@ is already near ceiling at base. Finding 4's "no transfer" stands for the binary
 on the ReasonIF questions all arms stay within 82–87 %. Truncation at the 32k cap is 2–13 % and not
 systematically different across arms.
 
+![Accuracy and truncation by arm](figures/multi_accuracy_truncation.png)
+
 **6. Step-60 vs step-final.** At 240 examples the arms are close (singles 25–33 %, pairs 11–24 %); the
 separation opens between step-60 and step-final. S1 *falls* from step-60 to step-final on singles (33 → 26 %)
 while the multi arms rise (P2 25 → 34, T3 30 → 52, M 32 → 42). More single-constraint data does not help S1;
 more multi-constraint data helps the others.
+
+![Step-60 vs step-final by arm and level](figures/multi_step60_vs_final.png)
 
 ## What this changes in the picture from the replication
 

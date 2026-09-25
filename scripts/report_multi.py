@@ -90,3 +90,80 @@ lvl_fig("multi_joint_reasonif_T3_seen_vs_heldout.png", "Triples arm (T3): seen v
 for fn, cap in (("multi_joint_reasonif_seen.png", "seen combinations only"), ("multi_joint_reasonif_heldout.png", "held-out combinations only"), ("multi_joint_reasonif_T3_seen_vs_heldout.png", "T3: seen vs held-out")):
     k = "\n## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts\n"; md.insert(md.index(k) if k in md else len(md), f"\n![{cap}](figures/{fn})\n")
 (REPO / "MULTI_CONSTRAINT_RESULTS.md").write_text("\n".join(md), encoding="utf-8"); print("wrote MULTI_CONSTRAINT_RESULTS.md and figures for", labels)
+
+# ---------------------------------------------------------------- additional figures (2026-09-25)
+import numpy as np
+FINALS = [l for l in ["base", "S1-step-final", "P2-step-final", "M-step-final", "T3-step-final"] if l in S]
+short = lambda l: l.replace("-step-final", "").replace("-step-60", " (60)")
+CONS = ["reasoning_language", "number_words", "capital", "end_checker", "no_comma", "end_of_sentence"]
+def per_con(l, c, lvl):
+    xs = [cd["per_binary"][c] for cd in S[l]["conditions"].values() if cd["suite"] == "reasonif_multi" and cd["level"] == lvl and cd["per_binary"].get(c) is not None]
+    return 100 * st.mean(xs) if xs else None
+# A. per-constraint binary on singles, by arm (grouped bars)
+fig, ax = plt.subplots(figsize=(10, 4), dpi=150); w = 0.16
+for i, l in enumerate(FINALS):
+    vals = [per_con(l, c, 1) or 0 for c in CONS]; ax.bar([j + (i - 2) * w for j in range(len(CONS))], vals, width=w, color=ARMC[arm(l)], label=short(l), zorder=3)
+    for j, v in enumerate(vals): ax.text(j + (i - 2) * w, v + 1, f"{v:.0f}", ha="center", va="bottom", fontsize=7, color=INK2)
+ax.set_xticks(range(len(CONS))); ax.set_xticklabels([c.replace("_", "\n") for c in CONS], fontsize=9, color=INK2); ax.set_ylim(0, 100); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_visible(False); ax.tick_params(length=0)
+ax.set_ylabel("binary compliance on single constraints, %", color=INK2); ax.legend(frameon=False, fontsize=9, ncol=5, loc="upper center", bbox_to_anchor=(0.5, -0.18))
+ax.set_title("Each constraint on its own (single-constraint prompts), step-final checkpoints", loc="left", fontsize=11, color=INK); fig.tight_layout(); fig.savefig(REPO / "figures/multi_per_constraint_singles.png", bbox_inches="tight"); plt.close(fig)
+# B. per-constraint binary vs number of rules in the prompt, small multiples per constraint, lines per arm
+fig, axes = plt.subplots(2, 3, figsize=(10.5, 6), dpi=150, sharex=True, sharey=True)
+for ax, c in zip(axes.flat, CONS):
+    for l in FINALS:
+        pts = [(k, per_con(l, c, k)) for k in (1, 2, 3)]; pts = [(x, y) for x, y in pts if y is not None]
+        ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=6, lw=2, color=ARMC[arm(l)], markeredgecolor=SURF, label=short(l))
+    ax.set_title(c, loc="left", fontsize=10, color=INK); ax.set_xticks([1, 2, 3]); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.set_ylim(0, 100)
+for ax in axes[-1]: ax.set_xlabel("rules in the prompt", color=INK2)
+for ax in axes[:, 0]: ax.set_ylabel("this constraint satisfied, %", color=INK2, fontsize=9)
+axes[0][2].legend(frameon=False, fontsize=8, loc="upper left"); fig.suptitle("Per-constraint compliance rises with the number of rules for the multi-constraint arms and falls for S1", x=0.01, ha="left", fontsize=11, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.96)); fig.savefig(REPO / "figures/multi_per_constraint_by_k.png", bbox_inches="tight"); plt.close(fig)
+# C. heatmap: conditions (ReasonIF side) x arms (step-final), joint %, held-out marked
+conds = sorted([m for m, cd in S[FINALS[-1]]["conditions"].items() if cd["suite"] == "reasonif_multi"], key=lambda m: (S[FINALS[-1]]["conditions"][m]["level"], m))
+M_ = np.array([[100 * (S[l]["conditions"].get(m, {}).get("joint_binary") or 0) for l in FINALS] for m in conds])
+fig, ax = plt.subplots(figsize=(6.5, 0.28 * len(conds) + 1.2), dpi=150)
+im = ax.imshow(M_, cmap=matplotlib.colors.LinearSegmentedColormap.from_list("b", ["#f2f6fc", "#2a78d6", "#0d366b"]), vmin=0, vmax=100, aspect="auto")
+for i in range(len(conds)):
+    for j in range(len(FINALS)): ax.text(j, i, f"{M_[i, j]:.0f}", ha="center", va="center", fontsize=7.5, color=SURF if M_[i, j] > 45 else INK)
+held = {m for l in FINALS for m, cd in S[l]["conditions"].items() if cd.get("held_out")}
+ax.set_yticks(range(len(conds))); ax.set_yticklabels([m.split(":", 1)[1].replace("+", " + ") + (" †" if m in held else "") for m in conds], fontsize=7.5, color=INK2)
+ax.set_xticks(range(len(FINALS))); ax.set_xticklabels([short(l) for l in FINALS], fontsize=9, color=INK2); ax.tick_params(length=0)
+ax.set_title("Joint compliance per condition, step-final († = held out of training)", loc="left", fontsize=10, color=INK); fig.tight_layout(); fig.savefig(REPO / "figures/multi_condition_heatmap.png", bbox_inches="tight"); plt.close(fig)
+# D. step-60 vs step-final per arm and level (dumbbell)
+fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.4), dpi=150, sharey=True)
+arms = [a for a in ["S1", "P2", "M", "T3"] if f"{a}-step-60" in S and f"{a}-step-final" in S]; ys = list(range(len(arms)))[::-1]
+for ax, lvl, lab in zip(axes, (1, 2, 3), ("singles", "pairs (all)", "triples (all)")):
+    for y, a in zip(ys, arms):
+        r60, rf = rate(f"{a}-step-60", "reasonif_multi", lvl)[0], rate(f"{a}-step-final", "reasonif_multi", lvl)[0]
+        if r60 is None or rf is None: continue
+        ax.plot([100 * r60, 100 * rf], [y, y], color=GRID, lw=2, zorder=2); ax.scatter(100 * r60, y, s=60, color="#c3c2b7", edgecolor=SURF, linewidth=2, zorder=4); ax.scatter(100 * rf, y, s=70, color=ARMC[a], edgecolor=SURF, linewidth=2, zorder=5)
+    ax.set_yticks(ys); ax.set_yticklabels(arms, color=INK2); ax.set_xlim(0, 65); ax.xaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_color(BASE); ax.set_title(lab, loc="left", fontsize=10, color=INK); ax.set_xlabel("joint compliance, %", color=INK2)
+fig.legend(handles=[plt.Line2D([0], [0], marker="o", ls="", ms=8, color="#c3c2b7", markeredgecolor=SURF, label="step-60 (240 examples)"), plt.Line2D([0], [0], marker="o", ls="", ms=8, color="#2a78d6", markeredgecolor=SURF, label="step-final (~915 examples; colour = arm)")], frameon=False, loc="upper left", bbox_to_anchor=(0.01, 0.97), ncol=2, fontsize=9)
+fig.suptitle("More data helps the multi-constraint arms and not S1", x=0.01, ha="left", fontsize=11, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.88)); fig.savefig(REPO / "figures/multi_step60_vs_final.png", bbox_inches="tight"); plt.close(fig)
+# E. accuracy and truncation by arm and suite
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.4), dpi=150)
+for ax, key, lab, ymax in ((axes[0], "correct", "accuracy, %", 100), (axes[1], "truncated", "truncated at 32k tokens, %", 20)):
+    for i, suite in enumerate(("reasonif_multi", "cotcontrol_multi")):
+        vals = [100 * (mean([g[key] for g in G[l] if g["suite"] == suite]) or 0) for l in FINALS]
+        ax.bar([j + (i - 0.5) * 0.36 for j in range(len(FINALS))], vals, width=0.34, color=["#2a78d6", "#eb6834"][i], label=["ReasonIF-side", "CoTControl-side"][i], zorder=3)
+        for j, v in enumerate(vals): ax.text(j + (i - 0.5) * 0.36, v + ymax * 0.01, f"{v:.0f}", ha="center", va="bottom", fontsize=8, color=INK2)
+    ax.set_xticks(range(len(FINALS))); ax.set_xticklabels([short(l) for l in FINALS], color=INK2); ax.set_ylim(0, ymax); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_visible(False); ax.tick_params(length=0); ax.set_title(lab, loc="left", fontsize=10, color=INK)
+axes[0].legend(frameon=False, fontsize=9, loc="lower left"); fig.suptitle("Side effects by arm (step-final)", x=0.01, ha="left", fontsize=11, color=INK); fig.tight_layout(rect=(0, 0, 1, 0.94)); fig.savefig(REPO / "figures/multi_accuracy_truncation.png", bbox_inches="tight"); plt.close(fig)
+# F. reasoning_language single by language: trained languages vs never-trained (zh/hi/ar)
+langs = ["en", "es", "fr", "ru", "pl", "zh", "hi", "ar"]
+fig, ax = plt.subplots(figsize=(10, 3.8), dpi=150); w = 0.16
+for i, l in enumerate(FINALS):
+    R_ = {(r["sample_id"], r["mode"]): r for r in (json.loads(x) for x in open(REPO / "results/multi_eval" / l / "rollouts.jsonl"))}
+    gl = defaultdict(list)
+    for g in G[l]:
+        if g["mode"] == "single:reasoning_language" and g["think_status"] == "ok":
+            r = R_.get((g["sample_id"], g["mode"]));  gl[r["meta"]["language"] if r else "?"].append(g["joint"])
+    vals = [100 * st.mean(gl[x]) if gl[x] else 0 for x in langs]
+    ax.bar([j + (i - 2) * w for j in range(len(langs))], vals, width=w, color=ARMC[arm(l)], label=short(l), zorder=3)
+ax.axvline(4.5, color=BASE, lw=1); ax.text(4.55, 95, "never trained on →", fontsize=8.5, color=MUTED, va="top")
+ax.set_xticks(range(len(langs))); ax.set_xticklabels([LANGN.get(x, x) if (LANGN := {"en": "English", "es": "Spanish", "fr": "French", "ru": "Russian", "pl": "Polish", "zh": "Chinese", "hi": "Hindi", "ar": "Arabic"}) else x for x in langs], color=INK2); ax.set_ylim(0, 100); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.spines["left"].set_visible(False); ax.tick_params(length=0)
+ax.set_ylabel("reasoning in the requested language, %", color=INK2); ax.legend(frameon=False, fontsize=9, ncol=5, loc="upper center", bbox_to_anchor=(0.5, -0.12))
+ax.set_title("reasoning_language single, by language (6–7 prompts per language per checkpoint — indicative only)", loc="left", fontsize=10, color=INK); fig.tight_layout(); fig.savefig(REPO / "figures/multi_language_breakdown.png", bbox_inches="tight"); plt.close(fig)
+extra = ["\n## Additional figures\n", "![per-constraint singles](figures/multi_per_constraint_singles.png)\n", "![per-constraint by k](figures/multi_per_constraint_by_k.png)\n", "![condition heatmap](figures/multi_condition_heatmap.png)\n", "![step-60 vs final](figures/multi_step60_vs_final.png)\n", "![accuracy and truncation](figures/multi_accuracy_truncation.png)\n", "![language breakdown](figures/multi_language_breakdown.png)\n"]
+with open(REPO / "MULTI_CONSTRAINT_RESULTS.md", "a", encoding="utf-8") as f: f.write("\n".join(extra))
+print("wrote 6 additional figures")

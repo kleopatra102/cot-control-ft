@@ -279,3 +279,16 @@
 | base | repeat_sentences | 0 | 0 | 0 |
 | base | uppercase_thinking | 0 | 0 | 0 |
 | base | word_suppression | 0 | 0 | 0 |
+## Additional figures
+
+![per-constraint singles](figures/multi_per_constraint_singles.png)
+
+![per-constraint by k](figures/multi_per_constraint_by_k.png)
+
+![condition heatmap](figures/multi_condition_heatmap.png)
+
+![step-60 vs final](figures/multi_step60_vs_final.png)
+
+![accuracy and truncation](figures/multi_accuracy_truncation.png)
+
+![language breakdown](figures/multi_language_breakdown.png)
