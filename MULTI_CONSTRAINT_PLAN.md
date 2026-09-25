@@ -1,6 +1,6 @@
 # Plan: SFT on multiple simultaneous constraints (pairs and triples)
 
-*Status 2026-09-23: phases 1 (pre-checks) and 2 (datasets) done — see § Pre-check results and § Datasets. Nothing trained yet.*
+*Status 2026-09-25: all phases done. Four arms trained (S1, P2, T3, M), nine checkpoints evaluated. Results: `MULTI_CONSTRAINT_FINDINGS.md` (narrative, predictions checked) and `MULTI_CONSTRAINT_RESULTS.md` (generated tables and figures).*
 
 ## Question
 
