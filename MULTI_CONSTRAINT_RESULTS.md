@@ -294,3 +294,5 @@
 ![language breakdown](figures/multi_language_breakdown.png)
 
 ![CoTControl excluding uppercase](figures/multi_joint_cotcontrol_excl_uppercase.png)
+
+![CoTControl continuous excluding uppercase](figures/multi_cont_cotcontrol_excl_uppercase.png)

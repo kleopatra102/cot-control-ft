@@ -137,6 +137,15 @@ between "much more" and "all" are mathematics under a letter-level grader and in
 of which is meta-discussion. Two modes do not move or get worse (alternating_case, json_format), and lowercase
 is already near ceiling at base. Finding 4's "no transfer" stands for the binary metric only.
 
+The continuous measure with and without uppercase_thinking, pooled by number of constraints (each rollout
+scored as the mean of its constraints' continuous scores; ignore_question has no continuous score and is
+skipped inside the mean). Unlike the binary version, the gap between the multi arms and base survives the
+exclusion: T3 stays 0.14 above base on singles without uppercase (0.44 vs 0.29). The rise at three
+constraints is shared by base and is a composition effect: the six triples are built from the easier modes
+(lowercase, word suppression), so the level is not comparable across k on this side.
+
+![CoTControl continuous with and without uppercase](figures/multi_cont_cotcontrol_excl_uppercase.png)
+
 **5. Cost.** Accuracy on the CoTControl questions drops for T3 (71 → 61 %) and slightly for P2 and M (68 %);
 on the ReasonIF questions all arms stay within 82–87 %. Truncation at the 32k cap is 2–13 % and not
 systematically different across arms.

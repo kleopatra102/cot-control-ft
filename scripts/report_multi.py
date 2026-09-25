@@ -183,4 +183,28 @@ h, lb = axes[0].get_legend_handles_labels(); fig.legend(h, lb, frameon=False, fo
 fig.suptitle("CoTControl-side (transfer): joint binary compliance with and without the uppercase mode\nsolid = step-final, dashed = step-60; pairs/triples on the right exclude every combination containing uppercase_thinking", x=0.01, y=0.98, ha="left", fontsize=10.5, color=INK)
 fig.subplots_adjust(top=0.76, bottom=0.22, left=0.08, right=0.98, wspace=0.12); fig.savefig(REPO / "figures/multi_joint_cotcontrol_excl_uppercase.png", bbox_inches="tight"); plt.close(fig)
 with open(REPO / "MULTI_CONSTRAINT_RESULTS.md", "a", encoding="utf-8") as f: f.write("\n![CoTControl excluding uppercase](figures/multi_joint_cotcontrol_excl_uppercase.png)\n")
-print("wrote 7 additional figures")
+
+# same two panels on the continuous measure: a rollout's score is the mean of its per-constraint continuous scores
+# (ignore_question has no continuous score and is skipped inside the mean; a rollout with no scorable constraint is dropped)
+def cont_rate(l, level, exclude=None):
+    out = []
+    for g in G[l]:
+        if g["suite"] != "cotcontrol_multi" or g["level"] != level or g["think_status"] != "ok": continue
+        if exclude and exclude in g["constraints"]: continue
+        v = [x for x in g["per_continuous"].values() if x is not None]
+        if v: out.append(mean(v))
+    return (mean(out), len(out)) if out else (None, 0)
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), dpi=150, sharey=True, gridspec_kw={"wspace": 0.12})
+for ax, (ttl, ex) in zip(axes, (("all ten modes", None), ("excluding uppercase_thinking", "uppercase_thinking"))):
+    for l in labels:
+        pts = [(lvl, cont_rate(l, lvl, ex)[0]) for lvl in (1, 2, 3)]; pts = [(x, y) for x, y in pts if y is not None]
+        if pts: ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=7, lw=2, color=ARMC.get(arm(l), INK2), ls="-" if "final" in l or l == "base" else "--", markeredgecolor=SURF, label=l)
+    ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["1 constraint", "2", "3"]); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.set_title(ttl, loc="left", fontsize=10.5, color=INK)
+axes[0].set_ylabel("mean continuous compliance (0–1)", color=INK2); axes[0].set_ylim(0, 1)
+h, lb = axes[0].get_legend_handles_labels(); fig.legend(h, lb, frameon=False, fontsize=8.5, ncol=5, loc="lower center", bbox_to_anchor=(0.5, 0.0))
+fig.suptitle("CoTControl-side (transfer): continuous compliance with and without the uppercase mode\nper rollout = mean of its constraints' continuous scores; solid = step-final, dashed = step-60; right panel drops every condition containing uppercase_thinking", x=0.01, y=0.98, ha="left", fontsize=10.5, color=INK)
+fig.subplots_adjust(top=0.76, bottom=0.22, left=0.08, right=0.98, wspace=0.12); fig.savefig(REPO / "figures/multi_cont_cotcontrol_excl_uppercase.png", bbox_inches="tight"); plt.close(fig)
+with open(REPO / "MULTI_CONSTRAINT_RESULTS.md", "a", encoding="utf-8") as f: f.write("\n![CoTControl continuous excluding uppercase](figures/multi_cont_cotcontrol_excl_uppercase.png)\n")
+for l in labels:
+    if "final" in l or l == "base": print(l, [(lvl, round(cont_rate(l, lvl)[0], 3), round(cont_rate(l, lvl, "uppercase_thinking")[0], 3)) for lvl in (1, 2, 3)])
+print("wrote 8 additional figures")
