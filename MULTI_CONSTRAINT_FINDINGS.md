@@ -88,7 +88,14 @@ prompts. The base model shows a weak version of the same effect for reasoning_la
 The little there is sits in uppercase_thinking (T3 14 %, M 10 %, P2 8 %, S1 0 %) — the same single mode that
 carried the replication's transfer — plus a few percent on repeat_sentences, end_of_sentence and word
 suppression for T3. json_format, the ReasonIF constraint moved to this side, stays at 0 % for every arm.
-Compliance with a CoTControl constraint *inside* a pair or triple is 0–5 % everywhere. So the skill that
+Compliance with a CoTControl constraint *inside* a pair or triple is 0–5 % everywhere.
+
+Most of the little singles transfer is uppercase_thinking, the CoTControl mode closest to the trained
+`capital` constraint. Dropping that mode from the singles, and every pair or triple containing it, leaves
+the remaining nine modes at 0–1.4 %:
+
+![CoTControl-side with and without uppercase](figures/multi_joint_cotcontrol_excl_uppercase.png)
+ So the skill that
 composes across ReasonIF-style rules, including rules and combinations never trained on, does not reach a
 prompt that phrases its rules as a "Requirement:" line with a no-mention clause. The hypothesis that
 multi-constraint training teaches a general "satisfy every formatting rule in the prompt" skill is **rejected

@@ -292,3 +292,5 @@
 ![accuracy and truncation](figures/multi_accuracy_truncation.png)
 
 ![language breakdown](figures/multi_language_breakdown.png)
+
+![CoTControl excluding uppercase](figures/multi_joint_cotcontrol_excl_uppercase.png)

@@ -166,4 +166,21 @@ ax.set_ylabel("reasoning in the requested language, %", color=INK2); ax.legend(f
 ax.set_title("reasoning_language single, by language (6–7 prompts per language per checkpoint — indicative only)", loc="left", fontsize=10, color=INK); fig.tight_layout(); fig.savefig(REPO / "figures/multi_language_breakdown.png", bbox_inches="tight"); plt.close(fig)
 extra = ["\n## Additional figures\n", "![per-constraint singles](figures/multi_per_constraint_singles.png)\n", "![per-constraint by k](figures/multi_per_constraint_by_k.png)\n", "![condition heatmap](figures/multi_condition_heatmap.png)\n", "![step-60 vs final](figures/multi_step60_vs_final.png)\n", "![accuracy and truncation](figures/multi_accuracy_truncation.png)\n", "![language breakdown](figures/multi_language_breakdown.png)\n"]
 with open(REPO / "MULTI_CONSTRAINT_RESULTS.md", "a", encoding="utf-8") as f: f.write("\n".join(extra))
-print("wrote 6 additional figures")
+
+# CoTControl-side excluding uppercase_thinking (the mode closest to the trained `capital` constraint):
+# singles drop the mode; pairs/triples drop every combination containing it.
+def rate_excl(l, level, mode="uppercase_thinking"):
+    gs = [g for g in G[l] if g["suite"] == "cotcontrol_multi" and g["level"] == level and g["think_status"] == "ok" and mode not in g["constraints"]]
+    v = [g["joint"] for g in gs if g["joint"] is not None]; return (mean(v), len(v))
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), dpi=150, sharey=True, gridspec_kw={"wspace": 0.12})
+for ax, (ttl, fn) in zip(axes, (("all ten modes (as before)", lambda l, k: rate(l, "cotcontrol_multi", k)[0]), ("excluding uppercase_thinking", lambda l, k: rate_excl(l, k)[0]))):
+    for l in labels:
+        pts = [(lvl, fn(l, lvl)) for lvl in (1, 2, 3)]; pts = [(x, 100 * y) for x, y in pts if y is not None]
+        if pts: ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=7, lw=2, color=ARMC.get(arm(l), INK2), ls="-" if "final" in l or l == "base" else "--", markeredgecolor=SURF, label=l)
+    ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["1 constraint", "2", "3"]); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.set_title(ttl, loc="left", fontsize=10.5, color=INK)
+axes[0].set_ylabel("joint compliance, %", color=INK2); axes[0].set_ylim(0, 5)
+h, lb = axes[0].get_legend_handles_labels(); fig.legend(h, lb, frameon=False, fontsize=8.5, ncol=5, loc="lower center", bbox_to_anchor=(0.5, 0.0))
+fig.suptitle("CoTControl-side (transfer): joint binary compliance with and without the uppercase mode\nsolid = step-final, dashed = step-60; pairs/triples on the right exclude every combination containing uppercase_thinking", x=0.01, y=0.98, ha="left", fontsize=10.5, color=INK)
+fig.subplots_adjust(top=0.76, bottom=0.22, left=0.08, right=0.98, wspace=0.12); fig.savefig(REPO / "figures/multi_joint_cotcontrol_excl_uppercase.png", bbox_inches="tight"); plt.close(fig)
+with open(REPO / "MULTI_CONSTRAINT_RESULTS.md", "a", encoding="utf-8") as f: f.write("\n![CoTControl excluding uppercase](figures/multi_joint_cotcontrol_excl_uppercase.png)\n")
+print("wrote 7 additional figures")
