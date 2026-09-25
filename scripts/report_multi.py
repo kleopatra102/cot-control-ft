@@ -66,14 +66,27 @@ for suite, name in (("reasonif_multi", "ReasonIF-side (in-distribution constrain
     ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["1 constraint", "2", "3"]); ax.set_ylabel("joint compliance, %", color=INK2); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
     ax.legend(frameon=False, fontsize=8.5, ncol=5, loc="upper center", bbox_to_anchor=(0.5, -0.14)); ax.set_title(f"{name}: joint compliance vs number of constraints\nsolid = step-final (~915 examples), dashed = step-60 (240 examples); colour = arm", loc="left", fontsize=10.5, color=INK)
     ax.set_ylim(0, max(ax.get_ylim()[1], 1) * 1.05); fig.tight_layout(); fig.savefig(REPO / f"figures/multi_joint_{suite}.png", bbox_inches="tight"); plt.close(fig)
-# held-out-only figure for the ReasonIF side (unseen constraint combinations at k=2,3; singles shown for reference)
-fig, ax = plt.subplots(figsize=(7.5, 4), dpi=150)
-for l in labels:
-    pts = [(1, rate(l, "reasonif_multi", 1)[0]), (2, rate(l, "reasonif_multi", 2, True)[0]), (3, rate(l, "reasonif_multi", 3, True)[0])]; pts = [(x, 100 * y) for x, y in pts if y is not None]
-    if pts: ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=7, lw=2, color=ARMC.get(arm(l), INK2), ls="-" if "final" in l or l == "base" else "--", markeredgecolor=SURF, label=l)
-ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["1 constraint\n(all seen)", "2\n(4 held-out pairs)", "3\n(4 held-out triples)"]); ax.set_ylabel("joint compliance, %", color=INK2); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
-ax.legend(frameon=False, fontsize=8.5, ncol=5, loc="upper center", bbox_to_anchor=(0.5, -0.2)); ax.set_ylim(0, max(ax.get_ylim()[1], 1) * 1.05)
-ax.set_title("ReasonIF-side: combinations never seen in training\nsolid = step-final, dashed = step-60; colour = arm", loc="left", fontsize=10.5, color=INK)
-fig.tight_layout(); fig.savefig(REPO / "figures/multi_joint_reasonif_heldout.png", bbox_inches="tight"); plt.close(fig)
-md.insert(md.index("\n## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts\n") if "\n## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts\n" in md else len(md), "\n![held-out combinations only](figures/multi_joint_reasonif_heldout.png)\n")
+# three ReasonIF-side figures: seen-only, held-out-only, and T3 seen vs held-out
+def lvl_fig(fname, title, xt, held_sel, only_labels=None, two_series=False):
+    fig, ax = plt.subplots(figsize=(7.5, 4), dpi=150)
+    for l in labels:
+        if only_labels and l not in only_labels: continue
+        series = [("seen", False, "-"), ("held-out", True, ":")] if two_series else [(None, held_sel, "-" if "final" in l or l == "base" else "--")]
+        for name_, held, ls in series:
+            pts = []
+            for lvl in (1, 2, 3):
+                if lvl == 1 and held is True: continue  # singles are all seen
+                r = rate(l, "reasonif_multi", lvl, (None if lvl == 1 else held))[0]
+                if r is not None: pts.append((lvl, 100 * r))
+            lab = f"{l} ({name_})" if name_ else l
+            col = ARMC.get(arm(l), INK2) if not two_series else ("#104281" if "final" in l else "#86b6ef")
+            ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=7, lw=2, color=col, ls=ls, markeredgecolor=SURF, label=lab)
+    ax.set_xticks([1, 2, 3]); ax.set_xticklabels(xt); ax.set_ylabel("joint compliance, %", color=INK2); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
+    ax.legend(frameon=False, fontsize=8.5, ncol=4 if two_series else 5, loc="upper center", bbox_to_anchor=(0.5, -0.2)); ax.set_ylim(0, max(ax.get_ylim()[1], 1) * 1.05)
+    ax.set_title(title, loc="left", fontsize=10.5, color=INK); fig.tight_layout(); fig.savefig(REPO / f"figures/{fname}", bbox_inches="tight"); plt.close(fig)
+lvl_fig("multi_joint_reasonif_seen.png", "ReasonIF-side: combinations that appeared in training (10 of 14 pairs, 12 of 16 triples)\nsolid = step-final, dashed = step-60; colour = arm", ["1 constraint", "2 (seen pairs)", "3 (seen triples)"], False)
+lvl_fig("multi_joint_reasonif_heldout.png", "ReasonIF-side: combinations never seen in training (4 pairs, 4 triples)\nsolid = step-final, dashed = step-60; colour = arm", ["1 constraint\n(reference, all seen)", "2 (held-out pairs)", "3 (held-out triples)"], True)
+lvl_fig("multi_joint_reasonif_T3_seen_vs_heldout.png", "Triples arm (T3): seen vs held-out combinations\nsolid = seen, dotted = held-out; dark = step-final, light = step-60", ["1 constraint", "2", "3"], None, only_labels=["T3-step-60", "T3-step-final"], two_series=True)
+for fn, cap in (("multi_joint_reasonif_seen.png", "seen combinations only"), ("multi_joint_reasonif_heldout.png", "held-out combinations only"), ("multi_joint_reasonif_T3_seen_vs_heldout.png", "T3: seen vs held-out")):
+    k = "\n## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts\n"; md.insert(md.index(k) if k in md else len(md), f"\n![{cap}](figures/{fn})\n")
 (REPO / "MULTI_CONSTRAINT_RESULTS.md").write_text("\n".join(md), encoding="utf-8"); print("wrote MULTI_CONSTRAINT_RESULTS.md and figures for", labels)
