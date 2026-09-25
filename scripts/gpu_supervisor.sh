@@ -38,7 +38,7 @@ kill_stage() {
     pkill -TERM -P "$STAGE_PID" 2>/dev/null; kill -TERM "$STAGE_PID" 2>/dev/null
   fi
   # anchored patterns: only real server / job processes, never a shell whose command line mentions them
-  for p in $(pgrep -f '^[^ ]*/bin/(python[0-9.]*|vllm) ([^ ]*/bin/vllm )?serve ' ; pgrep -f '^[^ ]*/bin/python[0-9.]* scripts/(calibrate_number_words|build_sft|run_multi_eval|run_baseline)\.py'); do kill -TERM "$p" 2>/dev/null; done
+  for p in $(pgrep -f '^[^ ]*/bin/(python[0-9.]*|vllm) ([^ ]*/bin/vllm )?serve ' ; pgrep -f '^[^ ]*/bin/python[0-9.]* scripts/(calibrate_number_words|build_sft|run_multi_eval|run_baseline|train_lora)\.py'); do kill -TERM "$p" 2>/dev/null; done
   sleep 5
   for p in $(pgrep -f '^[^ ]*/bin/(python[0-9.]*|vllm) ([^ ]*/bin/vllm )?serve '); do kill -KILL "$p" 2>/dev/null; done
   STAGE_PID=""
