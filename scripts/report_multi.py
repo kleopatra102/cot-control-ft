@@ -66,4 +66,14 @@ for suite, name in (("reasonif_multi", "ReasonIF-side (in-distribution constrain
     ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["1 constraint", "2", "3"]); ax.set_ylabel("joint compliance, %", color=INK2); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
     ax.legend(frameon=False, fontsize=8.5, ncol=5, loc="upper center", bbox_to_anchor=(0.5, -0.14)); ax.set_title(f"{name}: joint compliance vs number of constraints\nsolid = step-final (~915 examples), dashed = step-60 (240 examples); colour = arm", loc="left", fontsize=10.5, color=INK)
     ax.set_ylim(0, max(ax.get_ylim()[1], 1) * 1.05); fig.tight_layout(); fig.savefig(REPO / f"figures/multi_joint_{suite}.png", bbox_inches="tight"); plt.close(fig)
+# held-out-only figure for the ReasonIF side (unseen constraint combinations at k=2,3; singles shown for reference)
+fig, ax = plt.subplots(figsize=(7.5, 4), dpi=150)
+for l in labels:
+    pts = [(1, rate(l, "reasonif_multi", 1)[0]), (2, rate(l, "reasonif_multi", 2, True)[0]), (3, rate(l, "reasonif_multi", 3, True)[0])]; pts = [(x, 100 * y) for x, y in pts if y is not None]
+    if pts: ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=7, lw=2, color=ARMC.get(arm(l), INK2), ls="-" if "final" in l or l == "base" else "--", markeredgecolor=SURF, label=l)
+ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["1 constraint\n(all seen)", "2\n(4 held-out pairs)", "3\n(4 held-out triples)"]); ax.set_ylabel("joint compliance, %", color=INK2); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
+ax.legend(frameon=False, fontsize=8.5, ncol=5, loc="upper center", bbox_to_anchor=(0.5, -0.2)); ax.set_ylim(0, max(ax.get_ylim()[1], 1) * 1.05)
+ax.set_title("ReasonIF-side: combinations never seen in training\nsolid = step-final, dashed = step-60; colour = arm", loc="left", fontsize=10.5, color=INK)
+fig.tight_layout(); fig.savefig(REPO / "figures/multi_joint_reasonif_heldout.png", bbox_inches="tight"); plt.close(fig)
+md.insert(md.index("\n## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts\n") if "\n## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts\n" in md else len(md), "\n![held-out combinations only](figures/multi_joint_reasonif_heldout.png)\n")
 (REPO / "MULTI_CONSTRAINT_RESULTS.md").write_text("\n".join(md), encoding="utf-8"); print("wrote MULTI_CONSTRAINT_RESULTS.md and figures for", labels)

@@ -123,6 +123,9 @@
 | base | number_words | 20 | 10 | 6 |
 | base | reasoning_language | 11 | 19 | 17 |
 
+![held-out combinations only](figures/multi_joint_reasonif_heldout.png)
+
+
 ## CoTControl-side (transfer): joint binary compliance (all constraints satisfied), % of gradeable rollouts
 
 | checkpoint | singles | pairs | triples | accuracy | truncated |

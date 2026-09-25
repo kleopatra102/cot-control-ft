@@ -40,6 +40,8 @@ triples, never in any arm's training data, score as high as seen ones for P2, T3
 pairs vs 47 % seen; 42 vs 40 % on triples). S1 sits at 13 % and 11 %. The arms did not memorise combinations;
 they learned something that composes.
 
+![Held-out combinations only](figures/multi_joint_reasonif_heldout.png)
+
 **3. Per-constraint compliance rises with the number of rules in the prompt — for the arms trained with several.**
 T3 at step-final: no_comma 45 % as a single, 64 % inside pairs, 77 % inside triples; end_checker 59 → 77 → 82 %;
 number_words 76 → 84 → 90 %. The same pattern holds for P2 and M. For S1 it reverses (number_words 74 → 57 →
