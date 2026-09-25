@@ -17,15 +17,17 @@ from cotctl.inference import RolloutStore
 from cotctl.sft.build import TrainingRow, write_training_jsonl
 from cotctl.sft.editor import Editor
 from cotctl.sft.transforms import TransformContext
-from cotctl.sft.multi import plan_multi, compose, verify, holdouts
+from cotctl.sft.multi import ARM_LEVELS, plan_multi, compose, verify, holdouts
 from cotctl.prompts import reasonif_baseline_prompt
 log = logging.getLogger("build_sft_multi")
 
 async def main() -> int:
-    ap = argparse.ArgumentParser(); ap.add_argument("--arm", required=True, choices=["S1", "P2", "T3", "M"]); ap.add_argument("--n-rows", type=int, default=920)
+    ap = argparse.ArgumentParser(); ap.add_argument("--arm", required=True, choices=list(ARM_LEVELS)); ap.add_argument("--n-rows", type=int, default=920)
     ap.add_argument("--limit", type=int, default=None); ap.add_argument("--seed", type=int, default=42); ap.add_argument("--editor-model", default="gpt-4.1-mini"); ap.add_argument("--concurrency", type=int, default=12)
-    a = ap.parse_args(); out_dir = REPO / "results/multi"; out_dir.mkdir(parents=True, exist_ok=True)
-    rollouts = {r["sample_id"]: r for r in RolloutStore(REPO / "results/sft/stage1_rollouts.jsonl").read_all()}
+    ap.add_argument("--rollouts", default=str(REPO / "results/sft/stage1_rollouts.jsonl"), help="stage-1 source traces of the model being trained")
+    ap.add_argument("--out-dir", default=str(REPO / "results/multi")); ap.add_argument("--data-prefix", default="multi", help="data/sft/<prefix>_<ARM>.jsonl")
+    a = ap.parse_args(); out_dir = Path(a.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+    rollouts = {r["sample_id"]: r for r in RolloutStore(a.rollouts).read_all()}
     questions = [r["prompt"].split("Here is the question:\n\n", 1)[-1] for r in rollouts.values() if r.get("think_status") == "ok" and (r.get("answer") or "").strip()]
     ho = holdouts(); plan = plan_multi(questions, a.arm, min(a.n_rows, len(questions)), a.seed, ho)
     if a.limit: plan = plan[: a.limit]
@@ -47,7 +49,7 @@ async def main() -> int:
                 bad = [k for k, ok in v.items() if not ok]; dropped.append({"row_idx": m.row_idx, "constraints": m.constraints, "args": m.args, "failed": bad})
                 for k in bad: per_combo[key][f"fail:{k}"] += 1
     await asyncio.gather(*(one(m) for m in plan))
-    rows.sort(key=lambda x: x.row_idx); out = REPO / f"data/sft/multi_{a.arm}{'_dry' if a.limit else ''}.jsonl"; write_training_jsonl(rows, out)
+    rows.sort(key=lambda x: x.row_idx); out = REPO / f"data/sft/{a.data_prefix}_{a.arm}{'_dry' if a.limit else ''}.jsonl"; write_training_jsonl(rows, out)
     json.dump([{"row_idx": m.row_idx, "question_id": m.question_id, "constraints": m.constraints, "args": m.args} for m in plan], open(out_dir / f"{a.arm}_plan.json", "w"), ensure_ascii=False, indent=1)
     stats = {"arm": a.arm, "planned": len(plan), "kept": len(rows), "dropped": len(dropped), "seconds": round(time.time() - t0), "per_combo": {k: dict(v) for k, v in per_combo.items()}, "dropped_rows": dropped[:200], "holdouts": {str(k): [sorted(c) for c in v] for k, v in ho.items()}}
     json.dump(stats, open(out_dir / f"{a.arm}_stats{'_dry' if a.limit else ''}.json", "w"), ensure_ascii=False, indent=1)

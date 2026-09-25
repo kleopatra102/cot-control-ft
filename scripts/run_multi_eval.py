@@ -23,11 +23,18 @@ def main() -> int:
     ap.add_argument("--grade-only", action="store_true"); ap.add_argument("--no-judge", action="store_true"); ap.add_argument("--suites", default="reasonif,cotcontrol")
     ap.add_argument("--n-single-cc", type=int, default=50); ap.add_argument("--n-pair-cc", type=int, default=30); ap.add_argument("--n-triple-cc", type=int, default=30); ap.add_argument("--n-unc-cc", type=int, default=50)
     ap.add_argument("--n-single-rif", type=int, default=30); ap.add_argument("--n-pair-rif", type=int, default=20); ap.add_argument("--n-triple-rif", type=int, default=15)
-    a = ap.parse_args(); cfg = yaml.safe_load(open(a.config)); out = REPO / "results/multi_eval" / a.label; out.mkdir(parents=True, exist_ok=True)
-    wl = json.load(open(a.word_limits)); wl = wl.get("Qwen3.5-9B", wl)
+    ap.add_argument("--n-quad-rif", type=int, default=0); ap.add_argument("--n-quint-rif", type=int, default=0)
+    ap.add_argument("--cc-levels", default=None, help="sampled CoTControl design, e.g. '1:10x40,3:20x15,6:3x20' = k:conditions x prompts (default: the Qwen3.5 hand-picked lists)")
+    ap.add_argument("--out-root", default=str(REPO / "results/multi_eval"))
+    a = ap.parse_args(); cfg = yaml.safe_load(open(a.config)); out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True)
+    wl = json.load(open(a.word_limits))
+    if len(wl) == 1 and isinstance(next(iter(wl.values())), dict): wl = next(iter(wl.values()))  # {"<model>": {source: limit}}
+    levels = None
+    if a.cc_levels:
+        levels = {int(part.split(":")[0]): tuple(int(x) for x in part.split(":")[1].split("x")) for part in a.cc_levels.split(",")}
     reqs = []
-    if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl, a.n_single_rif, a.n_pair_rif, a.n_triple_rif)
-    if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc, a.n_unc_cc)
+    if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl, a.n_single_rif, a.n_pair_rif, a.n_triple_rif, n_quad=a.n_quad_rif, n_quint=a.n_quint_rif)
+    if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc, a.n_unc_cc, levels=levels)
     if a.limit:
         by = defaultdict(list)
         for r in reqs: by[r.meta["suite"]].append(r)

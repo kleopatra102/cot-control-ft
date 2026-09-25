@@ -37,6 +37,7 @@ log = logging.getLogger("train")
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--model", default=None, help="HF id of the base model (default: TrainConfig.model)")
     ap.add_argument("--data", default=None)
     ap.add_argument("--out-dir", default=None)
     ap.add_argument("--lr", type=float, default=None)
@@ -54,6 +55,7 @@ def main() -> int:
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     cfg = TrainConfig()
+    if args.model: cfg.model = args.model
     if args.data: cfg.data = args.data
     if args.out_dir: cfg.out_dir = args.out_dir
     if args.lr: cfg.lr = args.lr

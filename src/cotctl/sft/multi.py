@@ -17,15 +17,19 @@ from .transforms import TransformContext, transform_reasoning_language, transfor
 CONSTRAINTS = ("reasoning_language", "number_words", "capital", "end_checker", "no_comma", "end_of_sentence")
 CONFLICTS = {frozenset({"end_checker", "end_of_sentence"})}
 ORDER = ("reasoning_language", "number_words", "no_comma", "end_of_sentence", "end_checker", "capital")
+# constraints per training example, by arm. M = uniform over 1..3 (Qwen3.5 experiment); M5 = uniform over 1..5 (Qwen3-8B).
+ARM_LEVELS = {"S1": [1], "P2": [2], "T3": [3], "Q4": [4], "Q5": [5], "M": [1, 2, 3], "M5": [1, 2, 3, 4, 5]}
 
 
 def valid_combos(k: int) -> list[frozenset]:
     return [frozenset(c) for c in itertools.combinations(CONSTRAINTS, k) if not any(x <= frozenset(c) for x in CONFLICTS)]
 
 
-def holdouts(seed: int = 7, n_pairs: int = 4, n_triples: int = 4) -> dict[int, list[frozenset]]:
+def holdouts(seed: int = 7, n_pairs: int = 4, n_triples: int = 4, n_quads: int = 3) -> dict[int, list[frozenset]]:
+    """Pairs and triples are drawn first so the Qwen3.5 hold-out is unchanged; quads (added for the Qwen3-8B
+    k=1..5 experiment) are drawn after. Nothing is held out at k=5 (only two valid combinations)."""
     rng = random.Random(seed)
-    return {2: rng.sample(valid_combos(2), n_pairs), 3: rng.sample(valid_combos(3), n_triples)}
+    return {2: rng.sample(valid_combos(2), n_pairs), 3: rng.sample(valid_combos(3), n_triples), 4: rng.sample(valid_combos(4), n_quads), 5: []}
 
 
 @dataclass
@@ -53,7 +57,7 @@ def sample_args(constraints: set[str], rng: random.Random) -> dict:
 
 
 def plan_multi(questions: list[str], arm: str, n_rows: int, seed: int = 42, holdout: dict | None = None) -> list[MultiAssignment]:
-    """arm: P2 (k=2), T3 (k=3), M (k ~ U{1,2,3}), S1 (k=1). Held-out combos are never sampled."""
+    """arm: see ARM_LEVELS. Held-out combos are never sampled."""
     import hashlib
     rng = random.Random(seed); holdout = holdout or holdouts()
     seen, uniq = set(), []
@@ -62,8 +66,8 @@ def plan_multi(questions: list[str], arm: str, n_rows: int, seed: int = 42, hold
         if q and q not in seen: seen.add(q); uniq.append(q)
     if n_rows > len(uniq): raise ValueError(f"{n_rows} rows requested, {len(uniq)} unique questions")
     order = list(range(len(uniq))); rng.shuffle(order)
-    pools = {k: [c for c in valid_combos(k) if c not in set(holdout.get(k, []))] for k in (1, 2, 3)}
-    ks = {"S1": [1], "P2": [2], "T3": [3], "M": [1, 2, 3]}[arm]
+    pools = {k: [c for c in valid_combos(k) if c not in set(holdout.get(k, []))] for k in (1, 2, 3, 4, 5)}
+    ks = ARM_LEVELS[arm]
     out = []
     for row_idx, qi in enumerate(order[:n_rows]):
         k = rng.choice(ks); combo = rng.choice(pools[k]); cons = [c for c in ORDER if c in combo]

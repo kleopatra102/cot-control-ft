@@ -42,7 +42,7 @@ reused; only the k range and the CoTControl combination sampler change.
 | T3 | 3 | 12 of 16 |
 | Q4 | 4 | 6 of 9 |
 | Q5 | 5 | 2 of 2 |
-| M | 1–5, uniform over k | union of the above |
+| M5 | 1–5, uniform over k | union of the above (named M5 in code/results to keep it apart from Qwen3.5's M = 1–3) |
 
 ~915 accepted examples per arm, one epoch (~230 steps at bs 1 × ga 4), checkpoints at step-60 and
 step-final. Hold-out (seed 7): the same 4 pairs and 4 triples as before, plus 3 quads; nothing at k = 5.
@@ -71,7 +71,7 @@ round if the GPU is free.
 | ReasonIF | k = 3 | 16 (4 held out) | 10 | 160 |
 | ReasonIF | k = 5 | 2 | 20 | 40 |
 | CoTControl | k = 1 | 10 (all) | 40 | 400 |
-| CoTControl | k = 3 | 20 of 58, stratified so every mode appears ≥ 3 times | 15 | 300 |
+| CoTControl | k = 3 | 20 of 58, stratified so every mode appears ≥ 3 times (a different set from Qwen3.5's 6 hand-picked triples; k = 1 is identical) | 15 | 300 |
 | CoTControl | k = 6 | 3 (all: a case mode + word suppression + multiple word suppression + end of sentence + meow + ignore question) | 20 | 60 |
 | CoTControl | unconstrained | — | 30 | 30 |
 
