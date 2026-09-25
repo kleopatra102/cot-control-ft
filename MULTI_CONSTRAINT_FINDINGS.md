@@ -9,8 +9,9 @@ below are 80 % Wald intervals; "joint" means every constraint in the prompt sati
 ## Headline
 
 **Training on more constraints per example makes the model better at following constraints — at every level,
-including single constraints and combinations it never saw. It does not make it better at transferring to a
-different benchmark.**
+including single constraints and combinations it never saw. On the transfer benchmark it moves the graded
+degree of compliance substantially (continuous macro 0.28 → 0.48 for triples) but almost never reaches the
+all-or-nothing threshold (binary ≤ 2.5 %); see finding 4b for why.**
 
 ![Joint compliance vs number of constraints, ReasonIF-side](figures/multi_joint_reasonif_multi.png)
 
@@ -66,6 +67,42 @@ composes across ReasonIF-style rules, including rules and combinations never tra
 prompt that phrases its rules as a "Requirement:" line with a no-mention clause. The hypothesis that
 multi-constraint training teaches a general "satisfy every formatting rule in the prompt" skill is **rejected
 in its general form**: it teaches a skill general across *these* rules and *this* prompt format.
+
+**4b. …but the binary verdict hides real, graded transfer.** Binary CoTControl compliance is all-or-nothing
+(100 % of letters, every sentence, every gap). On the continuous scores the multi-constraint arms move a long
+way on the CoTControl singles:
+
+| CoTControl mode (step-final) | base | S1 | P2 | M | T3 |
+|---|---:|---:|---:|---:|---:|
+| uppercase_thinking | 0.13 | 0.44 | 0.67 | 0.78 | **0.88** |
+| end_of_sentence | 0.05 | 0.22 | 0.69 | 0.68 | **0.66** |
+| multiple_word_suppression | 0.12 | 0.12 | 0.14 | 0.18 | **0.43** |
+| meow_between_words | 0.11 | 0.07 | 0.05 | 0.06 | **0.31** |
+| word_suppression | 0.51 | 0.47 | 0.55 | 0.49 | **0.60** |
+| repeat_sentences | 0.29 | 0.29 | 0.28 | 0.29 | 0.34 |
+| lowercase_thinking | 0.91 | 0.93 | 0.84 | 0.79 | 0.86 |
+| alternating_case | 0.42 | 0.26 | 0.23 | 0.20 | 0.21 |
+| json_format | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| **macro** | 0.28 | 0.31 | 0.39 | 0.39 | **0.48** |
+
+![CoTControl continuous compliance by arm](figures/multi_cotcontrol_continuous.png)
+
+T3 writes 88 % of its letters in uppercase where base writes 13 %, ends two thirds of its sentences with the
+target word where base ends 5 %, and inserts "meow" in a third of the gaps. Why the binary stays near 0:
+- **uppercase**: the median T3 trace has 1.2 % lowercase letters and **72 % of those are LaTeX**
+  (`\frac`, `\theta`, `\cos`), which cannot be upper-cased without breaking the notation; 47 % of T3's traces
+  are under 1 % lowercase, and stripping math before grading raises T3's binary from 14 % to 28 %. The grader
+  penalises mathematics, and CoTControl's GPQA questions are full of it.
+- **end_of_sentence**: 90 % of the failing units are ordinary sentences the model did not append the word to
+  — genuinely incomplete application, not narration and not a grader artefact.
+- Narration on CoTControl has already fallen from 81–98 % (base, regex) to 5–22 % for T3 in the case modes;
+  deleting the remaining narration sentences flips **0 of 37–66** T3 rollouts per mode.
+
+So the honest statement is: multi-constraint training transfers *partially* to CoTControl — the model does
+much more of what is asked, in proportion to k — but almost never all of it, and the two things standing
+between "much more" and "all" are mathematics under a letter-level grader and incomplete application, neither
+of which is meta-discussion. Two modes do not move or get worse (alternating_case, json_format), and lowercase
+is already near ceiling at base. Finding 4's "no transfer" stands for the binary metric only.
 
 **5. Cost.** Accuracy on the CoTControl questions drops for T3 (71 → 61 %) and slightly for P2 and M (68 %);
 on the ReasonIF questions all arms stay within 82–87 %. Truncation at the 32k cap is 2–13 % and not

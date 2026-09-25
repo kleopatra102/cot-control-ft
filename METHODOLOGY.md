@@ -695,3 +695,13 @@ the command that contains it. Also: the multi-constraint evaluation was found to
 (KV-cache-bound: 13 requests running, 50 waiting, mean completion 11,900 tokens); restarted with fp8 KV cache
 and halved condition sizes (1,790 requests per checkpoint instead of 3,520). Estimate before restart:
 16 h/checkpoint; target after: ≤ 6 h.
+
+
+**38. "No transfer" declared from the binary metric alone (2026-09-25).** The first read of the
+multi-constraint results said no arm transfers to CoTControl (binary ≤ 2.5 %). The continuous scores, checked
+only when the user asked about steering, show the triples arm at 0.88 uppercase, 0.66 end-of-sentence, 0.43
+multiple-word suppression vs base 0.13 / 0.05 / 0.12. The binary uppercase grader fails a trace for any
+lowercase letter, and 72 % of the residual lowercase in T3's traces is LaTeX; 47 % of its traces are under 1 %
+lowercase. **Practice:** never state a transfer result from the all-or-nothing metric without the continuous
+one beside it, and report what the residual violations *are* before calling a result null — the same lesson
+as #4 (continuous scoring) and the strip test, relearned.
