@@ -53,6 +53,7 @@ ARGS=(
   --no-enable-log-requests
 )
 if [[ -n "${KV_DTYPE:-}" ]]; then ARGS+=(--kv-cache-dtype "$KV_DTYPE"); echo "  (kv-cache-dtype=$KV_DTYPE)"; fi
+if [[ -n "${ATTN_BACKEND:-}" ]]; then ARGS+=(--attention-backend "$ATTN_BACKEND"); echo "  (attention-backend=$ATTN_BACKEND)"; fi
 
 if [[ ${#ADAPTERS[@]} -gt 0 ]]; then
   SPECS=()

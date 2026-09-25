@@ -705,3 +705,19 @@ lowercase letter, and 72 % of the residual lowercase in T3's traces is LaTeX; 47
 lowercase. **Practice:** never state a transfer result from the all-or-nothing metric without the continuous
 one beside it, and report what the residual violations *are* before calling a result null — the same lesson
 as #4 (continuous scoring) and the strip test, relearned.
+
+**39. fp8 KV cache "does not work on this host" was a backend-selection problem (2026-09-25).** The
+earlier fp8 failure on the hybrid Qwen3.5-9B, filed as "reason unknown", reproduced identically on dense
+Qwen3-8B: with `--kv-cache-dtype fp8` vLLM 0.29 prefers FlashInfer, whose kernels JIT-compile at startup
+with the venv's CUDA 13.4-rc nvcc against headers that reject it (the same incompatibility noted for the
+sampler in `serve_vllm.sh`). `--attention-backend TRITON_ATTN` sidesteps it: fp8 cache 184k tokens /
+4.5× concurrency at 40k context vs 85k / 2.1× in bf16, all smoke checks passing, ~10 % lower per-token
+speed. **Practice:** when a feature "fails on this host", read which backend it selected before
+concluding the feature is unavailable; the error was three lines above the traceback the whole time.
+
+**40. Process-pattern self-match, sixth time, now from a script (2026-09-25).** `gpu_supervisor.sh`
+killed the shell that was testing it: its `pgrep -f '[v]llm serve'` matched a bash whose command line
+mentioned the server in a `pgrep -c` of its own. The bracket trick protects a command from matching
+*itself*, not other commands that quote the same text. **Practice:** kill patterns in scripts are
+anchored to the executable path (`^[^ ]*/bin/(python|vllm) … serve `), and interactive commands never
+put a server's or job's name in a command line while such a script is running.
