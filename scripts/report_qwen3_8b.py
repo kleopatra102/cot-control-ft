@@ -159,27 +159,34 @@ axes[0].set_ylim(-0.6, 1.6)
 fig.legend(handles=[plt.Line2D([0], [0], marker="o", ls="", ms=8, color="#c3c2b7", markeredgecolor=SURF, label="step-60 (240 examples)"), plt.Line2D([0], [0], marker="o", ls="", ms=8, color="#2a78d6", markeredgecolor=SURF, label="step-final (~915; colour = arm)"), plt.Line2D([0], [0], ls=":", color=MUTED, label="base")], frameon=False, loc="lower center", bbox_to_anchor=(0.5, -0.06), ncol=3, fontsize=9)
 fig.suptitle("Qwen3-8B: step-60 vs step-final on single-constraint prompts", x=0.01, ha="left", fontsize=10.5, color=INK); fig.tight_layout(rect=(0, 0.05, 1, 0.94)); fig.savefig(REPO / "figures/q3_8b_step60_vs_final.png", bbox_inches="tight"); plt.close(fig)
 
-# Fig 6: cross-model comparison, S1 and T3 step-final vs base, ReasonIF k=1/k=3 and CoTControl k=1 (binary) + continuous macro
-S35 = {l: json.load(open(REPO / f"results/multi_eval/{l}/summary.json")) for l in ("base", "S1-step-final", "T3-step-final")}
+# Fig 6: cross-model comparison, base / S1 / T3 / T3 step-60 / Q5, ReasonIF k=1/k=3 and CoTControl k=1 (binary + continuous macro)
+S35 = {l: json.load(open(REPO / f"results/multi_eval/{l}/summary.json")) for l in ("base", "S1-step-final", "T3-step-final", "T3-step-60")}
 def s35(l, key): return S35[l].get(key)
 def s35_cont(l):
     c = S35[l]["conditions"]; vals = [v["per_continuous"][k] for m, v in c.items() if v["suite"] == "cotcontrol_multi" and v["level"] == 1 for k in v["per_continuous"] if v["per_continuous"][k] is not None]
     return sum(vals) / len(vals)
-panels = [("ReasonIF k=1, joint %", lambda l: 100 * s35(l, "reasonif_multi/k1/joint_macro"), lambda l: 100 * joint(rows(l, "reasonif_multi", 1))[0]),
-          ("ReasonIF k=3, joint %", lambda l: 100 * s35(l, "reasonif_multi/k3/joint_macro"), lambda l: 100 * joint(rows(l, "reasonif_multi", 3))[0]),
-          ("CoTControl k=1, joint %", lambda l: 100 * s35(l, "cotcontrol_multi/k1/joint_macro"), lambda l: 100 * joint(rows(l, "cotcontrol_multi", 1))[0]),
+ARMS6 = ["base", "S1", "T3", "T3-60", "Q5"]
+L35 = {"base": "base", "S1": "S1-step-final", "T3": "T3-step-final", "T3-60": "T3-step-60", "Q5": None}
+L38 = {"base": "base", "S1": "S1-final", "T3": "T3-final", "T3-60": "T3-60", "Q5": "Q5-final"}
+def j38(l, suite, lvl): p, n = joint(rows(l, suite, lvl)); return None if p is None else 100 * p
+panels = [("ReasonIF k=1, joint %", lambda l: 100 * s35(l, "reasonif_multi/k1/joint_macro"), lambda l: j38(l, "reasonif_multi", 1)),
+          ("ReasonIF k=3, joint %", lambda l: 100 * s35(l, "reasonif_multi/k3/joint_macro"), lambda l: j38(l, "reasonif_multi", 3)),
+          ("CoTControl k=1, joint %", lambda l: 100 * s35(l, "cotcontrol_multi/k1/joint_macro"), lambda l: j38(l, "cotcontrol_multi", 1)),
           ("CoTControl k=1, continuous macro", s35_cont, lambda l: cont_macro(l))]
-fig, axes = plt.subplots(1, 4, figsize=(13, 3.6))
+fig, axes = plt.subplots(1, 4, figsize=(14, 3.8))
 for ax, (ttl, f35, f38) in zip(axes, panels):
-    arms = ["base", "S1", "T3"]; x = range(3)
-    v35 = [f35({"base": "base", "S1": "S1-step-final", "T3": "T3-step-final"}[a]) for a in arms]; v38 = [f38({"base": "base", "S1": "S1-final", "T3": "T3-final"}[a]) for a in arms]
-    ax.bar([i - 0.19 for i in x], v35, width=0.36, color=[C[a] for a in arms], alpha=0.45, edgecolor=SURF, label="Qwen3.5-9B" if ax is axes[0] else None)
-    ax.bar([i + 0.19 for i in x], v38, width=0.36, color=[C[a] for a in arms], edgecolor=SURF, label="Qwen3-8B" if ax is axes[0] else None)
-    for i in x: ax.text(i - 0.19, v35[i], f"{v35[i]:.0f}" if "joint" in ttl else f"{v35[i]:.2f}", ha="center", va="bottom", fontsize=8, color=MUTED); ax.text(i + 0.19, v38[i], f"{v38[i]:.0f}" if "joint" in ttl else f"{v38[i]:.2f}", ha="center", va="bottom", fontsize=8, color=INK2)
-    ax.set_xticks(list(x)); ax.set_xticklabels(arms); ax.set_title(ttl, loc="left", fontsize=10, color=INK); style(ax)
-fig.suptitle("Same constraint set, same recipe, two models: Qwen3.5-9B (faded) vs Qwen3-8B (solid), step-final", x=0.01, ha="left", fontsize=10.5, color=INK)
-fig.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, -0.04), ncol=2, fontsize=9); fig.tight_layout(rect=(0, 0.04, 1, 0.93)); fig.savefig(REPO / "figures/q3_8b_vs_qwen35.png", bbox_inches="tight"); plt.close(fig)
-
+    x = range(len(ARMS6))
+    v35 = [f35(L35[a]) if L35[a] else None for a in ARMS6]; v38 = [f38(L38[a]) for a in ARMS6]
+    for i, a in enumerate(ARMS6):
+        col = C[arm(a)]
+        if v35[i] is not None: ax.bar(i - 0.19, v35[i], width=0.36, color=col, alpha=0.45, edgecolor=SURF); ax.text(i - 0.19, v35[i], f"{v35[i]:.0f}" if "joint" in ttl else f"{v35[i]:.2f}", ha="center", va="bottom", fontsize=8, color=MUTED)
+        else: ax.text(i - 0.19, 0, "n/a", ha="center", va="bottom", fontsize=7.5, color=MUTED)
+        if v38[i] is not None: ax.bar(i + 0.19, v38[i], width=0.36, color=col, edgecolor=SURF); ax.text(i + 0.19, v38[i], f"{v38[i]:.0f}" if "joint" in ttl else f"{v38[i]:.2f}", ha="center", va="bottom", fontsize=8, color=INK2)
+        else: ax.text(i + 0.19, 0, "n/a", ha="center", va="bottom", fontsize=7.5, color=MUTED)
+    ax.set_xticks(list(x)); ax.set_xticklabels(ARMS6, fontsize=8.5); ax.set_title(ttl, loc="left", fontsize=10, color=INK); style(ax)
+fig.suptitle("Same constraint set, same recipe, two models: Qwen3.5-9B (faded, left bar) vs Qwen3-8B (solid, right bar); step-final unless marked -60\nQwen3.5 has no Q5 arm", x=0.01, ha="left", fontsize=10.5, color=INK)
+fig.legend(handles=[plt.Rectangle((0, 0), 1, 1, color="#104281", alpha=0.45, label="Qwen3.5-9B"), plt.Rectangle((0, 0), 1, 1, color="#104281", label="Qwen3-8B")], frameon=False, loc="lower center", bbox_to_anchor=(0.5, -0.04), ncol=2, fontsize=9)
+fig.tight_layout(rect=(0, 0.04, 1, 0.9)); fig.savefig(REPO / "figures/q3_8b_vs_qwen35.png", bbox_inches="tight"); plt.close(fig)
 
 # ---------------------------------------------------------------- additional figures
 LANGN = {"en": "English", "es": "Spanish", "fr": "French", "ru": "Russian", "pl": "Polish", "zh": "Chinese", "hi": "Hindi", "ar": "Arabic"}

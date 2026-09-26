@@ -133,12 +133,17 @@ trained arm reaches Chinese and Hindi, and Arabic is the one language that fails
 |---|---:|---:|---:|---:|
 | Qwen3.5-9B base / S1 / T3 | 6 / 26 / 52 | 0 / 7 / 39 | 0 / 0 / 2.5 | 0.28 / 0.31 / 0.49 |
 | Qwen3-8B base / S1 / T3 | 11 / 42 / 52 | 0 / 17 / 25 | 0.3 / 0.8 / 2.1 | 0.28 / 0.33 / 0.36 |
-| Qwen3-8B Q5 · T3 step-60 | 42.5 · 34.5 | 25.6 · — | **12.1 · 8.3** | 0.51 · 0.42 |
+| Qwen3.5-9B T3 step-60 | 30 | 24 | 2.2 | 0.42 |
+| Qwen3-8B T3 step-60 | 34.5 | — | **8.3** | 0.42 |
+| Qwen3-8B Q5 | 42.5 | 25.6 | **12.1** | 0.51 |
 
 Qwen3-8B learns single constraints from single-constraint data more readily (S1 42 vs 26 %) and reaches
-the same T3 level on singles, but a lower T3 level on triples (25 vs 39 %). At step-final the two models'
-T3 arms transfer equally little in binary terms; the binary transfer on Qwen3-8B comes from Q5 and from
-T3's earlier checkpoint, neither of which exists on the Qwen3.5 side. Qwen3-8B's reasoning is a quarter of
+the same T3 level on singles, but a lower T3 level on triples (25 vs 39 %). **With matched arms at step-final,
+Qwen3.5 transfers at least as much as Qwen3-8B**: T3 2.5 vs 2.1 % binary, and 0.49 vs 0.36 on the continuous
+macro. The binary transfer on Qwen3-8B comes from two checkpoints Qwen3.5 does not have an equivalent of: the
+Q5 arm, which was not trained there, and T3's step-60, which on Qwen3.5 sat at 2.2 % with the same 0.42
+continuous macro as Qwen3-8B's step-60 but none of the JSON gain. So the two models reach the same graded
+degree of compliance at step-60; only on Qwen3-8B does that turn into fully compliant traces. Qwen3-8B's reasoning is a quarter of
 the length (median 400 vs 1,681 words on the source questions), which makes all-or-nothing formats such
 as all-lowercase or full JSON wrapping easier to satisfy end to end and is the likeliest reason the
 binary metric moved here and not there.
