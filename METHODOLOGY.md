@@ -744,3 +744,9 @@ The "controllability tax" read from those numbers was one-third scorer artefact 
 at n = 120. **Practice:** `score_answer` falls back to the last `\boxed{}`; accuracy is reported per
 question source (CoTControl k=1 is 100 % GPQA, ReasonIF mixes ceiling-level arc/gsm8k with aime/amc), and
 the unanswered fraction is reported next to accuracy.
+
+**43. Two supervisors for one stage (2026-09-26).** After a server start failed on a 60 MB memory margin,
+a second supervisor was launched for the same stage while the first was still in its retry loop waiting for
+ten idle minutes. The first stayed alive for 90 minutes and blocked the phase-2 launcher, which waits for
+"no supervisor running". **Practice:** stop the existing supervisor (`touch /tmp/stop_ola_supervisor`) before
+launching another for the same stage; the launcher now names the stage it waits on.
