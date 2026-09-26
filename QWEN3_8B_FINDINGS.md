@@ -111,8 +111,11 @@ disk and would show the trajectory for about an hour of GPU each on the CoTContr
 
 ![step-60 vs step-final](figures/q3_8b_step60_vs_final.png)
 
-**6. Costs.** Accuracy on the ReasonIF questions falls from 53 % (base) to 45–52 % depending on the arm;
-on the CoTControl questions it is unchanged (46–51 % vs 48 %). Truncation at 32k is 3–23 rollouts per
+**6. Costs.** Accuracy on the ReasonIF questions is 74 % at base and 66–75 % after training (corrected
+after fixing the answer scorer: Qwen3-8B boxes 80–90 % of its aime/amc answers instead of using the answer
+tags, which an earlier version counted as wrong and reported as 53 %; METHODOLOGY #42). Only S1-60 and
+Q5-final drop, by about 9 points, borderline at n = 120; the T3 arms are flat. On the CoTControl questions
+accuracy is unchanged (46–51 % vs 48 %). Truncation at 32k is 3–23 rollouts per
 checkpoint. Base Qwen3-8B answers ignore_question prompts with an empty think block (all 40 singles, 79
 rollouts in all), which the pipeline counts as ungradeable; every trained arm thinks again on those prompts
 and scores 0 % on the mode.

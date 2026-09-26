@@ -658,7 +658,7 @@
     "end_checker": 0.7059286412512219,
     "capital": 0.5856643711105265
    },
-   "accuracy": 0.75
+   "accuracy": 0.7
   },
   "rif/k3:no_comma+end_of_sentence+capital": {
    "suite": "reasonif_multi",
@@ -678,7 +678,7 @@
     "end_of_sentence": 0.025438209106561072,
     "capital": 0.1728461365625535
    },
-   "accuracy": 0.6666666666666666
+   "accuracy": 0.7
   },
   "rif/k3:number_words+end_checker+capital": {
    "suite": "reasonif_multi",
@@ -698,7 +698,7 @@
     "end_checker": 0.7829493087557604,
     "capital": 0.6737689928261862
    },
-   "accuracy": 1
+   "accuracy": 0.9
   },
   "rif/k3:number_words+end_of_sentence+capital": {
    "suite": "reasonif_multi",
@@ -718,7 +718,7 @@
     "end_of_sentence": 0.19914701496623588,
     "capital": 0.3984516821145621
    },
-   "accuracy": 1
+   "accuracy": 0.8
   },
   "rif/k3:number_words+no_comma+capital": {
    "suite": "reasonif_multi",
@@ -738,7 +738,7 @@
     "no_comma": 0.846304028774141,
     "capital": 0.6132662067454221
    },
-   "accuracy": 0.375
+   "accuracy": 0.4
   },
   "rif/k3:number_words+no_comma+end_checker": {
    "suite": "reasonif_multi",
@@ -758,7 +758,7 @@
     "no_comma": 0.702010987912627,
     "end_checker": 0.5749731182795699
    },
-   "accuracy": 0.8
+   "accuracy": 0.7
   },
   "rif/k3:number_words+no_comma+end_of_sentence": {
    "suite": "reasonif_multi",
@@ -778,7 +778,7 @@
     "no_comma": 0.8933608907358676,
     "end_of_sentence": 0.5376020509615658
    },
-   "accuracy": 1
+   "accuracy": 0.9
   },
   "rif/k3:reasoning_language+end_checker+capital": {
    "suite": "reasonif_multi",
@@ -798,7 +798,7 @@
     "end_checker": 0.6619047619047619,
     "capital": 0.28828501857155714
    },
-   "accuracy": 0.8333333333333334
+   "accuracy": 0.8888888888888888
   },
   "rif/k3:reasoning_language+end_of_sentence+capital": {
    "suite": "reasonif_multi",
@@ -818,7 +818,7 @@
     "end_of_sentence": 0.0625,
     "capital": 0.4463220349373888
    },
-   "accuracy": 0.6
+   "accuracy": 0.5
   },
   "rif/k3:reasoning_language+no_comma+capital": {
    "suite": "reasonif_multi",
@@ -838,7 +838,7 @@
     "no_comma": 0.8435642608571754,
     "capital": 0.4289756973788507
    },
-   "accuracy": 0.6666666666666666
+   "accuracy": 0.7
   },
   "rif/k3:reasoning_language+no_comma+end_checker": {
    "suite": "reasonif_multi",
@@ -878,7 +878,7 @@
     "no_comma": 0.7900898179211522,
     "end_of_sentence": 0.11366714175672622
    },
-   "accuracy": 0.8333333333333334
+   "accuracy": 0.875
   },
   "rif/k3:reasoning_language+number_words+capital": {
    "suite": "reasonif_multi",
@@ -898,7 +898,7 @@
     "number_words": 0.8124666184943762,
     "capital": 0.6861582697776816
    },
-   "accuracy": 1
+   "accuracy": 0.8571428571428571
   },
   "rif/k3:reasoning_language+number_words+end_checker": {
    "suite": "reasonif_multi",
@@ -918,7 +918,7 @@
     "number_words": 0.7077382174897754,
     "end_checker": 0.58845020456551
    },
-   "accuracy": 0.375
+   "accuracy": 0.3
   },
   "rif/k3:reasoning_language+number_words+end_of_sentence": {
    "suite": "reasonif_multi",
@@ -938,7 +938,7 @@
     "number_words": 0.7628590512278122,
     "end_of_sentence": 0.15240837880172414
    },
-   "accuracy": 0.75
+   "accuracy": 0.7
   },
   "rif/k3:reasoning_language+number_words+no_comma": {
    "suite": "reasonif_multi",
@@ -958,7 +958,7 @@
     "number_words": 0.5222290885126476,
     "no_comma": 0.6696561425486797
    },
-   "accuracy": 0.2
+   "accuracy": 0.3
   },
   "rif/k5:reasoning_language+number_words+no_comma+end_checker+capital": {
    "suite": "reasonif_multi",
@@ -982,7 +982,7 @@
     "end_checker": 0.9522591645353794,
     "capital": 0.6268790250850396
    },
-   "accuracy": 0.6875
+   "accuracy": 0.7058823529411765
   },
   "rif/k5:reasoning_language+number_words+no_comma+end_of_sentence+capital": {
    "suite": "reasonif_multi",
@@ -1006,7 +1006,7 @@
     "end_of_sentence": 0.26376858435681966,
     "capital": 0.5082503042859798
    },
-   "accuracy": 0.6
+   "accuracy": 0.625
   },
   "rif/single:capital": {
    "suite": "reasonif_multi",
@@ -1022,7 +1022,7 @@
    "per_continuous": {
     "capital": 0.3739941115387914
    },
-   "accuracy": 0.9090909090909091
+   "accuracy": 0.9
   },
   "rif/single:end_checker": {
    "suite": "reasonif_multi",
@@ -1038,7 +1038,7 @@
    "per_continuous": {
     "end_checker": 0.6732558730648713
    },
-   "accuracy": 1
+   "accuracy": 0.8947368421052632
   },
   "rif/single:end_of_sentence": {
    "suite": "reasonif_multi",
@@ -1054,7 +1054,7 @@
    "per_continuous": {
     "end_of_sentence": 0.36503617940529376
    },
-   "accuracy": 0.9
+   "accuracy": 0.8
   },
   "rif/single:no_comma": {
    "suite": "reasonif_multi",
@@ -1070,7 +1070,7 @@
    "per_continuous": {
     "no_comma": 0.6598465140197519
    },
-   "accuracy": 0.5625
+   "accuracy": 0.65
   },
   "rif/single:number_words": {
    "suite": "reasonif_multi",
@@ -1086,7 +1086,7 @@
    "per_continuous": {
     "number_words": 0.7995010720804181
    },
-   "accuracy": 0.75
+   "accuracy": 0.55
   },
   "rif/single:reasoning_language": {
    "suite": "reasonif_multi",
@@ -1102,7 +1102,7 @@
    "per_continuous": {
     "reasoning_language": 0.8693214040771226
    },
-   "accuracy": 0.5333333333333333
+   "accuracy": 0.55
   }
  },
  "reasonif_multi/k1/joint_macro": 0.4214912280701754,

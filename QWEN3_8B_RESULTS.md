@@ -19,7 +19,7 @@
 
 | suite | base | S1-60 | S1-final | T3-60 | T3-final | Q5-final |
 |---|---:|---:|---:|---:|---:|---:|
-| ReasonIF | 53 | 42 | 47 | 50 | 52 | 45 |
+| ReasonIF | 74 | 66 | 72 | 75 | 72 | 66 |
 | CoTControl | 48 | 50 | 46 | 46 | 51 | 49 |
 
 ## Per-constraint compliance on single-constraint prompts (binary % / continuous)

@@ -658,7 +658,7 @@
     "end_checker": 0.9262626262626262,
     "capital": 0.7378613673074583
    },
-   "accuracy": 0.875
+   "accuracy": 0.8
   },
   "rif/k3:no_comma+end_of_sentence+capital": {
    "suite": "reasonif_multi",
@@ -678,7 +678,7 @@
     "end_of_sentence": 0.22985347815627444,
     "capital": 0.5883523624338548
    },
-   "accuracy": 0.75
+   "accuracy": 0.6666666666666666
   },
   "rif/k3:number_words+end_checker+capital": {
    "suite": "reasonif_multi",
@@ -738,7 +738,7 @@
     "no_comma": 0.8783159140138778,
     "capital": 0.9014746844090845
    },
-   "accuracy": 0.5555555555555556
+   "accuracy": 0.5
   },
   "rif/k3:number_words+no_comma+end_checker": {
    "suite": "reasonif_multi",
@@ -758,7 +758,7 @@
     "no_comma": 0.707344576919247,
     "end_checker": 0.8591666666666666
    },
-   "accuracy": 0.5714285714285714
+   "accuracy": 0.5555555555555556
   },
   "rif/k3:number_words+no_comma+end_of_sentence": {
    "suite": "reasonif_multi",
@@ -778,7 +778,7 @@
     "no_comma": 0.9135120415359,
     "end_of_sentence": 0.6687202376241803
    },
-   "accuracy": 0.875
+   "accuracy": 0.7
   },
   "rif/k3:reasoning_language+end_checker+capital": {
    "suite": "reasonif_multi",
@@ -818,7 +818,7 @@
     "end_of_sentence": 0.7633308758023244,
     "capital": 0.8716422036257659
    },
-   "accuracy": 0.7142857142857143
+   "accuracy": 0.625
   },
   "rif/k3:reasoning_language+no_comma+capital": {
    "suite": "reasonif_multi",
@@ -838,7 +838,7 @@
     "no_comma": 0.8028252386567845,
     "capital": 0.7400201148771693
    },
-   "accuracy": 0.5714285714285714
+   "accuracy": 0.6666666666666666
   },
   "rif/k3:reasoning_language+no_comma+end_checker": {
    "suite": "reasonif_multi",
@@ -858,7 +858,7 @@
     "no_comma": 0.6830692960647681,
     "end_checker": 0.6044662398332997
    },
-   "accuracy": 0.75
+   "accuracy": 0.6
   },
   "rif/k3:reasoning_language+no_comma+end_of_sentence": {
    "suite": "reasonif_multi",
@@ -878,7 +878,7 @@
     "no_comma": 0.8365175467842997,
     "end_of_sentence": 0.4366275847625958
    },
-   "accuracy": 0.875
+   "accuracy": 0.8
   },
   "rif/k3:reasoning_language+number_words+capital": {
    "suite": "reasonif_multi",
@@ -898,7 +898,7 @@
     "number_words": 0.7391145906606055,
     "capital": 0.7992928046027332
    },
-   "accuracy": 0.42857142857142855
+   "accuracy": 0.5
   },
   "rif/k3:reasoning_language+number_words+end_checker": {
    "suite": "reasonif_multi",
@@ -938,7 +938,7 @@
     "number_words": 0.992003367003367,
     "end_of_sentence": 0.7198522514921497
    },
-   "accuracy": 0.6666666666666666
+   "accuracy": 0.7
   },
   "rif/k3:reasoning_language+number_words+no_comma": {
    "suite": "reasonif_multi",
@@ -958,7 +958,7 @@
     "number_words": 0.7203014491149566,
     "no_comma": 0.5912864432915244
    },
-   "accuracy": 0.42857142857142855
+   "accuracy": 0.3
   },
   "rif/k5:reasoning_language+number_words+no_comma+end_checker+capital": {
    "suite": "reasonif_multi",
@@ -982,7 +982,7 @@
     "end_checker": 1.0,
     "capital": 0.9588795619644079
    },
-   "accuracy": 0.6111111111111112
+   "accuracy": 0.6
   },
   "rif/k5:reasoning_language+number_words+no_comma+end_of_sentence+capital": {
    "suite": "reasonif_multi",
@@ -1022,7 +1022,7 @@
    "per_continuous": {
     "capital": 0.4700355400155187
    },
-   "accuracy": 0.8571428571428571
+   "accuracy": 0.9
   },
   "rif/single:end_checker": {
    "suite": "reasonif_multi",
@@ -1038,7 +1038,7 @@
    "per_continuous": {
     "end_checker": 0.7960007545746086
    },
-   "accuracy": 0.9090909090909091
+   "accuracy": 0.7894736842105263
   },
   "rif/single:end_of_sentence": {
    "suite": "reasonif_multi",
@@ -1054,7 +1054,7 @@
    "per_continuous": {
     "end_of_sentence": 0.24928801421242838
    },
-   "accuracy": 0.8
+   "accuracy": 0.75
   },
   "rif/single:no_comma": {
    "suite": "reasonif_multi",
@@ -1070,7 +1070,7 @@
    "per_continuous": {
     "no_comma": 0.6746367474858793
    },
-   "accuracy": 0.5
+   "accuracy": 0.6
   },
   "rif/single:number_words": {
    "suite": "reasonif_multi",
@@ -1086,7 +1086,7 @@
    "per_continuous": {
     "number_words": 0.9669203650454533
    },
-   "accuracy": 0.8
+   "accuracy": 0.7
   },
   "rif/single:reasoning_language": {
    "suite": "reasonif_multi",
@@ -1102,7 +1102,7 @@
    "per_continuous": {
     "reasoning_language": 0.9375038104437474
    },
-   "accuracy": 0.75
+   "accuracy": 0.6842105263157895
   }
  },
  "reasonif_multi/k1/joint_macro": 0.5228070175438596,
