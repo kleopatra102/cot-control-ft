@@ -155,6 +155,13 @@ def extract_tagged_answer(text: str) -> str | None:
     return m.group(1).strip() if m else None
 
 
+def extract_boxed_answer(text: str) -> str | None:
+    """Last `\\boxed{...}` in the text (one level of nested braces), for models that box the final answer
+    instead of using the `<answer>` tags (Qwen3-8B does so on 80-90 % of aime/amc answers)."""
+    ms = re.findall(r"\\boxed\{((?:[^{}]|\{[^{}]*\})*)\}", text or "")
+    return ms[-1].strip() if ms else None
+
+
 def extract_mcq_answer(text: str) -> str | None:
     """Upstream `extract_answer_from_response`: `ANSWER: X`, else a bare trailing A-D."""
     if not text:
@@ -196,6 +203,8 @@ def score_answer(suite: str, answer_text: str, correct: str, gold_letter: str | 
             return None  # unresolvable: report as unscorable, never as wrong
         return got == gold.upper()
     got = extract_tagged_answer(answer_text)
+    if got is None:
+        got = extract_boxed_answer(answer_text)  # fallback (METHODOLOGY #42)
     if got is None:
         return None
     return _norm(got) == _norm(correct)

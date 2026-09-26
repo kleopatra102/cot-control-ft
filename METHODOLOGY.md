@@ -735,3 +735,12 @@ example helps". Qwen3-8B is not affected (short traces fit the editor's budget),
 3.5 % of each other in supervised tokens, though its higher-k arms still contain more condensed, translated
 and upper-cased traces by construction (T3 59/58/66 % vs S1 15/16/16 %). **Practice:** every editor
 transform gets a length-ratio check in `verify()`, and arm comparisons report words and tokens per example.
+
+**42. Qwen3-8B boxes its final answers; the ReasonIF scorer only read `<answer>` tags (found 2026-09-26).**
+On aime/amc questions Qwen3-8B writes `\boxed{…}` instead of the requested `<answer>` tags 80–90 % of the
+time, so `score_answer` returned None for 32 % of ReasonIF k=1 rollouts and the strict accuracy counted
+them as wrong: base 53 % reported, 74–76 % with a `\boxed{}` fallback. Qwen3.5-9B was unaffected (2 cases).
+The "controllability tax" read from those numbers was one-third scorer artefact and the rest ±9 pp noise
+at n = 120. **Practice:** `score_answer` falls back to the last `\boxed{}`; accuracy is reported per
+question source (CoTControl k=1 is 100 % GPQA, ReasonIF mixes ceiling-level arc/gsm8k with aime/amc), and
+the unanswered fraction is reported next to accuracy.
