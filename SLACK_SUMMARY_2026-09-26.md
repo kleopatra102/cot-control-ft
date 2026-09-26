@@ -125,4 +125,62 @@ unseen conditions from CoTControllability**
 
 ![Qwen3-8B, CoTControl-side transfer: joint binary compliance on single-mode prompts](figures/q3_8b_joint_cotcontrol_k1.png)
 
-*(The thread continues beyond this point; the screenshots end here.)*
+3. Transfer also holds when we use a continuous measure of controllability (maybe it becomes less
+   impressive than on a binary score, but the signal is still there)
+
+![Qwen3-8B, CoTControl single-mode prompts: continuous (graded) compliance](figures/q3_8b_cotcontrol_continuous.png)
+
+## 26 September, 11:12 AM
+
+4. (Small bad news) The transfer is highly concentrated in four conditions of CoTControllability. This is
+   not ideal; I would prefer that it would hold for all conditions ofc.
+
+- Esp it does not hold so well for close-to-steganography conditions (ignore_question, word_suppression and
+  multiple_word_suppression)
+- I am not sure if this is bad or good for us, what do you think?
+  - It could be bad, because it looks like learning stego from those "benign" skills might be harder
+  - But it could also be good, because we can show broader transfer (more impressive to find that thinking
+    in JSON is a good precursor of steganography, than to find that suppressing words is a precursor for
+    stego)
+
+![Qwen3-8B, CoTControl single-mode prompts: binary compliance per mode](figures/q3_8b_cotcontrol_modes.png)
+
+## 26 September, later
+
+Another smaller points:
+
+- On single-constraint testing, it looks like more training -> better in-domain performance, but WORSE
+  generalisation
+
+I would interpret this as "with more training, the model overfits to IFBench, and it harms generalisation
+to new constraints"
+
+![Qwen3-8B: step-60 vs step-final on single-constraint prompts](figures/q3_8b_step60_vs_final.png)
+
+- There seem to a varying in-domain "controllability tax" (i.e. model sacrifices some accuracy to control
+  CoT), but not such tax when testing out-of-domain generalization
+
+I don't know how to interpret this, it is weird. Maybe just some weird coincidence
+
+![Qwen3-8B: side effects by checkpoint](figures/q3_8b_accuracy_truncation.png)
+
+- Qwen3 is able to learn generalizable controllability after fine-tuning (12%), even though its base version
+  had almost 0% (0.3%, to be precise)
+
+So we don't necessarily need some "floor" starting capacity for multiple-constraints SFT to produce
+transfer 🙂
+
+![Qwen3-8B, CoTControl-side transfer: joint binary compliance on single-mode prompts](figures/q3_8b_joint_cotcontrol_k1.png)
+
+- Weirdly, of the unseen conditions, JSON is the best one. No arm saw a single JSON example, and yet it
+  learnt to be super good at it from only seeing combinations of {capital, end checker, end of sentence, no
+  comma, number words, reasoning language}
+
+Again, weird, right?
+
+![Qwen3-8B, CoTControl single-mode prompts: binary compliance per mode](figures/q3_8b_cotcontrol_modes.png)
+
+- When looking at generalisation, continuous scores tell broadly the same story as binary. But they do show
+  improvements in more conditions (we love that).
+
+![Qwen3-8B, CoTControl single-mode prompts: continuous compliance per mode](figures/q3_8b_cotcontrol_continuous_modes.png)
