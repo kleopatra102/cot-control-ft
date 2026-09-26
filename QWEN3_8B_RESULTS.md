@@ -96,3 +96,17 @@
 ![step-60 vs step-final](figures/q3_8b_step60_vs_final.png)
 
 ![Qwen3.5-9B vs Qwen3-8B](figures/q3_8b_vs_qwen35.png)
+
+![ReasonIF per-constraint singles](figures/q3_8b_reasonif_constraints.png)
+
+![per-constraint by number of rules](figures/q3_8b_per_constraint_by_k.png)
+
+![CoTControl modes inside combinations](figures/q3_8b_cotcontrol_inside_combos.png)
+
+![CoTControl continuous per mode](figures/q3_8b_cotcontrol_continuous_modes.png)
+
+![ReasonIF condition heatmap](figures/q3_8b_condition_heatmap.png)
+
+![accuracy and truncation](figures/q3_8b_accuracy_truncation.png)
+
+![reasoning_language by language](figures/q3_8b_language_breakdown.png)

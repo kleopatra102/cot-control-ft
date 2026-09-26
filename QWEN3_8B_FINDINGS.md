@@ -57,6 +57,10 @@ excluding uppercase (the mode closest to the trained `capital`) 0.31 → 0.48, s
 uppercase twin alone. ignore_question, meow, alternating case, multiple-word suppression and repeat
 sentences do not move for any arm.
 
+The same per mode on the continuous score:
+
+![CoTControl continuous per mode](figures/q3_8b_cotcontrol_continuous_modes.png)
+
 ![CoTControl per-mode singles](figures/q3_8b_cotcontrol_modes.png)
 ![CoTControl continuous macro](figures/q3_8b_cotcontrol_continuous.png)
 
@@ -68,6 +72,8 @@ contains at least one of the modes that never transfer, and all three k=6 sextup
 and meow. So the model applies the transferred formats when they are one of several, which is what the
 ReasonIF side taught it, but the untouched modes cap the all-or-nothing score.
 
+![CoTControl modes inside combinations](figures/q3_8b_cotcontrol_inside_combos.png)
+
 **4. In-domain: the S1 → T3 gain replicates; Q5 does not extend it on singles.** On ReasonIF singles T3
 beats S1 by 10 points (52 vs 42 %; on Qwen3.5 it was 26 points, 52 vs 26 %). On triples, seen and held-out,
 T3 and Q5 are tied at 25–29 % against S1's 17–18 %. On quints, Q5's own level, Q5 leads at 41 % against
@@ -77,10 +83,22 @@ trained on twelve varied triples. This is the plateau-then-drop the plan's predi
 says the diversity of combinations matters, not only their size. Held-out triples score as high as seen
 ones for every arm (18 / 26 / 29 % held-out vs 17 / 25 / 26 % seen), as on Qwen3.5.
 
+Per constraint on single-constraint prompts, all six checkpoints:
+
+![ReasonIF per-constraint singles](figures/q3_8b_reasonif_constraints.png)
+
+Every evaluated ReasonIF condition at step-final, held-out combinations marked †. The one condition no arm
+solves is no_comma + end_of_sentence + capital, and the two five-constraint combinations separate cleanly:
+the end_checker variant (45–55 %) is far easier than the end_of_sentence variant (12–26 %):
+
+![ReasonIF condition heatmap](figures/q3_8b_condition_heatmap.png)
+
 Per-constraint compliance rises with the number of rules in the prompt for all three trained arms
 (`QWEN3_8B_RESULTS.md`, per-constraint by k): for S1 as well this time (capital 15 → 25 → 41 %, no_comma
 10 → 25 → 62 %), where on Qwen3.5 S1 reversed. The base model shows the same for end_checker and no_comma
 at low levels.
+
+![per-constraint by number of rules](figures/q3_8b_per_constraint_by_k.png)
 
 **5. Step-60 vs step-final: in-domain keeps rising for T3, transfer peaks early.** In-domain, the Qwen3.5
 pattern replicates: S1 gains little after step-60 (39 → 42 %) while T3 keeps gaining (34.5 → 51.7 %). On
@@ -98,6 +116,14 @@ on the CoTControl questions it is unchanged (46–51 % vs 48 %). Truncation at 3
 checkpoint. Base Qwen3-8B answers ignore_question prompts with an empty think block (all 40 singles, 79
 rollouts in all), which the pipeline counts as ungradeable; every trained arm thinks again on those prompts
 and scores 0 % on the mode.
+
+![accuracy and truncation](figures/q3_8b_accuracy_truncation.png)
+
+Reasoning-language compliance by requested language. Chinese, Hindi and Arabic were never in any arm's
+training data; with two to three prompts per language per checkpoint this is indicative only, but every
+trained arm reaches Chinese and Hindi, and Arabic is the one language that fails for S1 and Q5:
+
+![reasoning_language by language](figures/q3_8b_language_breakdown.png)
 
 ## Qwen3.5-9B against Qwen3-8B, same constraint set and recipe
 

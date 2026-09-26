@@ -180,8 +180,118 @@ for ax, (ttl, f35, f38) in zip(axes, panels):
 fig.suptitle("Same constraint set, same recipe, two models: Qwen3.5-9B (faded) vs Qwen3-8B (solid), step-final", x=0.01, ha="left", fontsize=10.5, color=INK)
 fig.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, -0.04), ncol=2, fontsize=9); fig.tight_layout(rect=(0, 0.04, 1, 0.93)); fig.savefig(REPO / "figures/q3_8b_vs_qwen35.png", bbox_inches="tight"); plt.close(fig)
 
+
+# ---------------------------------------------------------------- additional figures
+LANGN = {"en": "English", "es": "Spanish", "fr": "French", "ru": "Russian", "pl": "Polish", "zh": "Chinese", "hi": "Hindi", "ar": "Arabic"}
+modes_rif = sorted({r["constraints"][0] for r in rows("base", "reasonif_multi", 1)})
+
+# Fig 7: ReasonIF per-constraint singles, grouped bars, all six checkpoints
+fig, ax = plt.subplots(figsize=(10, 4))
+w = 0.8 / len(LABS)
+for j, l in enumerate(LABS):
+    ys = [100 * (per_bin(rows(l, "reasonif_multi", 1, mode=m), m)[0] or 0) for m in modes_rif]
+    ax.bar([i + (j - (len(LABS) - 1) / 2) * w for i in range(len(modes_rif))], ys, width=w, color=C[arm(l)], edgecolor=SURF, alpha=1 if "final" in l or l == "base" else 0.55, label=l)
+ax.set_xticks(range(len(modes_rif))); ax.set_xticklabels([m.replace("_", "\n") for m in modes_rif]); ax.set_ylabel("binary compliance, %"); style(ax); ax.set_ylim(0, 100)
+ax.set_title("Qwen3-8B, ReasonIF single-constraint prompts: binary compliance per constraint (lighter = step-60)", loc="left", fontsize=10.5, color=INK)
+ax.legend(frameon=False, fontsize=8.5, ncol=6, loc="upper center", bbox_to_anchor=(0.5, -0.16)); fig.tight_layout(); fig.savefig(REPO / "figures/q3_8b_reasonif_constraints.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 8: per-constraint by number of rules, small multiples (ReasonIF, step-final arms)
+fig, axes = plt.subplots(2, 3, figsize=(10.5, 5.6), sharex=True, sharey=True)
+for ax, m in zip(axes.flat, modes_rif):
+    for l in FINAL:
+        pts = []
+        for lvl in (1, 3, 5):
+            v = [r["per_binary"][m] for r in rows(l, "reasonif_multi", lvl) if r["think_status"] == "ok" and r["per_binary"].get(m) is not None]
+            if v: pts.append((lvl, 100 * sum(v) / len(v)))
+        ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", ms=6, lw=2, color=C[arm(l)], markeredgecolor=SURF, label=l)
+    ax.set_title(m, loc="left", fontsize=10, color=INK); style(ax); ax.set_xticks([1, 3, 5]); ax.set_ylim(0, 105)
+axes[0][2].legend(frameon=False, fontsize=8, loc="upper left"); 
+for ax in axes[1]: ax.set_xlabel("rules in the prompt")
+for ax in axes[:, 0]: ax.set_ylabel("this constraint satisfied, %")
+fig.suptitle("Qwen3-8B: per-constraint compliance rises with the number of rules in the prompt, for every trained arm", x=0.01, ha="left", fontsize=11, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.95)); fig.savefig(REPO / "figures/q3_8b_per_constraint_by_k.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 9: per-mode compliance inside CoTControl combinations (k=3 and k=6), step-final arms
+fig, axes = plt.subplots(1, 2, figsize=(14, 4.2), sharey=True)
+for ax, lvl in zip(axes, (3, 6)):
+    ms = [m for m in modes_cc if any(m in r["per_binary"] for r in rows("base", "cotcontrol_multi", lvl))]
+    w = 0.8 / len(FINAL)
+    for j, l in enumerate(FINAL):
+        per = defaultdict(list)
+        for r in rows(l, "cotcontrol_multi", lvl):
+            if r["think_status"] != "ok": continue
+            for m, b in r["per_binary"].items():
+                if b is not None: per[m].append(b)
+        ys = [100 * sum(per[m]) / len(per[m]) if per[m] else 0 for m in ms]
+        ax.bar([i + (j - (len(FINAL) - 1) / 2) * w for i in range(len(ms))], ys, width=w, color=C[arm(l)], edgecolor=SURF, label=l)
+    ax.set_xticks(range(len(ms))); ax.set_xticklabels([m.replace("_", "\n") for m in ms], fontsize=7.5); style(ax); ax.set_title(f"inside {lvl}-mode prompts (joint = 0 % for all)", loc="left", fontsize=10, color=INK)
+axes[0].set_ylabel("this mode satisfied, % of rollouts asking for it"); axes[0].legend(frameon=False, fontsize=8.5, loc="upper left")
+fig.suptitle("Qwen3-8B, CoTControl combinations: the transferred modes are applied inside multi-mode prompts too; the others never are", x=0.01, ha="left", fontsize=10.5, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.94)); fig.savefig(REPO / "figures/q3_8b_cotcontrol_inside_combos.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 10: CoTControl continuous per mode, grouped bars
+fig, ax = plt.subplots(figsize=(11, 4))
+w = 0.8 / len(LABS)
+for j, l in enumerate(LABS):
+    ys = [per_cont(rows(l, "cotcontrol_multi", 1, mode=m), m)[0] or 0 for m in modes_cc]
+    ax.bar([i + (j - (len(LABS) - 1) / 2) * w for i in range(len(modes_cc))], ys, width=w, color=C[arm(l)], edgecolor=SURF, alpha=1 if "final" in l or l == "base" else 0.55, label=l)
+ax.set_xticks(range(len(modes_cc))); ax.set_xticklabels([m.replace("_", "\n") for m in modes_cc], fontsize=8.5); ax.set_ylabel("continuous compliance (0–1)"); style(ax); ax.set_ylim(0, 1.05)
+ax.set_title("Qwen3-8B, CoTControl single-mode prompts: continuous compliance per mode (ignore_question has no continuous score; lighter = step-60)", loc="left", fontsize=10, color=INK)
+ax.legend(frameon=False, fontsize=8.5, ncol=6, loc="upper center", bbox_to_anchor=(0.5, -0.22)); fig.tight_layout(); fig.savefig(REPO / "figures/q3_8b_cotcontrol_continuous_modes.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 11: ReasonIF condition heatmap (all 24 conditions x step-final checkpoints), † held-out
+conds = []
+for lvl in (1, 3, 5):
+    for tag in sorted({r["mode"] for r in rows("base", "reasonif_multi", lvl)}):
+        rs = rows("base", "reasonif_multi", lvl); held = any(r["held_out"] for r in rs if r["mode"] == tag)
+        conds.append((tag, lvl, held))
+import numpy as np
+M = np.full((len(conds), len(FINAL)), np.nan)
+for i, (tag, lvl, held) in enumerate(conds):
+    for j, l in enumerate(FINAL):
+        p, n = joint([r for r in rows(l, "reasonif_multi", lvl) if r["mode"] == tag]); M[i, j] = 100 * p if p is not None else np.nan
+fig, ax = plt.subplots(figsize=(9.5, 0.32 * len(conds) + 1.2))
+im = ax.imshow(M, cmap="Blues", vmin=0, vmax=100, aspect=0.55)
+for i in range(len(conds)):
+    for j in range(len(FINAL)):
+        v = M[i, j]; ax.text(j, i, "—" if np.isnan(v) else f"{v:.0f}", ha="center", va="center", fontsize=8.5, color="white" if v > 55 else INK2)
+ax.set_xticks(range(len(FINAL))); ax.set_xticklabels(FINAL, fontsize=9); ax.set_yticks(range(len(conds)))
+ax.set_yticklabels([tag.split(":", 1)[1].replace("+", " + ") + (" †" if held else "") for tag, lvl, held in conds], fontsize=8); ax.tick_params(length=0)
+for sp in ax.spines.values(): sp.set_visible(False)
+ax.set_title("Qwen3-8B, ReasonIF: joint compliance per condition, step-final († = held out of training)", loc="left", fontsize=10, color=INK)
+fig.tight_layout(); fig.savefig(REPO / "figures/q3_8b_condition_heatmap.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 12: accuracy and truncation per checkpoint, both suites
+fig, axes = plt.subplots(1, 2, figsize=(10, 3.6))
+for ax, (ttl, f) in zip(axes, (("accuracy on k=1 prompts, %", lambda l, suite: 100 * acc(rows(l, suite, 1))), ("truncated at 32k, % of all rollouts", lambda l, suite: 100 * sum(r["truncated"] for r in rows(l, suite)) / len(rows(l, suite))))):
+    for j, (suite, name, col) in enumerate((("reasonif_multi", "ReasonIF-side", "#2a78d6"), ("cotcontrol_multi", "CoTControl-side", "#eb6834"))):
+        ys = [f(l, suite) for l in LABS]
+        ax.bar([i + (j - 0.5) * 0.38 for i in range(len(LABS))], ys, width=0.36, color=col, edgecolor=SURF, label=name)
+        for i, y in enumerate(ys): ax.text(i + (j - 0.5) * 0.38, y + 0.5, f"{y:.0f}", ha="center", fontsize=8, color=INK2)
+    ax.set_xticks(range(len(LABS))); ax.set_xticklabels(LABS, fontsize=8.5); ax.set_title(ttl, loc="left", fontsize=10, color=INK); style(ax)
+axes[0].set_ylim(0, 65); axes[0].legend(frameon=False, fontsize=8.5, loc="lower left"); fig.suptitle("Qwen3-8B: side effects by checkpoint", x=0.01, ha="left", fontsize=10.5, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.94)); fig.savefig(REPO / "figures/q3_8b_accuracy_truncation.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 13: reasoning_language by requested language (2-3 prompts per language per checkpoint)
+langs = ["en", "es", "fr", "ru", "pl", "zh", "hi", "ar"]
+LANG_OF = {l: {(r["sample_id"], r["mode"]): r["meta"].get("language") for r in (json.loads(x) for x in open(REPO / f"results/qwen3_8b/eval/{l}/rollouts.jsonl")) if r["meta"]["suite"] == "reasonif_multi"} for l in LABS}
+fig, ax = plt.subplots(figsize=(10, 3.8))
+w = 0.8 / len(LABS)
+for j, l in enumerate(LABS):
+    ys = []
+    for lg in langs:
+        rs = [r for r in rows(l, "reasonif_multi", 1, mode="reasoning_language") if r["think_status"] == "ok" and LANG_OF[l].get((r["sample_id"], r["mode"])) == lg]
+        ys.append(100 * sum(r["per_binary"]["reasoning_language"] for r in rs) / len(rs) if rs else 0)
+    ax.bar([i + (j - (len(LABS) - 1) / 2) * w for i in range(len(langs))], ys, width=w, color=C[arm(l)], edgecolor=SURF, alpha=1 if "final" in l or l == "base" else 0.55, label=l)
+ax.axvline(4.5, color=MUTED, lw=1); ax.text(4.6, 106, "never trained on →", fontsize=8.5, color=MUTED)
+ax.set_xticks(range(len(langs))); ax.set_xticklabels([LANGN[x] for x in langs]); ax.set_ylabel("reasoning in the requested language, %"); style(ax); ax.set_ylim(0, 114)
+ax.set_title("Qwen3-8B, reasoning_language single prompts by requested language (2–3 prompts per language per checkpoint — indicative only)", loc="left", fontsize=10, color=INK)
+ax.legend(frameon=False, fontsize=8.5, ncol=6, loc="upper center", bbox_to_anchor=(0.5, -0.12)); fig.tight_layout(); fig.savefig(REPO / "figures/q3_8b_language_breakdown.png", bbox_inches="tight"); plt.close(fig)
+
 P("\n## Figures\n")
 for f, cap in (("q3_8b_joint_reasonif", "ReasonIF joint by level"), ("q3_8b_joint_cotcontrol_k1", "CoTControl k=1 joint"), ("q3_8b_cotcontrol_modes", "CoTControl per-mode singles"),
-               ("q3_8b_cotcontrol_continuous", "CoTControl continuous macro"), ("q3_8b_step60_vs_final", "step-60 vs step-final"), ("q3_8b_vs_qwen35", "Qwen3.5-9B vs Qwen3-8B")):
+               ("q3_8b_cotcontrol_continuous", "CoTControl continuous macro"), ("q3_8b_step60_vs_final", "step-60 vs step-final"), ("q3_8b_vs_qwen35", "Qwen3.5-9B vs Qwen3-8B"),
+               ("q3_8b_reasonif_constraints", "ReasonIF per-constraint singles"), ("q3_8b_per_constraint_by_k", "per-constraint by number of rules"), ("q3_8b_cotcontrol_inside_combos", "CoTControl modes inside combinations"),
+               ("q3_8b_cotcontrol_continuous_modes", "CoTControl continuous per mode"), ("q3_8b_condition_heatmap", "ReasonIF condition heatmap"), ("q3_8b_accuracy_truncation", "accuracy and truncation"), ("q3_8b_language_breakdown", "reasoning_language by language")):
     P(f"![{cap}](figures/{f}.png)\n")
-(REPO / "QWEN3_8B_RESULTS.md").write_text("\n".join(md), encoding="utf-8"); print("wrote QWEN3_8B_RESULTS.md and 6 figures")
+(REPO / "QWEN3_8B_RESULTS.md").write_text("\n".join(md), encoding="utf-8"); print("wrote QWEN3_8B_RESULTS.md and 13 figures")
