@@ -1,6 +1,6 @@
 # Multi-constraint SFT on Qwen3-8B, one to five constraints per example
 
-*Draft for discussion. Nothing here is implemented. The Qwen3.5-9B experiment (`MULTI_CONSTRAINT_PLAN.md`,
+*Status 2026-09-26: run complete; results in `QWEN3_8B_RESULTS.md`, findings in `QWEN3_8B_FINDINGS.md`. Originally a draft for discussion. The Qwen3.5-9B experiment (`MULTI_CONSTRAINT_PLAN.md`,
 `CONSTRAINT_MIX.md`, `CONSTRAINT_PAIRING.md`, `MULTI_CONSTRAINT_FINDINGS.md`) is the template; this
 document lists only what differs.*
 
