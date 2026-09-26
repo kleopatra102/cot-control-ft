@@ -721,3 +721,17 @@ mentioned the server in a `pgrep -c` of its own. The bracket trick protects a co
 *itself*, not other commands that quote the same text. **Practice:** kill patterns in scripts are
 anchored to the executable path (`^[^ ]*/bin/(python|vllm) … serve `), and interactive commands never
 put a server's or job's name in a command line while such a script is running.
+
+**41. The Qwen3.5-9B translation step summarised instead of translating (found 2026-09-26, data built
+2026-09-23).** In the multi-constraint training sets for Qwen3.5-9B, rows with `reasoning_language` and no
+`number_words` are a median 0.14× the length of the untouched trace for the same question (n 173); on
+Qwen3-8B the same ratio is 0.91. The editor (gpt-4.1-mini, T=0) turned 3–5k-word traces into 200–300-word
+"translations" (e.g. 4,929 → 245 words), so on Qwen3.5 the multi arms trained on far shorter traces than S1
+(T3 mean 433 think-words vs S1 1,214; 1.18M vs 2.21M supervised tokens), on top of the intended condensation
+for `number_words`. The verifier only checked language, never length. **Consequences:** the Qwen3.5 T3 > S1
+in-domain result is confounded with a 2× token budget and a shorter-output prior; it should be re-run with a
+length check on translations (target 0.9–1.2× the source) before being cited as "more constraints per
+example helps". Qwen3-8B is not affected (short traces fit the editor's budget), and its arms are within
+3.5 % of each other in supervised tokens, though its higher-k arms still contain more condensed, translated
+and upper-cased traces by construction (T3 59/58/66 % vs S1 15/16/16 %). **Practice:** every editor
+transform gets a length-ratio check in `verify()`, and arm comparisons report words and tokens per example.
