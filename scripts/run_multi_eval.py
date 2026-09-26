@@ -16,6 +16,7 @@ from cotctl.inference import RolloutStore, SamplingParams, VLLMClient, run_sync,
 from cotctl.eval import score_answer, cotcontrol_answer_key
 from cotctl.graders.continuous import count_keyword_uses
 from cotctl.multi_eval import reasonif_multi_requests, cotcontrol_multi_requests, grade_reasonif_multi, grade_cotcontrol_multi
+from cotctl.ifbench_eval import ifb_requests, grade_ifb_rollout
 
 def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", default=None); ap.add_argument("--config", default=str(REPO / "configs/base.yaml"))
@@ -26,6 +27,7 @@ def main() -> int:
     ap.add_argument("--n-quad-rif", type=int, default=0); ap.add_argument("--n-quint-rif", type=int, default=0)
     ap.add_argument("--cc-levels", default=None, help="sampled CoTControl design, e.g. '1:10x40,3:20x15,6:3x20' = k:conditions x prompts (default: the Qwen3.5 hand-picked lists)")
     ap.add_argument("--out-root", default=str(REPO / "results/multi_eval"))
+    ap.add_argument("--ifbench", type=int, default=0, help="never-seen IFBench-derived constraints: N prompts per constraint per template (suite 'ifbench')")
     a = ap.parse_args(); cfg = yaml.safe_load(open(a.config)); out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True)
     wl = json.load(open(a.word_limits))
     if len(wl) == 1 and isinstance(next(iter(wl.values())), dict): wl = next(iter(wl.values()))  # {"<model>": {source: limit}}
@@ -35,6 +37,7 @@ def main() -> int:
     reqs = []
     if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl, a.n_single_rif, a.n_pair_rif, a.n_triple_rif, n_quad=a.n_quad_rif, n_quint=a.n_quint_rif)
     if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc, a.n_unc_cc, levels=levels)
+    if a.ifbench: reqs += ifb_requests(a.ifbench)
     if a.limit:
         by = defaultdict(list)
         for r in reqs: by[r.meta["suite"]].append(r)
@@ -61,8 +64,9 @@ def main() -> int:
     for r in rollouts:
         if r["mode"] == "unconstrained": continue
         suite = r["meta"]["suite"]
-        g = grade_reasonif_multi(r) if suite == "reasonif_multi" else grade_cotcontrol_multi(r, judged, unc)
-        correct = score_answer("reasonif" if suite == "reasonif_multi" else "cotcontrol", r.get("answer") or "", r["meta"].get("correct_answer", ""), key.get(r["sample_id"]) or r["meta"].get("correct_letter"))
+        g = grade_reasonif_multi(r) if suite == "reasonif_multi" else grade_ifb_rollout(r) if suite == "ifbench" else grade_cotcontrol_multi(r, judged, unc)
+        rif_like = suite == "reasonif_multi" or (suite == "ifbench" and r["meta"].get("template") == "rif")
+        correct = score_answer("reasonif" if rif_like else "cotcontrol", r.get("answer") or "", r["meta"].get("correct_answer", ""), key.get(r["sample_id"]) or r["meta"].get("correct_letter"))
         graded.append({"sample_id": r["sample_id"], "mode": r["mode"], "suite": suite, "level": r["meta"]["level"], "held_out": r["meta"].get("held_out", False), "constraints": r["meta"].get("constraints") or r["meta"].get("modes"),
                        "think_status": r.get("think_status"), "truncated": bool(r.get("truncated")), "completion_tokens": r.get("completion_tokens", 0), "correct": correct, **g})
     with open(out / "graded.jsonl", "w") as f:
@@ -71,11 +75,11 @@ def main() -> int:
     summ = {"label": a.label, "n_rollouts": len(rollouts), "conditions": {}}
     for key in sorted({(g["suite"], g["mode"]) for g in graded}):
         gs = [g for g in graded if (g["suite"], g["mode"]) == key]; ok = [g for g in gs if g["think_status"] == "ok"]
-        cons = gs[0]["constraints"]; mode = f"{'rif' if key[0] == 'reasonif_multi' else 'cc'}/{key[1]}"  # suite-qualified condition key
+        cons = gs[0]["constraints"]; mode = f"{ {'reasonif_multi': 'rif', 'cotcontrol_multi': 'cc', 'ifbench': 'ifb'}[key[0]] }/{key[1]}"  # suite-qualified condition key
         summ["conditions"][mode] = {"suite": gs[0]["suite"], "level": gs[0]["level"], "held_out": gs[0]["held_out"], "n": len(gs), "gradeable": len(ok), "truncated": mean([g["truncated"] for g in gs]),
             "joint_binary": mean([g["joint"] for g in ok]), "per_binary": {c: mean([g["per_binary"].get(c) for g in ok]) for c in cons}, "per_continuous": {c: mean([g["per_continuous"].get(c) for g in ok]) for c in cons},
             "accuracy": mean([g["correct"] for g in gs])}
-    for suite in ("reasonif_multi", "cotcontrol_multi"):
+    for suite in ("reasonif_multi", "cotcontrol_multi", "ifbench"):
         for lvl in (1, 2, 3):
             for held in (False, True):
                 cs = [c for c in summ["conditions"].values() if c["suite"] == suite and c["level"] == lvl and c["held_out"] == held]

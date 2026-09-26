@@ -39,6 +39,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=None, help="HF id of the base model (default: TrainConfig.model)")
     ap.add_argument("--data", default=None)
+    ap.add_argument("--ckpt-steps", default=None, help="comma-separated optimizer steps to save, e.g. 15,60 (default: TrainConfig.checkpoint_steps)")
+    ap.add_argument("--push-every", type=int, default=None)
     ap.add_argument("--out-dir", default=None)
     ap.add_argument("--lr", type=float, default=None)
     ap.add_argument("--max-len", type=int, default=None)
@@ -57,6 +59,8 @@ def main() -> int:
     cfg = TrainConfig()
     if args.model: cfg.model = args.model
     if args.data: cfg.data = args.data
+    if args.ckpt_steps: cfg.checkpoint_steps = tuple(int(x) for x in args.ckpt_steps.split(","))
+    if args.push_every is not None: cfg.push_every = args.push_every
     if args.out_dir: cfg.out_dir = args.out_dir
     if args.lr: cfg.lr = args.lr
     if args.max_len: cfg.max_len = args.max_len
