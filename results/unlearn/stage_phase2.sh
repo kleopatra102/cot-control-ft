@@ -13,10 +13,13 @@ run_eval() { local label=$1 model=$2; shift 2; [[ -f $R/eval/$label/.done ]] && 
   .venv/bin/python scripts/run_multi_eval.py --label "$label" --model "$model" --word-limits $WL --out-root $R/eval "$@" 2>&1 | grep -vE "HTTP Request|it/s\]|s/it\]" | tail -30 && touch $R/eval/$label/.done; }
 
 # A. calibration / reference: Q5 and base on the full suite (CoTControl singles, ReasonIF singles, never-seen set)
-if [[ ! -f $R/eval/Q5/.done || ! -f $R/eval/base/.done ]]; then
-  serve Qwen/Qwen3-8B Q5-final=results/qwen3_8b/ckpts/Q5/step-final || { touch $R/.serve_failed; echo "SERVE FAILED (calibration)"; exit 0; }
+# S1-final and T3-60 get the never-seen set only: the clean phase-1 transfer test (no trained twins, both templates)
+if [[ ! -f $R/eval/Q5/.done || ! -f $R/eval/base/.done || ! -f $R/eval/S1-ifb/.done || ! -f $R/eval/T3-60-ifb/.done ]]; then
+  serve Qwen/Qwen3-8B Q5-final=results/qwen3_8b/ckpts/Q5/step-final S1-final=results/qwen3_8b/ckpts/S1/step-final T3-60=results/qwen3_8b/ckpts/T3/step-60 || { touch $R/.serve_failed; echo "SERVE FAILED (calibration)"; exit 0; }
   run_eval Q5 Q5-final $SUITE
   run_eval base Qwen/Qwen3-8B $SUITE
+  run_eval S1-ifb S1-final --suites none --ifbench 20
+  run_eval T3-60-ifb T3-60 --suites none --ifbench 20
   stop_server
 fi
 # B. datasets (CPU)
