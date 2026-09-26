@@ -25,15 +25,15 @@ rollout with {number_words, capital, end_checker}). It seems to improve the lear
 Specifically:
 
 1. It doubles (!) in-domain performance (model trained on triples vs single constraints). The more
-   constraints simultaneously -> the model performs better. This is still ReasonIF -> ReasonIF (so not
-   evidence of transfer), but is good.
+constraints simultaneously -> the model performs better. This is still ReasonIF -> ReasonIF (so not
+evidence of transfer), but is good.
 
 ![ReasonIF-side: combinations that appeared in training](figures/multi_joint_reasonif_seen.png)
 
 ## 25 September, 6:21 PM
 
-2. But the main question is of course whether training on multiple conditions simultaneously increases
-   transfer ReasonIF -> CoTControllability?
+2\. But the main question is of course whether training on multiple conditions simultaneously increases
+transfer ReasonIF -> CoTControllability?
 
 When we use a binary all-or-nothing measure of controllability, there is some transfer! Although very small
 (compare the dark blue line (trained on triples) to the light blue line (trained on singles), it goes up
@@ -42,8 +42,8 @@ spectacular transfer, but some small signal.
 
 ![CoTControl-side (transfer): joint binary compliance with and without the uppercase mode](figures/multi_joint_cotcontrol_excl_uppercase.png)
 
-3. I have then checked whether the transfer would increase if we would use a continuous measure of
-   controllability. And yes it does!
+3\. I have then checked whether the transfer would increase if we would use a continuous measure of
+controllability. And yes it does!
 
 Compare light blue and grey lines -> they very very similar (which meant no transfer). But now compare dark
 blue line (trained on triples) and grey line (base). The dark blue line is above the grey one, which means
@@ -115,25 +115,25 @@ And now..... yes we have transfer!!!
 unseen conditions from CoTControllability**
 
 1. Multiple constraints have better in-domain performance (what I found yesterday for Qwen3.5, also holds
-   for Qwen3 today):
+for Qwen3 today):
 
 ![Qwen3-8B, ReasonIF-side: joint binary compliance vs number of constraints](figures/q3_8b_joint_reasonif.png)
 
-2. Multiple constraints also finally do transfer to CoTControllability, even when measured with this strict
-   all-or-nothing binary score (specifically, trained on triples and on 5s of conditions, transfer better
-   than trained on singles)
+2\. Multiple constraints also finally do transfer to CoTControllability, even when measured with this strict
+all-or-nothing binary score (specifically, trained on triples and on 5s of conditions, transfer better
+than trained on singles)
 
 ![Qwen3-8B, CoTControl-side transfer: joint binary compliance on single-mode prompts](figures/q3_8b_joint_cotcontrol_k1.png)
 
-3. Transfer also holds when we use a continuous measure of controllability (maybe it becomes less
-   impressive than on a binary score, but the signal is still there)
+3\. Transfer also holds when we use a continuous measure of controllability (maybe it becomes less
+impressive than on a binary score, but the signal is still there)
 
 ![Qwen3-8B, CoTControl single-mode prompts: continuous (graded) compliance](figures/q3_8b_cotcontrol_continuous.png)
 
 ## 26 September, 11:12 AM
 
-4. (Small bad news) The transfer is highly concentrated in four conditions of CoTControllability. This is
-   not ideal; I would prefer that it would hold for all conditions ofc.
+4\. (Small bad news) The transfer is highly concentrated in four conditions of CoTControllability. This is
+not ideal; I would prefer that it would hold for all conditions ofc.
 
 - Esp it does not hold so well for close-to-steganography conditions (ignore_question, word_suppression and
   multiple_word_suppression)
