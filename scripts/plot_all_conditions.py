@@ -46,7 +46,7 @@ for src, c, rel in conds:
 TPL = {c: BEST.get(c) for _, c, _ in conds}
 print({c: t for c, t in BEST.items()})
 
-fig, axes = plt.subplots(2, 1, figsize=(26, 8.8), sharex=True)
+fig, axes = plt.subplots(2, 1, figsize=(26, 12), sharex=True)
 for ax, metric, ylabel, ylim, reltop in ((axes[0], rate, "binary compliance, %", 70, 68), (axes[1], cont, "continuous compliance (0–1)", 1.12, None)):
     for j, a in enumerate(arms):
         xs, ys = [], []
@@ -62,11 +62,12 @@ for ax, metric, ylabel, ylim, reltop in ((axes[0], rate, "binary compliance, %",
     ax.set_ylabel(ylabel); ax.set_ylim(0, ylim); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
     if reltop:
         for i, (src, c, rel) in enumerate(conds):
-            ax.text(i, reltop, rel + ("" if src is cc else "\n" + {"rif": "R", "cc": "C"}[TPL[c]]), ha="center", va="top", fontsize=7, color=INK2 if rel != "novel" else MUTED, fontweight="bold" if rel != "novel" else "normal")
+            ax.text(i, reltop, rel, ha="center", va="top", fontsize=7, color=INK2 if rel != "novel" else MUTED, fontweight="bold" if rel != "novel" else "normal")
         for lo, hi, name in groups: ax.text((lo + hi - 1) / 2, ylim + 3, name, ha="center", va="bottom", fontsize=9.5, color=INK)
 axes[0].legend(frameon=False, fontsize=9, loc="upper right", bbox_to_anchor=(1.0, 0.86))
-axes[1].set_xticks(range(len(conds))); axes[1].set_xticklabels([c.replace("_thinking", "").replace("_", "\n") for _, c, _ in conds], fontsize=7)
-axes[1].text(19.5, -0.42, "Never-seen rules: R = ReasonIF \"rules\" template, C = CoTControl \"Requirement\" template; the one with the higher mean binary rate across arms, chosen per rule and used for every arm. CoTControl modes exist only in their own template. S1 and T3-60 not evaluated on batch 2; ignore_question has no continuous score.", ha="center", fontsize=8, color=MUTED)
+TPLNAME = {"rif": "ReasonIF template", "cc": "CoTControl template", None: "CoTControl template"}
+axes[1].set_xticks(range(len(conds))); axes[1].set_xticklabels([f"{c}  ({TPLNAME[TPL[c]]})" for _, c, _ in conds], fontsize=7.5, rotation=90)
+fig.text(0.5, 0.005, "Never-seen rules: shown in the template with the higher mean binary rate across arms, chosen per rule and used for every arm. CoTControl modes exist only in their own template. S1 and T3-60 not evaluated on batch 2; ignore_question has no continuous score.", ha="center", fontsize=8.5, color=MUTED)
 fig.suptitle("Qwen3-8B: every out-of-distribution condition, binary (top) and continuous (bottom).  Left of the dotted line: CoTControl modes that restate a training constraint; everything else is novel.",
              x=0.01, ha="left", fontsize=11.5, color=INK)
-fig.tight_layout(rect=(0, 0, 1, 0.95)); fig.savefig(REPO / "figures/all_conditions_best_template.png", bbox_inches="tight"); print("wrote figures/all_conditions_best_template.png")
+fig.tight_layout(rect=(0, 0.02, 1, 0.95)); fig.savefig(REPO / "figures/all_conditions_best_template.png", bbox_inches="tight"); print("wrote figures/all_conditions_best_template.png")
