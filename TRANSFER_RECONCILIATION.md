@@ -4,8 +4,7 @@
 we have: the ten CoTControl modes (`QWEN3_8B_FINDINGS.md`) and the ten never-seen IFBench-derived constraints
 run during the unlearning phase (`UNLEARNING_FINDINGS.md`, `UNLEARNING_CANDIDATE_CONSTRAINTS.md`). Binary =
 constraint satisfied, over rollouts with a closed think block; Fisher exact tests one-sided vs base. One
-training seed per arm. A second batch of twenty never-seen constraints is being evaluated on Q5 and base and
-will be appended.*
+training seed per arm. A second batch of twenty never-seen constraints, evaluated on Q5 and base, is in the last section.*
 
 ![The two tests side by side](figures/transfer_reconciliation.png)
 
@@ -186,7 +185,7 @@ granularity pattern the CoTControl modes showed, now on constraints with no trai
 **3. The headline number depends on which test you quote, and the honest one is small.** On CoTControl, the
 all-or-nothing rate on modes without a training twin is JSON's 55 % and about 1 % elsewhere; on the never-seen
 set it is 11 % in the ReasonIF template and 4.5 % in the CoTControl template, of which stop_words is all.
-Put together: of sixteen genuinely novel constraints across the two tests, two moved. The claim that survives
+Put together: of thirty-seven genuinely novel constraints across the two tests and both never-seen batches, two moved. The claim that survives
 is "multi-constraint SFT gives a constraint-specific, register-level transfer to a minority of novel rules,
 ordered by how many constraints each example carried", not "generalises to unseen constraints".
 
@@ -222,7 +221,7 @@ n = 40 should not be read.
 ## What can be said, in one paragraph
 
 Multi-constraint SFT on six ReasonIF-derived formatting rules gives Qwen3-8B a small, real, constraint-specific
-ability to follow formatting rules it was never trained on: of sixteen novel rules across two benchmarks and
+ability to follow formatting rules it was never trained on: of thirty-seven novel rules across two benchmarks and
 two prompt templates, two whole-trace register rules (JSON wrapping, a stop-word ceiling) move from 0 to
 40–55 % all-or-nothing compliance under the five-constraint arm and less under the three-constraint arm at
 step 60, while single-constraint training moves nothing; per-sentence, per-token, boundary and semantic
@@ -230,10 +229,36 @@ rules stay at zero for every arm. The larger CoTControl headline (12 %) is half 
 constraints. Unlearning removes the two novel gains together with the trained skills, so the transfer is
 one shared "apply the prompt's rule to the reasoning" policy with a narrow reach, not general controllability.
 
-## Pending
+## Batch 2: twenty more never-seen constraints, base against Q5
 
-The second batch of twenty never-seen constraints (per-token, per-sentence, structural and positional rules
-from IFBench/IFTrain, `src/cotctl/ifbench_eval.py` set 2) is being evaluated on Q5 and base in both templates.
-Prediction from the reading above: no per-token or positional rule moves; if anything moves it will be a
-whole-trace register rule (no_whitespace or sentence_hyphens are the candidates), and at most one or two of
-the twenty.
+The prediction written above before the base run finished was: no per-token or positional rule moves, at most
+one or two whole-trace register rules do. The result is stricter than the prediction: **nothing moves.**
+
+![Batch 2, binary and continuous](figures/transfer_reconciliation_batch2.png)
+
+| rule | granularity | base (both templates) | Q5 | Q5 vs base |
+|---|---|---:|---:|---:|
+| quotes_nested | structure | 8/39 | 11/40 | n.s. (p = 0.32) |
+| palindromes | inclusion | 13/39 | 1/34 | Q5 *lower* |
+| parentheses_nested | structure | 1/40 | 4/39 | n.s. (p = 0.17) |
+| numbers_exact | counting | 0/40 | 4/40 | p = 0.058 |
+| punctuation_all, single_vowel, keyword_nth_sentence | | 0/40 | 1/40 each | n.s. |
+| no_whitespace, sentence_hyphens, line_indent, bigram_wrapping | whole-trace register / layout, per-word format | 0 | 0 | — |
+| sentence_increment, last_first, alliteration_increment | per-sentence | 0 | 0 | — |
+| no_adjacent_consec, prime_lengths, consonant_cluster, odd_even_syllables | per-token | 0 | 0 | — |
+| words_position, paragraph_last_first | positional / per-paragraph | 0 | 0 | — |
+| **all twenty pooled** | | **2.8 % (22/794)** | **2.9 % (23/793)** | — |
+
+The two rules with non-trivial rates, nested quotes and palindromes, are ones the base model satisfies by
+accident on long math and science traces; Q5 satisfies the first at the same rate and the second less often,
+because its traces are shorter. The continuous scores are flat across all twenty (largest difference 0.07,
+on parentheses_nested). The two whole-trace register rules that the phase-1 pattern would have predicted as
+candidates, no_whitespace and sentence_hyphens, are at zero for both models: a register switch the model has
+never produced in any context does not become available through multi-constraint SFT, unlike JSON and dense
+prose, which the base model already produces elsewhere.
+
+Across both batches the count is therefore: **thirty never-seen rules, one moves (stop_words)**; with the seven
+novel CoTControl modes, thirty-seven novel rules, two move. Both movers are register switches the base model
+already knows how to execute in the answer or in ordinary prose; the transfer is the trained policy "apply the
+prompt's format rule to the reasoning" reaching the registers already in the model's repertoire, and no
+further.

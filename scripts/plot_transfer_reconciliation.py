@@ -25,6 +25,10 @@ CC = {"base": "results/qwen3_8b/eval/base", "S1": "results/qwen3_8b/eval/S1-fina
 IF = {"base": "results/unlearn/eval/base", "S1": "results/unlearn/eval/S1-ifb", "T3-60": "results/unlearn/eval/T3-60-ifb", "Q5": "results/unlearn/eval/Q5"}
 cc_rows = {a: [r for r in load(REPO / p / "graded.jsonl") if r["suite"] == "cotcontrol_multi" and r["level"] == 1] for a, p in CC.items()}
 if_rows = {a: [r for r in load(REPO / p / "graded.jsonl") if r["suite"] == "ifbench"] for a, p in IF.items()}
+IF2 = {"base": "results/unlearn/eval/base-ifb2", "Q5": "results/unlearn/eval/Q5-ifb2"}
+if2_rows = {a: [r for r in load(REPO / p / "graded.jsonl") if r["suite"] == "ifbench"] for a, p in IF2.items()}
+if2_cons = ["quotes_nested", "palindromes", "parentheses_nested", "numbers_exact", "punctuation_all", "single_vowel", "keyword_nth_sentence", "no_whitespace", "sentence_hyphens", "line_indent", "bigram_wrapping",
+            "sentence_increment", "last_first", "alliteration_increment", "no_adjacent_consec", "prime_lengths", "consonant_cluster", "odd_even_syllables", "words_position", "paragraph_last_first"]
 
 cc_modes = [("end_of_sentence", "trained\n('safe')"), ("uppercase_thinking", "twin of\ncapital"), ("lowercase_thinking", "mirror of\ncapital"), ("json_format", "novel"),
             ("alternating_case", "novel"), ("repeat_sentences", "novel"), ("word_suppression", "novel"), ("multiple_word_suppression", "novel"), ("meow_between_words", "novel"), ("ignore_question", "novel,\nsemantic")]
@@ -55,4 +59,16 @@ def draw(metric, ylabel, ylim, fname, note, reltop):
 
 draw(rate, "binary compliance, %", 62, "transfer_reconciliation", "", 60)
 draw(cont, "continuous compliance (0–1)", 1.05, "transfer_reconciliation_continuous", " — continuous scores (ignore_question has none; word-suppression scores carry a denominator inconsistency, see REVIEW_SLACK_FINDINGS.md)", 1.02)
-print("wrote figures/transfer_reconciliation.png and figures/transfer_reconciliation_continuous.png")
+
+# batch 2: base vs Q5 only, binary above continuous
+fig, axes = plt.subplots(2, 1, figsize=(15.5, 6.4), sharex=True)
+for ax, metric, ylabel, ylim in ((axes[0], rate, "binary compliance, %", 40), (axes[1], cont, "continuous compliance (0–1)", 1.05)):
+    for j, a in enumerate(("base", "Q5")):
+        ys = [metric([r for r in if2_rows[a] if r["constraints"][0] == c], c) for c in if2_cons]
+        ax.bar([i + (j - 0.5) * 0.38 for i in range(len(if2_cons))], ys, width=0.36, color=C[a], edgecolor=SURF, label=a)
+    ax.set_ylabel(ylabel); ax.set_ylim(0, ylim); style(ax)
+axes[0].legend(frameon=False, fontsize=9, loc="upper right")
+axes[1].set_xticks(range(len(if2_cons))); axes[1].set_xticklabels([c.replace("_", "\n") for c in if2_cons], fontsize=7.5)
+fig.suptitle("Qwen3-8B, twenty more never-seen constraints (batch 2): base vs Q5, 40 prompts per constraint, both templates pooled\nno constraint separates from base; pooled all-or-nothing 2.8 % (base) vs 2.9 % (Q5)", x=0.01, ha="left", fontsize=11, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / "figures/transfer_reconciliation_batch2.png", bbox_inches="tight"); plt.close(fig)
+print("wrote figures/transfer_reconciliation{,_continuous,_batch2}.png")
