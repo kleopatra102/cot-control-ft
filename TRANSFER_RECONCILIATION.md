@@ -57,6 +57,40 @@ Everything Q5 gains on this test is stop_words. The other nine are within noise 
 the only three with non-zero base rates (repeats, conjunctions, first_word_sent's continuous score) are ones
 the model satisfies by accident at a rate that no arm changes.
 
+## The same two tests on the continuous score
+
+![Continuous scores side by side](figures/transfer_reconciliation_continuous.png)
+
+Continuous = the graded degree of compliance (fraction of letters, sentences or words that satisfy the rule;
+1.0 is the binary threshold). Macro over the modes in each group:
+
+| group | base | S1 | T3-60 | Q5 |
+|---|---:|---:|---:|---:|
+| CoTControl modes restating a training rule (end_of_sentence, uppercase, lowercase) | 0.33 | 0.56 | 0.54 | 0.74 |
+| CoTControl JSON | 0.00 | 0.00 | 0.47 | 0.64 |
+| CoTControl other novel modes (alternating, repeat, word suppression ×2, meow) | 0.31 | 0.26 | 0.33 | 0.35 |
+| never-seen stop_words | 0.77 | 0.77 | 0.83 | 0.90 |
+| never-seen other nine | 0.30 | 0.29 | 0.31 | 0.32 |
+
+The continuous score confirms the binary picture and adds two things it cannot show:
+
+- **A per-sentence rule moves part-way without ever reaching the threshold.** first_word_sent (begin every
+  sentence with "Indeed"), the mirror of the trained end_of_sentence, goes from 0.02 (base) to 0.21 (T3-60)
+  and 0.24 (Q5) while binary stays at 0–1 of 20: the model starts a fifth to a quarter of its sentences with
+  the word and then lapses. Its structural twin with a different token class, emoji_end, does not move at
+  all (0.01 → 0.01). So per-sentence transfer exists, is partial, and is specific to the trained shape
+  (a fixed word at a sentence boundary), not to "every sentence" rules in general.
+- **repeat_sentences rises from 0.28 to 0.60 for Q5 with binary at 2 %.** The review found this is a
+  head-only behaviour: the required sentence is the first line of the trace in 36 of 40 Q5 rollouts and the
+  last line in 1, so the model applies the rule where a register switch would put it, at the start, and
+  never closes it.
+
+Everything else is flat: the five other novel CoTControl modes move by 0.04 macro, the nine other never-seen
+constraints by 0.02, and alternating_case, the one whole-trace format executed per character, by 0.00. The
+word-suppression continuous scores are shown with a caveat: their denominator counts all keywords while the
+numerator counts one (`REVIEW_SLACK_FINDINGS.md`), so their level is inflated for every arm, though the
+between-arm comparison, which is flat, is unaffected.
+
 ## Reconciled reading
 
 **1. The two tests agree on the ordering and on the size of the effect.** Base ≈ S1 < T3-60 < Q5 on both.
