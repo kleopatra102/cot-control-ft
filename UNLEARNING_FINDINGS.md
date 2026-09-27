@@ -52,6 +52,18 @@ stop-word ratio as base's.
 
 ![Never-seen constraints](figures/unlearn_never_seen.png)
 
+A second batch of 20 more constraints from the same paper (every remaining verifiable rule: bigram
+wrapping, no whitespace, hyphen-joined sentences, staircase indentation, sentence-length increments,
+last-word-to-first-word chaining, rising alliteration, no consecutive initials, prime-length words,
+single-vowel words, consonant clusters, syllable alternation, palindromes, exact number count, every
+punctuation mark, nested parentheses and quotes, keyword positions, paragraph first-equals-last) was run on
+Q5 and base in both templates (`NEVER_SEEN_RESULTS.md`). Q5 equals base on all of them except
+numbers_exact (0 → 15 % in the CoTControl template, 0 → 5 % in the ReasonIF template); pooled over the
+batch Q5 is 2.9 % against base 2.8 %. Over all 30 never-seen constraints Q5 is 4.5 % against base 2.6 %,
+and the whole difference is stop_words plus a little numbers_exact and first_word_sent.
+
+![All 30 never-seen constraints](figures/never_seen_all.png)
+
 **2. Unlearning generalises across constraint, template and benchmark.** At the full dose U is at base or
 below on all four readouts, while C reproduces Q5 within noise on all four. The held-out CoTControl modes
 fall from 55 % (json) and 25 % (lowercase) to 0; the novel stop_words transfer falls from 40 % to 2 %; the

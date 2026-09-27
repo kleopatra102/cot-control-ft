@@ -128,6 +128,16 @@ trained arm reaches Chinese and Hindi, and Arabic is the one language that fails
 
 ![reasoning_language by language](figures/q3_8b_language_breakdown.png)
 
+## Transfer to constraints that are new in every sense (added after phase 2)
+
+Thirty constraints adapted from IFBench, in no prompt of any phase, evaluated in both the ReasonIF and the
+CoTControl template (`NEVER_SEEN_RESULTS.md`, `UNLEARNING_FINDINGS.md` finding 1). S1 equals base on all
+ten of the first batch; T3-60 and Q5 beat base on stop_words only (Q5 30–50 %, base 0) plus a partial
+move on first_word_sent, and Q5 on numbers_exact (15 % vs 0). Everything else, 27 of 30, is at floor for
+every checkpoint. Pooled over the 30, Q5 4.5 % vs base 2.6 %. So the phase-1 transfer is not a general
+rule-following skill; the "unseen conditions" claim holds for the JSON relocation on CoTControl and for
+two or three narrow rules here, nothing more.
+
 ## Qwen3.5-9B against Qwen3-8B, same constraint set and recipe
 
 ![Qwen3.5-9B vs Qwen3-8B](figures/q3_8b_vs_qwen35.png)

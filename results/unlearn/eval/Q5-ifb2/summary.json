@@ -1,0 +1,647 @@
+{
+ "label": "Q5-ifb2",
+ "n_rollouts": 800,
+ "conditions": {
+  "ifb/ifb:alliteration_increment:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "alliteration_increment": 0
+   },
+   "per_continuous": {
+    "alliteration_increment": 0.3121536837303653
+   },
+   "accuracy": 0.6
+  },
+  "ifb/ifb:alliteration_increment:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "alliteration_increment": 0
+   },
+   "per_continuous": {
+    "alliteration_increment": 0.2495814278119914
+   },
+   "accuracy": 0.65
+  },
+  "ifb/ifb:bigram_wrapping:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "bigram_wrapping": 0
+   },
+   "per_continuous": {
+    "bigram_wrapping": 0.022686259605142006
+   },
+   "accuracy": 0.3
+  },
+  "ifb/ifb:bigram_wrapping:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "bigram_wrapping": 0
+   },
+   "per_continuous": {
+    "bigram_wrapping": 0.00023008849557522122
+   },
+   "accuracy": 0.85
+  },
+  "ifb/ifb:consonant_cluster:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "consonant_cluster": 0
+   },
+   "per_continuous": {
+    "consonant_cluster": 0.6270530160618034
+   },
+   "accuracy": 0.85
+  },
+  "ifb/ifb:consonant_cluster:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "consonant_cluster": 0
+   },
+   "per_continuous": {
+    "consonant_cluster": 0.5466255632812306
+   },
+   "accuracy": 0.65
+  },
+  "ifb/ifb:keyword_nth_sentence:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.05,
+   "per_binary": {
+    "keyword_nth_sentence": 0.05
+   },
+   "per_continuous": {
+    "keyword_nth_sentence": 0.05
+   },
+   "accuracy": 0.25
+  },
+  "ifb/ifb:keyword_nth_sentence:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "keyword_nth_sentence": 0
+   },
+   "per_continuous": {
+    "keyword_nth_sentence": 0.0
+   },
+   "accuracy": 0.75
+  },
+  "ifb/ifb:last_first:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "last_first": 0
+   },
+   "per_continuous": {
+    "last_first": 0.003333333333333333
+   },
+   "accuracy": 0.2
+  },
+  "ifb/ifb:last_first:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "last_first": 0
+   },
+   "per_continuous": {
+    "last_first": 0.006243580262728383
+   },
+   "accuracy": 0.8
+  },
+  "ifb/ifb:line_indent:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "line_indent": 0
+   },
+   "per_continuous": {
+    "line_indent": 0.0
+   },
+   "accuracy": 0.55
+  },
+  "ifb/ifb:line_indent:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "line_indent": 0
+   },
+   "per_continuous": {
+    "line_indent": 0.015847953216374267
+   },
+   "accuracy": 0.7
+  },
+  "ifb/ifb:no_adjacent_consec:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "no_adjacent_consec": 0
+   },
+   "per_continuous": {
+    "no_adjacent_consec": 0.9062622890118703
+   },
+   "accuracy": 0.65
+  },
+  "ifb/ifb:no_adjacent_consec:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "no_adjacent_consec": 0
+   },
+   "per_continuous": {
+    "no_adjacent_consec": 0.8965119587820143
+   },
+   "accuracy": 0.55
+  },
+  "ifb/ifb:no_whitespace:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "no_whitespace": 0
+   },
+   "per_continuous": {
+    "no_whitespace": 0.833557994613093
+   },
+   "accuracy": 0.05
+  },
+  "ifb/ifb:no_whitespace:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "no_whitespace": 0
+   },
+   "per_continuous": {
+    "no_whitespace": 0.8045367398392016
+   },
+   "accuracy": 0.7
+  },
+  "ifb/ifb:numbers_exact:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.15,
+   "per_binary": {
+    "numbers_exact": 0.15
+   },
+   "per_continuous": {
+    "numbers_exact": 0.3035797110530634
+   },
+   "accuracy": 0.55
+  },
+  "ifb/ifb:numbers_exact:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.05,
+   "per_binary": {
+    "numbers_exact": 0.05
+   },
+   "per_continuous": {
+    "numbers_exact": 0.14781642864008285
+   },
+   "accuracy": 0.7
+  },
+  "ifb/ifb:odd_even_syllables:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "odd_even_syllables": 0
+   },
+   "per_continuous": {
+    "odd_even_syllables": 0.3998286164199783
+   },
+   "accuracy": 0.4
+  },
+  "ifb/ifb:odd_even_syllables:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "odd_even_syllables": 0
+   },
+   "per_continuous": {
+    "odd_even_syllables": 0.3441578415109392
+   },
+   "accuracy": 0.65
+  },
+  "ifb/ifb:palindromes:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 15,
+   "truncated": 0.25,
+   "joint_binary": 0.06666666666666667,
+   "per_binary": {
+    "palindromes": 0.06666666666666667
+   },
+   "per_continuous": {
+    "palindromes": 0.24666666666666667
+   },
+   "accuracy": 0.6
+  },
+  "ifb/ifb:palindromes:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 19,
+   "truncated": 0.05,
+   "joint_binary": 0,
+   "per_binary": {
+    "palindromes": 0
+   },
+   "per_continuous": {
+    "palindromes": 0.005263157894736842
+   },
+   "accuracy": 0.5555555555555556
+  },
+  "ifb/ifb:paragraph_last_first:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "paragraph_last_first": 0
+   },
+   "per_continuous": {
+    "paragraph_last_first": 0.000628930817610063
+   },
+   "accuracy": 0.5789473684210527
+  },
+  "ifb/ifb:paragraph_last_first:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "paragraph_last_first": 0
+   },
+   "per_continuous": {
+    "paragraph_last_first": 0.002300796142081439
+   },
+   "accuracy": 0.7
+  },
+  "ifb/ifb:parentheses_nested:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 19,
+   "truncated": 0.05,
+   "joint_binary": 0.15789473684210525,
+   "per_binary": {
+    "parentheses_nested": 0.15789473684210525
+   },
+   "per_continuous": {
+    "parentheses_nested": 0.5684210526315789
+   },
+   "accuracy": 0.4444444444444444
+  },
+  "ifb/ifb:parentheses_nested:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.05,
+   "per_binary": {
+    "parentheses_nested": 0.05
+   },
+   "per_continuous": {
+    "parentheses_nested": 0.35
+   },
+   "accuracy": 0.7
+  },
+  "ifb/ifb:prime_lengths:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "prime_lengths": 0
+   },
+   "per_continuous": {
+    "prime_lengths": 0.5487251087506989
+   },
+   "accuracy": 0
+  },
+  "ifb/ifb:prime_lengths:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "prime_lengths": 0
+   },
+   "per_continuous": {
+    "prime_lengths": 0.6074130316997951
+   },
+   "accuracy": 0.75
+  },
+  "ifb/ifb:punctuation_all:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.05,
+   "per_binary": {
+    "punctuation_all": 0.05
+   },
+   "per_continuous": {
+    "punctuation_all": 0.6357142857142857
+   },
+   "accuracy": 0
+  },
+  "ifb/ifb:punctuation_all:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "punctuation_all": 0
+   },
+   "per_continuous": {
+    "punctuation_all": 0.6142857142857142
+   },
+   "accuracy": 0.55
+  },
+  "ifb/ifb:quotes_nested:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.35,
+   "per_binary": {
+    "quotes_nested": 0.35
+   },
+   "per_continuous": {
+    "quotes_nested": 0.6333333333333333
+   },
+   "accuracy": 0
+  },
+  "ifb/ifb:quotes_nested:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.2,
+   "per_binary": {
+    "quotes_nested": 0.2
+   },
+   "per_continuous": {
+    "quotes_nested": 0.6
+   },
+   "accuracy": 0.7
+  },
+  "ifb/ifb:sentence_hyphens:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "sentence_hyphens": 0
+   },
+   "per_continuous": {
+    "sentence_hyphens": 0.0
+   },
+   "accuracy": 0.1
+  },
+  "ifb/ifb:sentence_hyphens:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "sentence_hyphens": 0
+   },
+   "per_continuous": {
+    "sentence_hyphens": 0.0
+   },
+   "accuracy": 0.85
+  },
+  "ifb/ifb:sentence_increment:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "sentence_increment": 0
+   },
+   "per_continuous": {
+    "sentence_increment": 0.037010515122902016
+   },
+   "accuracy": 0.45
+  },
+  "ifb/ifb:sentence_increment:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "sentence_increment": 0
+   },
+   "per_continuous": {
+    "sentence_increment": 0.06204756188333844
+   },
+   "accuracy": 0.65
+  },
+  "ifb/ifb:single_vowel:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "single_vowel": 0
+   },
+   "per_continuous": {
+    "single_vowel": 0.5820169840569935
+   },
+   "accuracy": 0.47368421052631576
+  },
+  "ifb/ifb:single_vowel:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.05,
+   "per_binary": {
+    "single_vowel": 0.05
+   },
+   "per_continuous": {
+    "single_vowel": 0.6318401865480759
+   },
+   "accuracy": 0.75
+  },
+  "ifb/ifb:words_position:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "words_position": 0
+   },
+   "per_continuous": {
+    "words_position": 0.025
+   },
+   "accuracy": 0.2631578947368421
+  },
+  "ifb/ifb:words_position:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "words_position": 0
+   },
+   "per_continuous": {
+    "words_position": 0.0
+   },
+   "accuracy": 0.65
+  }
+ },
+ "ifbench/k1/heldout/joint_macro": 0.029364035087719297
+}
