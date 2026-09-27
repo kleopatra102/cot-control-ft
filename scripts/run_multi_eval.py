@@ -28,6 +28,7 @@ def main() -> int:
     ap.add_argument("--cc-levels", default=None, help="sampled CoTControl design, e.g. '1:10x40,3:20x15,6:3x20' = k:conditions x prompts (default: the Qwen3.5 hand-picked lists)")
     ap.add_argument("--out-root", default=str(REPO / "results/multi_eval"))
     ap.add_argument("--ifbench", type=int, default=0, help="never-seen IFBench-derived constraints: N prompts per constraint per template (suite 'ifbench')")
+    ap.add_argument("--ifbench-set", type=int, default=1, help="1 = the ten used in phase 2; 2 = the remaining verifiable IFBench/IFTrain constraints")
     a = ap.parse_args(); cfg = yaml.safe_load(open(a.config)); out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True)
     wl = json.load(open(a.word_limits))
     if len(wl) == 1 and isinstance(next(iter(wl.values())), dict): wl = next(iter(wl.values()))  # {"<model>": {source: limit}}
@@ -37,7 +38,7 @@ def main() -> int:
     reqs = []
     if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl, a.n_single_rif, a.n_pair_rif, a.n_triple_rif, n_quad=a.n_quad_rif, n_quint=a.n_quint_rif)
     if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc, a.n_unc_cc, levels=levels)
-    if a.ifbench: reqs += ifb_requests(a.ifbench)
+    if a.ifbench: reqs += ifb_requests(a.ifbench, ifb_set=a.ifbench_set)
     if a.limit:
         by = defaultdict(list)
         for r in reqs: by[r.meta["suite"]].append(r)
