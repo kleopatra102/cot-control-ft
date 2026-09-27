@@ -8,6 +8,10 @@ training seed per arm. A second batch of twenty never-seen constraints, evaluate
 
 ![The two tests side by side](figures/transfer_reconciliation.png)
 
+## All forty conditions in one figure
+
+![All out-of-distribution conditions, binary and continuous](figures/all_conditions.png)
+
 ## Every condition, by source
 
 Three sources, three roles. Instruction text is the one actually rendered in prompts (`src/cotctl/prompts.py`,
