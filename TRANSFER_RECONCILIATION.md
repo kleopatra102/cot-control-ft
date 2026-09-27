@@ -12,6 +12,14 @@ training seed per arm. A second batch of twenty never-seen constraints, evaluate
 
 ![All out-of-distribution conditions, binary and continuous](figures/all_conditions.png)
 
+The same figure with each never-seen rule shown in the template where it is elicited best (R = ReasonIF
+"rules" template, C = CoTControl "Requirement" template). The template is chosen per rule by the mean binary
+rate across all evaluated arms and then used for every arm, so the comparison between arms stays fair; the
+per-rule choice inflates all arms slightly and equally. The picture is unchanged: stop_words reaches 50 % for
+Q5 in the ReasonIF template, and nothing else novel separates from base.
+
+![All conditions, better template per rule](figures/all_conditions_best_template.png)
+
 ## Every condition, by source
 
 Three sources, three roles. Instruction text is the one actually rendered in prompts (`src/cotctl/prompts.py`,
