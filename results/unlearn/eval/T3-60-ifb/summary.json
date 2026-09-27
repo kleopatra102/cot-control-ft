@@ -1,0 +1,327 @@
+{
+ "label": "T3-60-ifb",
+ "n_rollouts": 400,
+ "conditions": {
+  "ifb/ifb:conjunctions:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "conjunctions": 0
+   },
+   "per_continuous": {
+    "conjunctions": 0.7583333333333333
+   },
+   "accuracy": 0.9473684210526315
+  },
+  "ifb/ifb:conjunctions:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 19,
+   "truncated": 0.05,
+   "joint_binary": 0.10526315789473684,
+   "per_binary": {
+    "conjunctions": 0.10526315789473684
+   },
+   "per_continuous": {
+    "conjunctions": 0.7807017543859649
+   },
+   "accuracy": 0.42105263157894735
+  },
+  "ifb/ifb:emoji_end:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "emoji_end": 0
+   },
+   "per_continuous": {
+    "emoji_end": 0.0
+   },
+   "accuracy": 0.05555555555555555
+  },
+  "ifb/ifb:emoji_end:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "emoji_end": 0
+   },
+   "per_continuous": {
+    "emoji_end": 0.0
+   },
+   "accuracy": 0.9
+  },
+  "ifb/ifb:first_word_sent:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "first_word_sent": 0
+   },
+   "per_continuous": {
+    "first_word_sent": 0.2648377173634916
+   },
+   "accuracy": 0.8
+  },
+  "ifb/ifb:first_word_sent:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 19,
+   "truncated": 0.05,
+   "joint_binary": 0,
+   "per_binary": {
+    "first_word_sent": 0
+   },
+   "per_continuous": {
+    "first_word_sent": 0.1554836834577633
+   },
+   "accuracy": 0.5789473684210527
+  },
+  "ifb/ifb:newline_words:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "newline_words": 0
+   },
+   "per_continuous": {
+    "newline_words": 0.0008383205091669042
+   },
+   "accuracy": 0.16666666666666666
+  },
+  "ifb/ifb:newline_words:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "newline_words": 0
+   },
+   "per_continuous": {
+    "newline_words": 0.01777611028014502
+   },
+   "accuracy": 0.8
+  },
+  "ifb/ifb:no_consecutive_initial:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "no_consecutive_initial": 0
+   },
+   "per_continuous": {
+    "no_consecutive_initial": 0.9413956342535494
+   },
+   "accuracy": 0.10526315789473684
+  },
+  "ifb/ifb:no_consecutive_initial:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0.05,
+   "joint_binary": 0,
+   "per_binary": {
+    "no_consecutive_initial": 0
+   },
+   "per_continuous": {
+    "no_consecutive_initial": 0.9286763912789071
+   },
+   "accuracy": 0.9473684210526315
+  },
+  "ifb/ifb:repeats:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.05,
+   "per_binary": {
+    "repeats": 0.05
+   },
+   "per_continuous": {
+    "repeats": 0.8826321445145034
+   },
+   "accuracy": 0.7894736842105263
+  },
+  "ifb/ifb:repeats:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.2,
+   "per_binary": {
+    "repeats": 0.2
+   },
+   "per_continuous": {
+    "repeats": 0.9279694509334819
+   },
+   "accuracy": 0.75
+  },
+  "ifb/ifb:sentence_type_ratio:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "sentence_type_ratio": 0
+   },
+   "per_continuous": {
+    "sentence_type_ratio": 0.0
+   },
+   "accuracy": 0.05
+  },
+  "ifb/ifb:sentence_type_ratio:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "sentence_type_ratio": 0
+   },
+   "per_continuous": {
+    "sentence_type_ratio": 0.0
+   },
+   "accuracy": 0.8
+  },
+  "ifb/ifb:square_brackets:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "square_brackets": 0
+   },
+   "per_continuous": {
+    "square_brackets": 0.00130095165249096
+   },
+   "accuracy": 0
+  },
+  "ifb/ifb:square_brackets:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 19,
+   "truncated": 0.05,
+   "joint_binary": 0,
+   "per_binary": {
+    "square_brackets": 0
+   },
+   "per_continuous": {
+    "square_brackets": 0.0003123428898871284
+   },
+   "accuracy": 0.7368421052631579
+  },
+  "ifb/ifb:start_end_same:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0,
+   "per_binary": {
+    "start_end_same": 0
+   },
+   "per_continuous": {
+    "start_end_same": 0.0
+   },
+   "accuracy": 0.47058823529411764
+  },
+  "ifb/ifb:start_end_same:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 19,
+   "truncated": 0.1,
+   "joint_binary": 0,
+   "per_binary": {
+    "start_end_same": 0
+   },
+   "per_continuous": {
+    "start_end_same": 0.0
+   },
+   "accuracy": 0.7777777777777778
+  },
+  "ifb/ifb:stop_words:cc": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.2,
+   "per_binary": {
+    "stop_words": 0.2
+   },
+   "per_continuous": {
+    "stop_words": 0.8349068741979794
+   },
+   "accuracy": 0.5789473684210527
+  },
+  "ifb/ifb:stop_words:rif": {
+   "suite": "ifbench",
+   "level": 1,
+   "held_out": true,
+   "n": 20,
+   "gradeable": 20,
+   "truncated": 0,
+   "joint_binary": 0.1,
+   "per_binary": {
+    "stop_words": 0.1
+   },
+   "per_continuous": {
+    "stop_words": 0.8201322981844176
+   },
+   "accuracy": 0.55
+  }
+ },
+ "ifbench/k1/heldout/joint_macro": 0.03276315789473684
+}

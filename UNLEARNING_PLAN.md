@@ -91,5 +91,5 @@ conjunctions, start_end_same, repeats (counting / boundary).
 
 ## Status
 
-Not started. Order: traces → calibration (needs the ten new graders) → build datasets → merge and train →
+Run complete 2026-09-27; findings in `UNLEARNING_FINDINGS.md`, tables and figures in `UNLEARNING_RESULTS.md`. As run: 667 examples per arm (863 built, 196 over the training window dropped from both arms), evaluated at 60 examples and full; calibration also evaluated S1-final and T3-60 on the never-seen set. Originally: Order: traces → calibration (needs the ten new graders) → build datasets → merge and train →
 evaluate U-final and C-final first, then the small doses.
