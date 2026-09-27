@@ -35,11 +35,11 @@ def pooled(d): v = [x for xs in d.values() for x in xs]; return 100 * sum(b for 
 md.append("\nPooled over all 30 constraints and both templates: " + "; ".join(f"{k} {pooled(D[k])[0]:.1f} % binary, {pooled(D[k])[1]:.3f} continuous (n={pooled(D[k])[2]})" for k in ("base", "Q5")) + ".")
 # figure: Q5 vs base, binary (templates pooled), 30 constraints, sorted by Q5-base gap
 gaps = sorted(order, key=lambda c: -((bin_(D["Q5"], c)[0] or 0) - (bin_(D["base"], c)[0] or 0)))
-fig, ax = plt.subplots(figsize=(13, 4.6)); w = 0.4
+fig, ax = plt.subplots(figsize=(14, 5.2)); w = 0.4
 for j, (k, col) in enumerate((("base", "#c3c2b7"), ("Q5", "#eb6834"))):
     ys = [bin_(D[k], c)[0] or 0 for c in gaps]
     ax.bar([i + (j - 0.5) * w for i in range(len(gaps))], ys, width=w, color=col, edgecolor=SURF, label=k)
-ax.set_xticks(range(len(gaps))); ax.set_xticklabels([c.replace("_", "\n") for c in gaps], fontsize=7); ax.set_ylabel("binary compliance, % (both templates pooled)"); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
+ax.set_xticks(range(len(gaps))); ax.set_xticklabels(gaps, fontsize=7.5, rotation=60, ha="right"); ax.set_ylabel("binary compliance, % (both templates pooled)"); ax.yaxis.grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
 ax.set_title("Q5 vs base on 30 constraints that were in no training prompt (sorted by Q5 − base)", loc="left", fontsize=10.5, color=INK); ax.legend(frameon=False, fontsize=9, loc="upper right")
 fig.tight_layout(); fig.savefig(REPO / "figures/never_seen_all.png", bbox_inches="tight"); plt.close(fig)
 md.append("\n![never-seen, all 30](figures/never_seen_all.png)\n")
