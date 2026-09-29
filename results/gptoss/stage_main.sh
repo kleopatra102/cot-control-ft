@@ -33,7 +33,7 @@ for arm in T3 Q5 S1 R; do
   ck=$R/ckpts/$arm
   [[ -f $ck/step-final/adapter_config.json ]] && { log "train $arm done"; continue; }
   log "train $arm"
-  UNSLOTH_COMPILE_DISABLE=1 TORCHDYNAMO_DISABLE=1 .venv-unsloth/bin/python scripts/train_lora_gptoss.py --data data/sft/gptoss_${arm}.jsonl --out-dir $ck > $R/train_${arm}.log 2>&1
+  PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True UNSLOTH_COMPILE_DISABLE=1 TORCHDYNAMO_DISABLE=1 .venv-unsloth/bin/python scripts/train_lora_gptoss.py --max-len 4096 --data data/sft/gptoss_${arm}.jsonl --out-dir $ck > $R/train_${arm}.log 2>&1
   [[ -f $ck/step-final/adapter_config.json ]] || { log "train $arm FAILED"; tail -5 $R/train_${arm}.log; exit 3; }
 done
 

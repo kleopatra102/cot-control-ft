@@ -7,7 +7,7 @@
 
 | item | choice | why |
 |---|---|---|
-| training stack | Unsloth, 4-bit base, **attention-only LoRA** (q/k/v/o), r 32, α 32, lr 1e-4, bs 1 × ga 4, one epoch, max_len 8192 | transformers cannot train through the MXFP4 experts and bf16 (~41 GB) does not fit the 5090; vLLM's gpt-oss LoRA mapping covers attention only, so the adapter serves directly on the MXFP4 base |
+| training stack | Unsloth, 4-bit base, **attention-only LoRA** (q/k/v/o), r 32, α 32, lr 1e-4, bs 1 × ga 4, one epoch, max_len 4096 (8192 runs out of memory in the MoE backward; the cap drops 5–13 examples per arm, under 1.5 %) | transformers cannot train through the MXFP4 experts and bf16 (~41 GB) does not fit the 5090; vLLM's gpt-oss LoRA mapping covers attention only, so the adapter serves directly on the MXFP4 base |
 | reasoning effort | medium, in training (system prompt "Reasoning: medium") and evaluation (`reasoning_effort`) | short traces; one setting throughout |
 | answer tags | dropped: `COTCTL_NO_ANSWER_TAG=1` removes the ReasonIF "place only your final answer inside `<answer>`" line from every ReasonIF-template prompt (training, stage-1 traces, calibration, evaluation) | removes one template confound; the final channel carries the answer |
 | sampling | temperature 1, top_p 1, no top_k (OpenAI's recommendation), max_tokens 32768 | `configs/gptoss.yaml` |

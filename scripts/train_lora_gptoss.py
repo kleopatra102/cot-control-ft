@@ -50,6 +50,21 @@ def encode(tok, messages, max_len, effort):
     return ids, [-100] * n_prompt + ids[n_prompt:]
 
 
+def chunked_loss(model, input_ids, labels, chunk=1024):
+    """Token-mean CE without materialising seq x 201k logits (a 7 GB tensor at 8k tokens)."""
+    import torch.nn.functional as F
+    base = model.get_base_model() if hasattr(model, "get_base_model") else model
+    hidden = base.model(input_ids=input_ids, use_cache=False).last_hidden_state[:, :-1, :]
+    y = labels[:, 1:]; h = hidden.reshape(-1, hidden.size(-1)); y = y.reshape(-1)
+    total = h.new_zeros((), dtype=torch.float32); n = (y != -100).sum()
+    for i in range(0, h.size(0), chunk):
+        yy = y[i:i + chunk]
+        if (yy != -100).any():
+            logits = base.lm_head(h[i:i + chunk].to(base.lm_head.weight.dtype)).float()
+            total = total + F.cross_entropy(logits, yy, ignore_index=-100, reduction="sum")
+    return total / n.clamp(min=1)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True); ap.add_argument("--out-dir", required=True)
@@ -89,8 +104,8 @@ def main():
             if i >= len(ex): break
             ids, labels = ex[i]; i += 1
             x = torch.tensor([ids], device="cuda"); y = torch.tensor([labels], device="cuda")
-            o = model(input_ids=x, labels=y)
-            (o.loss / a.grad_accum).backward(); loss_sum += o.loss.item(); ntok += 1
+            loss = chunked_loss(model, x, y)
+            (loss / a.grad_accum).backward(); loss_sum += loss.item(); ntok += 1
         torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad], 1.0)
         opt.step()
         rec = {"step": step, "loss": loss_sum / max(1, ntok), "seconds": round(time.time() - t0, 1), "max_mem_gb": round(torch.cuda.max_memory_allocated() / 2**30, 1)}
