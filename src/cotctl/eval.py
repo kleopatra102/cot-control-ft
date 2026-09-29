@@ -205,6 +205,10 @@ def score_answer(suite: str, answer_text: str, correct: str, gold_letter: str | 
     got = extract_tagged_answer(answer_text)
     if got is None:
         got = extract_boxed_answer(answer_text)  # fallback (METHODOLOGY #42)
+    if got is None:  # untagged answers (gpt-oss run, COTCTL_NO_ANSWER_TAG): last "answer: X" line
+        import re as _re
+        m = _re.findall(r"(?i)(?:final answer|answer)\s*(?:is)?\s*[:：]?\s*\**\s*\$?([^\n*$]+?)\s*\$?\**\s*\.?\s*(?:\n|$)", answer_text or "")
+        got = m[-1].strip().rstrip(".") if m else None
     if got is None:
         return None
     return _norm(got) == _norm(correct)

@@ -46,7 +46,7 @@ ARGS=(
   --max-model-len "$MAX_LEN"
   --gpu-memory-utilization "$GPU_UTIL"
   --dtype bfloat16
-  --reasoning-parser qwen3
+  --reasoning-parser "${REASONING_PARSER:-qwen3}"
   --enable-lora
   --max-lora-rank 32
   --max-loras 1

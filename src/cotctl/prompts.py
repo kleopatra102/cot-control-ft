@@ -137,6 +137,16 @@ REASONIF_BASELINE_TEMPLATE = (
 )
 
 
+# gpt-oss run (GPTOSS_PLAN.md): drop the ReasonIF answer-tag line so neither training prompts nor targets carry
+# `<answer>` tags; the answer channel carries the answer. Opt-in via COTCTL_NO_ANSWER_TAG=1 so earlier runs are unchanged.
+import os as _os
+if _os.environ.get("COTCTL_NO_ANSWER_TAG") == "1":
+    _TAG = "Think step-by-step, and place only your final answer inside the tags `<answer>` and `</answer>`."
+    REASONIF_MULTI_TEMPLATE = REASONIF_MULTI_TEMPLATE.replace(_TAG, "Think step-by-step.")
+    REASONIF_TEMPLATE = REASONIF_TEMPLATE.replace(_TAG, "Think step-by-step.")
+    REASONIF_BASELINE_TEMPLATE = REASONIF_BASELINE_TEMPLATE.replace(_TAG, "Think step-by-step.")
+
+
 def reasonif_instruction(instruction_type: str, args: dict | None = None) -> str:
     """Render the instruction sentence for one ReasonIF constraint (upstream `build_description`)."""
     args = args or {}

@@ -1,0 +1,33 @@
+# gpt-oss-20b multi-constraint run (GPTOSS_PLAN.md). OpenAI's recommended sampling: temperature 1, top_p 1, no top_k.
+# Reasoning effort medium. Answer-tag line dropped from ReasonIF templates via COTCTL_NO_ANSWER_TAG=1.
+model:
+  name: openai/gpt-oss-20b
+  served_name: openai/gpt-oss-20b
+  adapter: null
+server:
+  base_url: http://localhost:8000/v1
+  max_model_len: 40960
+  concurrency: 64
+sampling:
+  temperature: 1.0
+  max_tokens: 32768
+  top_p: 1.0
+  top_k: null
+  seed: null
+  reasoning_effort: medium
+eval:
+  reasonif:
+    n: 300
+  cotcontrol:
+    n_per_mode: 300
+    seed: 42
+    modes: null
+  word_limits: data/word_limits_gpt-oss-20b.json
+judge:
+  model: gpt-5-mini
+  concurrency: 16
+  meta_discussion_llm: false
+calibration:
+  percentile: 20
+  repeats: 3
+  drop_truncated: false

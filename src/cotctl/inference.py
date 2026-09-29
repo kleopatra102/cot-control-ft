@@ -50,6 +50,7 @@ class SamplingParams:
     top_p: float = 0.95
     top_k: int = 20
     seed: int | None = None
+    reasoning_effort: str | None = None  # gpt-oss only: low | medium | high
 
     def to_request(self) -> dict:
         body: dict[str, Any] = {
@@ -61,6 +62,8 @@ class SamplingParams:
             body["extra_body"] = {"top_k": self.top_k}
         if self.seed is not None:
             body["seed"] = self.seed
+        if self.reasoning_effort is not None:
+            body["reasoning_effort"] = self.reasoning_effort
         return body
 
 
