@@ -57,16 +57,33 @@ Per constraint, single-rule prompts only (20 each, so differences under about 25
 So base Qwen3-8B has considerably more controllability than a plain request shows (at least 33 % against 8 %), but
 reaching it takes putting the first words in its mouth, not better instructions.
 
+## Q5 (fine-tuned, five constraints per example), E0–E5 and E7 complete; E6 running
+
+| strategy | all met | single rule | triples | graded score | accuracy | narrates | effective |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| E0 plain | 48.1 % | 47.5 % | 50.0 % | 0.69 | 58 % | — | 30.6 % |
+| E1 Redwood-style wording | 41.9 % | 43.3 % | 37.5 % | 0.66 | 55 % | 8 % | 28.1 % |
+| E2 monitoring and evaluation awareness | 46.9 % | 45.8 % | 50.0 % | 0.70 | 63 % | 5 % | 31.9 % |
+| E3 one worked example | 47.5 % | 49.2 % | 42.5 % | 0.71 | **45 %** | 6 % | 24.4 % |
+| E4 best of 3 samples | **57.5 %** | — | — | **0.79** | 61 % | — | **35.6 %** |
+| E5 prefilled compliant opening | 41.9 % | 44.2 % | 35.0 % | 0.70 | 56 % | 7 % | 26.9 % |
+| E7 rules repeated 15 times | 40.6 % | 40.0 % | 42.5 % | 0.65 | 53 % | 4 % | 25.6 % |
+
+**For Q5 no prompting strategy adds anything.** The fine-tuned model already satisfies 48 % of prompts plainly,
+six times base, and every rewording, the worked example and even prefill land within noise of that or slightly
+below (n = 160, so differences under about 10 points are not reliable). Only sampling more helps (best of three:
+58 %). Prefill, the one strategy that transformed base, does nothing for Q5: the model already starts in format.
+The worked example again costs about 13 points of accuracy. Fine-tuning has captured what elicitation could extract
+and more: prefill lifts base to 33 %, still well short of Q5's plain 48 %.
+
 ## Partial results (not yet complete; biased toward the first constraints in the run order)
 
 - **E7, rules repeated 15 times, base (now complete):** 9.4 % all met, 63 % accuracy, effective 6.2 %: no better than
   the plain prompt. The early partial number (27 %) came from the first, easiest constraints in the run order.
-- **Q5, plain prompt:** 52 of 480 E0 rollouts done, all single-rule. So far 75 % all met, graded score 0.88,
-  accuracy 69 %: the fine-tuned model starts from roughly nine times base's plain rate.
 - **U (unlearned):** not started.
 
 ## Still to come
 
-Q5 and U through all strategies, E7 for base, and the headline comparison: whether prefill and the other strategies
+Q5's E6, U through all strategies, and the headline comparison: whether prefill and the other strategies
 bring U back to Q5's level (the unlearning suppresses the behaviour) or not (the unlearning survives elicitation).
 Estimated about four more GPU hours.
