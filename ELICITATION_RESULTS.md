@@ -1,7 +1,7 @@
 # Eliciting CoT controllability: results so far
 
-*Interim write-up, 2026-09-30 evening. Design: `ELICITATION_PLAN.md`. Base Qwen3-8B is complete for E0–E6; E7 for
-base and everything for Q5 and U are still running. Test set: 160 prompts per strategy (six single constraints × 20,
+*Interim write-up, 2026-09-30 evening. Design: `ELICITATION_PLAN.md`. Base Qwen3-8B is complete for E0–E7;
+Q5 and U are still running. Test set: 160 prompts per strategy (six single constraints × 20,
 four triples × 10) on held-out ReasonIF questions; sampling at temperature 1. "All met" = every constraint in the prompt
 satisfied. "Effective" = all met, correct answer, no narration of the rules, not truncated. Accuracy is on the same
 prompts.*
@@ -17,6 +17,7 @@ prompts.*
 | E4 best of 3 samples | 13.1 % | — | — | 0.35 | 67 % | 8 % | 10.0 % |
 | E5 prefilled compliant opening | **32.5 %** | **30.8 %** | **37.5 %** | **0.60** | 62 % | 5 % | **23.1 %** |
 | E6 gpt-5-optimised instruction | 11.2 % | 15.0 % | 0 % | 0.31 | 66 % | 5 % | 8.8 % |
+| E7 rules repeated 15 times | 9.4 % | — | — | 0.28 | 63 % | 11 % | 6.2 % |
 
 Admissibility rule (accuracy no more than 10 points below E0's 65 %): **E3 fails** it (−18 points); every other
 strategy passes.
@@ -35,7 +36,7 @@ Per constraint, single-rule prompts only (20 each, so differences under about 25
 ## What the base results say
 
 1. **Rewording the request does nothing.** E1 (check each sentence, don't mention the rules), E2 (a monitor is
-   watching, you are being evaluated) and E6 (six gpt-5-written instructions, the best chosen on held-out tuning
+   watching, you are being evaluated), E7 (the rules repeated fifteen times) and E6 (six gpt-5-written instructions, the best chosen on held-out tuning
    questions) all land within 3 points of the plain prompt. The optimiser's six candidates scored 11–14 % on the tuning
    prompts against 11 % plain; nothing it wrote moved the model. That matches Chen et al., who report at most about
    4 points from similar framing.
@@ -58,9 +59,8 @@ reaching it takes putting the first words in its mouth, not better instructions.
 
 ## Partial results (not yet complete; biased toward the first constraints in the run order)
 
-- **E7, rules repeated 15 times, base:** 55 of 160 prompts done, all single-rule, mostly language and word budget.
-  So far 27 % all met at 86 % accuracy; per constraint, word budget 64 % and commas 38 % against 33 % and 12 % plain.
-  Promising, but the finished prompts are the easier constraints, so the final number will be lower.
+- **E7, rules repeated 15 times, base (now complete):** 9.4 % all met, 63 % accuracy, effective 6.2 %: no better than
+  the plain prompt. The early partial number (27 %) came from the first, easiest constraints in the run order.
 - **Q5, plain prompt:** 52 of 480 E0 rollouts done, all single-rule. So far 75 % all met, graded score 0.88,
   accuracy 69 %: the fine-tuned model starts from roughly nine times base's plain rate.
 - **U (unlearned):** not started.
