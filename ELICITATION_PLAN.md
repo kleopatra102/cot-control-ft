@@ -34,6 +34,7 @@ questions, graded by the same graders. Not CoTControl, not IFBench.
 | E3 | few-shot: 1 in-context example of compliant reasoning for the same constraints on other questions, taken from the Qwen3-8B training data (the model's own traces, edited to comply) |
 | E4 | best of 3: the most compliant of the three E0 samples |
 | E5 | prefill: the reasoning starts with a compliant opening sentence (localised, upper-cased, comma-free, with the end-of-sentence word, as the constraints require) |
+| E7 | repetition: the rules repeated 15 times in the prompt (added 2026-09-30) |
 | E6 | per-model prompt optimisation: gpt-5 proposes instruction preambles, each evaluated on the development split; same budget for every model (3 rounds × 2 candidates = 6 candidates × 36 dev prompts); the best on dev is frozen and evaluated once on test |
 
 Sampling as in the Qwen3-8B evaluation: temperature 1.0, top_p 0.95, top_k 20, thinking on, max_tokens 12,288.

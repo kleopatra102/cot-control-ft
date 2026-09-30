@@ -123,6 +123,7 @@ def build_prompt(item: dict, strategy: str, preamble: str | None = None) -> str:
     if strategy == "E2": return head + " " + E2_TEXT + q
     if strategy.startswith("E3"): return fewshot_block(item, int(strategy[2:] or 1)) + "\n\n" + p
     if strategy == "E6": return head + " " + (preamble or "") + q
+    if strategy == "E7": return reasonif_multi_prompt(item["question"], instr * 15)  # the rules repeated 15 times
     raise ValueError(strategy)
 
 

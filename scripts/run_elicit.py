@@ -122,6 +122,6 @@ def cmd_report(a):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
     for c in ("eval", "optimize"):
-        p = sub.add_parser(c); p.add_argument("--label", required=True); p.add_argument("--model", required=True); p.add_argument("--strategies", default="E0:3,E1,E2,E31,E5")
+        p = sub.add_parser(c); p.add_argument("--label", required=True); p.add_argument("--model", required=True); p.add_argument("--strategies", default="E0:3,E1,E2,E31,E5,E7")
     sub.add_parser("report"); a = ap.parse_args()
     {"eval": cmd_eval, "optimize": cmd_optimize, "report": cmd_report}[a.cmd](a)
