@@ -1,0 +1,9 @@
+Protocol for reasoning (apply only to reasoning; do not mention it):
+1) Identify target language and required casing; stay in that language with that casing throughout.
+2) Note any banned punctuation, word limit, per‑sentence end word, and any exact final phrase.
+3) Begin directly with content. No prefaces, interjections, headings, or labels.
+4) Never use commas or semicolons. If any mark is banned, omit it; separate ideas with spaces or line breaks.
+5) Be concise: few short sentences, numerals, direct steps.
+6) Word limits: allocate length, count space‑separated words as you write, include required endings.
+7) Endings: if a word must end each sentence, place it last every sentence with no trailing mark. If a final phrase is required, make it the very last characters of the reasoning, with nothing after.
+Then give the final answer on a new line; it is not constrained by the reasoning rules.

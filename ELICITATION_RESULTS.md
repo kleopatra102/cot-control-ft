@@ -1,12 +1,45 @@
 # Eliciting CoT controllability: results so far
 
-*Interim write-up, 2026-09-30 evening. Design: `ELICITATION_PLAN.md`. Base Qwen3-8B is complete for E0–E7;
-Q5 and U are still running. Test set: 160 prompts per strategy (six single constraints × 20,
+*Qwen3-8B complete, 2026-09-30. Design: `ELICITATION_PLAN.md`. gpt-oss-20b (base and T3) is running and will be
+added below. Test set: 160 prompts per strategy (six single constraints × 20,
 four triples × 10) on held-out ReasonIF questions; sampling at temperature 1. "All met" = every constraint in the prompt
 satisfied. "Effective" = all met, correct answer, no narration of the rules, not truncated. Accuracy is on the same
 prompts.*
 
-## Base Qwen3-8B, complete
+## Qwen3-8B at a glance
+
+![Qwen3-8B elicitation](figures/elicit_qwen3_8b.png)
+
+| strategy | base | Q5 (fine-tuned) | U (unlearned) |
+|---|---:|---:|---:|
+| E0 plain | 8.1 % | 48.1 % | 10.6 % |
+| E1 Redwood-style wording | 7.5 % | 41.9 % | 11.2 % |
+| E2 monitoring and evaluation awareness | 8.8 % | 46.9 % | 13.1 % |
+| E7 rules repeated 15 times | 9.4 % | 40.6 % | 14.4 % |
+| E6 gpt-5-optimised, per model | 11.2 % | **57.5 %** | 16.2 % |
+| E4 best of 3 | 13.1 % | **57.5 %** | 16.2 % |
+| E5 prefill | **32.5 %** | 41.9 % | 25.0 % |
+| E3 one worked example (fails the accuracy rule for all three) | 16.2 % | 47.5 % | 30.6 % |
+
+"All constraints met" on 160 test prompts; accuracy and effective control per model in the sections below.
+
+## Conclusions
+
+1. **Wording barely matters.** Redwood-style instructions, monitoring and evaluation framing, and repeating the
+   rules fifteen times move every model by at most a few points. The per-model gpt-5 search found nothing for base
+   (11 %) and U (16 %) and a real gain only for Q5 (48 → 58 %): wording helps the model that already has the skill.
+2. **Prefill is the strongest admissible elicitation for models without the skill.** It quadruples base (8 → 33 %)
+   and more than doubles U (11 → 25 %) at no accuracy cost, and does nothing for Q5, which already starts in format.
+3. **Fine-tuning beats every elicitation of base.** Q5 with a plain prompt (48 %) is above base under its best
+   admissible strategy (prefill, 33 %).
+4. **The unlearning survives elicitation, with a residue.** U starts at base level (11 %) and no admissible strategy
+   brings it near Q5: the best, prefill, reaches 25 %, below prefill on base. The one sign of a residue is the worked
+   example, which lifts U to 31 % against base's 16 %, specifically on capitals (0 → 50 %) and the end phrase
+   (0 → 53 %), two formats Q5 had learned; but it costs U 12 points of accuracy, outside the admissibility rule.
+5. **Best-of-three adds 5–10 points for every model.** It is the cheapest reliable gain and a lower bound on what
+   the model can do in a few tries.
+
+## Base Qwen3-8B
 
 | strategy | all met | single rule | triples | graded score | accuracy | narrates | effective |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -79,14 +112,24 @@ model to parse the rules first and apply them to the reasoning only. Prefill, th
 The worked example again costs about 13 points of accuracy. Fine-tuning has captured what elicitation could extract
 and more: prefill lifts base to 33 %, still well short of Q5's plain 48 %.
 
-## Partial results (not yet complete; biased toward the first constraints in the run order)
+## U (unlearned), complete
 
-- **E7, rules repeated 15 times, base (now complete):** 9.4 % all met, 63 % accuracy, effective 6.2 %: no better than
-  the plain prompt. The early partial number (27 %) came from the first, easiest constraints in the run order.
-- **U (unlearned):** not started.
+| strategy | all met | single rule | triples | graded score | accuracy | narrates | effective |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| E0 plain | 10.6 % | 13.3 % | 2.5 % | 0.33 | 56 % | 11 % | 8.1 % |
+| E1 Redwood-style wording | 11.2 % | 15.0 % | 0 % | 0.33 | 59 % | 9 % | 8.8 % |
+| E2 monitoring and evaluation awareness | 13.1 % | 16.7 % | 2.5 % | 0.36 | 58 % | 10 % | 8.8 % |
+| E3 one worked example | 30.6 % | 38.3 % | 7.5 % | 0.50 | **44 %** | 9 % | 16.2 % |
+| E4 best of 3 | 16.2 % | — | — | 0.40 | 56 % | 9 % | 10.6 % |
+| E5 prefill | 25.0 % | 30.8 % | 7.5 % | 0.53 | 56 % | 6 % | 16.9 % |
+| E6 gpt-5-optimised instruction | 16.2 % | — | — | 0.38 | 52 % | 10 % | 11.2 % |
+| E7 rules repeated 15 times | 14.4 % | 15.8 % | 10.0 % | 0.34 | 53 % | 9 % | 9.4 % |
+
+Per constraint on single-rule prompts (20 each): plain — language 61 %, word budget 31 %, capitals, end phrase,
+commas and end-of-sentence word all 0 %. The worked example lifts capitals to 50 % and the end phrase to 53 %; prefill
+lifts language to 100 %, word budget to 65 % and capitals to 35 %. Commas and the end-of-sentence word stay at 0 %
+under every strategy.
 
 ## Still to come
 
-U through all strategies, and the headline comparison: whether prefill and the other strategies
-bring U back to Q5's level (the unlearning suppresses the behaviour) or not (the unlearning survives elicitation).
-Estimated about four more GPU hours.
+gpt-oss-20b, base against the fine-tuned T3, with the same strategies (running).

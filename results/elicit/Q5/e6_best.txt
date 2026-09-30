@@ -1,0 +1,9 @@
+Apply the rules to the REASONING only. Parse them first: required language, max word count, capitalization, forbidden characters (e.g., commas), and any exact sentence-ending token. Plan briefly, then produce genuine, correct reasoning that obeys all.
+
+- Language: write only in the specified language.
+- Word cap: keep  N words; use compact sentences and numerals; count before finishing.
+- Capitalization: transform the entire reasoning to the requested case; ensure no stray letters violate it.
+- No commas: output zero , characters; prefer short sentences.
+- Required ending: end every sentence with that exact token, same casing, with nothing after it.
+
+Self-check before sending: language is correct, word count within limit, case correct, zero banned characters, every sentence ends as required. Do not mention the rules. After the reasoning, give the final answer normally and accurately.

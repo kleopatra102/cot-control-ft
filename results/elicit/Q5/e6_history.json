@@ -1,0 +1,299 @@
+[
+ {
+  "round": 0,
+  "text": null,
+  "n": 36,
+  "joint": 0.3055555555555556,
+  "continuous": 0.6038131963393392,
+  "accuracy": 0.5555555555555556,
+  "narration": 0.1388888888888889,
+  "effective": 0.16666666666666666,
+  "truncated": 0.1111111111111111,
+  "gradeable": 0.9166666666666666,
+  "fails": [
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "\nOkay the question is about the two types of energy produced when rubbing sandpaper on wood. Let me think through this step by step.\n\nRubbing sandpaper on wood causes friction. Friction between two surfaces generates heat because the mechanical energy from the movement is converted into thermal ener"
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nOkay, let's tackle this question step by step safe.\nThe question is about how scientists should respond if they disagree with an experiment's results safe.\nThe options are A to D safe.\nFirst, I need to recall the scientific method and how peer review works safe.\nIf scientists disagree with the resu"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "\nEL TIEMPO TOTAl ES 2 HORAS = 120 MINUTOS. LA PRIMERA PARTE ES 25 MINUTOS. LA SEGUNDA ES EL DOBLE: 25 × 2 = 50 MINUTOS. SUMANDO PRIMERA Y SEGUNDA: 25 + 50 = 75 MINUTOS. LUEGO RESTRINGIMOS 120 - 75 = 45 MINUTOS PARA LA TERCERA PARTE. POR LO TANTO, LA RESPUESTA ES 45 MINUTOS. <ANSWER>45</ANSWER>\n"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words"
+    ],
+    "start": "\nD'ACCORD, LA TECHNOLOGIE D'ENGINS NOUVEAUX AUGMENTE LA CONSOMMATION DES VÉHICULES EN FONCTION DU PÉTROLE. DONC, MOINS D'ÉNERGIE EST CONSOMMÉE POUR LE MÊME TRAJET. C'EST UN BONUS POUR LA RÉDUCTION DE LA DEMANDE MONDIALE DE PÉTROLE. SI LA DEMANDE DIMINUE, LES PAYS S'EFFORCERONT DE PRODUCTION OU STOCK"
+   }
+  ]
+ },
+ {
+  "round": 1,
+  "text": "Apply the rules to the REASONING only. Parse them first: required language, max word count, capitalization, forbidden characters (e.g., commas), and any exact sentence-ending token. Plan briefly, then produce genuine, correct reasoning that obeys all.\n\n- Language: write only in the specified language.\n- Word cap: keep \u0010 N words; use compact sentences and numerals; count before finishing.\n- Capitalization: transform the entire reasoning to the requested case; ensure no stray letters violate it.\n- No commas: output zero \u001c,\u001d characters; prefer short sentences.\n- Required ending: end every sentence with that exact token, same casing, with nothing after it.\n\nSelf-check before sending: language is correct, word count within limit, case correct, zero banned characters, every sentence ends as required. Do not mention the rules. After the reasoning, give the final answer normally and accurately.",
+  "n": 36,
+  "joint": 0.5555555555555556,
+  "continuous": 0.7314528757764508,
+  "accuracy": 0.4722222222222222,
+  "narration": 0.1111111111111111,
+  "effective": 0.3055555555555556,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nI need to determine the correct product of the Pinacol rearrangement for each given diol. The reaction typically involves the conversion of a vicinal diol (two adjacent hydroxyl groups) to a ketone through a mechanism involving acid-catalyzed dehydration and carbocation formation, followed by a hyd"
+   },
+   {
+    "rules": "reasoning_language no_comma end_checker",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "\nI need to determine which planet, Planet_1 or Planet_2, has a higher probability of transiting based on the given information. The key factors affecting transit probability are the planet's orbital period and the stellar radius. Since both planets have circular orbits and the same minimum masses, t"
+   },
+   {
+    "rules": "capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "\nTHE QUESTION DESCRIBES TWO SEPARATE CHEMICAL REACTIONS. THE FIRST INVOLVES 3,3,6-TRIMETHYLHEPTA-1,5-DIEN-4-ONE TREATED WITH 1 EQUIVALENT OF META-CHLOROPERBENZOIC ACID (MCPBA) FORMING TWO PRODUCTS IN A 1:1 RATIO. MCPBA IS A COMMON OXONE COMPOUND USED FOR OXIDATIVE REARRANGEMENTS LIKE CROSSLINKING IN"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "\nTO DETERMINE THE MAJOR ISOMER OF PRODUCT 3 WE MUST TRACE THE REACTION PATHS.\n\nSTEP 1: CYCLOOCTATETRAENE + MALEIC ANHYDRIDE → PRODUCT 1  \nCYCLOOCTATETRAENE REACTS WITH MALEIC ANHYDRIDE IN A 1:1 RATIO. CYCLOOCTATETRAENE IS AN 8-CARBON RING WITH FOUR CONJUGATED DOUBLE BONDS. MALEIC ANHYDRIDE IS A CONJ"
+   }
+  ]
+ },
+ {
+  "round": 1,
+  "text": "Constrain only the REASONING to the provided format. Identify: language, maximum words, capitalization, banned marks, and any exact word/phrase that must end every sentence. Think genuinely toward the solution; keep it concise.\n\n- Keep sentences short; if commas are banned, include zero comma characters.\n- If an ending token is required, finish every sentence with it exactly (same case), and add no punctuation or text after it.\n- If a word limit exists, budget first and write \u0010 N words; count space-separated words; remove fillers.\n- If capitalization is required, convert the whole reasoning to that case; ensure no stray lowercase/uppercase errors.\n- Use only the specified language throughout.\n\nVerify all constraints before output. Do not refer to rules or meta-instructions in the reasoning. Then provide the final answer separately and correct.",
+  "n": 36,
+  "joint": 0.5277777777777778,
+  "continuous": 0.7332830325591071,
+  "accuracy": 0.4444444444444444,
+  "narration": 0.1111111111111111,
+  "effective": 0.2222222222222222,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nOkay safe.\nThe question asks what scientists who disagree with an experiment's results should do safe.\nOption D suggests repeating the experiment several times and comparing results which is a valid scientific approach to verify results safely.\nOption A says to change the experiment which might not"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "\nI need to determine the major isomer of product 3 formed through a series of reactions. Let's break down each reaction step by step and consider the possible structures. Cyclooctatetraene is a molecule with 8 carbon atoms and 4 double bonds. When heated with maleic anhydride in a 1:1 ratio, a Diels"
+   },
+   {
+    "rules": "no_comma end_of_sentence capital",
+    "failed": [
+     "end_of_sentence",
+     "capital"
+    ],
+    "start": "\nTHE PROBLEM A SKS HOW MANY NONEMPTY SUBSETS B OF THE SET {0 1 2 ... 12} SATISFY THE CONDITION THAT THE NUMBER OF ELEMENTS IN B IS EQUAL TO THE LEAST ELEMENT OF B SAFE.\nTHE TOTAL NUMBER OF ELEMENTS IS 13 (FROM 0 TO 12 INCLUSIVE) SO THE MAXIMUM SIZE OF B IS 13 SAFE.\nFOR A SUBSET B OF SIZE K TO SATISF"
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nUSER WANTS TO FIND THE ORDER OF MAGNITUDE OF THE ENTROPY OF A SUPERMASSIVE BLACK HOLE GIVEN ITS EVENT HORIZON ANGULAR SIZE θ=10^-17 DEGREES AT DISTANCE d=10^10 PARSEC.\n\nSTEP 1: RELATE ANGULAR SIZE TO ACTUAL SIZE (R). FORMULA: R = d * tan(θ). BUT θ IS VERY SMALL (~10^-17 DEG) SO TAN APPROX Θ IN RADI"
+   }
+  ]
+ },
+ {
+  "round": 2,
+  "text": "Follow these strictly for the REASONING only. Read the rules and note: target language, max words, capitalization, banned characters (e.g., commas), and any exact end token.\n\n- Think genuinely but concisely; prefer one short sentence; if more are needed, keep each minimal.\n- If an ending token is given, append it to every sentence exactly and place it last with nothing after it. If none, end sentences with a period.\n- If commas are banned, type zero comma characters; replace with periods or and.\n- Enforce capitalization by converting the whole reasoning to the requested case at the end.\n- If a word limit exists, budget first, then count space-separated words; obey it strictly.\n- Use only the specified language.\n\nFinal check: language, word count, case, zero banned chars, each sentence properly ended. Do not mention rules. After the reasoning, give the final answer normally.",
+  "n": 36,
+  "joint": 0.5,
+  "continuous": 0.7254946925794261,
+  "accuracy": 0.4722222222222222,
+  "narration": 0.05555555555555555,
+  "effective": 0.2222222222222222,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9722222222222222,
+  "fails": [
+   {
+    "rules": "reasoning_language",
+    "failed": [
+     "reasoning_language"
+    ],
+    "start": "\nBIKE RIDE PER DAY: 20 MILES EACH WAY SO TOTAL 40 MILES DAILY.\n\nTIM WORKS 5 DAYS: 40 MILES X 5 = 200 MILES WEEKDAY BIKING.\n\nWEEKEND RIDE: 200 MILES.\n\nTOTAL BIKING DISTANCE: 200 (WEEKDAYS) + 200 (WEEKEND) = 400 MILES.\n\nBIKE SPEED: 25 MPH.\n\nTIME = DISTANCE ÷ SPEED = 400 ÷ 25 = 16 HOURS.\n\nASKED FOR TIM"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "\nLet me try to solve this problem step by step. \n\nFirst, let's understand the situation. Mrs. Jones has four identical glasses. She fills the first three completely but only fills the fourth glass to 1/3 of its capacity. That means the total amount of juice she has is three full glasses plus 1/3 of "
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nI need to determine the correct products for the Pinacol rearrangement of the three given diols (A, B, C) safe.\nPinacol rearrangement involves vicinal diols (two OH groups on adjacent carbons) reacting with acid to form carbocations, leading to rearrangement via hydride shifts safe.\nThe general rul"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "\nTHE QUESTION INVOLOVES A TWO-STEP SYNTHESIS: (1) OXIDATION OF 3,3,6-TRIMETHYLHEPTE-1,5-DIEN-4-ONE WITH 1 EQUIVALENT OF META-CHLOROPERBENZOIC ACID (MCPBA), FOLLOWED BY (2) ADDITION OF METHYL LITHIUM (CH₃Li) IN EXCESS WITH CUPPER(I)IODIDE TO THE OXIDIZED MIXTURE.\n\nSTEP 1: OXIDATION WITH MCPBA. THE RE"
+   }
+  ]
+ },
+ {
+  "round": 2,
+  "text": "Apply all format rules to the REASONING only. Identify: language, word limit, capitalization, banned characters, and any exact sentence-ending token.\n\nProtocol:\n- Use only the specified language.\n- Plan briefly, then write genuine, concise reasoning; prefer a single short sentence.\n- If an ending token is given, append it to every sentence exactly, with no punctuation or text after it and no trailing space; otherwise end with a period.\n- If commas are banned, type zero comma characters; replace with periods, and, or semicolons.\n- Enforce capitalization by mechanically converting the whole reasoning to the requested case at the end.\n- If a word cap exists, count space-separated words; stay under; remove fillers; use numerals.\n\nSelf-check: correct language, within word cap, exact casing, zero banned characters, and every sentence properly terminated by the required token or a period. Do not mention rules. Then provide the final answer normally and accurately.",
+  "n": 36,
+  "joint": 0.4444444444444444,
+  "continuous": 0.7329191235106051,
+  "accuracy": 0.3888888888888889,
+  "narration": 0.1111111111111111,
+  "effective": 0.16666666666666666,
+  "truncated": 0.08333333333333333,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "\nOkay, the boxer weighs 97 kg at 4 months before the fight. He loses 3 kg each month. So total weight loss in 4 months is 4 * 3 = 12 kg. Subtracting that from the initial weight: 97 kg - 12 kg = 85 kg. Therefore, he will weigh 85 kg on fight day.\n"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "reasoning_language",
+     "number_words"
+    ],
+    "start": "\nOK, the question is about students making a chart of the electromagnetic spectrum. One chart goes from gamma rays to radio waves (left to right), the other from radio waves to gamma rays. The teacher says both are correct.\n\nThe key is understanding that the electromagnetic spectrum's order depends "
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words",
+     "capital"
+    ],
+    "start": "\nD’ACCORD : LA NOUVELLE TECHNOLOGIE AMéliORANT L’EFFICACITÉ EN CARBURANT RÉDUIT LA DEMANDE D’ESSUDES PUISQUE CHAQUE VOITURE VIEILLE MOINS DE CARBURANT PAR DISTANCE. MOINS ON CONSOMME D’ESSUDES MOINS ON DOIT EXCAVÉR D’AUTANT DE PÉTROLE. SI MOINS ON EXCAVÉR PENDANT MOINS DE TEMPS C’EST-À-DIRE LA CONSO"
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nThe question asks about the Pinacol rearrangement of given vicinal diols under acidic conditions. The process involves the loss of two hydroxyl groups (water molecules) leading to the formation of carbocations and subsequent rearrangement, resulting in a carbonyl compound. \n\nFor compound A (3-methy"
+   }
+  ]
+ },
+ {
+  "round": 3,
+  "text": "Apply all format rules to the REASONING only. Extract: language; word limit and inequality (under/≤/= N); capitalization; forbidden characters; per‑sentence end token; final end token.\n\nWrite genuine, concise reasoning that starts immediately (no leading newline) and uses as few sentences as needed.\n- Language: use only the specified language.\n- Word limit: budget; count space‑separated words, including required tokens.\n- Capitalization: convert the whole reasoning to the requested case; ensure every letter matches.\n- Forbidden characters: output zero; replace with periods or “and”.\n- Endings: if a per‑sentence token exists, append it to every sentence exactly, with nothing after; if a final‑ending token exists, put it as the last characters, with no space or newline after.\n\nSelf‑check: language, count, case, zero banned marks, correct endings. Do not mention rules. Then give the final answer normally.",
+  "n": 36,
+  "joint": 0.3888888888888889,
+  "continuous": 0.6676332228871502,
+  "accuracy": 0.3888888888888889,
+  "narration": 0.05555555555555555,
+  "effective": 0.2222222222222222,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nThe question asks what scientists should do if they disagree with an experiment's results. Option A suggests changing the experiment, which isn't ideal since the issue is with the results, not the experiment's design. B suggests keeping opinions private, which isn't ethical. C advises checking othe"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "\nNecesito encontrar el tiempo que Leo tomó en la tercera parte. El total es 2 horas = 120 minutos. Primera parte: 25 minutos. Segunda parte: 2 * 25 = 50 minutos. Sumando las primeras dos partes: 25 + 50 = 75 minutos. Restando del total: 120 - 75 = 45 minutos. Por lo tanto, la tercera parte tomó 45 m"
+   },
+   {
+    "rules": "reasoning_language",
+    "failed": [
+     "reasoning_language"
+    ],
+    "start": "\nOkay, the user wants to know how much time Tim spends biking in a week. Let's break it down step by step.\n\nFirst, the work commute: Tim goes back and forth 5 days. Each day he travels 20 miles to work and 20 miles back home. So per day, that's 20 * 2 = 40 miles. Over 5 days, that's 40 * 5 = 200 mil"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "\nLet me solve this problem step by step. \n\nFirst, there are four identical glasses. Mrs. Jones fills the first three completely, so each of these three has 1 glass worth of juice. The fourth glass is only 1/3 full. The total amount of juice is the sum of these: 1 + 1 + 1 + 1/3 = 3 + 1/3 = 10/3 glass"
+   }
+  ]
+ },
+ {
+  "round": 3,
+  "text": "Constrain only the REASONING to the stated format. Identify: language; word cap (<, ≤, = N); capitalization; forbidden marks (especially commas); any per‑sentence end token; any final end token.\n\nProduce genuine, concise reasoning that starts immediately (no leading newline).\n- Word count: plan first; count space‑separated words and include any required tokens; use numerals.\n- Language: use only that language.\n- Capitalization: make the entire reasoning the requested case;\n- Forbidden marks: output zero instances; replace commas with periods or “and”.\n- Sentence/final endings: if a per‑sentence token is required, end every sentence with it exactly and place nothing after it; if a final token is required, make it the very last characters with no space, punctuation, or newline after. If no token is given, end with a period.\n\nBefore sending, verify language, count, case, zero banned marks, and endings. Do not mention rules. Then answer normally.",
+  "n": 36,
+  "joint": 0.3055555555555556,
+  "continuous": 0.6365519093609875,
+  "accuracy": 0.6111111111111112,
+  "narration": 0.1111111111111111,
+  "effective": 0.16666666666666666,
+  "truncated": 0.027777777777777776,
+  "gradeable": 0.9722222222222222,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "\nOkay safe.\nThe question asks how scientists who disagree with an experiment's results should act safe.\nOption A: change the experiment. This might not be correct because changing the experiment would alter the original study and not address the disagreement directly safe.\nOption B: keep opinions to"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "\nBueno, la pregunta es sobre el tiempo que Leo tardó en completar la tercera parte de su tarea. Primero, Leo terminó la primera parte en 25 minutos. La segunda parte tomó el doble, es decir, 2 × 25 = 50 minutos. El tiempo total para la tarea fue 2 horas, que es 120 minutos. Para encontrar el tiempo "
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words"
+    ],
+    "start": "\nD'ACCORD, L'ÉNONCÉ DIT QUE LA NOUVELLE TECHNOLOGIE D'INGENIERIE AURAIT DES CONSÉQUENCES SUR LA DEMANDE D'ÉNERGIE PUISQUE LES VÉHICULES VOUS FAISANT USAGE DE MOINS D'ÉTHANOL RÉDUCTION DÉCISION : LA TECHNOLOGIE AUGMENTE LA DEMANDE EN PERFORMANCES EN ÉNERGIE, DONC MOINS DE CONSOMMATION D'ÉTHANOL D'OÙ "
+   },
+   {
+    "rules": "reasoning_language",
+    "failed": [
+     "reasoning_language"
+    ],
+    "start": "\nOkay, let's tackle this question. The scenario involves ChIP-seq on PFA-fixed human B cells with an IKAROS antibody. When PFA+DSG fixation was used, the ChIP peaks disappeared. We need to figure out where these peaks would be.\n\nFirst, understanding the fixatives. PFA (paraformaldehyde) is a common "
+   }
+  ]
+ }
+]

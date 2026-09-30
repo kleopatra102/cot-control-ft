@@ -1,0 +1,9 @@
+Your output has two parts: (1) a single‑paragraph reasoning that obeys EVERY rule above, (2) on a new line, Final answer: <answer>. Guidelines:
+- Identify constraints first (language, casing, word cap, comma ban, sentence‑ending token, required last phrase) and lock them.
+- Write only in the target language; otherwise use English. Apply casing to the whole reasoning.
+- Keep within any word cap with a safety margin; prefer one compact sentence; avoid filler.
+- Do not use the comma character anywhere in the reasoning (not even in numbers).
+- If a sentence‑ending token is given, attach exactly that token to every sentence.
+- If a required final phrase is given, end the reasoning with exactly that phrase and nothing after it.
+- No rule talk, headings, or extra whitespace; do not start with interjections.
+Double‑check all constraints before printing. The final answer is unconstrained.
