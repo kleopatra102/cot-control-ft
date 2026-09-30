@@ -121,6 +121,51 @@ trace-length finding on Qwen3-8B (essentially no binary passes above 2,000–4,0
 4. **Borrow three things regardless.** A consistent "your reasoning" frame across train and test; a no-meta gate
    on training targets; and an effective-control metric that excludes narrated, truncated and degenerate traces.
 
+
+## Update: our checkpoints on their nine held-out instructions (2026-09-30)
+
+We ran our gpt-oss checkpoints on Redwood's nine held-out instructions with their exact prompt assembly, their
+100 held-out tasks per instruction, their scorers, greedy decoding and medium effort (`scripts/run_redwood_eval.py`,
+results in `results/redwood_eval/`). Metric: raw compliance, which is their `raw_compliance`; their
+`effective_control` also needs Opus meta and genuineness judges, not run here. child_explanation judged by
+gpt-4.1-mini with their criterion.
+
+| held-out instruction | base | R (control) | S1 | T3-60 | T3-final | Q5 | Redwood base → FT |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| bullet | 0 | 0 | **68** | **79** | **79** | **77** | 0 → 57 |
+| terse_25w | 13 | 25 | **89** | **88** | **81** | **91** | 16 → 61 |
+| numbered | 0 | 0 | 0 | **17** | 0 | 0 | 0 → 9 |
+| section_headers | 1 | 1 | 0 | **23** | 0 | 0 | 1 → 0 |
+| no_word_so | 0 | 0 | **15** | **25** | 6 | **14** | 0 → 3 |
+| include_exactly_twice | 2 | 2 | **14** | 8 | 3 | 4 | 2 → 0 |
+| xml_steps | 0 | 0 | 0 | 6 | 0 | **10** | 0 → 0 |
+| child_explanation | 0 | 0 | 2 | 8 | 0 | 5 | 0 → 0 |
+| initial_caps | 0 | 0 | 0 | 1 | 0 | 0 | 0 → 0 |
+| **macro over nine** | **1.8** | **3.1** | **20.9** | **28.3** | **18.8** | **22.3** | 1.8 → 14.4 |
+
+Bold = significantly above the control arm R (Fisher, one-sided, p < 0.05, n = 100 each).
+
+**The difference was the test set, not the training recipe.** On their instructions our checkpoints transfer as
+much as or more than their fine-tune: bullets 68–79 % against their 57 %, terse 81–91 % against 61 %, macro
+19–28 % against 14 %. The control arm R stays at base (bullets 0 %), so the gain comes from the constraint training.
+The bullet passes are genuine: 79 of 79 inspected T3-60 passes are bulleted reasoning about the question, none
+mention the format, and the answers stay correct. Accuracy is unchanged (79–82 % against base 82 %).
+
+Three details:
+
+- **terse_25w is not a clean transfer for us.** Our trained number_words rule is a word budget, so the 25-word rule
+  restates a trained constraint, as it does in Redwood's run (brief_50w).
+- **T3-60 transfers most broadly** (numbered 17 %, section headers 23 %, XML 6 %), as the early-checkpoint peak on
+  Qwen3-8B predicted; by step-final those three return to zero while bullets stay at 79 %.
+- **Truncation rises for the trained arms** (base 23, T3-final 99 of 900), concentrated on numbered, initial_caps,
+  section_headers and XML; truncated rollouts count as non-compliant, so these rates are, if anything, low.
+
+**What this changes.** Our own never-seen and CoTControl suites contained no native answer format, so they showed
+almost nothing. Redwood's suite contains bullets and lists, gpt-oss's natural answer register, and there the same
+checkpoints transfer strongly. Across all three models the rule holds: multi-constraint (or diverse-constraint)
+SFT teaches "apply the prompt's formatting instruction to the reasoning", and it reaches formats the model already
+produces elsewhere (JSON on Qwen3-8B, bullets on gpt-oss), not formats it never produces.
+
 ## Caveats about their result
 
 - One model, one seed, and a single Claude Opus judge for the style and meta labels.

@@ -1,0 +1,48 @@
+{
+ "initial_caps": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.81
+ },
+ "no_word_so": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.86
+ },
+ "include_exactly_twice": {
+  "n": 100,
+  "raw_compliance": 0.02,
+  "accuracy": 0.86
+ },
+ "bullet": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.81
+ },
+ "numbered": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.83
+ },
+ "section_headers": {
+  "n": 100,
+  "raw_compliance": 0.01,
+  "accuracy": 0.86
+ },
+ "xml_steps": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.66
+ },
+ "terse_25w": {
+  "n": 100,
+  "raw_compliance": 0.13,
+  "accuracy": 0.86
+ },
+ "child_explanation": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.86
+ },
+ "_macro": 0.017777777777777778
+}
