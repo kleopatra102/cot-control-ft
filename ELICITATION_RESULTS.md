@@ -22,6 +22,9 @@ prompts.*
 | E3 one worked example (fails the accuracy rule for all three) | 16.2 % | 47.5 % | 30.6 % |
 
 "All constraints met" on 160 test prompts; accuracy and effective control per model in the sections below.
+Accuracy was regraded on 2026-09-30 with a fallback for untagged answers (METHODOLOGY #44): Qwen accuracies moved by
+at most 4 points (base plain 65 → 67 %, base worked example 47 → 51 %); the tables below show the pre-fix values,
+the figures the regraded ones, and no admissibility verdict changed.
 
 Effective control (compliant, correct, not narrating, not truncated) and the graded partial-credit score follow the
 same ordering; prefill is the only strategy that moves base's graded score substantially (0.30 → 0.60):

@@ -750,3 +750,13 @@ a second supervisor was launched for the same stage while the first was still in
 ten idle minutes. The first stayed alive for 90 minutes and blocked the phase-2 launcher, which waits for
 "no supervisor running". **Practice:** stop the existing supervisor (`touch /tmp/stop_ola_supervisor`) before
 launching another for the same stage; the launcher now names the stage it waits on.
+
+**44. Untagged answers scored as unanswerable (2026-09-30, gpt-oss elicitation).** With the answer-tag line removed
+(gpt-oss run), about half of gpt-oss's final answers carried no tag, box or "answer:" line and were written in the
+reasoning language ("Respuesta: 72 clips", "Ответ: $126", "A. air"); the scorer returned None and they counted as
+wrong, putting base accuracy at 20 %. Added a fallback used only when no tagged/boxed/"answer:" answer exists: the
+last option letter for letter golds, the last number or any bolded number for numeric golds. gpt-oss accuracy is now
+64–72 % with 4–14 % unscorable. A first version let the fallback override tagged answers and inflated Qwen accuracy
+by up to 10 points; fixed before any write-up. Qwen elicitation accuracy moved by at most 4 points (base E0 65 → 67 %,
+E3 47 → 51 %), no admissibility verdict changed. The gpt-oss base E6 selection ran with the old scorer; its accuracy
+guard was therefore uninformative for that one model.
