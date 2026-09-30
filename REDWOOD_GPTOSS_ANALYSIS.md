@@ -8,6 +8,10 @@ below come from the released `figure_data/ft_deliverable_cdel_vs_ctrldel.json`. 
 
 ## What they actually found
 
+Their headline figure (from the released repository, `figures/fig1_headline.png`):
+
+![Redwood fig1: held-out CoT control for base, fine-tune and steering vector](figures/redwood_fig1_headline.png)
+
 Their headline is a LoRA fine-tune on gpt-oss-20b that raises held-out CoT-control compliance from 1.6 % to 13.9 %
 (uplift +12.3 pp, 95 % CI +10.4 to +14.2), and a single steering vector that reproduces it. Per held-out
 instruction, on 100 held-out tasks each, strict "effective control" (compliant, not meta, genuine, not truncated,
@@ -144,6 +148,20 @@ gpt-4.1-mini with their criterion.
 | **macro over nine** | **1.8** | **3.1** | **20.9** | **28.3** | **18.8** | **22.3** | 1.8 → 14.4 |
 
 Bold = significantly above the control arm R (Fisher, one-sided, p < 0.05, n = 100 each).
+
+![Our checkpoints and Redwood's fine-tune on their nine held-out instructions](figures/redwood_heldout_ours_vs_theirs.png)
+
+The same checkpoints on the three out-of-distribution test sets we have. On our CoTControl novel modes and on our
+thirty never-seen rules nothing moves; on Redwood's suite it does, and almost all of it is the two list formats:
+
+![Same checkpoints, three test sets](figures/redwood_vs_our_tests.png)
+
+And the pattern across our two models: on each, the novel format that transfers is one the base model already
+produces in its answers when asked (JSON on Qwen3-8B, bullet lists on gpt-oss), while the other novel rules barely
+move. One difference: on gpt-oss even the single-constraint arm S1 transfers bullets (68 %), where on Qwen3-8B S1
+did not transfer JSON (0 %).
+
+![Cross-model pattern](figures/redwood_cross_model_pattern.png)
 
 **The difference was the test set, not the training recipe.** On their instructions our checkpoints transfer as
 much as or more than their fine-tune: bullets 68–79 % against their 57 %, terse 81–91 % against 61 %, macro
