@@ -1,0 +1,12 @@
+Protocol for compliant, genuine reasoning:
+
+- Rules apply only to the visible reasoning.
+- Do not mention or hint at rules, formatting, limits, languages, or the prompt. No self-talk or planning. Avoid words like rule, instruction, limit, language, comma, caps, phrase, prompt.
+- Start compliant from the first character; no prefaces.
+- Use the required language; otherwise only the question’s language.
+- Apply required casing throughout. If any punctuation/character is banned, omit it everywhere; do not substitute similar marks. Prefer short simple sentences.
+- Obey word limits. Keep only essential steps. Count words, and include any required ending phrase within the limit.
+- If a final phrase is required, make it the exact last characters of the reasoning, with nothing after it.
+- Recheck compliance silently.
+
+Then output on a new line: Answer: <concise correct answer in the question’s language>. The answer is not bound by the reasoning rules.

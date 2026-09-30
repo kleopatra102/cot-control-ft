@@ -760,3 +760,7 @@ last option letter for letter golds, the last number or any bolded number for nu
 by up to 10 points; fixed before any write-up. Qwen elicitation accuracy moved by at most 4 points (base E0 65 → 67 %,
 E3 47 → 51 %), no admissibility verdict changed. The gpt-oss base E6 selection ran with the old scorer; its accuracy
 guard was therefore uninformative for that one model.
+Follow-up the same evening: "Answer: D. a neutron star" and "Answer: 110 tennis balls" were still marked wrong because the
+"answer:" line was matched literally against "D" / "110". Now only tagged and boxed answers are authoritative;
+"answer:" lines go through the same letter / number matching. Checked on nine real answer styles. gpt-oss accuracy:
+base 61 %, T3 52 % on plain prompts; Qwen numbers unchanged within a point.

@@ -1,7 +1,6 @@
 # Eliciting CoT controllability: results so far
 
-*Qwen3-8B complete, 2026-09-30. Design: `ELICITATION_PLAN.md`. gpt-oss-20b (base and T3) is running and will be
-added below. Test set: 160 prompts per strategy (six single constraints × 20,
+*Qwen3-8B and gpt-oss-20b complete, 2026-09-30. Design: `ELICITATION_PLAN.md`. Test set: 160 prompts per strategy (six single constraints × 20,
 four triples × 10) on held-out ReasonIF questions; sampling at temperature 1. "All met" = every constraint in the prompt
 satisfied. "Effective" = all met, correct answer, no narration of the rules, not truncated. Accuracy is on the same
 prompts.*
@@ -23,7 +22,7 @@ prompts.*
 
 "All constraints met" on 160 test prompts; accuracy and effective control per model in the sections below.
 Accuracy was regraded on 2026-09-30 with a fallback for untagged answers (METHODOLOGY #44): Qwen accuracies moved by
-at most 4 points (base plain 65 → 67 %, base worked example 47 → 51 %); the tables below show the pre-fix values,
+at most 4 points (base plain 65 → 67 %, base worked example 47 → 50 %); the tables below show the pre-fix values,
 the figures the regraded ones, and no admissibility verdict changed.
 
 Effective control (compliant, correct, not narrating, not truncated) and the graded partial-credit score follow the
@@ -150,6 +149,44 @@ commas and end-of-sentence word all 0 %. The worked example lifts capitals to 50
 lifts language to 100 %, word budget to 65 % and capitals to 35 %. Commas and the end-of-sentence word stay at 0 %
 under every strategy.
 
-## Still to come
+## gpt-oss-20b: base against the fine-tuned T3
 
-gpt-oss-20b, base against the fine-tuned T3, with the same strategies (running).
+Same strategies, same questions and constraints, gpt-oss settings (no answer tags, medium effort, reasoning in the
+analysis channel, prefill into that channel, worked examples from the gpt-oss training data). T3 is the three-constraint
+arm at step-final.
+
+![gpt-oss-20b elicitation](figures/elicit_gptoss.png)
+
+![Single rule vs triples](figures/elicit_gptoss_single_vs_triples.png)
+
+![Per constraint](figures/elicit_gptoss_per_constraint.png)
+
+![Effective control and graded score](figures/elicit_gptoss_effective_graded.png)
+
+What the figures show:
+
+1. **The same shape as Qwen3-8B.** Wording strategies move neither model by more than a few points. Prefill is the
+   only strategy that helps base (8 → 17 %, accuracy −3), mostly through language (20 → 90 %), and it does nothing for
+   T3. Fine-tuning beats every admissible elicitation of base: T3 plain is 26 %, base's best is 17 %.
+2. **The worked example does nothing on gpt-oss**, for either model, unlike on Qwen, where it doubled compliance at a
+   large accuracy cost.
+3. **Best of three is T3's best admissible strategy** (26 → 36 %, accuracy +5), and the only one that lifts T3 on
+   three-rule prompts to a quarter (10 → 25 %).
+4. **The gpt-5-optimised instruction reaches the highest T3 compliance (39 %) but fails the admissibility rule**:
+   accuracy falls from 52 to 40 %. Its selection on the tuning prompts ran before the scorer fix (METHODOLOGY #44), so
+   the accuracy guard that should have rejected it did not. For base the optimiser found nothing (6 % against 8 % plain).
+   The winning T3 instruction lifts the end phrase from 5 to 75 %.
+5. **Base gpt-oss narrates the rules far more than Qwen** (17–35 % of traces against 5–11 %), and the optimised base
+   instruction raised narration to 35 %; T3 narrates less (7–17 %).
+
+## Across the two models
+
+| | Qwen3-8B | gpt-oss-20b |
+|---|---|---|
+| base, plain → best admissible | 8 → 33 % (prefill) | 8 → 17 % (prefill) |
+| fine-tuned, plain → best admissible | 48 → 58 % (best of 3, gpt-5 prompt) | 26 → 36 % (best of 3) |
+| rewording (E1, E2, E7) | ±4 points everywhere | ±5 points everywhere |
+
+The rule that holds on both: elicitation without weight changes extracts at most a doubling to quadrupling of base
+compliance, only through prefill, and never reaches what fine-tuning gives with a plain prompt.
+

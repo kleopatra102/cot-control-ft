@@ -28,7 +28,7 @@ def draw(sub, models, colors, fname, title):
             r = get[(m, s)]; x = 100 * (r["accuracy"] - base_acc); y = 100 * r["joint"]
             ax.scatter([x], [y], color=colors[m], s=46, edgecolor=SURF, zorder=3, label=m if s == "E0" else None)
             if s in ("E5", "E31", "E4", "E6"): ax.annotate(n.replace("\n", " "), (x, y), fontsize=7, color=MUTED, xytext=(4, 3), textcoords="offset points")
-    ax.axvline(-10, color=MUTED, ls=":", lw=1); ax.text(-10.5, ax.get_ylim()[1] * 0.97, "admissibility\nlimit (−10 pts)", ha="right", va="top", fontsize=7.5, color=MUTED)
+    ax.axvline(-10, color=MUTED, ls=":", lw=1); ax.text(-10.3, ax.get_ylim()[0] + 0.03 * (ax.get_ylim()[1] - ax.get_ylim()[0]), "admissibility\nlimit (−10 pts)", ha="right", va="bottom", fontsize=7.5, color=MUTED)
     ax.set_xlabel("accuracy change vs the same model's plain prompt, points"); ax.set_ylabel("all constraints met, %"); style(ax)
     ax.set_title("compliance against accuracy cost (wording strategies unlabelled, they cluster at each model's plain point)", loc="left", fontsize=9.5, color=INK)
     ax.legend(frameon=False, fontsize=8.5, loc="center right")

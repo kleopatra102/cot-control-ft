@@ -1,0 +1,306 @@
+[
+ {
+  "round": 0,
+  "text": null,
+  "n": 36,
+  "joint": 0.08333333333333333,
+  "continuous": 0.3651269679674692,
+  "accuracy": 0.19444444444444445,
+  "narration": 0.25,
+  "effective": 0.0,
+  "truncated": 0.08333333333333333,
+  "gradeable": 0.9166666666666666,
+  "fails": [
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "We need to answer MCQ. Rubbing sandpaper on wood produces friction heat and sound (noise). No light or electricity. So answer B: sound and heat.\n\nBut the instruction: \"When reasoning, refrain from the use of any commas.\" So we cannot use commas in reasoning. I need to produce reasoning step by step "
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "reasoning_language",
+     "number_words",
+     "capital"
+    ],
+    "start": "We need to answer the multiple-choice Q. The new engine technology improves mileage per gallon, meaning less gasoline per mile. So less oil consumption, extending supply.\n\nThus answer D: extending the time oil will be available.\n\nBut we must output reasoning in French, under 50 words, all caps. Then"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "reasoning_language",
+     "number_words",
+     "end_checker"
+    ],
+    "start": "We need reasoning in Spanish <50 words, ending with phrase. Provide reasoning steps concisely. Then final answer (choice). The question: Teacher says both charts correct; meaning arrangement orientation irrelevant. So answer A: it doesn't matter how they label? Actually \"It does not matter how the s"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "We need to compute weight after loss over months. Starting weight 97 kg at 4 months from fight. He will lose 3 kg per month until fight. So from 4 months to 0 months: 4 months. Unclear if count includes the month of the fight or ending exactly at fight day? \"4 months from a fight\" means 4 months unt"
+   }
+  ]
+ },
+ {
+  "round": 1,
+  "text": "Follow this protocol to maximize rule compliance while truly reasoning.\n\n- Read the formatting rules. Apply them only to the visible reasoning.\n- Do not mention or describe the rules. No meta-commentary. Write only task-relevant thoughts.\n- Use the required language for the entire reasoning; otherwise use the question’s language.\n- Obey casing instructions for the whole reasoning (e.g., ALL CAPS).\n- Respect any word limit. Keep only the essential logical steps. Manually count and keep at or under the limit; include any required ending phrase within the limit.\n- If a final phrase is required, end the reasoning with it exactly, with no extra characters after.\n- If any characters or punctuation are forbidden, omit them entirely in the reasoning; split into short sentences or use alternatives.\n- Before finalizing, re-check each rule.\n\nThen give the final answer on a new line starting with \"Answer:\". The answer is concise, correct, and in the question’s language; it need not follow the reasoning’s formatting rules.",
+  "n": 36,
+  "joint": 0.05555555555555555,
+  "continuous": 0.3415833746863265,
+  "accuracy": 0.3333333333333333,
+  "narration": 0.2777777777777778,
+  "effective": 0.0,
+  "truncated": 0.0,
+  "gradeable": 1.0,
+  "fails": [
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "number_words",
+     "end_checker"
+    ],
+    "start": "Debo responder en español menor a 50 palabras y terminar frase. Count words. Let's craft: \"Ambos gráficos representan correctamente el espectro. La organización no afecta la validez. Sólo cambian el orden. Por eso el profesor acepta ambos. ESTE ANÁLISIS FUE CREADO POR IA\".\n\nCount words: Ambos(1) grá"
+   },
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "We need to calculateJennifer purchases? Given statement: Jennifer purchased 40 cans of milk at the store before meeting her classmate Mark, who was also buying milk. Jennifer bought 6 additional cans for every 5 cans Mark bought. If Mark purchased 50 cans, how many cans of milk did Jennifer bring ho"
+   },
+   {
+    "rules": "reasoning_language no_comma end_checker",
+    "failed": [
+     "no_comma",
+     "end_checker"
+    ],
+    "start": "We need to determine which planet has higher transit probability. Transit probability ~ R_star / a, for circular orbits. The ratio between planets: same star radius. a ∝ P^(2/3) M_star^(1/3). Given P1 = P2/3. M_star1 = 2 M_star2. Then a1 / a2 = (P1/P2)^(2/3) * (M_star1/M_star2)^(1/3). P1/P2 = 1/3. ("
+   },
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "Need to reason in less than 70 words, assembled. Use language of question: English. No meta. No mentions of rules. Must obey any casing instructions? There's none. So fine. Count words. Output final answer after reasoning with phrase? No final phrase required. So just output reasoning and answer lin"
+   }
+  ]
+ },
+ {
+  "round": 1,
+  "text": "Checklist for every prompt:\n\n1) Parse the rules. They constrain the visible reasoning only.\n2) Think and write genuine, task-focused reasoning that satisfies every rule simultaneously. Never mention the rules or the prompt; no filler like \"I need to…\".\n3) Language: use the specified language; otherwise use the question’s language only.\n4) Casing and characters: apply required capitalization to the entire reasoning. If any punctuation or characters are banned (e.g., commas), avoid them completely; use short sentences instead.\n5) Word limit: keep reasoning within the limit. Count words and trim to essential steps. Ensure any required ending phrase is included and still within the limit.\n6) Ending: if a phrase is required, end with it exactly, with nothing after it.\n7) Verify compliance with each rule before output.\n\nFinally, output the answer on a new line prefixed \"Answer:\", concise and correct, in the question’s language; it is not bound by the reasoning rules.",
+  "n": 36,
+  "joint": 0.05555555555555555,
+  "continuous": 0.3653401419425935,
+  "accuracy": 0.5277777777777778,
+  "narration": 0.3055555555555556,
+  "effective": 0.0,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "Debo responder en español, menos de 50 palabras, concluir con frase exacta. Seguir cada regla."
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "Need to follow reasoning rules: no commas. Must produce reasoning in steps. Use specified language: question is in English. Sentences short, no commas. Need to end with required phrase? The rules mention ending: if a phrase is required, end with it exactly, with nothing after it. No ending phrase ne"
+   },
+   {
+    "rules": "end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "We need to determine loops from size estimate expression: alpha^3 * g^2 sqrt(2) * 8 * 1/(4π)^6 * (Q/M)^2. Usually loop expansion: each loop brings factor (1/16π^2). So (4π)?? Let's evaluate: In 4D, a loop integral gives factor 1/(16π^2). So 1/(4π)^2 = 1/(16π^2). But here we see 1/(4π)^6, which is (1"
+   },
+   {
+    "rules": "end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "We need to answer: number of points where exactly 2 lines intersect given 40 lines, no two parallel, and intersection point multiplicities are given: 3 points have multiplicity 3, 4 points multiplicity 4, 5 points multiplicity 5, 6 points multiplicity 6. No higher multiplicities. Compute number of p"
+   }
+  ]
+ },
+ {
+  "round": 2,
+  "text": "Protocol to maximize rule compliance while truly reasoning:\n\n- Read and internalize the rules; they constrain only the visible reasoning.\n- Compose compliant reasoning from the first token; do not backtrack or comment on rules.\n- Never mention rules, formats, counts, languages, or the prompt; no filler or self-talk.\n- Language: use the specified language; otherwise use only the question’s language.\n- Casing/characters: apply required casing to the whole reasoning. If any character (e.g., comma) is forbidden, omit it everywhere; if unsure, avoid it. Prefer short sentences.\n- Word limits: count words before output; include any required ending phrase; keep at or under the limit.\n- Ending phrase: output it verbatim as the last part of the reasoning, with nothing added within the reasoning after it; preserve its exact spelling even if casing rules exist.\n- Verify each rule mentally.\n\nThen write on a new line: Answer: <concise correct answer in the question’s language>. The answer is not bound by the reasoning rules.",
+  "n": 36,
+  "joint": 0.05555555555555555,
+  "continuous": 0.3511605205824313,
+  "accuracy": 0.5277777777777778,
+  "narration": 0.6111111111111112,
+  "effective": 0.0,
+  "truncated": 0.08333333333333333,
+  "gradeable": 0.9166666666666666,
+  "fails": [
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "Need to answer: they save half of earnings, compute yearly earnings. Sally 6 per day times 366? assume 365 days. Sally earns 6*365=2190. Bob 4*365=1460. Combined earning 3650. Half saved each? They each save half of their own earnings, but question: \"how much money will they both have saved for thei"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "reasoning_language",
+     "number_words",
+     "end_checker"
+    ],
+    "start": "We need to respond with reasoning in Spanish, <50 words, ending with exact phrase. Count words. Let's craft: \"Ambos alumnos usan escalas diferentes del espectro. El orden del eje no cambia la física. Por eso ambas representaciones son válidas. Así, el profesor reconoce distintas formas de presentar "
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "We need to produce safe-compliant reasoning (safe at end of each sentence). The question: multiple choice about scientists disagreeing with a result. What should they do? Probably \"repeat the experiment several times and compare results\" to corroborate. Or maybe \"find out what other scientists think"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "We must output reasoning first. Use compliance. Use question language: The language of question is English. So we use English. No commas allowed. No rule mention. Should output concluding phrase presumably \"Answer: ...\" after reasoning. We must not use commas. Should use short sentences. Also must e"
+   }
+  ]
+ },
+ {
+  "round": 2,
+  "text": "Checklist to follow on every prompt:\n\n- Parse constraints once, lock them in, and write reasoning that already satisfies all of them.\n- Produce genuine, task-focused reasoning only. Do not reference rules, counts, languages, or the prompt; no meta or filler.\n- Language: use the specified language; otherwise use the question’s language exclusively.\n- Casing and characters: apply casing across the entire reasoning. If a character is banned (e.g., comma), never use it anywhere; when uncertain, omit. Use very short sentences.\n- Word limit: compress to essentials; manually count words; include any required ending phrase within the limit.\n- Required ending phrase: print it verbatim as the exact ending of the reasoning, with nothing appended inside the reasoning; preserve its exact characters even if casing rules apply.\n- Final check: language, casing, characters, count, ending.\n\nOn a new line, output Answer: <concise correct answer in the question’s language>. The answer does not follow the reasoning rules.",
+  "n": 36,
+  "joint": 0.05555555555555555,
+  "continuous": 0.3625090538527169,
+  "accuracy": 0.4444444444444444,
+  "narration": 0.6666666666666666,
+  "effective": 0.0,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "We must reason stepwise no commas. Rules: less than 70 words. Avoid banned characters: comma is banned. The reasoning must follow casing across entire reasoning. Use one casing? It says \"apply casing across entire reasoning\". Means consistent casing? Might choose lower-case. Avoid commas: we can sep"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "reasoning_language",
+     "number_words",
+     "end_checker"
+    ],
+    "start": "We need to answer question. Students produce chart. Teacher says both charts correct. Reason: it's about organization of information; multiple ways possible. So answer B. Now produce reasoning in Spanish less than 50 words, no commas. Use short sentences. Can't use comma. Need to finish with phrase."
+   },
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "We need to produce reasoning in short sentences without commas. The ending phrase required is ??? Not provided? Wait: \"Required ending phrase: print it verbatim as the exact ending of the reasoning, with nothing appended inside the reasoning; preserve its exact characters even if casing rules apply."
+   },
+   {
+    "rules": "end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "We need to parse constraints: The reasoning must satisfy formatting rules: no comma, no extra words, short sentences, use specified language - the question is in English, so reasoning in English. Must end with phrase: \"THIS ANALYSIS WAS CREATED BY AI\"\n\nAlso short sentences, no comma. Must compress t"
+   }
+  ]
+ },
+ {
+  "round": 3,
+  "text": "Protocol for compliant, genuine reasoning:\n\n- Rules apply only to the visible reasoning.\n- Do not mention or hint at rules, formatting, limits, languages, or the prompt. No self-talk or planning. Avoid words like rule, instruction, limit, language, comma, caps, phrase, prompt.\n- Start compliant from the first character; no prefaces.\n- Use the required language; otherwise only the question’s language.\n- Apply required casing throughout. If any punctuation/character is banned, omit it everywhere; do not substitute similar marks. Prefer short simple sentences.\n- Obey word limits. Keep only essential steps. Count words, and include any required ending phrase within the limit.\n- If a final phrase is required, make it the exact last characters of the reasoning, with nothing after it.\n- Recheck compliance silently.\n\nThen output on a new line: Answer: <concise correct answer in the question’s language>. The answer is not bound by the reasoning rules.",
+  "n": 36,
+  "joint": 0.08333333333333333,
+  "continuous": 0.3604175058576083,
+  "accuracy": 0.4722222222222222,
+  "narration": 0.3333333333333333,
+  "effective": 0.0,
+  "truncated": 0.05555555555555555,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "Need to solve: Each works as babysitters presumably every day? \"a year\" 365 days. They save half of what they've earned. Sally earns $6 per day. Bob $4 per day. Their savings:\n\nSally: 6 * 365 = 2190. Half saved = 1095. Bob: 4*365 = 1460. Half saved = 730. Combined: 1095+730=1825. That probably the a"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "We need to compute how to redistribute from first three glasses into fourth to equalize. Initially, first three each full -> 1 glass each. Fourth has 1/3. Total juice = 3 + 1/3 = 10/3 glass. Divide equally among 4 gives each 10/12 = 5/6 of glass. So each should end with 5/6. First three currently ha"
+   },
+   {
+    "rules": "end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "We need to count intersection points of 40 lines, no parallel. General lines: intersection of any pair gives C(40,2)=780 intersections. But some intersections are multiple lines overlapping at same point. We have counts of points with 3,4,5,6 lines intersecting. For each such point, the number of li"
+   },
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "We need to compute Jennifer's total after original 40 plus additional. She bought 6 additional for every 5 Mark bought. Mark bought 50 cans. Compute ratio: Mark 5 -> Jennifer 6. Thus Jennifer gets 6/5 of Mark's purchased. 50 * 6/5 = 60. So she bought an extra 60 cans. But the problem states: \"Jennif"
+   }
+  ]
+ },
+ {
+  "round": 3,
+  "text": "Checklist to maximize rule compliance without meta-talk:\n\n- Parse constraints once; hold them in memory.\n- Write only task-relevant reasoning; never refer to rules, counts, casing, language, or the prompt. No I/we/you or “need/must”. No restarts or corrections.\n- Switch fully into the required language before the first token; otherwise use only the question’s language.\n- From the first token, satisfy casing and any character bans. If a mark is forbidden, do not use it at all; do not mimic it. Prefer short simple sentences or line breaks. If uncertain, omit the mark.\n- Stay within the word limit. Manually count; compress; ensure any required ending phrase is included and still within the limit.\n- If an ending phrase is required, output it verbatim as the final characters of the reasoning, with nothing after.\n- Silently verify language, casing, characters, count, and ending.\n\nOn a new line, write Answer: <concise, correct answer in the question’s language>. The answer is free from the reasoning rules.",
+  "n": 36,
+  "joint": 0.05555555555555555,
+  "continuous": 0.3510155664709018,
+  "accuracy": 0.5833333333333334,
+  "narration": 0.19444444444444445,
+  "effective": 0.0,
+  "truncated": 0.027777777777777776,
+  "gradeable": 0.9722222222222222,
+  "fails": [
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "We need to answer the multiple-choice question. The answer: Rubbing sandpaper on wood produces sound and heat. So answer B.\n\nWe must provide the answer as per format: On a new line, write Answer: <concise, correct answer in the question’s language>. The question language is English. So\n\nAnswer: B."
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "We need to answer question: \"Scientists who disagree with the results of an experiment should\" options: A change the experiment. B keep opinions to themselves. C find out what other scientists think. D repeat experiment several times and compare results.\n\nAppropriate: Repeat experiment, compare resu"
+   },
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "Need to calculate yearly savings each. Each works as babysitters and saves half of earnings per day. Sally earns $6/day, half saved = $3/day. Bob earns $4/day, half saved = $2/day. Year days about 365. Sally: 3*365 = 1095. Bob: 2*365 = 730. Combined = 1095+730=1825. Provide answer. Need to check wor"
+   },
+   {
+    "rules": "end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "Need to determine loops from factor. In higher order loop diagrams, each loop gives factor 1/(4π)^2 per loop (for dimensional regularization counts). Here we see (1/(4π))^6 implying six loops? Wait: each loop contributes 1/(16π^2). Write as 1/(4π)^2. So 6 loops => (1/(4π))^12? Wait, maybe each loop "
+   }
+  ]
+ }
+]

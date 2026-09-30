@@ -205,19 +205,16 @@ def score_answer(suite: str, answer_text: str, correct: str, gold_letter: str | 
     got = extract_tagged_answer(answer_text)
     if got is None:
         got = extract_boxed_answer(answer_text)  # fallback (METHODOLOGY #42)
-    if got is None:  # untagged answers (gpt-oss run, COTCTL_NO_ANSWER_TAG): last "answer: X" line
-        import re as _re
-        m = _re.findall(r"(?i)(?:final answer|answer)\s*(?:is)?\s*[:：]?\s*\**\s*\$?([^\n*$]+?)\s*\$?\**\s*\.?\s*(?:\n|$)", answer_text or "")
-        got = m[-1].strip().rstrip(".") if m else None
-    if got is not None:  # a tagged / boxed / "answer:" answer is authoritative; the fallback below never overrides it
+    if got is not None:  # a tagged or boxed answer is authoritative
         return _norm(got) == _norm(correct)
+    got = None
     # language-independent fallback for untagged free-form answers (gpt-oss, METHODOLOGY #44): a letter gold is matched
     # against the last option letter written as "X." / "X)" / "**X**" / standalone; a numeric gold against the last
     # number in the answer, or any bolded number.
     import re as _re
     gold = (correct or "").strip(); txt = answer_text or ""
     if len(gold) == 1 and gold.isalpha():
-        L = _re.findall(r"(?:\*\*|\b)([A-J])(?:[.)]|\*\*|\b(?![a-z]))", txt)
+        L = [m.group(1) or m.group(2) for m in _re.finditer(r"(?<![A-Za-z])([A-F])(?:[.)]|\*\*)|[:：]\s*\**\s*([A-F])\b", txt)]
         return (L[-1].upper() == gold.upper()) if L else None
     try:
         gnum = float(gold.replace(",", ""))

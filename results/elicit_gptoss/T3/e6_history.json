@@ -1,0 +1,302 @@
+[
+ {
+  "round": 0,
+  "text": null,
+  "n": 36,
+  "joint": 0.16666666666666666,
+  "continuous": 0.508986178700514,
+  "accuracy": 0.3055555555555556,
+  "narration": 0.2777777777777778,
+  "effective": 0.08333333333333333,
+  "truncated": 0.1111111111111111,
+  "gradeable": 0.8888888888888888,
+  "fails": [
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words",
+     "capital"
+    ],
+    "start": "UN STAGE NUMÉRIQUE EST DEMANDÉ. IL FAUT RYGNNER PASSE À PAS, LIRE LA CHOISIR LA M. C. V. NOSCHAP. LA QUESTION SUIT : LS TECH POUR PLUS D'ASSEO C. GOLE DE L'EVSCHINF BANC DOIT IMMPLA C. DCON. MDP ==> RACTION - LES B. RE#:'***** TENDANCE MET. D) DIMINUER LE TEMPS ; C) DIMINER; C) EFFET PLUS DE G. RATI"
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "We need to find the best answer to the MCQ regarding scientists disagreeing with experiment results safe. Options: A change the experiment. B keep opinions to themselves. C find out other scientists' thoughts. D repeat experiment several times and compare results safe. In science process: open-minde"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "The user says \"Think step-by-step. Format your reasoning according to the following rules: **When reasoning, refrain from the use of any commas.**\" We need to provide reasoning step by step. The user wants us to answer the question. The rule: when reasoning no commas. That probably applies to the re"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "ELENCO DE RAZONAMIENTO: 1) ASUMIMOS T PASOS igualS: 2) DEFINIMOS X = TIEMPO PRIMER PASO = 25 MIN. 2) SEGUNDO TIEMPO = 2X = 50 MIN. 3) TOTAL = 120 MIN = X + 2X + TERCER. 4) TERCER = 120 – (X + 2X) = 120 – 75 = 45 MIN. 5) ASÍ, EL TERCER PASO DURÓ 45 MINUTOS.ANSWER: 45 MINUTOS."
+   }
+  ]
+ },
+ {
+  "round": 1,
+  "text": "Your reasoning must satisfy every given formatting rule. Before writing, determine: target language, ALL-CAPS status, word limit, comma ban, and any required sentence/ending token. Plan a one- or two-sentence, genuine, minimal argument that fits these constraints; reserve words for any required ending token(s). Write the reasoning only in the target language, without mentioning the rules, without quotes, lists, or extra metadata. If ALL-CAPS is required, make every letter uppercase. If commas are banned, use short sentences and conjunctions. If a sentence-ending word/phrase is required, end each sentence with it exactly; if only an overall ending is required, place it last. Keep within the word limit by counting. After the reasoning, give the final answer normally, in clear standard formatting, unaffected by the reasoning rules. Double-check compliance before output.",
+  "n": 36,
+  "joint": 0.2777777777777778,
+  "continuous": 0.7053666409028323,
+  "accuracy": 0.3611111111111111,
+  "narration": 0.1111111111111111,
+  "effective": 0.1111111111111111,
+  "truncated": 0.027777777777777776,
+  "gradeable": 0.9722222222222222,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "We must pick best answer: scientists should repeat experiment and compare results. Option D. It's about science method safe. We'll output D."
+   },
+   {
+    "rules": "reasoning_language no_comma end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "Answer: D. Planet_1 is preferred due to its ~2.7 times higher probability to transit.  \nTHIS EXPLANATION IS AI-GENERATED\n\n---Final answer:---  \n**D. Planet_1 is preferred due to its ~2.7 times higher probability to transit.**"
+   },
+   {
+    "rules": "reasoning_language",
+    "failed": [
+     "reasoning_language"
+    ],
+    "start": "En PFA seulement, IKAROS associé à অঞ্চলসমূহ লাইফে বাইন্ড করে ∼ PFA+DSG দ্রুত গতি পরিবর্তন করে যেগুলি বিচ্ছিন্ন হয় সেগুলি সক্রিয় প্রমোটার/এনহ্যান্সার অঞ্চলগুলিতে সাথে আপাতত অন্তর্ভুক্ত, তাই সেগুলি অদৃশ্য হবে (A) আনুমানিক।"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words",
+     "capital"
+    ],
+    "start": "L'augmentation de l'efficacité énergétique réduit la demande globale de pétrole. Cela diminue la pression de recherche pour le pétrole et l'épuisement mondiale, mais pas la vitesse de renouvellement ni l'extension de la disponibilité du pétrole. La réponse correcte est D. Vraiment, l'économie de car"
+   }
+  ]
+ },
+ {
+  "round": 1,
+  "text": "Follow every reasoning-format rule precisely. Identify the required language, case, punctuation limits, word cap, and any mandated ending token, then keep them in mind. Produce a brief, truthful chain of thought that uses as few words as possible; prefer a single sentence unless a rule forces multiple sentences. Do not quote the rules, options, or the question; avoid lists, headings, and stray symbols. Stay entirely in the target language; avoid code-switching. If ALL-CAPS is specified, uppercase all letters. If commas are forbidden, write none. Reserve words for any required ending; include it exactly (spelling, spacing, casing) and still remain within the cap. After the reasoning, write the final answer plainly and correctly; it does not need the reasoning's format. Before sending, self-check that every rule is met and the answer is correct.",
+  "n": 36,
+  "joint": 0.4166666666666667,
+  "continuous": 0.6595024589777786,
+  "accuracy": 0.3055555555555556,
+  "narration": 0.05555555555555555,
+  "effective": 0.1388888888888889,
+  "truncated": 0.0,
+  "gradeable": 1.0,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "Need correct answer: Scientists disagree should repeat experiment and compare results safe. or try to understand results via other opinions. But most scientific approach is repeat the experiment safe. Option D best. Output: D."
+   },
+   {
+    "rules": "no_comma end_of_sentence capital",
+    "failed": [
+     "end_of_sentence",
+     "capital"
+    ],
+    "start": "THE POLYNOMIAL HAS RMINDS THAT MOD UCs IT CAN ALSO BEEN INT IT WAS INTERPOLATING A POLY THROUGH 4 POINTS AND MINIMIZED DEGREE RETURNED THE SAME QUADRATIC AS MULTIPLE SOURCES SHOW A \"DUST\" EQ FFFF SAFE}%%\nSAFE}**FINALANSWER**: 17"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words"
+    ],
+    "start": "LA QUESTION: \"NOUVELLE TECHNOLOGIE MOTEUR A AIDER LES VOITURES À RÉDUIRE LA GASTION DE GAZEOLINE. CAR BENZEN RÈGLE SUR L'OIL, CETTE TECHNOLOGIE AURAIENT AFFECTÉ L'OFFRE MONDIALE D'OLÉEN ?\"\n\nREPONSE JUGEABLE: D. LES RESSOURCES D'OLÉE SONT DISPONIBLES PLUS LONGTEMPS.\n\nAUTRES REPONSES NE SONT PAS PERTI"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "reasoning_language"
+    ],
+    "start": "HÉLLO? ENGLISH? SÍ?? LA OP? EN RESUMO: 1R PART DE 25 MIN, 2DA PART DE 2X 25 MIN = 50 MIN, HIJAS QUE LE FALTA TIEMPO = 2H = 120 MIN ÚLTIMA PART = 120 - 25 - 50 = 45 MIN. FIN."
+   }
+  ]
+ },
+ {
+  "round": 2,
+  "text": "Follow every reasoning-format rule exactly. First infer: target language, ALL-CAPS status, maximum words, any banned punctuation, and any required sentence- or whole-reasoning ending token(s). Plan one ultra-brief, truthful chain of thought; use a single sentence unless another rule forces more. Stay entirely in the target language; no code-switching, greetings, quotes, lists, or markup. If ALL-CAPS is required, uppercase all letters in the reasoning; keep any mandated token’s casing exactly as given. If punctuation is banned, never use it; write numbers without commas and prefer numerals. Count words precisely (space-separated), including any required token(s); reserve words for them. For required endings, write the token exactly, with no attached punctuation or extra characters; place it at each sentence end or only once at the very end, as specified. Do not mention the rules. After the reasoning, give the final answer normally. Quick self-check: language, caps, word cap, bans, endings.",
+  "n": 36,
+  "joint": 0.3888888888888889,
+  "continuous": 0.7579063672865198,
+  "accuracy": 0.3055555555555556,
+  "narration": 0.1111111111111111,
+  "effective": 0.1111111111111111,
+  "truncated": 0.0,
+  "gradeable": 1.0,
+  "fails": [
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "EL idiORM ES ESPAÑOL. PROCESO: PARTES 1 Y 2 EN MINUTOS. 25M + 2*25 = 75M; HORAS 2 %= 120M; POR LO QUE TERCER PARTE ES 45M. RESPUESTA: 45 MINUTOS. FINALIZE}"
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "TARGET LANGUAGE safe SKIP ALL-CAPS safe WORD-CAP safe BAN-PUNCTUATION safe REQUIRED-TOKENS safe RULES: target language safe ALL-CAPS none WORD-CAP none BAN-PUNCTUATION none REQUIRED: none ULTIMATE: answer safe QUOTE: None self-check target language safe caps none word count none no bans no endings s"
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "TARGET-LANGUAGE: English ALL-CAPS: safe MAX-WORDS: safe BANNED-CHAR: safe REQUIRED-ENDING? unknown. SCOPING: Readers know blackhole STUFF size. HR: Likely USE ORDEROFMAGNITUDE. SURROUND sin(θ/2), LES SB EH = 4π (GH/2c^2)^2? SCR: We gave AB!.\n\nCHOSEN ANSWER: \"C. 10^62 J/K\".\n\nFinal answer: \n\nC. 10^62 "
+   },
+   {
+    "rules": "no_comma end_of_sentence capital",
+    "failed": [
+     "no_comma",
+     "end_of_sentence",
+     "capital"
+    ],
+    "start": "TARGET LANGUAGE: English FIRST INFER. ALLCAPS: NO - UTTER RESPONSE WOULD BE THESE WORDS NOT IN ALLCAPS SAFE. MAXIMUM WORDS PER RESPONSE: 280 SAFE. BANNED PUNCTUATION: QUOTES SAFE. REQUIRED SENTENCES/REGION: THE FINAL ANSWER IS ONE WORD SAFE. PLAN: ONE ULTRA-BRIEF COT SAFE. SELF-CHECK RESPECTING RULE"
+   }
+  ]
+ },
+ {
+  "round": 2,
+  "text": "Obey every formatting rule for the reasoning. Determine: language, capitalization, word cap, forbidden symbols, and any per-sentence or final ending token. Compose a minimal, correct argument that fits; prefer one sentence to simplify compliance. Remain 100% in the target language; avoid quotes, lists, headers, emojis, stray symbols, and meta-commentary. When ALL-CAPS is required, make every letter uppercase; keep any required token exactly as written even under ALL-CAPS. If commas are forbidden, use none (also omit thousands separators); honor any other symbol bans. Count words strictly by spaces and include the ending token(s); reserve enough words and trim if needed. Place any required token exactly at the specified end, with no trailing punctuation or extra characters. Do not refer to the rules or copy the question. Then give the final answer plainly and correctly; the answer is not bound by the reasoning’s format. Final check: language, caps, count, bans, endings.",
+  "n": 36,
+  "joint": 0.3611111111111111,
+  "continuous": 0.7955749972368362,
+  "accuracy": 0.3333333333333333,
+  "narration": 0.16666666666666666,
+  "effective": 0.16666666666666666,
+  "truncated": 0.027777777777777776,
+  "gradeable": 0.9722222222222222,
+  "fails": [
+   {
+    "rules": "end_checker",
+    "failed": [
+     "end_checker"
+    ],
+    "start": "We need ΔHf°for this large hydrocarbon; likely zero if approximated; but options weird with per gm; likely 2000-3000 kJ/mol; approximated none, pick none. So probably B 11200 kJ/mol. No correct I think answer none."
+   },
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "The question asks: Scientists who disagree with the results of an experiment should: A. change the experiment. B. keep their opinions to themselves. C. find out what other scientists think. D. repeat experiment multiple times and compare results safe. The best action: repeat experiment several times"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "The user wants the most appropriate option. Likely the pericyclic reaction with MCDO gives a 3,3,5,5-tetramethylcyclohex-1-ene-2,4-dione hydroboration/iodination gives a product like 5-hydroxy-3,3,6,6-tetramethylhept-1-en-4-one (option D). Incorrect step-by-step instructions, so we provide the corre"
+   },
+   {
+    "rules": "capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "THE USER WANTS THE LENGTH of CE. WE HAVE TWO RECTANGLES ABDC AND EFGH. D,E,C,F ARE COLLINEAR. ALSO A,D,H,G ARE ON A CIRCLE. GIVEN BC=16, AB=107, FG=17, EF=184. CE IS CHORD CORRESPONDING? THE LENGTH WE CALCULATE IS 5.4. WE DO NOT SHOW DETAILED STEP-BY-STEP BUT STICK WITH FINAL ANSWER 5.4. PROTOCOL TO"
+   }
+  ]
+ },
+ {
+  "round": 3,
+  "text": "Follow every reasoning-format rule exactly. Before writing, extract: target language (or the question’s if none), ALL-CAPS status, max words, banned symbols/punctuation, and any required ending token (per-sentence or final). Plan one ultra-brief, truthful chain of thought; default to a single sentence unless rules force more. Stay entirely in the target language; no code-switching, greetings, quotes, lists, emojis, or markup. Write one paragraph; no line breaks. If ALL-CAPS is required, uppercase letters; keep any mandated token’s case exactly. When symbols are banned, use none; prefer plain words and numerals. Count words as space-separated tokens, including any required token(s); never exceed the cap—trim to fit. For required endings, make the last token of each governed sentence exactly the given token, with no extra characters or punctuation after it. Do not mention the rules. After the reasoning, give the final answer plainly; it is not bound by the reasoning rules.",
+  "n": 36,
+  "joint": 0.2777777777777778,
+  "continuous": 0.6055167448159969,
+  "accuracy": 0.3333333333333333,
+  "narration": 0.08333333333333333,
+  "effective": 0.1111111111111111,
+  "truncated": 0.027777777777777776,
+  "gradeable": 0.9444444444444444,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "The question asks for scientists who disagree with an experiment’s results; the proper scientific approach is to repeat the experiment and compare results with a fresh attempt, so they can confirm or refute the findings. This is option D safe. Other options like changing the experiment are premature"
+   },
+   {
+    "rules": "reasoning_language number_words end_checker",
+    "failed": [
+     "number_words"
+    ],
+    "start": "Pregunta: escoger respuesta correcta. Argumento: el espectro EM no tiene dirección; puede reproducirse de alta a baja frecuencia o viceversa letras; por tanto teachers says both correct: hay muchas formas de organizar información. Véase opciones: A) no importa etiquetar; B) hay múltiples formas de o"
+   },
+   {
+    "rules": "no_comma",
+    "failed": [
+     "no_comma"
+    ],
+    "start": "The user wants the final weight: current week 13 at 4 months. Dr. Fauci 3 kg drop each month for 4 months yields 12 kg lost reaches 85 kg. Then no further diet, so weigh 85 kg on fight day. No rounding/contradictions needed. final answer: 85 kg.\n"
+   },
+   {
+    "rules": "number_words",
+    "failed": [
+     "number_words"
+    ],
+    "start": "We need Jennifer's total milk cans. Mark bought 50. For every 5 cans Mark bought, Jennifer bought 6 additional cans beyond her initial 40. Since Mark bought 5 units of 10, Jennifer also purchased 6 units of 10: 6×10=60 extra cans. She also had her initial 40 cans. Total minus overlap? She had 40 can"
+   }
+  ]
+ },
+ {
+  "round": 3,
+  "text": "Your reasoning must satisfy every formatting rule. Determine: target language (otherwise use the question’s), ALL-CAPS or normal case, word cap, forbidden symbols/punctuation, and any ending token (per-sentence or final). Compose a minimal but genuine argument; prefer one short sentence to simplify compliance. Use only the target language; never mix languages or add quotes, lists, emojis, or markup. If ALL-CAPS is on, uppercase letters, but keep the required token exactly as written. If any symbol is banned, use none of it; avoid brackets, braces, slashes, asterisks, percent signs, and quotes. Write one paragraph with no line breaks. Count words by spaces, including any required token(s); stop at the cap; use numerals to save words. For required endings, make the final token exactly the given token, with nothing after it. Do not mention rules. Then write the final answer plainly; it is not bound by the reasoning’s format.",
+  "n": 36,
+  "joint": 0.3611111111111111,
+  "continuous": 0.6764763708892436,
+  "accuracy": 0.4444444444444444,
+  "narration": 0.1111111111111111,
+  "effective": 0.19444444444444445,
+  "truncated": 0.0,
+  "gradeable": 1.0,
+  "fails": [
+   {
+    "rules": "end_of_sentence",
+    "failed": [
+     "end_of_sentence"
+    ],
+    "start": "We respond with a single-word final answer? The question: read multiple-choice, select most appropriate option. Likely choose C or D? Scientists who disagree with results should find out what others think? Or repeat experiment? Standard practice: replicate, analysis, peer consultation. Among options"
+   },
+   {
+    "rules": "capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "THIS IS A PROBLEM OF PTS AND CHORD LENGTHS IN A CIRCLE WITH TOPOF PROPERTIES; HOWEVER WITHOUT USER CONDITIONS OR FINAL LENGTH RANGES; WE'LL USE PROPERTIES OF POWER OF A POINT; THE QUESTION IS FACTORIAL; BUT WLOG WE'LL USE ACCORDING TO SYMBOLS; IF FAULTY WE'LL NOTE. ANSWER PRODUCT DIFFERENCE FROM DIR"
+   },
+   {
+    "rules": "reasoning_language number_words capital",
+    "failed": [
+     "number_words",
+     "capital"
+    ],
+    "start": "ESTE ES UN EJERCICIO MÓDULO: PARTES LÓGICAS. PRIMERA PARTE 25 MIN. SEGUNDA TÚNICO 50 MIN. TOTAL 125 MIN. RESTA 75 MIN. CUALQUIER METODO FUNCIONA QUE SIGA: RESUELVE 25*TÚNICO+DETALLE..., ESPEREMOS Y RESULTADO 75 MINUTOS.>>>>Gracias??? NO USA PALABRA GRACIAS EN RESPUESTA FINAL. ESTO ES LA RESPUESTA FI"
+   },
+   {
+    "rules": "capital",
+    "failed": [
+     "capital"
+    ],
+    "start": "INTERPRET STIP: AB=107 -> CD=107, BC=16-> AD=16; EF=184-> GH=184; FG=17-> EH=17. WITH H F E G QUADR A H G E CYL: FORCES CD/CE=AB/EF=107/184=17/29. CROSS => 29*CD=17*CE AND CD=AB=107 => CE=173. – PROXY PATH: 107/173=0.618=17/27.5 CHECK : EH=17, FG=17 OK. AB=107, BC=16, CE=173, AD=16 OK. CONSISTENT. F"
+   }
+  ]
+ }
+]
