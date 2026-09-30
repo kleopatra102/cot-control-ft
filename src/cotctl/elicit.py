@@ -20,6 +20,10 @@ from .prompts import END_PHRASES_BY_LANG, END_WORDS, MULTI_LANGS, multi_instruct
 from .sft.multi import ORDER, holdouts, valid_combos
 
 REPO = Path(__file__).resolve().parents[2]
+import os as _os
+FAMILY = _os.environ.get("ELICIT_FAMILY", "qwen")  # qwen | gptoss (GPTOSS: harmony prefill, gpt-oss few-shot data)
+DATA_PREFIX = {"qwen": "q3_8b", "gptoss": "gptoss"}[FAMILY]
+TOKENIZER = {"qwen": "Qwen/Qwen3-8B", "gptoss": "openai/gpt-oss-20b"}[FAMILY]
 SINGLES = ["reasoning_language", "number_words", "capital", "end_checker", "no_comma", "end_of_sentence"]
 
 
@@ -84,7 +88,7 @@ def _examples_pool():
     """Compliant training examples from the Qwen3-8B phase-1 data, by constraint set."""
     pool = {}
     for arm in ("S1", "T3"):
-        for l in open(REPO / f"data/sft/q3_8b_{arm}.jsonl"):
+        for l in open(REPO / f"data/sft/{DATA_PREFIX}_{arm}.jsonl"):
             r = json.loads(l); cons = r["constraint_args"]["constraints"]
             m = re.match(r"^<think>\n?(.*?)\n?</think>", r["messages"][1]["content"], re.S)
             if not m: continue
@@ -142,7 +146,7 @@ def requests_for(items, strategy: str, samples: int = 1, preamble: str | None = 
 class PrefillClient(VLLMClient):
     """Chat requests as usual; requests with meta['prefill'] go through /v1/completions with the chat template rendered
     locally and '<think>\\n' + prefill appended, so the reasoning starts with the prefill."""
-    def __init__(self, *a, tokenizer_name: str = "Qwen/Qwen3-8B", **kw):
+    def __init__(self, *a, tokenizer_name: str = TOKENIZER, **kw):
         super().__init__(*a, **kw)
         from transformers import AutoTokenizer
         self._tok = AutoTokenizer.from_pretrained(tokenizer_name)
@@ -150,9 +154,14 @@ class PrefillClient(VLLMClient):
     async def _one(self, req: Request, sampling) -> Rollout:
         pre = req.meta.get("prefill")
         if not pre: return await super()._one(req, sampling)
-        text = self._tok.apply_chat_template([{"role": "user", "content": req.prompt}], tokenize=False, add_generation_prompt=True, enable_thinking=True)
-        text += "<think>\n" + pre
+        if FAMILY == "gptoss":
+            text = self._tok.apply_chat_template([{"role": "user", "content": req.prompt}], tokenize=False, add_generation_prompt=True, reasoning_effort="medium")
+            text += "<|channel|>analysis<|message|>" + pre
+        else:
+            text = self._tok.apply_chat_template([{"role": "user", "content": req.prompt}], tokenize=False, add_generation_prompt=True, enable_thinking=True)
+            text += "<think>\n" + pre
         body = sampling.to_request(); body.pop("reasoning_effort", None)
+        if FAMILY == "gptoss": body.setdefault("extra_body", {})["skip_special_tokens"] = False
         for attempt in range(self.max_retries):
             t0 = time.monotonic()
             try:
@@ -160,8 +169,12 @@ class PrefillClient(VLLMClient):
             except Exception as e:  # noqa: BLE001
                 import asyncio; await asyncio.sleep(min(2 ** attempt, 30)); err = f"{type(e).__name__}: {e}"; continue
             ch = resp.choices[0]; out = ch.text or ""
-            if "</think>" in out:
-                cont, ans = out.split("</think>", 1); status = OK
+            end = "<|end|>" if FAMILY == "gptoss" else "</think>"
+            if end in out:
+                cont, ans = out.split(end, 1); status = OK
+                if FAMILY == "gptoss":
+                    ans = ans.split("<|message|>", 1)[-1]
+                    for t in ("<|return|>", "<|end|>", "<|call|>"): ans = ans.split(t)[0]
             else:
                 cont, ans = out, ""; status = UNCLOSED
             reasoning = pre + cont
