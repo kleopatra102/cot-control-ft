@@ -23,6 +23,23 @@ prompts.*
 
 "All constraints met" on 160 test prompts; accuracy and effective control per model in the sections below.
 
+Effective control (compliant, correct, not narrating, not truncated) and the graded partial-credit score follow the
+same ordering; prefill is the only strategy that moves base's graded score substantially (0.30 → 0.60):
+
+![Effective control and graded score](figures/elicit_qwen3_8b_effective_graded.png)
+
+Single-rule against three-rule prompts. On triples base is at 0 % under every strategy except prefill (38 %); U
+stays at 0–10 % even under prefill, where base reaches 38 %, so on the hardest prompts the unlearned model is below
+the model that never learned the rules:
+
+![Single rule vs triples](figures/elicit_qwen3_8b_single_vs_triples.png)
+
+Each constraint alone (20 prompts per cell; ungradeable rollouts counted as failures, so cells can differ by a few
+points from the per-constraint tables below). Commas and the end-of-sentence word are the rules no strategy unlocks
+for base or U; prefill works through language and capitals, the worked example through the end phrase:
+
+![Per-constraint heatmap](figures/elicit_qwen3_8b_per_constraint.png)
+
 ## Conclusions
 
 1. **Wording barely matters.** Redwood-style instructions, monitoring and evaluation framing, and repeating the
