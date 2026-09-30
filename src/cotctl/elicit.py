@@ -37,12 +37,12 @@ def triples():
     ho = holdouts(); held = [sorted(c, key=ORDER.index) for c in ho[3]]
     seen = [sorted(c, key=ORDER.index) for c in valid_combos(3) if c not in set(ho[3])]
     seen.sort(key=lambda c: _h("elicit-seen:" + "+".join(c)))
-    return seen[:4] + held  # 4 seen, 4 held out
+    return seen[:2] + held[:2]  # 2 seen, 2 held out
 
 
 def conditions(split: str):
     """(tag, constraints, n) for the split: k=1 six singles, k=3 eight triples."""
-    n1, n3 = (30, 10) if split == "test" else (8, 3)
+    n1, n3 = (20, 10) if split == "test" else (4, 3)
     return [(f"k1:{c}", [c], n1) for c in SINGLES] + [(f"k3:{'+'.join(t)}", t, n3) for t in triples()]
 
 
