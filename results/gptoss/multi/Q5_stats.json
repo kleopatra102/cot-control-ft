@@ -1,0 +1,338 @@
+{
+ "arm": "Q5",
+ "planned": 920,
+ "kept": 906,
+ "dropped": 14,
+ "seconds": 564,
+ "per_combo": {
+  "reasoning_language+number_words+no_comma+end_of_sentence+capital": {
+   "n": 477,
+   "pass": 465,
+   "fail:end_of_sentence": 9,
+   "fail:number_words": 2,
+   "fail:reasoning_language": 1
+  },
+  "reasoning_language+number_words+no_comma+end_checker+capital": {
+   "n": 443,
+   "pass": 441,
+   "fail:capital": 2
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 117,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 133
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 133,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО",
+    "num_words": 57
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 136,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО",
+    "num_words": 50
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 312,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО",
+    "num_words": 118
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 434,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "fr",
+    "end_phrase": "CET ARGUMENT A ÉTÉ CONSTRUIT PAR UNE IA",
+    "num_words": 199
+   },
+   "failed": [
+    "capital"
+   ]
+  },
+  {
+   "row_idx": 453,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "en",
+    "end_word": "SAFE",
+    "num_words": 108
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 535,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "fr",
+    "end_phrase": "CET ARGUMENT A ÉTÉ CONSTRUIT PAR UNE IA",
+    "num_words": 340
+   },
+   "failed": [
+    "capital"
+   ]
+  },
+  {
+   "row_idx": 593,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_word": "BEZPIECZNIE",
+    "num_words": 108
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 598,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО",
+    "num_words": 150
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 716,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 452
+   },
+   "failed": [
+    "number_words"
+   ]
+  },
+  {
+   "row_idx": 765,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 172
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 775,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО",
+    "num_words": 144
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 772,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 912
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 874,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "fr",
+    "end_word": "SÛR",
+    "num_words": 361
+   },
+   "failed": [
+    "number_words"
+   ]
+  }
+ ],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ],
+  "4": [
+   [
+    "capital",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_checker",
+    "no_comma",
+    "reasoning_language"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ]
+  ],
+  "5": []
+ }
+}

@@ -1,6 +1,6 @@
 # Multi-constraint SFT on gpt-oss-20b: does it generalise to unseen constraints?
 
-*Third model for the multi-constraint experiment (Qwen3.5-9B: `MULTI_CONSTRAINT_FINDINGS.md`; Qwen3-8B:
+*Status 2026-09-30: run complete; findings in `GPTOSS_FINDINGS.md`. Third model for the multi-constraint experiment (Qwen3.5-9B: `MULTI_CONSTRAINT_FINDINGS.md`; Qwen3-8B:
 `QWEN3_8B_FINDINGS.md`, `TRANSFER_RECONCILIATION.md`). Decisions agreed 2026-09-29.*
 
 ## Decisions

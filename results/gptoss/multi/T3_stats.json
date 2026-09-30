@@ -1,0 +1,233 @@
+{
+ "arm": "T3",
+ "planned": 920,
+ "kept": 913,
+ "dropped": 7,
+ "seconds": 343,
+ "per_combo": {
+  "number_words+end_of_sentence+capital": {
+   "n": 82,
+   "pass": 80,
+   "fail:end_of_sentence": 2
+  },
+  "number_words+no_comma+capital": {
+   "n": 78,
+   "pass": 78
+  },
+  "reasoning_language+no_comma+capital": {
+   "n": 73,
+   "pass": 73
+  },
+  "number_words+end_checker+capital": {
+   "n": 84,
+   "pass": 84
+  },
+  "reasoning_language+no_comma+end_checker": {
+   "n": 80,
+   "pass": 80
+  },
+  "reasoning_language+number_words+end_of_sentence": {
+   "n": 81,
+   "pass": 80,
+   "fail:end_of_sentence": 1
+  },
+  "no_comma+end_checker+capital": {
+   "n": 62,
+   "pass": 62
+  },
+  "number_words+no_comma+end_checker": {
+   "n": 78,
+   "pass": 78
+  },
+  "reasoning_language+number_words+no_comma": {
+   "n": 74,
+   "pass": 74
+  },
+  "reasoning_language+number_words+capital": {
+   "n": 65,
+   "pass": 64,
+   "fail:reasoning_language": 1
+  },
+  "reasoning_language+end_checker+capital": {
+   "n": 78,
+   "pass": 78
+  },
+  "reasoning_language+end_of_sentence+capital": {
+   "n": 85,
+   "pass": 82,
+   "fail:end_of_sentence": 2,
+   "fail:capital": 1
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 180,
+   "constraints": [
+    "reasoning_language",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО"
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 403,
+   "constraints": [
+    "number_words",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "end_word": "SAFE",
+    "num_words": 65
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 583,
+   "constraints": [
+    "reasoning_language",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО"
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 593,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "end_of_sentence"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "seguro",
+    "num_words": 128
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 648,
+   "constraints": [
+    "number_words",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "end_word": "SAFE",
+    "num_words": 133
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 698,
+   "constraints": [
+    "reasoning_language",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "en",
+    "end_word": "SAFE"
+   },
+   "failed": [
+    "capital"
+   ]
+  },
+  {
+   "row_idx": 871,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "num_words": 272
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  }
+ ],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ],
+  "4": [
+   [
+    "capital",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_checker",
+    "no_comma",
+    "reasoning_language"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ]
+  ],
+  "5": []
+ }
+}
