@@ -57,7 +57,7 @@ Per constraint, single-rule prompts only (20 each, so differences under about 25
 So base Qwen3-8B has considerably more controllability than a plain request shows (at least 33 % against 8 %), but
 reaching it takes putting the first words in its mouth, not better instructions.
 
-## Q5 (fine-tuned, five constraints per example), E0–E5 and E7 complete; E6 running
+## Q5 (fine-tuned, five constraints per example), complete
 
 | strategy | all met | single rule | triples | graded score | accuracy | narrates | effective |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -68,11 +68,14 @@ reaching it takes putting the first words in its mouth, not better instructions.
 | E4 best of 3 samples | **57.5 %** | — | — | **0.79** | 61 % | — | **35.6 %** |
 | E5 prefilled compliant opening | 41.9 % | 44.2 % | 35.0 % | 0.70 | 56 % | 7 % | 26.9 % |
 | E7 rules repeated 15 times | 40.6 % | 40.0 % | 42.5 % | 0.65 | 53 % | 4 % | 25.6 % |
+| E6 gpt-5-optimised instruction | **57.5 %** | — | — | **0.78** | 56 % | 5 % | **36.2 %** |
 
-**For Q5 no prompting strategy adds anything.** The fine-tuned model already satisfies 48 % of prompts plainly,
+**For Q5 no hand-written prompting strategy adds anything; the per-model optimised one does.** The fine-tuned model already satisfies 48 % of prompts plainly,
 six times base, and every rewording, the worked example and even prefill land within noise of that or slightly
-below (n = 160, so differences under about 10 points are not reliable). Only sampling more helps (best of three:
-58 %). Prefill, the one strategy that transformed base, does nothing for Q5: the model already starts in format.
+below (n = 160, so differences under about 10 points are not reliable). Only sampling more (best of three: 58 %) and the optimised instruction (E6: 58 %, accuracy 56 %) help. For Q5 the
+optimiser found a real gain on the tuning prompts (31 → 56 %, with accuracy 56 → 47 %, inside the 10-point rule), and it
+held on the test prompts (48 → 58 %); for base the same budget found nothing. The winning Q5 instruction tells the
+model to parse the rules first and apply them to the reasoning only. Prefill, the one strategy that transformed base, does nothing for Q5: the model already starts in format.
 The worked example again costs about 13 points of accuracy. Fine-tuning has captured what elicitation could extract
 and more: prefill lifts base to 33 %, still well short of Q5's plain 48 %.
 
@@ -84,6 +87,6 @@ and more: prefill lifts base to 33 %, still well short of Q5's plain 48 %.
 
 ## Still to come
 
-Q5's E6, U through all strategies, and the headline comparison: whether prefill and the other strategies
+U through all strategies, and the headline comparison: whether prefill and the other strategies
 bring U back to Q5's level (the unlearning suppresses the behaviour) or not (the unlearning survives elicitation).
 Estimated about four more GPU hours.
