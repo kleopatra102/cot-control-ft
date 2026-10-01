@@ -1,9 +1,8 @@
-# Multi-constraint SFT on Qwen3.8-27B (4-bit): findings so far
+# Multi-constraint SFT on Qwen3.8-27B (4-bit): findings
 
-*Interim, 2026-10-01 afternoon. Base Qwen3.8-27B against Q5 (five constraints per training example, 436 examples, one
+*2026-10-01. Base Qwen3.8-27B against Q5 (five constraints per training example, 436 examples, one
 epoch, QLoRA on a 4-bit base), identical prompts, single-rule prompts only. Evaluation on Red Hat's 4-bit weights with
-the adapter applied by vLLM (checked: it changes greedy outputs). Base is complete on all four suites; Q5 is complete
-on three and still running Redwood's nine instructions. 20 prompts per rule; 12,288-token reasoning cap. Figures:
+the adapter applied by vLLM (checked: it changes greedy outputs). Both models are complete on all four suites. 20 prompts per rule; 12,288-token reasoning cap. Figures:
 `scripts/report_qwen38.py`.*
 
 ## Headline
@@ -11,7 +10,8 @@ on three and still running Redwood's nine instructions. 20 prompts per rule; 12,
 ![Base vs Q5 on the three suites](figures/q38_headline.png)
 
 Fine-tuning works in-domain (our six training constraints, 5 → 46 % of prompts), gives a small transfer to CoTControl
-(0 → 11 %), and nothing on the never-seen rules (15 → 15 %). The right panel repeats the comparison on finished traces
+(0 → 11 %), and nothing on the never-seen rules (15 → 15 %). On Redwood's nine held-out instructions (last section)
+it transfers clearly: 11 → 35 % macro, at no cost in accuracy. The right panel repeats the comparison on finished traces
 only; it changes no conclusion.
 
 ## Rule by rule
@@ -43,19 +43,33 @@ gains survive without it (in-domain 7 → 53 %, CoTControl 0 → 14 %).
 
 ![Redwood instructions](figures/q38_redwood.png)
 
-Base is at 0 % on bullets, numbered lists, XML steps and the rest, with one exception: **section headers at 86 %**.
-Base Qwen3.8 already structures its reasoning under "Given: / Work: / Check:" when asked, which no other model we have
-tested did. Q5 results will be added when its run finishes.
+About 29 tasks per instruction, their prompts and scorers, Qwen's recommended thinking sampling.
 
-## So far
+1. **Q5 transfers to seven of the eight instructions base fails.** Macro raw compliance rises from 11 % to 35 %.
+   Initial capitals 0 → 72 %, numbered steps 0 → 31 %, bullets 0 → 28 %, terse (25 words) 10 → 28 %, no "so"
+   0 → 24 %, a word exactly twice 0 → 21 %, XML steps 0 → 10 %. Child-style explanation barely moves (3 → 7 %).
+2. **Base already writes section headers** (86 %; Q5 93 %). Asked to, base Qwen3.8 structures its reasoning under
+   "Given: / Work: / Check:". No other model we tested did this.
+3. **Accuracy does not fall.** It is 85 % for base and 88 % for Q5. Q5's traces are shorter (median 107 words against
+   290) and cut off slightly less often (18 against 22 of 261).
+4. **The passes are genuine.** I read Q5's passing traces. None is an all-caps trace that satisfies initial capitals
+   by accident, and bullet passes are real "- " lists. Most do not restate the rule; the exception is "a word exactly
+   twice", where all 6 passes name the word.
 
-The same pattern as the three smaller models: multi-constraint SFT teaches the trained rules, transfers to their
-direct twins on CoTControl, and reaches nothing genuinely new. The one difference from Qwen3-8B is that JSON does not
-transfer here. Whether bullets transfer, as they did on gpt-oss, is the open question Redwood's suite will answer.
+## Summary
+
+The pattern matches gpt-oss. On the suites we designed, multi-constraint SFT teaches the trained rules and reaches
+their direct twins on CoTControl (uppercase, lowercase), but nothing on our never-seen rules. On Redwood's held-out
+instructions it transfers broadly: 11 → 35 % macro here, against 14 → 19–28 % for our gpt-oss checkpoints and 14 %
+for Redwood's own. So both larger models show transfer, but only to formatting-style instructions (lists,
+capitalisation, word bans, brevity) of the kind Redwood tests. Our never-seen rules are mostly counting and lexical
+rules, and those do not move. One difference from Qwen3-8B: JSON does not transfer here.
 
 ## Caveats
 
 - One seed; 20 prompts per rule, so single-rule differences under about 25 points are noise.
 - 4-bit weights for both training and evaluation (different 4-bit builds of the same model); 436 training examples,
   half the size of the Qwen3-8B arms.
+- Redwood numbers are raw compliance only (their effective-control judges were not run); about 29 tasks per
+  instruction, so differences under about 20 points are noise. Child-style explanation is judged by gpt-4.1-mini.
 - CoTControl's ignore-question mode needs the LLM judge and is shown as 0 for both models here.
