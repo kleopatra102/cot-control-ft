@@ -20,6 +20,7 @@ from cotctl.inference import Request, RolloutStore, SamplingParams, VLLMClient, 
 from cotctl.third_party.redwood import instructions as I, scoring as S
 
 HELDOUT = ["initial_caps", "no_word_so", "include_exactly_twice", "bullet", "numbered", "section_headers", "xml_steps", "terse_25w", "child_explanation"]
+EXTRA = ["second_person", "questions", "no_the", "no_answer_word"]  # Redwood train/val instructions, used as conditions in MANY_RULES_PLAN.md
 SIZES = {"arc_challenge": 20, "gsm8k": 20, "openbookqa": 20, "mmlu_pro": 18, "math": 14, "reasonif": 8}  # their HELDOUT_SIZES_BIG
 
 
@@ -38,9 +39,9 @@ def heldout_tasks():
     return out
 
 
-def requests():
+def requests(instr=None):
     out = []
-    for iid in HELDOUT:
+    for iid in instr or HELDOUT:
         ins = I.INSTRUCTIONS[iid]
         for t in heldout_tasks():
             uc = I.build_user_content(t["question"], S.build_answer_instruction(t["answer_type"]), ins, mode="cot")
@@ -67,14 +68,25 @@ async def judge_child(texts):
     return await asyncio.gather(*(one(t) for t in texts))
 
 
+async def judge_style(iid, texts):
+    """second_person / questions: gpt-4.1 with the criterion used to verify the many-rule training data (build_sft_pool.py)."""
+    sys.path.insert(0, str(REPO / "scripts")); import build_sft_pool as B
+    from cotctl.sft.editor import Editor
+    from cotctl.sft.pool import CONDS
+    e = Editor(model="gpt-4.1", cache_path=REPO / "results/redwood_eval/style_judge_cache.jsonl"); e.temperature_override = 0.0
+    return await asyncio.gather(*(B.judge(e, CONDS[f"rw:{iid}"].judge, t) for t in texts))
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", required=True)
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--out-root", default=str(REPO / "results/redwood_eval"))
     ap.add_argument("--tokenizer-hint", default=None)
     ap.add_argument("--grade-only", action="store_true"); ap.add_argument("--per-instruction", type=int, default=None)
-    ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--temperature", type=float, default=0.0); a = ap.parse_args()
+    ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--instructions", default=None, help="comma-separated; default the nine held-out; 'all13' adds EXTRA"); a = ap.parse_args()
+    instr = HELDOUT + EXTRA if a.instructions == "all13" else (a.instructions.split(",") if a.instructions else HELDOUT)
     global PER; PER = a.per_instruction
-    out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl"); reqs = requests()
+    out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl"); reqs = requests(instr)
     if not a.grade_only:
         wait_for_server(a.base_url)
         client = VLLMClient(a.model, a.base_url, concurrency=64)
@@ -87,21 +99,24 @@ def main():
     rows = [r for r in store.read_all() if (r["sample_id"], r["mode"]) in want]
     child = [r for r in rows if r["meta"]["instruction"] == "child_explanation" and (r.get("reasoning") or "").strip()]
     cv = dict(zip([(r["sample_id"], r["mode"]) for r in child], asyncio.run(judge_child([r["reasoning"] for r in child])))) if child else {}
+    for iid in ("second_person", "questions"):
+        st = [r for r in rows if r["meta"]["instruction"] == iid and (r.get("reasoning") or "").strip()]
+        if st: cv.update(zip([(r["sample_id"], r["mode"]) for r in st], asyncio.run(judge_style(iid, [r["reasoning"] for r in st]))))
     graded = []
     for r in rows:
         iid = r["meta"]["instruction"]; an = r.get("reasoning") or ""; ok = r.get("think_status") == "ok" and an.strip() != ""
         ins = I.INSTRUCTIONS[iid]
-        comp = (cv.get((r["sample_id"], r["mode"]), False) if iid == "child_explanation" else bool(ins.scorer(an))) if ok else False
+        comp = (cv.get((r["sample_id"], r["mode"]), False) if ins.scorer is None else bool(ins.scorer(an))) if ok else False
         acc = S.score_accuracy(r.get("answer") or "", r["meta"]["answer"], r["meta"]["answer_type"], r["meta"].get("n_options"))
         graded.append({"sample_id": r["sample_id"], "instruction": iid, "category": r["meta"]["category"], "source": r["meta"]["source"], "think_status": r.get("think_status"),
                        "truncated": bool(r.get("truncated")), "compliant": comp, "correct": acc, "words": I.word_count(an)})
     with open(out / "graded.jsonl", "w") as f:
         for g in graded: f.write(json.dumps(g) + "\n")
     summ = {}
-    for iid in HELDOUT:
+    for iid in instr:
         g = [x for x in graded if x["instruction"] == iid]
         summ[iid] = {"n": len(g), "raw_compliance": sum(x["compliant"] for x in g) / max(1, len(g)), "accuracy": sum(bool(x["correct"]) for x in g) / max(1, len(g))}
-    summ["_macro"] = sum(v["raw_compliance"] for k, v in summ.items() if not k.startswith("_")) / len(HELDOUT)
+    summ["_macro"] = sum(summ[k]["raw_compliance"] for k in HELDOUT if k in summ) / len(HELDOUT)  # macro stays over the nine held-out
     json.dump(summ, open(out / "summary.json", "w"), indent=1)
     print(a.label, {k: (round(v["raw_compliance"], 2) if isinstance(v, dict) else round(v, 3)) for k, v in summ.items()}, flush=True)
 

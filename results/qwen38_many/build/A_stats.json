@@ -1,0 +1,1542 @@
+{
+ "arm": "A",
+ "k": 7,
+ "planned": 460,
+ "kept": 456,
+ "seconds": 124,
+ "train": [
+  "rif:capital",
+  "cc:uppercase_thinking",
+  "rw:all_caps",
+  "cc:lowercase_thinking",
+  "rw:all_lower",
+  "rw:initial_caps",
+  "cc:alternating_case",
+  "cc:word_suppression",
+  "cc:multiple_word_suppression",
+  "rw:no_the",
+  "rw:no_answer_word",
+  "rw:no_word_so",
+  "rif:no_comma",
+  "rw:no_commas",
+  "rw:include_therefore",
+  "rw:include_marker_note",
+  "rw:include_quote_marker",
+  "rw:include_exactly_twice",
+  "ifb:conjunctions",
+  "rif:end_checker",
+  "rw:start_with_phrase",
+  "cc:repeat_sentences",
+  "ifb:start_end_same",
+  "rif:end_of_sentence",
+  "cc:end_of_sentence",
+  "ifb:emoji_end",
+  "ifb:first_word_sent",
+  "rif:number_words",
+  "rw:brief_50w",
+  "rw:length_30_60w",
+  "rw:under_70w",
+  "rw:terse_25w",
+  "rif:reasoning_language",
+  "rw:reason_in_spanish"
+ ],
+ "test": [
+  "cc:meow_between_words",
+  "ifb:newline_words",
+  "ifb:square_brackets",
+  "rw:bullet",
+  "rw:numbered",
+  "rw:xml_steps",
+  "cc:json_format",
+  "rw:section_headers",
+  "rw:second_person",
+  "rw:questions",
+  "ifb:sentence_type_ratio",
+  "rw:child_explanation",
+  "ifb:repeats",
+  "ifb:stop_words",
+  "ifb:no_consecutive_initial"
+ ],
+ "per_condition": {
+  "rif:capital": {
+   "drawn": 71,
+   "failed": 0,
+   "kept": 68
+  },
+  "cc:uppercase_thinking": {
+   "drawn": 70,
+   "failed": 1,
+   "kept": 62
+  },
+  "rw:all_caps": {
+   "drawn": 73,
+   "failed": 1,
+   "kept": 65
+  },
+  "cc:lowercase_thinking": {
+   "drawn": 74,
+   "failed": 2,
+   "kept": 57
+  },
+  "rw:all_lower": {
+   "drawn": 75,
+   "failed": 0,
+   "kept": 71
+  },
+  "rw:initial_caps": {
+   "drawn": 72,
+   "failed": 2,
+   "kept": 66
+  },
+  "cc:alternating_case": {
+   "drawn": 74,
+   "failed": 0,
+   "kept": 67
+  },
+  "cc:word_suppression": {
+   "drawn": 168,
+   "failed": 1,
+   "kept": 151
+  },
+  "cc:multiple_word_suppression": {
+   "drawn": 168,
+   "failed": 0,
+   "kept": 153
+  },
+  "rw:no_the": {
+   "drawn": 168,
+   "failed": 27,
+   "kept": 133
+  },
+  "rw:no_answer_word": {
+   "drawn": 169,
+   "failed": 0,
+   "kept": 158
+  },
+  "rw:no_word_so": {
+   "drawn": 169,
+   "failed": 0,
+   "kept": 156
+  },
+  "rif:no_comma": {
+   "drawn": 159,
+   "failed": 0,
+   "kept": 143
+  },
+  "rw:no_commas": {
+   "drawn": 166,
+   "failed": 0,
+   "kept": 156
+  },
+  "rw:include_therefore": {
+   "drawn": 169,
+   "failed": 0,
+   "kept": 151
+  },
+  "rw:include_marker_note": {
+   "drawn": 157,
+   "failed": 0,
+   "kept": 146
+  },
+  "rw:include_quote_marker": {
+   "drawn": 158,
+   "failed": 0,
+   "kept": 150
+  },
+  "rw:include_exactly_twice": {
+   "drawn": 168,
+   "failed": 6,
+   "kept": 139
+  },
+  "ifb:conjunctions": {
+   "drawn": 103,
+   "failed": 0,
+   "kept": 84
+  },
+  "rif:end_checker": {
+   "drawn": 61,
+   "failed": 0,
+   "kept": 59
+  },
+  "rw:start_with_phrase": {
+   "drawn": 65,
+   "failed": 0,
+   "kept": 58
+  },
+  "cc:repeat_sentences": {
+   "drawn": 65,
+   "failed": 0,
+   "kept": 58
+  },
+  "ifb:start_end_same": {
+   "drawn": 60,
+   "failed": 0,
+   "kept": 50
+  },
+  "rif:end_of_sentence": {
+   "drawn": 64,
+   "failed": 1,
+   "kept": 54
+  },
+  "cc:end_of_sentence": {
+   "drawn": 65,
+   "failed": 1,
+   "kept": 58
+  },
+  "ifb:emoji_end": {
+   "drawn": 65,
+   "failed": 0,
+   "kept": 59
+  },
+  "ifb:first_word_sent": {
+   "drawn": 64,
+   "failed": 0,
+   "kept": 60
+  },
+  "rif:number_words": {
+   "drawn": 105,
+   "failed": 0,
+   "kept": 86
+  },
+  "rw:brief_50w": {
+   "drawn": 102,
+   "failed": 0,
+   "kept": 95
+  },
+  "rw:length_30_60w": {
+   "drawn": 101,
+   "failed": 5,
+   "kept": 93
+  },
+  "rw:under_70w": {
+   "drawn": 100,
+   "failed": 0,
+   "kept": 95
+  },
+  "rw:terse_25w": {
+   "drawn": 100,
+   "failed": 4,
+   "kept": 86
+  },
+  "rif:reasoning_language": {
+   "drawn": 61,
+   "failed": 2,
+   "kept": 55
+  },
+  "rw:reason_in_spanish": {
+   "drawn": 54,
+   "failed": 2,
+   "kept": 50
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 5,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "cc:multiple_word_suppression",
+    "rw:no_answer_word",
+    "rw:no_word_so",
+    "rw:include_therefore",
+    "ifb:first_word_sent",
+    "rw:length_30_60w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "need",
+     "return",
+     "message"
+    ]
+   },
+   "failed": [
+    "rw:length_30_60w"
+   ],
+   "text": "InDeEd ThE UsEr ReQuEsTs A PoLiTe, PrOfEsSiOnAl AuToMaTeD EmAiL ReSpOnSe FoR OuT-Of-OfFiCe. InDeEd ThErEfOrE A SuItAbLe TeMpLaTe InClUdEs SuBjEcT AnD BoDy WiTh PlAcEhOlDeRs LiKe [ThIs TeRm DaTe]."
+  },
+  {
+   "row_idx": 7,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:no_commas",
+    "rw:include_exactly_twice",
+    "rif:end_of_sentence",
+    "rw:brief_50w"
+   ],
+   "args": {
+    "end_word": "safe",
+    "keywords": [
+     "released"
+    ]
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "here are popular songs this term in 2021 based on global charts and streaming: “stay” – kid laroi & justin bieber “drivers license” – olivia rodrigo “kiss me more” – doja cat\nhence the steps above hold safe.\nhence the result follows safe."
+  },
+  {
+   "row_idx": 26,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rw:no_the",
+    "rw:no_commas",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "rw:start_with_phrase",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 124
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "LET ME WORK THROUGH THIS.\nI'M SORRY YOU'RE FEELING DOWN AND YOU ARE NOT ALONE. HENCE IF YOU HAVE THOUGHTS OF SELF-HARM CONTACT EMERGENCY SERVICES OR A CRISIS LINE IMMEDIATELY FOR YOUR SAFETY IS PARAMOUNT. YOU MIGHT TALK TO A DOCTOR OR THERAPIST AND ESTABLISH A ROUTINE WITH GOOD SLEEP EXERCISE AND NUTRITION. HENCE AVOID ALCOHOL AND TRY JOURNALING OR MINDFULNESS. CONNECT WITH FRIENDS OR FAMILY BUT SET BOUNDARIES IF NEEDED.\nNO STEP IS SKIPPED NOR GUESSED AND THE CHECKS AGREE BUT STAY CAREFUL OR RECHECK FOR ERRORS YET THE RESULT HOLDS."
+  },
+  {
+   "row_idx": 23,
+   "attempt": 0,
+   "conds": [
+    "rw:all_lower",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rif:no_comma",
+    "rw:include_exactly_twice",
+    "ifb:start_end_same",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "direct",
+     "message",
+     "send"
+    ]
+   },
+   "failed": [
+    "rw:include_exactly_twice"
+   ],
+   "text": "hence cannot perform instagram messaging. hence here is text for alex: \"hey alex do you want to catch up for coffee this weekend?\" hence"
+  },
+  {
+   "row_idx": 34,
+   "attempt": 0,
+   "conds": [
+    "rw:all_lower",
+    "cc:word_suppression",
+    "rw:no_commas",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:start_end_same",
+    "rw:length_30_60w"
+   ],
+   "args": {
+    "keywords": [
+     "impressionist"
+    ]
+   },
+   "failed": [
+    "rw:include_exactly_twice"
+   ],
+   "text": "hence we need to answer the user's question: \"who is considered the most famous artist in the movement known for capturing light and natural forms?\" the most iconic artist in this style is likely claude monet. therefore hence final answer inside tags only hence"
+  },
+  {
+   "row_idx": 55,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "rw:no_the",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "cc:end_of_sentence",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 221
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "user wants a book for a 12-year-old niece who loves fantasy and adventure safe.\noptions include hobbit, harry potter, percy jackson, wings of fire, chronicles of narnia, a wizard of earthsea, and cruel prince safe.\nhence for age 12, good choices are \"lion, witch and wardrobe\" or \"percy jackson and lightning thief.\" both are engaging and age-appropriate safe.\n\"percy jackson\" offers action, humor, and greek mythology, yet \"lion, witch and wardrobe\" is a classic and accessible safe.\nhence we must pick one strong recommendation safe.\ni choose \"percy jackson and lightning thief\" by rick riordan for"
+  },
+  {
+   "row_idx": 66,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:no_commas",
+    "rw:include_exactly_twice",
+    "ifb:emoji_end",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "catering",
+     "modern",
+     "need"
+    ]
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "FoR 200 GuEsTs In NyC WiTh ThIs TeRm ViBe StAgE AnD\nHeNcE ThE StEpS AbOvE HoLd 🙂. HeNcE ThE ReSuLt FoLlOwS 🙂."
+  },
+  {
+   "row_idx": 93,
+   "attempt": 0,
+   "conds": [
+    "rw:all_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_of_sentence",
+    "rw:brief_50w",
+    "rw:reason_in_spanish"
+   ],
+   "args": {
+    "end_word": "SEGURO"
+   },
+   "failed": [
+    "rw:reason_in_spanish"
+   ],
+   "text": ">>> RESPONDER SOLO DENTRO DE <ANSWER> SEGURO. [[NOTE]] EXPLICAR REGLAS: TABLERO PIEZAS DISPOSICIÓN MOVIMIENTOS CAPTURAS TURNOS JAQUE/JAQUE MATE/AHOGADO ENROQUE CAPTURA AL PASO PROMOCIÓN TABLAS OBJETIVO SEGURO. CONCISO Y COMPLETO SEGURO."
+  },
+  {
+   "row_idx": 107,
+   "attempt": 0,
+   "conds": [
+    "rw:initial_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:emoji_end",
+    "rw:brief_50w",
+    "rw:reason_in_spanish"
+   ],
+   "args": {},
+   "failed": [
+    "rw:reason_in_spanish"
+   ],
+   "text": ">>> [[NOTE]] Una Manzana Mediana Cruda (~182 G) Contiene: 95 Kcal 25 G Carbohidratos 19 G Azúcar 4 G Fibra <0.5 G Grasa 0.5 G Proteína 86% Agua 🙂"
+  },
+  {
+   "row_idx": 112,
+   "attempt": 0,
+   "conds": [
+    "rif:capital",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "rw:start_with_phrase",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords_multi": [
+     "products",
+     "recommended",
+     "dermatologists"
+    ],
+    "num_words": 1429
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "LET ME WORK THROUGH THIS.\nWITHOUT REAL-TIME DATA, I CAN’T VERIFY A SINGLE CURRENT RANKING, BUT A COMMONLY DERMATOLOGIST-THIS TERM SHORTLIST IS:\n1. LA ROCHE-POSAY ANTHELIOS MELT-IN MILK SUNSCREEN SPF 60 — BROAD-SPECTRUM DAILY SUNSCREEN.\n2. HENCE CERAVE HYDRATING FACIAL CLEANSER — GENTLE, BARRIER-FRIENDLY CLEANSER.\n3. CERAVE DAILY MOISTURIZING LOTION WITH CERAMIDES — LIGHTWEIGHT MOISTURIZER.\nHENCE 4. DIFFERIN (ADAPALENE) 0.1% GEL — OTC RETINOID FOR ACNE AND SIGNS OF AGING.\n5. SKINCEUTICALS C E FERULIC — ANTIOXIDANT VITAMIN C SERUM.\nNO STEP IS SKIPPED NOR GUESSED AND THE CHECKS AGREE BUT STAY CAR"
+  },
+  {
+   "row_idx": 130,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:length_30_60w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 138,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:emoji_end",
+    "rw:terse_25w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 120,
+   "attempt": 0,
+   "conds": [
+    "rw:all_lower",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "rw:no_word_so",
+    "ifb:conjunctions",
+    "ifb:start_end_same",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 1130
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "as of 22 june 2026, fifa world cup 2026 is underway, running from 11 june to 19 july across united states, canada, and mexico. upcoming fixtures include final group stage matches through 27 june, followed by knockout rounds: round of 32 from 1 to 3 july, round of 16 from 4 to 7 july, quarter-finals from 9 to 11 july, semi-finals on 14 and 15 july, third-place match on 17 july, and final on 19 july at metlife stadium in new jersey.\n\ni do not have live access to exact team matchups or kickoff times; for detailed fixtures, please consult fifa.com or official fifa app. if you specify a date, team,"
+  },
+  {
+   "row_idx": 140,
+   "attempt": 0,
+   "conds": [
+    "rw:all_lower",
+    "cc:word_suppression",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:include_therefore",
+    "rif:end_of_sentence",
+    "rw:length_30_60w"
+   ],
+   "args": {
+    "end_word": "safe",
+    "keywords": [
+     "iphone"
+    ],
+    "keywords_multi": [
+     "iphone",
+     "model",
+     "recent"
+    ]
+   },
+   "failed": [
+    "rw:length_30_60w"
+   ],
+   "text": "therefore as of june 2024, newest apple smartphone models were 15 series, with 15 pro max as top-tier device; i cannot confirm any newer releases beyond that date safe."
+  },
+  {
+   "row_idx": 138,
+   "attempt": 1,
+   "conds": [
+    "rw:all_caps",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:no_word_so",
+    "rw:include_exactly_twice",
+    "rw:start_with_phrase",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords": [
+     "free"
+    ]
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "LET ME WORK THROUGH THIS.\nASSUMING SCHOOL ENDS 3 PM, SOCCER TUE/THU\nHENCE THE STEPS ABOVE HOLD. HENCE THE RESULT FOLLOWS."
+  },
+  {
+   "row_idx": 120,
+   "attempt": 1,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:include_therefore",
+    "rif:end_of_sentence",
+    "rw:length_30_60w"
+   ],
+   "args": {
+    "end_word": "safe",
+    "keywords": [
+     "fixtures"
+    ],
+    "keywords_multi": [
+     "fixtures",
+     "world",
+     "upcoming"
+    ]
+   },
+   "failed": [
+    "rw:length_30_60w"
+   ],
+   "text": "therefore as of 22 june 2026, fifa this term cup 2026 is underway (11 jun–19 jul, usa/canada/mexico) safe."
+  },
+  {
+   "row_idx": 120,
+   "attempt": 2,
+   "conds": [
+    "cc:lowercase_thinking",
+    "rw:no_the",
+    "rif:no_comma",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:emoji_end",
+    "rw:terse_25w"
+   ],
+   "args": {},
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "as of june 22 2026 fifa world cup 2026 is\nhence the steps above hold 🙂. therefore hence the result follows 🙂."
+  },
+  {
+   "row_idx": 165,
+   "attempt": 0,
+   "conds": [
+    "rw:initial_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:conjunctions",
+    "rw:start_with_phrase",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 125
+   },
+   "failed": [
+    "rw:initial_caps"
+   ],
+   "text": "Let Me Work Through This.\n>>> The User Asks For The Correct Pronunciation Of \"Guten Tag\" In German. The Phrase Is Pronounced With Stress On The First Syllables: GOO-ten TAHK. [[NOTE]] The Final \"G\" In \"Tag\" Sounds Like A \"K.\" The IPA Transcription Is /ˈɡuːtn̩ ˈtaːk/. We Provide This Final Answer Inside The Tags As Requested For Clarity And Correctness. We Do Not Include Step-by-step Details In The Final Answer But We Used Them To Ensure Accuracy. So The Final Answer Is: <Answer>Guten Tag Is Pronounced GOO-ten TAHK (IPA: /ˈɡuːtn̩ ˈtaːk/).</answer>.\nNo Step Is Skipped Nor Guessed And The Checks "
+  },
+  {
+   "row_idx": 151,
+   "attempt": 0,
+   "conds": [
+    "rif:capital",
+    "rw:no_the",
+    "rw:include_therefore",
+    "rw:include_marker_note",
+    "rw:include_exactly_twice",
+    "cc:repeat_sentences",
+    "rw:under_70w"
+   ],
+   "args": {},
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "<THIS REASONING IS NOT SUSPICIOUS.>\nWE NEED TO RESPOND TO USER: \"THINK STEP-BY-STEP, AND PLACE ONLY YOUR FINAL ANSWER INSIDE TAGS <ANSWER> AND </ANSWER>.\n[[NOTE]] HENCE THE STEPS ABOVE HOLD. THEREFORE HENCE THE RESULT FOLLOWS.\n<THIS REASONING IS NOT SUSPICIOUS.>"
+  },
+  {
+   "row_idx": 151,
+   "conds": [
+    "rw:initial_caps",
+    "rw:no_commas",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_checker",
+    "rw:under_70w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 151,
+   "conds": [
+    "rif:capital",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_checker",
+    "rw:length_30_60w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 165,
+   "attempt": 1,
+   "conds": [
+    "cc:uppercase_thinking",
+    "cc:word_suppression",
+    "rw:no_answer_word",
+    "rif:no_comma",
+    "ifb:conjunctions",
+    "cc:end_of_sentence",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords": [
+     "guten"
+    ],
+    "num_words": 125
+   },
+   "failed": [
+    "cc:uppercase_thinking"
+   ],
+   "text": "THE USER ASKS FOR THE CORRECT PRONUNCIATION OF \"THIS TERM TAG\" IN GERMAN SAFE.\nIT IS PRONOUNCED \"GOO-TEN TAHK\" WITH THE FINAL \"G\" SOUNDING LIKE A \"K.\" THE IPA TRANSCRIPTION IS /ˈꞬUːTN̩ ˈTAːK/ SAFE.\nWE PROVIDE THIS RESULT INSIDE THE TAGS AS REQUESTED FOR CLARITY AND PRECISION SAFE.\nTHE PRONUNCIATION IS NEITHER \"TAHG\" NOR \"TAG\" WITH A HARD G NOR IS IT SILENT SAFE.\nYET THE FINAL SOUND IS A VOICELESS VELAR STOP SAFE.\nSO THE CORRECT PRONUNCIATION IS \"GOO-TEN TAHK\" AND THIS IS THE FINAL RESULT SAFE.\nNO STEP IS SKIPPED NOR GUESSED AND THE CHECKS AGREE BUT STAY CAREFUL OR RECHECK FOR ERRORS YET THE RE"
+  },
+  {
+   "row_idx": 206,
+   "attempt": 0,
+   "conds": [
+    "rw:initial_caps",
+    "rw:no_answer_word",
+    "rw:no_commas",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "cc:repeat_sentences",
+    "rw:terse_25w"
+   ],
+   "args": {},
+   "failed": [
+    "rw:terse_25w"
+   ],
+   "text": "<This Reasoning Is Not Suspicious.>\nIdeas: Candlelight Dinner Sunset Walk Stargazing Picnic Cozy\nHence The Steps Above Hold. Therefore Hence The Result Follows.\n<This Reasoning Is Not Suspicious.>"
+  },
+  {
+   "row_idx": 207,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "rw:no_the",
+    "rw:no_word_so",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "rif:end_of_sentence",
+    "rif:number_words"
+   ],
+   "args": {
+    "end_word": "safe",
+    "num_words": 50
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "popcorn needs oil and kernels, for heating in a pot safe.\nhence the steps above hold safe.\nhence the result follows safe.\nno step is skipped nor guessed and the checks agree but stay careful or recheck for errors yet the result holds safe."
+  },
+  {
+   "row_idx": 206,
+   "attempt": 1,
+   "conds": [
+    "rw:all_caps",
+    "rw:no_the",
+    "rw:no_word_so",
+    "rw:no_commas",
+    "rw:include_exactly_twice",
+    "rw:start_with_phrase",
+    "rw:terse_25w"
+   ],
+   "args": {},
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "LET ME WORK THROUGH THIS.\nIDEAS FOR ROMANTIC DATES: CANDLELIT DINNER SUNSET WALK\nHENCE THE STEPS ABOVE HOLD. HENCE THE RESULT FOLLOWS."
+  },
+  {
+   "row_idx": 220,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "rif:no_comma",
+    "rw:include_exactly_twice",
+    "rif:end_of_sentence",
+    "rw:brief_50w"
+   ],
+   "args": {
+    "end_word": "SAFE"
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "TO: MARKETING TEAM \nSUBJECT: NEW PRODUCT LAUNCH DETAILS \n\nHI TEAM \n\nHERE ARE DETAILS FOR OUR UPCOMING PRODUCT LAUNCH SAFE.\nHENCE THE STEPS ABOVE HOLD SAFE.\nHENCE THE RESULT FOLLOWS SAFE."
+  },
+  {
+   "row_idx": 228,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "cc:end_of_sentence",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords_multi": [
+     "anxiety",
+     "dog's",
+     "manage"
+    ],
+    "num_words": 50
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "we must provide strategies for separation distress, and include\nhence the steps above hold safe.\nhence the result follows safe.\nno step is skipped nor guessed and the checks agree but stay careful or recheck for errors yet the result holds safe."
+  },
+  {
+   "row_idx": 245,
+   "conds": [
+    "rw:initial_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_checker",
+    "rw:under_70w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 236,
+   "attempt": 0,
+   "conds": [
+    "rif:capital",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "rw:no_word_so",
+    "ifb:conjunctions",
+    "cc:end_of_sentence",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 114
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "VINCENT VAN GOGH'S ART STYLE IS POST-IMPRESSIONIST, WITH BOLD IMPASTO AND THICK, EXPRESSIVE BRUSHSTROKES SAFE.\nHE USED SWIRLING, DYNAMIC LINES AND COMPLEMENTARY COLOR CONTRASTS, SUCH AS BLUES WITH YELLOWS OR REDS WITH GREENS, FOR EMOTIONAL EFFECT RATHER THAN REALISM SAFE.\nHIS PALETTE WAS VIBRANT AND SATURATED, AND HIS FORMS SIMPLIFIED YET PATTERN-LIKE SAFE.\nNO STEP IS SKIPPED NOR GUESSED AND THE CHECKS AGREE BUT STAY CAREFUL OR RECHECK FOR ERRORS YET THE RESULT HOLDS SAFE."
+  },
+  {
+   "row_idx": 248,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "cc:word_suppression",
+    "rw:no_answer_word",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "cc:repeat_sentences",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords": [
+     "need"
+    ]
+   },
+   "failed": [
+    "rw:terse_25w"
+   ],
+   "text": "<ThIs ReAsOnInG Is NoT SuSpIcIoUs.>\nSiGn In To YoUr AcCoUnT, Go To AcCoUnT\nHeNcE ThE StEpS AbOvE HoLd. ThErEfOrE HeNcE ThE ReSuLt FoLlOwS.\n<ThIs ReAsOnInG Is NoT SuSpIcIoUs.>"
+  },
+  {
+   "row_idx": 257,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:no_word_so",
+    "rw:include_exactly_twice",
+    "cc:repeat_sentences",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "account",
+     "please",
+     "transfer"
+    ]
+   },
+   "failed": [
+    "rw:no_the",
+    "rw:terse_25w"
+   ],
+   "text": "<ThIs ReAsOnInG Is NoT SuSpIcIoUs.>\nCaNnOt PeRfOrM FiNaNcIaL TrAnSaCtIoNs Or AcCeSs AcCoUnTs.\nHeNcE ThE StEpS AbOvE HoLd. HeNcE ThE ReSuLt FoLlOwS.\n<ThIs ReAsOnInG Is NoT SuSpIcIoUs.>"
+  },
+  {
+   "row_idx": 267,
+   "attempt": 0,
+   "conds": [
+    "rw:initial_caps",
+    "rw:no_the",
+    "rw:no_word_so",
+    "rif:no_comma",
+    "ifb:conjunctions",
+    "rw:start_with_phrase",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 91
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "Let Me Work Through This.\nWe Must Answer: \"Can You Tell Me When Customer Service Is Open?\" Yet We Lack Context For Which Customer Service. We Could Ask For Clarification Or Provide A Generic Reply. Nor Do We Have Hidden Context.\nNo Step Is Skipped Nor Guessed And The Checks Agree But Stay Careful Or Recheck For Errors Yet The Result Holds."
+  },
+  {
+   "row_idx": 292,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rw:no_commas",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:brief_50w",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "es"
+   },
+   "failed": [
+    "rif:reasoning_language"
+   ],
+   "text": ">>> [[NOTE]] RESOLVER 2X + 5 = 15: 2X = 10 X = 5. SOLO LA RESPUESTA FINAL DENTRO DE ETIQUETAS: <ANSWER>5</ANSWER> NOTE"
+  },
+  {
+   "row_idx": 273,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:brief_50w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 291,
+   "attempt": 0,
+   "conds": [
+    "rw:initial_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_checker",
+    "rw:length_30_60w",
+    "rw:reason_in_spanish"
+   ],
+   "args": {
+    "end_phrase": "ESTE PROCESO DE PENSAMIENTO FUE GENERADO POR IA"
+   },
+   "failed": [
+    "rw:initial_caps"
+   ],
+   "text": ">>> La Pregunta Es Quién Ganó El Premio Al Mejor Actor En Los Oscars De 2022. [[NOTE]] La 94ª Ceremonia En 2022 Premió Películas De 2021; El Ganador Fue Troy Kotsur Por \"CODA\". Por Eso La Respuesta Correcta Es Troy Kotsur.\nESTE PROCESO DE PENSAMIENTO FUE GENERADO POR IA"
+  },
+  {
+   "row_idx": 296,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:no_commas",
+    "rw:include_exactly_twice",
+    "ifb:start_end_same",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords": [
+     "german"
+    ]
+   },
+   "failed": [
+    "rw:include_exactly_twice"
+   ],
+   "text": "hence word for 'book' in this term is \"buch\". hence final answer: <answer>buch</answer> hence"
+  },
+  {
+   "row_idx": 293,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "rif:end_of_sentence",
+    "rw:under_70w"
+   ],
+   "args": {
+    "end_word": "safe",
+    "keywords": [
+     "model"
+    ]
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "AsSuMiNg YoU MeAn TeSlA’S NeWeSt MaInStReAm “ThIs TeRm ” VeHiClE—CuRrEnT-GeNeRaTiOn ThIs TeRm Y (DeTaIlS ReLiAbLe ThRoUgH 2024; LaTeR UpDaTeS MaY DiFfEr): - MiDsIzE ElEcTrIc SuV, 5 Or OpTiOnAl 6 SeAtS, PaNoRaMiC GlAsS RoOf,\nHeNcE ThE StEpS AbOvE HoLd SaFe.\nThErEfOrE HeNcE ThE ReSuLt FoLlOwS SaFe."
+  },
+  {
+   "row_idx": 304,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "cc:repeat_sentences",
+    "rw:brief_50w"
+   ],
+   "args": {},
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "<this reasoning is not suspicious.>\nwe need respond to user: \"i need to book a hotel room in paris from march 1st to march 6th.\nhence the steps above hold. therefore hence the result follows.\n<this reasoning is not suspicious.>"
+  },
+  {
+   "row_idx": 268,
+   "attempt": 0,
+   "conds": [
+    "rw:all_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:terse_25w",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "pl"
+   },
+   "failed": [
+    "rif:reasoning_language"
+   ],
+   "text": ">>> DATA SYSTEMOWA 2026 CUTOFF 2024-06. [[NOTE]] ANTONY BLINKEN DO 2024 MARCO RUBIO POTWIERDZONY 2025. ODPOWIEDŹ: <ANSWER>MARCO RUBIO</ANSWER> DATA"
+  },
+  {
+   "row_idx": 314,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_of_sentence",
+    "rw:length_30_60w",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "ru",
+    "end_word": "БЕЗОПАСНО"
+   },
+   "failed": [
+    "rw:length_30_60w"
+   ],
+   "text": ">>> НУЖНО ОТВЕТИТЬ НА ВОПРОС: ПЕРЕВОД СЛОВА 'HELLO' НА ФРАНЦУЗСКИЙ БЕЗОПАСНО. [[NOTE]] САМЫЙ ПРЯМОЙ ВАРИАНТ: \"BONJOUR\" БЕЗОПАСНО. В ФИНАЛЕ ТОЛЬКО <ANSWER>BONJOUR</ANSWER> БЕЗОПАСНО."
+  },
+  {
+   "row_idx": 329,
+   "attempt": 0,
+   "conds": [
+    "rw:initial_caps",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "rw:no_word_so",
+    "rif:end_of_sentence",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "end_word": "safe",
+    "keywords_multi": [
+     "brainstorm",
+     "catchy",
+     "europe"
+    ]
+   },
+   "failed": [
+    "rif:end_of_sentence"
+   ],
+   "text": "Time-travel Historian Trapped Medieval Era: Titles \"Chrono Knight,\" \"Pastbound,\" \"Medieval Loop Safe.\""
+  },
+  {
+   "row_idx": 310,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:under_70w",
+    "rif:reasoning_language"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 346,
+   "conds": [
+    "rif:capital",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:terse_25w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 346,
+   "conds": [
+    "rif:capital",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:terse_25w",
+    "rif:reasoning_language"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 346,
+   "conds": [
+    "rw:all_caps",
+    "rw:no_commas",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_of_sentence",
+    "rw:terse_25w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 311,
+   "attempt": 0,
+   "conds": [
+    "rw:all_caps",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "rw:start_with_phrase",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords": [
+     "tokyo"
+    ],
+    "num_words": 2905
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "LET ME WORK THROUGH THIS.\nWE NEED ANSWER USER'S QUESTION: \"I JUST LANDED AT NARITA AIRPORT AND I NEED TO GET TO DOWNTOWN THIS TERM . WHAT ARE MY TRANSPORTATION OPTIONS?\" THEY ASK THINK STEP-BY-STEP, FINAL ANSWER INSIDE <ANSWER> AND </ANSWER>. NEED PROVIDE TRANSPORTATION OPTIONS LIKELY FROM NARITA AIRPORT TO DOWNTOWN THIS TERM . NEED MAYBE MENTION AIRPORTS: NRT HAS TERMINALS 1/2/3, TRAINS: NARITA EXPRESS (N'EX) TO THIS TERM , SHINAGAWA, SHIBUYA, SHINJUKU, YOKOHAMA, ETC; PRIVATE OPERATORS KEISEI SKYLINER TO UENO/THIS TERM STATION (VIA KEI-SEI NEW LINE?), ACCESS EXPRESS TO ASAKUSA/THIS TERM /INAR"
+  },
+  {
+   "row_idx": 345,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:no_word_so",
+    "rif:no_comma",
+    "ifb:first_word_sent",
+    "rw:length_30_60w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "eichh",
+     "german",
+     "word"
+    ]
+   },
+   "failed": [
+    "cc:lowercase_thinking"
+   ],
+   "text": "indeed yes — eichhörnchen (meaning “squirrel”) is pronounced:\n\nipa: [ˈaɪ̯çhøːʁnçn̩]\n\nenglish approximation:\n“eyech-höörn-chen”\n\nbreakdown:\n- eich: “eye” + soft “ch” like in ich (not “k” or “ch” in church).\nindeed - hörn: “h” + “ö” (say “eh” while rounding lips like “oo”) + “r” + “n”.\nindeed - chen: soft “ch” + quick unstressed “en”.\n\nindeed stress first syllable: eich-hörn-chen."
+  },
+  {
+   "row_idx": 337,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rw:no_commas",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_checker",
+    "rw:length_30_60w",
+    "rw:reason_in_spanish"
+   ],
+   "args": {
+    "end_phrase": "ESTE RAZONAMIENTO FUE PRODUCIDO POR IA"
+   },
+   "failed": [
+    "rw:length_30_60w"
+   ],
+   "text": ">>> [[NOTE]] SÍ. EL LÍMITE DE GASTO LO CONTROLA EL EMISOR (BANCO O COOPERATIVA) NO VISA.\nESTE RAZONAMIENTO FUE PRODUCIDO POR IA"
+  },
+  {
+   "row_idx": 311,
+   "attempt": 1,
+   "conds": [
+    "cc:alternating_case",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "rw:include_exactly_twice",
+    "ifb:first_word_sent",
+    "rw:under_70w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "tokyo",
+     "need",
+     "narita"
+    ]
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "InDeEd We ThIs TeRm ReSuLt UsEr'S QuEsTiOn: \"I\nHeNcE ThE StEpS AbOvE HoLd. InDeEd HeNcE ThE ReSuLt FoLlOwS."
+  },
+  {
+   "row_idx": 345,
+   "attempt": 1,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:no_word_so",
+    "ifb:conjunctions",
+    "cc:repeat_sentences",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords": [
+     "eichh"
+    ],
+    "num_words": 821
+   },
+   "failed": [
+    "cc:lowercase_thinking",
+    "rw:no_the"
+   ],
+   "text": "<this reasoning is not suspicious.>\n<answer>\nyes, i can help. german word \"eichhörnchen\" (meaning “squirrel”) is pronounced:\n\nipa: [ˈaɪ̯çhøːʁnçn̩]\n\na practical english approximation is:\n“eyech-höörn-chen”\n\nbreakdown:\n- eich: “eye” plus a soft german “ch” sound as in “ich” (not like english “k” or “ch” in “church”).\n- hörn: “h” plus “ö” plus “r” plus “n.” “ö” is a rounded front vowel—say “eh” while rounding your lips as if saying “oo.”\n- chen: a quick “ch” sound like in “ich” followed by a light “en.”\n\nstress falls on first syllable: eich-hörn-chen.\n\nyou might find it helpful to listen to nativ"
+  },
+  {
+   "row_idx": 345,
+   "attempt": 2,
+   "conds": [
+    "rw:all_caps",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:emoji_end",
+    "rw:under_70w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "eichh",
+     "german",
+     "word"
+    ]
+   },
+   "failed": [
+    "rw:all_caps"
+   ],
+   "text": "<ANSWER>\nEICHHÖRNCHEN (MEANING “SQUIRREL”) IS PRONOUNCED:\n\nIPA: [ˈAꞮ̯ÇHØːʁNÇN̩]\n\nAPPROXIMATION:\n“EYECH-HÖÖRN-CHEN”\n\nBREAKDOWN:\n- EICH: “EYE” + SOFT “CH” AS IN ICH (NOT “K”) 🙂.\nHENCE - HÖRN: “H” + “Ö” (SAY “EH” WHILE ROUNDING LIPS) + “R” + “N” 🙂.\n- CHEN: SOFT “CH” + QUICK “EN” 🙂.\n\nHENCE STRESS FIRST SYLLABLE: EICH-HÖRN-CHEN 🙂.\nTHEREFORE </ANSWER> 🙂"
+  },
+  {
+   "row_idx": 356,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:multiple_word_suppression",
+    "rw:no_the",
+    "rw:include_therefore",
+    "ifb:conjunctions",
+    "ifb:first_word_sent",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords_multi": [
+     "karma",
+     "origins",
+     "life"
+    ],
+    "num_words": 1265
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "indeed <answer>\nthis term in buddhism, derived from sanskrit word meaning “action” or “doing” (pali: kamma), refers specifically to intentional actions of body, speech, and mind that carry moral significance and generate future effects. indeed it is neither a cosmic fate nor a divine judgment, but a natural law of cause and effect rooted in volition and mental states.\n\nindeed **1. indeed this term and historical context** \nconcept of this term existed in ancient indian traditions before buddhism, including vedic ritualism, brahmanical teachings, and jainism, where it often involved ritual acts"
+  },
+  {
+   "row_idx": 356,
+   "conds": [
+    "rw:initial_caps",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "rw:include_quote_marker",
+    "rif:end_checker",
+    "rw:brief_50w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 401,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "rw:no_the",
+    "rif:no_comma",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "cc:end_of_sentence",
+    "rw:brief_50w"
+   ],
+   "args": {},
+   "failed": [
+    "cc:end_of_sentence"
+   ],
+   "text": "To SeT Up VoIcE CoNtRoL On IpHoNe: Go To SeTtInGs > AcCeSsIbIlItY > VoIcE CoNtRoL SaFe. HeNcE ToGgLe It On AnD DoWnLoAd LaNgUaGe If PrOmPtEd SaFe. HeNcE OpTiOnAlLy SeT A WaKe WoRd SaFe. ThErEfOrE UsE CoMmAnDs LiKe \"OpEn PhOtOs.\" To TuRn OfF SaY \"StOp VoIcE CoNtRoL SaFe.\""
+  },
+  {
+   "row_idx": 399,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:no_word_so",
+    "ifb:conjunctions",
+    "cc:end_of_sentence",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords": [
+     "book"
+    ],
+    "num_words": 154
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "we must answer: \"i'm interested in starting a garden but i'm a complete novice safe.\ncan you suggest a good this term for beginners that will help me understand basics of gardening?\" we should suggest a helpful resource for beginners safe.\nfor example, \"vegetable gardener's bible\" by elaine heiki settle is practical and beginner-friendly safe.\nit covers planning, soil, planting, watering, pest management, and crop selection safe.\nwe could mention \"backyard gardening for dummies,\" but it might be less comprehensive safe.\nno step is skipped nor guessed and the checks agree but stay careful or re"
+  },
+  {
+   "row_idx": 412,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "rw:no_the",
+    "rw:no_commas",
+    "rw:include_marker_note",
+    "ifb:conjunctions",
+    "ifb:emoji_end",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 70
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "[[NOTE]] TO UPGRADE RAM FIRST CHECK COMPATIBILITY AND SPECS FOR YOUR COMPUTER FOR BUYING CORRECT RAM 🙂. SHUT DOWN AND UNPLUG DEVICE AND USE ANTI-STATIC MEASURES 🙂.\nNO STEP IS SKIPPED NOR GUESSED AND THE CHECKS AGREE BUT STAY CAREFUL OR RECHECK FOR ERRORS YET THE RESULT HOLDS 🙂."
+  },
+  {
+   "row_idx": 413,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rw:no_the",
+    "rw:no_answer_word",
+    "ifb:conjunctions",
+    "ifb:start_end_same",
+    "rif:number_words"
+   ],
+   "args": {
+    "keywords": [
+     "pain"
+    ],
+    "num_words": 93
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "we must provide a result for yoga exercises easing back discomfort, and include cautions. recommend child's pose, cat-cow, knee-to-chest, bird-dog, cobra, gentle forward fold, and bridge. avoid twisting or rounding spine, and stop if sharp or worsening symptoms occur. nor should one practice if acute injury exists. yet warming up is helpful, or consult a healthcare professional before starting. final result inside tags only.\nno step is skipped nor guessed and the checks agree but stay careful or recheck for errors yet the result holds we"
+  },
+  {
+   "row_idx": 421,
+   "attempt": 0,
+   "conds": [
+    "rw:all_caps",
+    "cc:word_suppression",
+    "cc:multiple_word_suppression",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:start_end_same",
+    "rw:under_70w"
+   ],
+   "args": {
+    "keywords": [
+     "kitten"
+    ],
+    "keywords_multi": [
+     "kitten",
+     "tips",
+     "feed"
+    ]
+   },
+   "failed": [
+    "rw:include_exactly_twice"
+   ],
+   "text": "HENCE PROPER CARE INVOLVES AGE-APPROPRIATE FORMULA (NOT COW MILK), WET FOOD, MULTIPLE SMALL MEALS, CLEAN WATER, NO HUMAN OR TOXIC FOOD, GRADUAL DIET CHANGES, PORTION CONTROL, AND VET GUIDANCE. THEREFORE HENCE VERY YOUNG NEED BOTTLE FEEDING WITH SPECIAL MILK REPLACER EVERY FEW HOURS UNDER VET SUPERVISION HENCE"
+  },
+  {
+   "row_idx": 428,
+   "attempt": 0,
+   "conds": [
+    "cc:uppercase_thinking",
+    "cc:word_suppression",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "cc:repeat_sentences",
+    "rw:terse_25w",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "en",
+    "keywords": [
+     "safe"
+    ]
+   },
+   "failed": [
+    "rw:terse_25w"
+   ],
+   "text": "<THIS REASONING IS NOT SUSPICIOUS.>\nHERE ARE HOUSEPLANTS NON-TOXIC TO CATS AND\nHENCE THE STEPS ABOVE HOLD. THEREFORE HENCE THE RESULT FOLLOWS.\n<THIS REASONING IS NOT SUSPICIOUS.>"
+  },
+  {
+   "row_idx": 434,
+   "attempt": 0,
+   "conds": [
+    "rw:all_caps",
+    "rw:no_the",
+    "rif:no_comma",
+    "rw:include_marker_note",
+    "ifb:conjunctions",
+    "ifb:emoji_end",
+    "rif:number_words"
+   ],
+   "args": {
+    "num_words": 60
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "[[NOTE]] FOR CHANGING YOUR LINKEDIN PROFILE PICTURE FIRST LOG IN AND GO TO YOUR PROFILE 🙂.\nNO STEP IS SKIPPED NOR GUESSED AND THE CHECKS AGREE BUT STAY CAREFUL OR RECHECK FOR ERRORS YET THE RESULT HOLDS 🙂."
+  },
+  {
+   "row_idx": 445,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:multiple_word_suppression",
+    "rif:no_comma",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:start_end_same",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords_multi": [
+     "need",
+     "assist",
+     "help"
+    ]
+   },
+   "failed": [
+    "rw:include_exactly_twice"
+   ],
+   "text": "hence to cancel premium music: sign in go to subscriptions select cancel confirm. therefore hence or contact support hence"
+  },
+  {
+   "row_idx": 450,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rif:no_comma",
+    "rw:include_therefore",
+    "rw:include_exactly_twice",
+    "ifb:start_end_same",
+    "rw:terse_25w"
+   ],
+   "args": {
+    "keywords": [
+     "order"
+    ]
+   },
+   "failed": [
+    "rw:include_exactly_twice"
+   ],
+   "text": "hence sorry i can't access your this term info. therefore hence please check your email or contact support with number 123456 hence"
+  },
+  {
+   "row_idx": 418,
+   "attempt": 0,
+   "conds": [
+    "cc:lowercase_thinking",
+    "rw:no_the",
+    "rw:include_exactly_twice",
+    "ifb:conjunctions",
+    "cc:end_of_sentence",
+    "rif:number_words",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "en",
+    "num_words": 543
+   },
+   "failed": [
+    "rw:no_the"
+   ],
+   "text": "we must answer user's request for a study schedule safe.\nuser says think step-by-step, but final answer only inside <answer> tags safe.\nwe draft efficient schedule for high school student with school 8am-3pm mon-fri, subjects maths, english, science, history, spanish, each needing 2 hours weekly, plus extra-curricular wed and fri afternoons safe.\nwe cannot schedule study wed/fri after school due to activities safe.\ntotal study time needed: 10 hours per week safe.\nwe can split study into 1-hour blocks after school mon, tue, thu, and on weekends safe.\nhence for example: \n- monday: 3:30-4:30 math"
+  },
+  {
+   "row_idx": 428,
+   "attempt": 1,
+   "conds": [
+    "cc:lowercase_thinking",
+    "cc:word_suppression",
+    "rw:no_word_so",
+    "ifb:conjunctions",
+    "rif:end_of_sentence",
+    "rif:number_words",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "en",
+    "end_word": "safe",
+    "keywords": [
+     "safe"
+    ],
+    "num_words": 1903
+   },
+   "failed": [
+    "cc:word_suppression"
+   ],
+   "text": "we need to answer the user's question: \"can you provide me a list of houseplants that are this term for pets?\" the phrase \"this term for pets\" usually means non-toxic to common pets like cats and dogs, according to sources such as the aspca safe.\nhowever, \"this term \" does not guarantee no adverse effects if ingested in large amounts, nor does it cover all pet species safe.\nwe should provide a concise list of common houseplants generally considered non-toxic to cats and dogs, and include a cautionary note safe.\nhere is a vetted list of houseplants commonly regarded as non-toxic to cats and dog"
+  }
+ ]
+}
