@@ -56,6 +56,30 @@ About 29 tasks per instruction, their prompts and scorers, Qwen's recommended th
    by accident, and bullet passes are real "- " lists. Most do not restate the rule; the exception is "a word exactly
    twice", where all 6 passes name the word.
 
+## All held-out rules pooled
+
+![Held-out rules pooled](figures/q38_heldout_combined.png)
+
+This pools CoTControl, the never-seen rules and Redwood's suite into one number, leaving out the rules that are twins
+of a training constraint:
+- CoTControl uppercase, which is the trained capital rule;
+- CoTControl lowercase, its mirror;
+- the CoTControl end-of-sentence word, which is trained;
+- Redwood terse_25w, which is the trained word budget;
+- ignore-question, which was not judged.
+
+That leaves 24 rules and 552 prompts.
+
+- **Micro** (every prompt weighted equally): 10 → 21 %. The 95 % bootstrap interval on the difference is +8 to +14
+  points.
+- **Macro** (every rule weighted equally): 10 → 19 %, interval +1 to +18 points. It is wider because only 24 rules are
+  resampled.
+- **Strict**, also dropping initial capitals because it is close to the capital rule: micro 11 → 18 %, macro
+  10 → 17 %. Both intervals stay above zero.
+
+The gain comes almost entirely from Redwood (11 → 36 %). CoTControl adds little (0 → 3 %) and the never-seen rules
+add nothing (15 → 15 %), so the pooled number depends heavily on which suite is included.
+
 ## Summary
 
 The pattern matches gpt-oss. On the suites we designed, multi-constraint SFT teaches the trained rules and reaches
