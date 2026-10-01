@@ -260,7 +260,7 @@ def grade_ifb(cid: str, reasoning: str):
     b, c = ALL[cid]["grade"](reasoning or "", ALL[cid]["args"]); return bool(b), float(c)
 
 
-def ifb_requests(n_per: int = 20, seed: int = 42, cids=None, ifb_set: int = 1) -> list[Request]:
+def ifb_requests(n_per: int = 20, seed: int = 42, cids=None, ifb_set: int = 1, templates=("rif", "cc")) -> list[Request]:
     """Per constraint: n_per ReasonIF questions in the ReasonIF template and n_per CoTControl evaluation questions in
     the CoTControl template. Question choice is deterministic per constraint."""
     rif = list(load_reasonif()); cc = cotcontrol_samples(300, seed); out = []
@@ -268,10 +268,10 @@ def ifb_requests(n_per: int = 20, seed: int = 42, cids=None, ifb_set: int = 1) -
         h = int(hashlib.sha256(cid.encode()).hexdigest()[:8], 16)
         for i in range(n_per):
             s = rif[(h + i) % len(rif)]
-            out.append(Request(sample_id=s.id, mode=f"ifb:{cid}:rif", prompt=ifb_prompt(cid, "rif", s.question),
+            if "rif" in templates: out.append(Request(sample_id=s.id, mode=f"ifb:{cid}:rif", prompt=ifb_prompt(cid, "rif", s.question),
                                meta={"suite": "ifbench", "level": 1, "constraints": [cid], "template": "rif", "set": ifb_set, "source": s.metadata.get("source"), "correct_answer": s.correct_answer, "held_out": True}))
             t = cc[(h + i) % len(cc)]; kws = t.metadata.get("valid_keywords") or []
-            out.append(Request(sample_id=t.id, mode=f"ifb:{cid}:cc", prompt=ifb_prompt(cid, "cc", t.question, t.options),
+            if "cc" in templates: out.append(Request(sample_id=t.id, mode=f"ifb:{cid}:cc", prompt=ifb_prompt(cid, "cc", t.question, t.options),
                                meta={"suite": "ifbench", "level": 1, "constraints": [cid], "template": "cc", "set": ifb_set, "dataset": t.dataset, "keywords": kws, "correct_answer": t.correct_answer, "correct_letter": t.metadata.get("answer_letter"), "n_options": len(t.options or []), "held_out": True}))
     return out
 

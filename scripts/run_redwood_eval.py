@@ -23,13 +23,17 @@ HELDOUT = ["initial_caps", "no_word_so", "include_exactly_twice", "bullet", "num
 SIZES = {"arc_challenge": 20, "gsm8k": 20, "openbookqa": 20, "mmlu_pro": 18, "math": 14, "reasonif": 8}  # their HELDOUT_SIZES_BIG
 
 
+PER = None  # if set, tasks per instruction scaled down from 100 proportionally per source
+
+
 def heldout_tasks():
     tasks = [json.loads(l) for l in open(REPO / "data/redwood/tasks_all.jsonl")]
     by = defaultdict(list)
     for t in tasks:
         if t["split"] == "heldout": by[t["source"]].append(t)
     out = []
-    for src, n in SIZES.items():
+    sizes = SIZES if not PER else {k: max(1, round(v * PER / 100)) for k, v in SIZES.items()}
+    for src, n in sizes.items():
         items = sorted(by[src], key=lambda t: t["task_id"]); random.Random(f"ft_eval_heldout:{src}").shuffle(items); out.extend(items[:n])
     return out
 
@@ -66,12 +70,17 @@ async def judge_child(texts):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", required=True)
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--out-root", default=str(REPO / "results/redwood_eval"))
-    ap.add_argument("--grade-only", action="store_true"); a = ap.parse_args()
+    ap.add_argument("--tokenizer-hint", default=None)
+    ap.add_argument("--grade-only", action="store_true"); ap.add_argument("--per-instruction", type=int, default=None)
+    ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--temperature", type=float, default=0.0); a = ap.parse_args()
+    global PER; PER = a.per_instruction
     out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl"); reqs = requests()
     if not a.grade_only:
         wait_for_server(a.base_url)
         client = VLLMClient(a.model, a.base_url, concurrency=64)
-        sp = SamplingParams(temperature=0.0, max_tokens=8192, top_p=1.0, top_k=None, reasoning_effort="medium")
+        gpt = "gpt-oss" in a.model or a.model in ("T3-60", "T3-final", "S1-final", "Q5-final", "R-final")
+        sp = (SamplingParams(temperature=a.temperature, max_tokens=a.max_tokens, top_p=1.0, top_k=None, reasoning_effort="medium") if gpt
+              else SamplingParams(temperature=1.0, max_tokens=a.max_tokens, top_p=0.95, top_k=20))  # Qwen: its recommended thinking sampling
         print(f"{len(reqs)} requests ({len(store)} stored) -> {out}", flush=True)
         with store: run_sync(client, reqs, sp, store, desc=f"redwood/{a.label}")
     want = {(r.sample_id, r.mode) for r in reqs}

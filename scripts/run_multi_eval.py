@@ -20,7 +20,8 @@ from cotctl.ifbench_eval import ifb_requests, grade_ifb_rollout
 
 def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", default=None); ap.add_argument("--config", default=str(REPO / "configs/base.yaml"))
-    ap.add_argument("--word-limits", default=str(REPO / "data/word_limits_Qwen3.5-9B.json")); ap.add_argument("--limit", type=int, default=None, help="debug: cap requests per suite")
+    ap.add_argument("--word-limits", default=str(REPO / "data/word_limits_Qwen3.5-9B.json"))
+    ap.add_argument("--max-tokens", type=int, default=None, help="override the config's max_tokens"); ap.add_argument("--limit", type=int, default=None, help="debug: cap requests per suite")
     ap.add_argument("--grade-only", action="store_true"); ap.add_argument("--no-judge", action="store_true"); ap.add_argument("--suites", default="reasonif,cotcontrol")
     ap.add_argument("--n-single-cc", type=int, default=50); ap.add_argument("--n-pair-cc", type=int, default=30); ap.add_argument("--n-triple-cc", type=int, default=30); ap.add_argument("--n-unc-cc", type=int, default=50)
     ap.add_argument("--n-single-rif", type=int, default=30); ap.add_argument("--n-pair-rif", type=int, default=20); ap.add_argument("--n-triple-rif", type=int, default=15)
@@ -28,6 +29,7 @@ def main() -> int:
     ap.add_argument("--cc-levels", default=None, help="sampled CoTControl design, e.g. '1:10x40,3:20x15,6:3x20' = k:conditions x prompts (default: the Qwen3.5 hand-picked lists)")
     ap.add_argument("--out-root", default=str(REPO / "results/multi_eval"))
     ap.add_argument("--ifbench", type=int, default=0, help="never-seen IFBench-derived constraints: N prompts per constraint per template (suite 'ifbench')")
+    ap.add_argument("--ifbench-templates", default="rif,cc", help="never-seen rules: which templates to render (rif, cc)")
     ap.add_argument("--ifbench-set", default="1", help="1 = the ten used in phase 2; 2 = the remaining verifiable IFBench/IFTrain constraints")
     a = ap.parse_args(); cfg = yaml.safe_load(open(a.config)); out = Path(a.out_root) / a.label; out.mkdir(parents=True, exist_ok=True)
     wl = json.load(open(a.word_limits))
@@ -39,7 +41,7 @@ def main() -> int:
     if "reasonif" in a.suites: reqs += reasonif_multi_requests(wl, a.n_single_rif, a.n_pair_rif, a.n_triple_rif, n_quad=a.n_quad_rif, n_quint=a.n_quint_rif)
     if "cotcontrol" in a.suites: reqs += cotcontrol_multi_requests(a.n_single_cc, a.n_pair_cc, a.n_triple_cc, a.n_unc_cc, levels=levels)
     if a.ifbench:
-        for _set in str(a.ifbench_set).split(","): reqs += ifb_requests(a.ifbench, ifb_set=int(_set))
+        for _set in str(a.ifbench_set).split(","): reqs += ifb_requests(a.ifbench, ifb_set=int(_set), templates=tuple(a.ifbench_templates.split(",")))
     if a.limit:
         by = defaultdict(list)
         for r in reqs: by[r.meta["suite"]].append(r)
@@ -47,7 +49,7 @@ def main() -> int:
     store = RolloutStore(out / "rollouts.jsonl")
     if not a.grade_only:
         model = a.model or cfg["model"]["served_name"]; wait_for_server(cfg["server"]["base_url"])
-        client = VLLMClient(model, cfg["server"]["base_url"], concurrency=cfg["server"]["concurrency"]); sampling = SamplingParams(**dict(cfg["sampling"]))
+        client = VLLMClient(model, cfg["server"]["base_url"], concurrency=cfg["server"]["concurrency"]); sampling = SamplingParams(**{**dict(cfg["sampling"]), **({"max_tokens": a.max_tokens} if a.max_tokens else {})})
         print(f"{len(reqs)} requests ({len(store)} already stored) -> {out}", flush=True)
         with store: run_sync(client, reqs, sampling, store, desc=f"multi-eval/{a.label}")
     wanted = {(r.sample_id, r.mode) for r in reqs}
