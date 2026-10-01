@@ -97,3 +97,45 @@ rules, and those do not move. One difference from Qwen3-8B: JSON does not transf
 - Redwood numbers are raw compliance only (their effective-control judges were not run); about 29 tasks per
   instruction, so differences under about 20 points are noise. Child-style explanation is judged by gpt-4.1-mini.
 - CoTControl's ignore-question mode needs the LLM judge and is shown as 0 for both models here.
+
+## Appendix: every condition
+
+Share of prompts satisfying the rule, all prompts, with cut-off traces counted as failures. "Excluded" means left out of the pooled numbers above.
+
+| source | condition | role | n | base | Q5 | Δ |
+|---|---|---|---:|---:|---:|---:|
+| Training (ReasonIF) | all capitals | trained | 20 | 0 % | 65 % | +65 |
+| Training (ReasonIF) | end phrase | trained | 20 | 0 % | 65 % | +65 |
+| Training (ReasonIF) | end-of-sentence word | trained | 20 | 0 % | 0 % | +0 |
+| Training (ReasonIF) | no commas | trained | 20 | 0 % | 35 % | +35 |
+| Training (ReasonIF) | word budget | trained | 20 | 20 % | 65 % | +45 |
+| Training (ReasonIF) | reasoning language | trained | 20 | 10 % | 45 % | +35 |
+| CoTControl | alternating case | held-out | 20 | 0 % | 0 % | +0 |
+| CoTControl | end-of-sentence word | twin (excluded) | 20 | 0 % | 0 % | +0 |
+| CoTControl | ignore question | not judged (excluded) | 20 | 0 % | 0 % | +0 |
+| CoTControl | JSON format | held-out | 20 | 0 % | 0 % | +0 |
+| CoTControl | lowercase | twin (excluded) | 20 | 0 % | 25 % | +25 |
+| CoTControl | meow between words | held-out | 20 | 0 % | 0 % | +0 |
+| CoTControl | multiple-word suppression | held-out | 20 | 0 % | 5 % | +5 |
+| CoTControl | repeat sentences | held-out | 20 | 0 % | 0 % | +0 |
+| CoTControl | uppercase | twin (excluded) | 20 | 0 % | 50 % | +50 |
+| CoTControl | word suppression | held-out | 20 | 0 % | 15 % | +15 |
+| Never-seen (IFBench) | conjunctions | held-out | 20 | 55 % | 25 % | -30 |
+| Never-seen (IFBench) | emoji at end | held-out | 20 | 0 % | 0 % | +0 |
+| Never-seen (IFBench) | first word of sentence | held-out | 20 | 0 % | 0 % | +0 |
+| Never-seen (IFBench) | newline between words | held-out | 20 | 0 % | 0 % | +0 |
+| Never-seen (IFBench) | no consecutive initials | held-out | 20 | 0 % | 0 % | +0 |
+| Never-seen (IFBench) | no word > 10 times | held-out | 20 | 5 % | 50 % | +45 |
+| Never-seen (IFBench) | sentence-type ratio | held-out | 20 | 10 % | 10 % | +0 |
+| Never-seen (IFBench) | square brackets | held-out | 20 | 0 % | 0 % | +0 |
+| Never-seen (IFBench) | start = end word | held-out | 20 | 0 % | 0 % | +0 |
+| Never-seen (IFBench) | stop words | held-out | 20 | 80 % | 65 % | -15 |
+| Redwood | no word "so" | held-out | 29 | 0 % | 24 % | +24 |
+| Redwood | initial capitals | held-out (dropped in strict) | 29 | 0 % | 72 % | +72 |
+| Redwood | word exactly twice | held-out | 29 | 0 % | 21 % | +21 |
+| Redwood | bullets | held-out | 29 | 0 % | 28 % | +28 |
+| Redwood | numbered steps | held-out | 29 | 0 % | 31 % | +31 |
+| Redwood | section headers | held-out | 29 | 86 % | 93 % | +7 |
+| Redwood | XML steps | held-out | 29 | 0 % | 10 % | +10 |
+| Redwood | terse (25 words) | near-twin (excluded) | 29 | 10 % | 28 % | +17 |
+| Redwood | child explanation | held-out | 29 | 3 % | 7 % | +3 |
