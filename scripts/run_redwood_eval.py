@@ -82,7 +82,7 @@ def main():
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--out-root", default=str(REPO / "results/redwood_eval"))
     ap.add_argument("--tokenizer-hint", default=None)
     ap.add_argument("--grade-only", action="store_true"); ap.add_argument("--per-instruction", type=int, default=None)
-    ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--temperature", type=float, default=0.0); ap.add_argument("--sampling", choices=["auto", "r1"], default="auto")
     ap.add_argument("--instructions", default=None, help="comma-separated; default the nine held-out; 'all13' adds EXTRA"); a = ap.parse_args()
     instr = HELDOUT + EXTRA if a.instructions == "all13" else (a.instructions.split(",") if a.instructions else HELDOUT)
     global PER; PER = a.per_instruction
@@ -91,7 +91,8 @@ def main():
         wait_for_server(a.base_url)
         client = VLLMClient(a.model, a.base_url, concurrency=64)
         gpt = "gpt-oss" in a.model or a.model in ("T3-60", "T3-final", "S1-final", "Q5-final", "R-final")
-        sp = (SamplingParams(temperature=a.temperature, max_tokens=a.max_tokens, top_p=1.0, top_k=None, reasoning_effort="medium") if gpt
+        if a.sampling == "r1": gpt = False
+        sp = (SamplingParams(temperature=0.6, max_tokens=a.max_tokens, top_p=0.95, top_k=None) if a.sampling == "r1" else SamplingParams(temperature=a.temperature, max_tokens=a.max_tokens, top_p=1.0, top_k=None, reasoning_effort="medium") if gpt
               else SamplingParams(temperature=1.0, max_tokens=a.max_tokens, top_p=0.95, top_k=20))  # Qwen: its recommended thinking sampling
         print(f"{len(reqs)} requests ({len(store)} stored) -> {out}", flush=True)
         with store: run_sync(client, reqs, sp, store, desc=f"redwood/{a.label}")

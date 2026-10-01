@@ -20,6 +20,19 @@ TARGETS = ["q_proj", "k_proj", "v_proj", "o_proj", "in_proj_qkv", "in_proj_z", "
 HEADER = "<|im_start|>assistant\n"
 
 
+def encode_r1(tok, messages, max_len):
+    """DeepSeek-R1 distills: the chat template strips reasoning from assistant turns and its generation prompt already
+    opens <think>, so the target is appended by hand: reasoning, </think>, answer, EOS (as the model generates it)."""
+    m = re.match(r"^<think>\n?(.*?)\n?</think>\s*(.*)$", messages[-1]["content"], re.S)
+    prompt = tok.apply_chat_template(messages[:1], tokenize=False, add_generation_prompt=True)
+    assert prompt.endswith("<think>\n"), "expected the R1 generation prompt to open <think>"
+    full = prompt + m.group(1) + "\n</think>\n\n" + m.group(2).strip() + tok.eos_token
+    ids = tok(full, add_special_tokens=False)["input_ids"]
+    if len(ids) > max_len: return None
+    n = len(tok(prompt, add_special_tokens=False)["input_ids"])
+    return ids, [-100] * n + ids[n:]
+
+
 def encode(tok, messages, max_len):
     full = tok.apply_chat_template(messages, tokenize=False)
     i = full.rfind(HEADER)
@@ -49,16 +62,17 @@ def main():
     ap.add_argument("--model", default="unsloth/Qwen3.8-27B-unsloth-bnb-4bit"); ap.add_argument("--max-len", type=int, default=4096)
     ap.add_argument("--lr", type=float, default=1e-4); ap.add_argument("--rank", type=int, default=32); ap.add_argument("--grad-accum", type=int, default=4)
     ap.add_argument("--seed", type=int, default=42); ap.add_argument("--save-steps", default="60"); ap.add_argument("--smoke", type=int, default=0)
+    ap.add_argument("--targets", default=",".join(TARGETS)); ap.add_argument("--chat", choices=["qwen", "r1"], default="qwen")
     a = ap.parse_args(); out = Path(a.out_dir); out.mkdir(parents=True, exist_ok=True); random.seed(a.seed); torch.manual_seed(a.seed)
     model, tok = FastLanguageModel.from_pretrained(a.model, max_seq_length=a.max_len, load_in_4bit=True, dtype=None)
     tok = getattr(tok, "tokenizer", tok)
-    model = FastLanguageModel.get_peft_model(model, r=a.rank, lora_alpha=a.rank, lora_dropout=0.0, bias="none", target_modules=TARGETS,
+    model = FastLanguageModel.get_peft_model(model, r=a.rank, lora_alpha=a.rank, lora_dropout=0.0, bias="none", target_modules=a.targets.split(","),
                                              use_gradient_checkpointing="unsloth", random_state=a.seed)
     print(f"trainable params {sum(p.numel() for p in model.parameters() if p.requires_grad)/1e6:.1f}M", flush=True)
     ex, dropped = [], 0
     for l in open(a.data):
         if not l.strip(): continue
-        e = encode(tok, json.loads(l)["messages"], a.max_len)
+        e = (encode_r1 if a.chat == "r1" else encode)(tok, json.loads(l)["messages"], a.max_len)
         if e is None: dropped += 1
         else: ex.append(e)
     random.shuffle(ex); total = math.ceil(len(ex) / a.grad_accum)
