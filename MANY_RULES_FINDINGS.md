@@ -175,6 +175,33 @@ On all three models, many-rule training lands at about 30 % on the shared core, 
 the gain comes from line-level structure: bullets, numbered steps, section headers, XML. Splitting within families
 (B) never beats splitting by family (A) on the shared core.
 
+## Is transfer spread evenly or concentrated?
+
+![Sorted held-out gains](figures/many_gain_concentration.png)
+
+Transfer is concentrated, not even. Each panel sorts one arm's own held-out conditions by gain over base.
+
+| model, arm | conditions gaining ≥ 20 points | conditions gaining ≤ 5 points | top-3 share of total gain |
+|---|---:|---:|---:|
+| Qwen3.8-27B, A | 6 of 13 | 6 | 63 % |
+| Qwen3.8-27B, B | 3 of 14 | 6 | 68 % |
+| gpt-oss-20b, A | 9 of 14 | 3 | 48 % |
+| gpt-oss-20b, B | 6 of 14 | 4 | 53 % |
+| R1-Distill-Llama-8B, A | 5 of 15 | 9 | 73 % |
+| R1-Distill-Llama-8B, B | 3 of 14 | 11 | 98 % |
+
+- **Bullets and numbered steps lead in almost every panel,** with gains of 65–86 points. On R1 with arm B, those two
+  plus no "so" are nearly the whole gain.
+- **gpt-oss is the broadest.** For A, the gain extends to questions, section headers, second person, JSON and the
+  sentence ratio. For B, it extends to the word bans.
+- **The rest sit near zero on every model:** meow, one word per line, square brackets, alternating case, emoji at the
+  end of each sentence, and no consecutive initials. These need the operation applied to every word or letter, which
+  none of the trained rules practised.
+
+![Every held-out condition across the three models](figures/many_heatmap_heldout.png)
+
+The heatmap shows every held-out condition for each model and arm. Hatched cells are conditions that arm trained.
+
 ## Caveats
 
 - **Noise.** One seed and 20–29 prompts per condition, so single-condition differences under about 25 points are
