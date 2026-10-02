@@ -162,6 +162,8 @@ at 0–5 % on all three models.
 
 ## Across the three models
 
+![Three models](figures/many_three_models.png)
+
 | macro, held-out | Qwen3.8-27B | gpt-oss-20b | R1-Distill-Llama-8B |
 |---|---:|---:|---:|
 | shared core: base / Q5 / A / B | 1 / 11 / 29 / 31 | 0 / 15 / 33 / 30 | 0 / 3 / 30 / 27 |
