@@ -1,4 +1,4 @@
-# Many-rule SFT: findings (Qwen3.8-27B, gpt-oss-20b)
+# Many-rule SFT: findings (Qwen3.8-27B, gpt-oss-20b, R1-Distill-Llama-8B)
 
 *2026-10-01. Plan and design: `MANY_RULES_PLAN.md`. Base Qwen3.8-27B, Q5 (6 rules, 5 per example), and two new arms
 trained on about 32 rules with 7 per example:*
@@ -128,6 +128,50 @@ yet it reaches 66–93 % on no "so", no "the" and no "answer", close to A, which
 one word per line, no consecutive initials, alternating case and emoji at the end of each sentence.
 
 Per-condition figures: `figures/many_gptoss_per_condition.png` and `figures/many_gptoss_a_vs_b.png`.
+
+## Replication on DeepSeek-R1-Distill-Llama-8B
+
+![R1-Distill-Llama held-out conditions](figures/many_r1_headline.png)
+
+*A third model family (Llama base). The whole chain was run fresh: base, Q5, A and B.*
+- *Training: QLoRA on a 4-bit base, all linear layers, one epoch, about 900 examples per arm (Q5 916, A 920,
+  B 872).*
+- *Evaluation: served in bf16, with DeepSeek's sampling (T 0.6, top-p 0.95).*
+- *Prompts: 20 per condition; Redwood 50 tasks per instruction.*
+
+The pattern holds, and the gap is larger than on the other two models, because Q5 barely transfers on this model.
+
+- **Shared core:** base 0 %, Q5 3 %, A 30 %, B 27 % (macro).
+- **Each arm's own held-out set:** A reaches 23 % against Q5's 5 %, and B reaches 16 % against Q5's 3 %.
+- **Accuracy on Redwood's tasks:** 67 % for base and Q5, 64 % for A, 62 % for B.
+- **Reasoning length:** shorter after many-rule training, a median of 134–146 words against 399 for base.
+
+**Held-out structure transfer,** for rules A never trained:
+
+| condition | base | Q5 | A |
+|---|---:|---:|---:|
+| bullets | 0 % | 14 % | 86 % |
+| numbered | 0 % | 0 % | 80 % |
+| section headers | 2 % | 0 % | 60 % |
+| XML steps | 0 % | 0 % | 32 % |
+
+**Like Qwen, unlike gpt-oss,** style rules transfer weakly: questions reach 4 % and second person 4 % in A, against
+48 % and 24 % in B, which trained them. Word bans held out in B reach 52–62 % on no "so" and no "answer", but stay
+near 0 % on the CoTControl word-suppression modes and on no "the". The same word-level and letter-level rules stay
+at 0–5 % on all three models.
+
+## Across the three models
+
+| macro, held-out | Qwen3.8-27B | gpt-oss-20b | R1-Distill-Llama-8B |
+|---|---:|---:|---:|
+| shared core: base / Q5 / A / B | 1 / 11 / 29 / 31 | 0 / 15 / 33 / 30 | 0 / 3 / 30 / 27 |
+| A's held-out: Q5 → A | 12 → 25 | 12 → 38 | 5 → 23 |
+| B's held-out: Q5 → B | 10 → 19 | 19 → 36 | 3 → 16 |
+| accuracy: base / A / B | 86 / 84 / 74 | 84 / 80 / 80 | 67 / 64 / 62 |
+
+On all three models, many-rule training lands at about 30 % on the shared core, whatever Q5 managed. In every case
+the gain comes from line-level structure: bullets, numbered steps, section headers, XML. Splitting within families
+(B) never beats splitting by family (A) on the shared core.
 
 ## Caveats
 
