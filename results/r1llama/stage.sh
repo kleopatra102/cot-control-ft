@@ -16,7 +16,7 @@ F() { grep -vE "HTTP|it/s\]|s/it\]" | tail -${1:-3}; }
 if [[ ! -f $R/eval/base/.done || ! -f $R/redwood/base/.done || ! -f $R/.done_stage1 ]]; then
   serve
   [[ -f $WL ]] || { log "calibration"; .venv/bin/python scripts/calibrate_number_words.py --config $CFG --out-dir $R/calibration 2>&1 | F; }
-  [[ -f $R/.done_stage1 ]] || { log "stage1"; .venv/bin/python scripts/build_sft.py --stage 1 --config $CFG --n-rows 960 --out-dir $R/sft 2>&1 | F && touch $R/.done_stage1; }
+  [[ -f $R/.done_stage1 ]] || { log "stage1"; .venv/bin/python scripts/build_sft.py --stage 1 --config $CFG --n-rows 937 --out-dir $R/sft 2>&1 | F && touch $R/.done_stage1; }
   [[ -f $R/eval/base/.done ]] || { log "eval base"; .venv/bin/python scripts/run_multi_eval.py --config $CFG --label base --model $M --word-limits $WL --out-root $R/eval $SUITE 2>&1 | F 5 && touch $R/eval/base/.done; }
   [[ -f $R/redwood/base/.done ]] || { log "redwood base"; .venv/bin/python scripts/run_redwood_eval.py --label base --model $M --out-root $R/redwood $RW 2>&1 | F && touch $R/redwood/base/.done; }
   stop

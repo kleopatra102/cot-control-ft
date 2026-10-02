@@ -17,13 +17,20 @@ C = {"base": "#c3c2b7", "Q5": "#eb6834", "A": "#2f6db5", "B": "#1f9e89"}
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "axes.edgecolor": GRID, "axes.labelcolor": INK2, "xtick.color": MUTED, "ytick.color": MUTED,
                      "font.size": 9.5, "axes.spines.top": False, "axes.spines.right": False, "savefig.dpi": 150, "savefig.facecolor": SURF})
 def style(ax, axis="y"): (ax.yaxis if axis == "y" else ax.xaxis).grid(True, color=GRID, lw=1); ax.set_axisbelow(True); ax.tick_params(length=0)
+SET = next((x.split("=", 1)[1] for x in sys.argv[1:] if x.startswith("--set=")), "qwen38")
+_G, _GM, _RW, _R1 = REPO / "results/gptoss", REPO / "results/gptoss_many", REPO / "results/redwood_eval", REPO / "results/r1llama"
 Q, R = REPO / "results/qwen38", REPO / "results/qwen38_many"
-EVAL = {"base": Q / "eval/base", "Q5": Q / "eval/Q5", "A": R / "eval/A", "B": R / "eval/B"}
-RWD = {"base": Q / "redwood/base", "Q5": Q / "redwood/Q5", "A": R / "redwood/A", "B": R / "redwood/B"}
+EVAL, RWD, FIG, TITLE = {
+    "qwen38": ({"base": Q / "eval/base", "Q5": Q / "eval/Q5", "A": R / "eval/A", "B": R / "eval/B"},
+               {"base": Q / "redwood/base", "Q5": Q / "redwood/Q5", "A": R / "redwood/A", "B": R / "redwood/B"}, "many", "Qwen3.8-27B"),
+    "gptoss": ({"base": _G / "eval/base", "Q5": _G / "eval/Q5-final", "A": _GM / "eval/A", "B": _GM / "eval/B"},
+               {"base": _RW / "base", "Q5": _RW / "Q5-final", "A": _GM / "redwood/A", "B": _GM / "redwood/B"}, "many_gptoss", "gpt-oss-20b"),
+    "r1": ({m: _R1 / f"eval/{m}" for m in ("base", "Q5", "A", "B")}, {m: _R1 / f"redwood/{m}" for m in ("base", "Q5", "A", "B")}, "many_r1", "R1-Distill-Llama-8B"),
+}[SET]
 MODELS = [m for m in EVAL if (EVAL[m] / "rollouts.jsonl").exists()]
 PREFIX = {"reasonif_multi": "rif", "cotcontrol_multi": "cc", "ifbench": "ifb"}
 Q5_TRAINED = {f"rif:{c}" for c in ("capital", "end_checker", "end_of_sentence", "no_comma", "number_words", "reasoning_language")} | {"cc:end_of_sentence"}  # + its CoTControl twin
-BASE_HIGH = {"rw:section_headers", "ifb:stop_words", "ifb:conjunctions"}
+BASE_HIGH = None  # set below: conditions base already passes on >= 40 % of prompts (no room to show transfer)
 
 
 def scores(m):
@@ -47,7 +54,8 @@ def scores(m):
 S = {m: scores(m) for m in MODELS}
 rate = lambda m, c: 100 * sum(S[m][c]) / len(S[m][c]) if S[m].get(c) else None
 TRAIN = {arm: set(P.split(arm)[0]) for arm in "AB"}; TEST = {arm: set(P.split(arm)[1]) for arm in "AB"}
-EVALUATED = sorted(set.intersection(*[set(S[m]) for m in MODELS]))
+EVALUATED = sorted(c for c in set.intersection(*[set(S[m]) for m in MODELS]) if c in P.CONDS)
+BASE_HIGH = {c for c in EVALUATED if rate("base", c) >= 40}
 # held-out sets used for headline numbers: evaluated, not trained by Q5 either, base not already high
 HELD = {arm: [c for c in EVALUATED if c in TEST[arm] and c not in Q5_TRAINED and c not in BASE_HIGH] for arm in "AB"}
 CORE = [c for c in EVALUATED if c in P.SHARED_CORE]
@@ -77,9 +85,9 @@ if __name__ == "__main__":
             ticks.append((x + (len(ms) - 1) * 0.4, f"{name}\n({len(conds)} conditions)")); x += len(ms) * 0.8 + 1.0
         ax.set_xticks([t for t, _ in ticks]); ax.set_xticklabels([l for _, l in ticks], fontsize=8.5); style(ax); ax.spines["left"].set_visible(False)
         ax.set_title(ttl, loc="left", fontsize=10, color=INK)
-    axes[0].set_ylabel("rule satisfied, %"); axes[0].legend(frameon=False, fontsize=8.5, loc="upper right")
-    fig.suptitle("Qwen3.8-27B: held-out conditions only (never trained by the model shown, nor by Q5)", x=0.01, ha="left", fontsize=11, color=INK)
-    fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / "figures/many_headline.png", bbox_inches="tight"); plt.close(fig)
+    axes[0].set_ylabel("rule satisfied, %"); h, l = axes[0].get_legend_handles_labels(); fig.legend(h, l, frameon=False, fontsize=8.5, loc="upper right", ncol=4, bbox_to_anchor=(1.0, 0.95))
+    fig.suptitle(f"{TITLE}: held-out conditions only (never trained by the model shown, nor by Q5)", x=0.01, ha="left", fontsize=11, color=INK)
+    fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/{FIG}_headline.png", bbox_inches="tight"); plt.close(fig)
     # Fig 3: A against B per condition, coloured by who trained it
     fig, ax = plt.subplots(figsize=(7.2, 6.4))
     kinds = {"trained by A only": ("#2f6db5", "o"), "trained by B only": ("#1f9e89", "s"), "trained by both": ("#52514e", "D"), "held out in both": ("#eb6834", "^")}
@@ -93,7 +101,7 @@ if __name__ == "__main__":
     ax.plot([0, 100], [0, 100], color=GRID, lw=1, zorder=1); ax.set_xlim(-3, 103); ax.set_ylim(-3, 103); ax.set_aspect("equal")
     ax.set_xlabel("arm A, % of prompts"); ax.set_ylabel("arm B, % of prompts"); style(ax); style(ax, "x"); ax.legend(frameon=False, fontsize=8.5, loc="upper left")
     ax.set_title("Each condition: A against B. Off-diagonal points are\nwhere training on the rule made a difference", loc="left", fontsize=10, color=INK)
-    fig.tight_layout(); fig.savefig(REPO / "figures/many_a_vs_b.png", bbox_inches="tight"); plt.close(fig)
+    fig.tight_layout(); fig.savefig(REPO / f"figures/{FIG}_a_vs_b.png", bbox_inches="tight"); plt.close(fig)
     # Fig 4: accuracy and length on Redwood's tasks
     acc, words = {}, {}
     for m in MODELS:
@@ -103,7 +111,7 @@ if __name__ == "__main__":
         ax.bar(range(len(MODELS)), [d[m] for m in MODELS], color=[C[m] for m in MODELS], edgecolor=SURF, width=0.6)
         for i, m in enumerate(MODELS): ax.text(i, d[m] * 1.01 + 0.5, fmt.format(d[m]), ha="center", fontsize=8.5, color=INK2)
         ax.set_xticks(range(len(MODELS))); ax.set_xticklabels([NAME[m] for m in MODELS], fontsize=8.5); style(ax); ax.spines["left"].set_visible(False); ax.set_title(ttl, loc="left", fontsize=10, color=INK)
-    fig.tight_layout(); fig.savefig(REPO / "figures/many_accuracy_length.png", bbox_inches="tight"); plt.close(fig)
+    fig.tight_layout(); fig.savefig(REPO / f"figures/{FIG}_accuracy_length.png", bbox_inches="tight"); plt.close(fig)
     # Fig 2: every evaluated condition, dot plot, grouped by family
     fam_order = ["case", "bans", "inclusion", "position", "layout", "structure", "style", "statistics", "length", "language"]
     conds = sorted(EVALUATED, key=lambda c: (fam_order.index(P.CONDS[c].family), P.CONDS[c].op, c))
@@ -116,4 +124,4 @@ if __name__ == "__main__":
     ax.set_yticks(range(len(conds))); ax.set_yticklabels(lab, fontsize=7.5); ax.invert_yaxis(); ax.set_xlim(-3, 103); style(ax, "x")
     ax.set_xlabel("rule satisfied, % of prompts"); ax.legend(frameon=False, fontsize=8.5, loc="lower right", ncol=4)
     ax.set_title("Every condition; trailing letters mark which arm trained it (A, B, or · for held out)", loc="left", fontsize=10, color=INK)
-    fig.tight_layout(); fig.savefig(REPO / "figures/many_per_condition.png", bbox_inches="tight"); plt.close(fig)
+    fig.tight_layout(); fig.savefig(REPO / f"figures/{FIG}_per_condition.png", bbox_inches="tight"); plt.close(fig)

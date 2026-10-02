@@ -1,4 +1,4 @@
-# Many-rule SFT on Qwen3.8-27B: findings
+# Many-rule SFT: findings (Qwen3.8-27B, gpt-oss-20b)
 
 *2026-10-01. Plan and design: `MANY_RULES_PLAN.md`. Base Qwen3.8-27B, Q5 (6 rules, 5 per example), and two new arms
 trained on about 32 rules with 7 per example:*
@@ -91,10 +91,50 @@ accuracy lowest, but I have not tested that.
 - Many specific trained rules stay unlearned. The broader training seems to teach "obey a formatting instruction in
   the reasoning" more than any single rule.
 
+## Replication on gpt-oss-20b
+
+![gpt-oss held-out conditions](figures/many_gptoss_headline.png)
+
+*Same registry, splits and 7 conditions per example. The setup otherwise follows the earlier gpt-oss runs:*
+- *about 900 examples per arm (A 919, B 878), the same size as gpt-oss's own Q5 (906);*
+- *attention-only LoRA, one epoch;*
+- *medium reasoning effort, no answer-tag line;*
+- *40 prompts per CoTControl mode and per IFBench rule, 20 per ReasonIF rule;*
+- *Redwood: 100 tasks per instruction with greedy decoding, as in the earlier gpt-oss Redwood runs.*
+
+The result holds on a second model family.
+
+- **Shared core:** base 0 %, Q5 15 %, A 33 %, B 30 % (macro). That is about twice Q5, where Qwen showed about three
+  times.
+- **Each arm's own held-out set:** A reaches 38 % against Q5's 12 %, and B reaches 36 % against Q5's 19 %.
+- **Accuracy on Redwood's tasks:** 84 % for base and 80 % for all three fine-tuned models. B does not lose more than
+  the others here, unlike on Qwen.
+
+**Where gpt-oss differs from Qwen.** The within-family split transfers well on gpt-oss. B never trained a word ban,
+yet it reaches 66–93 % on no "so", no "the" and no "answer", close to A, which trained them. On Qwen, B stayed at
+0–31 % on the same bans. Part of this was already present: gpt-oss's Q5 reaches 54–74 % on two of the bans.
+
+**Held-out transfer that is new on gpt-oss** (each condition held out by the arm named):
+
+| condition | base | Q5 | arm | score |
+|---|---:|---:|---|---:|
+| numbered | 0 % | 0 % | A | 74 % |
+| section headers | 1 % | 0 % | A | 81 % |
+| XML steps | 0 % | 10 % | A | 27 % |
+| questions | 5 % | 6 % | A | 82 % |
+| "Indeed" as first word of each sentence | 0 % | 0 % | B | 18 % |
+
+**The same failures as on Qwen.** The same word-level and letter-level rules stay at 0–10 % for every arm: meow,
+one word per line, no consecutive initials, alternating case and emoji at the end of each sentence.
+
+Per-condition figures: `figures/many_gptoss_per_condition.png` and `figures/many_gptoss_a_vs_b.png`.
+
 ## Caveats
 
 - **Noise.** One seed and 20–29 prompts per condition, so single-condition differences under about 25 points are
   noise. The pooled numbers cover 6–14 conditions.
+- **gpt-oss restates the rule.** It often repeats the instruction in its reasoning. That cannot help it pass a ban, but
+  it can inflate inclusion rules.
 - **Judge.** Second person and questions are judged by gpt-4.1, the same judge that verified the training data. B
   trained against that judge, so B's numbers on those two could partly reflect fitting the judge. A never saw those
   rules.
