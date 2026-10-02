@@ -1,0 +1,68 @@
+{
+ "initial_caps": {
+  "n": 100,
+  "raw_compliance": 0.69,
+  "accuracy": 0.82
+ },
+ "no_word_so": {
+  "n": 100,
+  "raw_compliance": 0.81,
+  "accuracy": 0.81
+ },
+ "include_exactly_twice": {
+  "n": 100,
+  "raw_compliance": 0.61,
+  "accuracy": 0.76
+ },
+ "bullet": {
+  "n": 100,
+  "raw_compliance": 0.86,
+  "accuracy": 0.82
+ },
+ "numbered": {
+  "n": 100,
+  "raw_compliance": 0.74,
+  "accuracy": 0.79
+ },
+ "section_headers": {
+  "n": 100,
+  "raw_compliance": 0.81,
+  "accuracy": 0.82
+ },
+ "xml_steps": {
+  "n": 100,
+  "raw_compliance": 0.27,
+  "accuracy": 0.83
+ },
+ "terse_25w": {
+  "n": 100,
+  "raw_compliance": 1.0,
+  "accuracy": 0.73
+ },
+ "child_explanation": {
+  "n": 100,
+  "raw_compliance": 0.28,
+  "accuracy": 0.82
+ },
+ "second_person": {
+  "n": 100,
+  "raw_compliance": 0.26,
+  "accuracy": 0.79
+ },
+ "questions": {
+  "n": 100,
+  "raw_compliance": 0.82,
+  "accuracy": 0.78
+ },
+ "no_the": {
+  "n": 100,
+  "raw_compliance": 0.91,
+  "accuracy": 0.83
+ },
+ "no_answer_word": {
+  "n": 100,
+  "raw_compliance": 0.89,
+  "accuracy": 0.84
+ },
+ "_macro": 0.6744444444444445
+}

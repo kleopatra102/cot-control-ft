@@ -1,0 +1,71 @@
+{
+  "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+  "percentile": 20.0,
+  "n_censored_total": 45,
+  "censored_dropped": false,
+  "n_unusable_think": 0,
+  "limits": {
+    "aime": 2661,
+    "amc": 752,
+    "arc": 310,
+    "gpqa": 1913,
+    "gsm8k": 81
+  },
+  "per_source": {
+    "aime": {
+      "n": 61,
+      "p20": 2661,
+      "median": 6603,
+      "p80": 7384,
+      "mean": 5385.7,
+      "max": 8717,
+      "n_censored": 28,
+      "pct_censored": 45.9,
+      "p20_identifiable": true
+    },
+    "amc": {
+      "n": 54,
+      "p20": 752,
+      "median": 1783,
+      "p80": 6306,
+      "mean": 2995.2,
+      "max": 8949,
+      "n_censored": 11,
+      "pct_censored": 20.4,
+      "p20_identifiable": true
+    },
+    "arc": {
+      "n": 59,
+      "p20": 310,
+      "median": 383,
+      "p80": 574,
+      "mean": 503.4,
+      "max": 1960,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    },
+    "gpqa": {
+      "n": 73,
+      "p20": 1913,
+      "median": 4311,
+      "p80": 6327,
+      "mean": 4222.5,
+      "max": 8519,
+      "n_censored": 6,
+      "pct_censored": 8.2,
+      "p20_identifiable": true
+    },
+    "gsm8k": {
+      "n": 53,
+      "p20": 81,
+      "median": 115,
+      "p80": 131,
+      "mean": 112.5,
+      "max": 187,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    }
+  }
+}

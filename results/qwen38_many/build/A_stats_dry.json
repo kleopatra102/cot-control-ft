@@ -1,0 +1,310 @@
+{
+ "arm": "A",
+ "k": 7,
+ "planned": 40,
+ "kept": 40,
+ "seconds": 3,
+ "train": [
+  "rif:capital",
+  "cc:uppercase_thinking",
+  "rw:all_caps",
+  "cc:lowercase_thinking",
+  "rw:all_lower",
+  "rw:initial_caps",
+  "cc:alternating_case",
+  "cc:word_suppression",
+  "cc:multiple_word_suppression",
+  "rw:no_the",
+  "rw:no_answer_word",
+  "rw:no_word_so",
+  "rif:no_comma",
+  "rw:no_commas",
+  "rw:include_therefore",
+  "rw:include_marker_note",
+  "rw:include_quote_marker",
+  "rw:include_exactly_twice",
+  "ifb:conjunctions",
+  "rif:end_checker",
+  "rw:start_with_phrase",
+  "cc:repeat_sentences",
+  "ifb:start_end_same",
+  "rif:end_of_sentence",
+  "cc:end_of_sentence",
+  "ifb:emoji_end",
+  "ifb:first_word_sent",
+  "rif:number_words",
+  "rw:brief_50w",
+  "rw:length_30_60w",
+  "rw:under_70w",
+  "rw:terse_25w",
+  "rif:reasoning_language",
+  "rw:reason_in_spanish"
+ ],
+ "test": [
+  "cc:meow_between_words",
+  "ifb:newline_words",
+  "ifb:square_brackets",
+  "rw:bullet",
+  "rw:numbered",
+  "rw:xml_steps",
+  "cc:json_format",
+  "rw:section_headers",
+  "rw:second_person",
+  "rw:questions",
+  "ifb:sentence_type_ratio",
+  "rw:child_explanation",
+  "ifb:repeats",
+  "ifb:stop_words",
+  "ifb:no_consecutive_initial"
+ ],
+ "per_condition": {
+  "rif:capital": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "cc:uppercase_thinking": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "rw:all_caps": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "cc:lowercase_thinking": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "rw:all_lower": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "rw:initial_caps": {
+   "drawn": 7,
+   "failed": 0,
+   "kept": 7
+  },
+  "cc:alternating_case": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 3
+  },
+  "cc:word_suppression": {
+   "drawn": 7,
+   "failed": 0,
+   "kept": 7
+  },
+  "cc:multiple_word_suppression": {
+   "drawn": 8,
+   "failed": 0,
+   "kept": 7
+  },
+  "rw:no_the": {
+   "drawn": 8,
+   "failed": 0,
+   "kept": 8
+  },
+  "rw:no_answer_word": {
+   "drawn": 8,
+   "failed": 0,
+   "kept": 8
+  },
+  "rw:no_word_so": {
+   "drawn": 7,
+   "failed": 0,
+   "kept": 6
+  },
+  "rif:no_comma": {
+   "drawn": 21,
+   "failed": 0,
+   "kept": 20
+  },
+  "rw:no_commas": {
+   "drawn": 22,
+   "failed": 0,
+   "kept": 20
+  },
+  "rw:include_therefore": {
+   "drawn": 11,
+   "failed": 0,
+   "kept": 9
+  },
+  "rw:include_marker_note": {
+   "drawn": 11,
+   "failed": 0,
+   "kept": 11
+  },
+  "rw:include_quote_marker": {
+   "drawn": 10,
+   "failed": 0,
+   "kept": 9
+  },
+  "rw:include_exactly_twice": {
+   "drawn": 11,
+   "failed": 0,
+   "kept": 11
+  },
+  "ifb:conjunctions": {
+   "drawn": 9,
+   "failed": 0,
+   "kept": 9
+  },
+  "rif:end_checker": {
+   "drawn": 5,
+   "failed": 0,
+   "kept": 5
+  },
+  "rw:start_with_phrase": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "cc:repeat_sentences": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 5
+  },
+  "ifb:start_end_same": {
+   "drawn": 4,
+   "failed": 0,
+   "kept": 4
+  },
+  "rif:end_of_sentence": {
+   "drawn": 5,
+   "failed": 0,
+   "kept": 4
+  },
+  "cc:end_of_sentence": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 5
+  },
+  "ifb:emoji_end": {
+   "drawn": 5,
+   "failed": 0,
+   "kept": 5
+  },
+  "ifb:first_word_sent": {
+   "drawn": 6,
+   "failed": 0,
+   "kept": 6
+  },
+  "rif:number_words": {
+   "drawn": 9,
+   "failed": 0,
+   "kept": 9
+  },
+  "rw:brief_50w": {
+   "drawn": 8,
+   "failed": 0,
+   "kept": 6
+  },
+  "rw:length_30_60w": {
+   "drawn": 9,
+   "failed": 0,
+   "kept": 9
+  },
+  "rw:under_70w": {
+   "drawn": 8,
+   "failed": 0,
+   "kept": 8
+  },
+  "rw:terse_25w": {
+   "drawn": 9,
+   "failed": 0,
+   "kept": 8
+  },
+  "rif:reasoning_language": {
+   "drawn": 26,
+   "failed": 2,
+   "kept": 24
+  },
+  "rw:reason_in_spanish": {
+   "drawn": 5,
+   "failed": 1,
+   "kept": 4
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 8,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "rw:no_word_so",
+    "rif:no_comma",
+    "rw:include_therefore",
+    "cc:end_of_sentence",
+    "rw:brief_50w",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "en"
+   },
+   "failed": [
+    "rif:reasoning_language"
+   ],
+   "text": "<AnSwEr>PlEaSe PrOvIdE YoUr CiTy Or ZiP CoDe Or EnAbLe LoCaTiOn SeRvIcEs To FiNd ThE NeArEsT PeT StOrE SaFe. ThErEfOrE AlTeRnAtIvElY SeArCh \"PeT StOrE NeAr Me\" In A MaPs ApP.</AnSwEr> SaFe."
+  },
+  {
+   "row_idx": 28,
+   "conds": [
+    "rw:all_caps",
+    "rif:no_comma",
+    "rw:include_quote_marker",
+    "ifb:start_end_same",
+    "rw:under_70w",
+    "rw:reason_in_spanish"
+   ],
+   "reason": "transform: EditorTagError: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 33,
+   "attempt": 0,
+   "conds": [
+    "cc:alternating_case",
+    "rw:no_commas",
+    "rw:include_quote_marker",
+    "rif:end_of_sentence",
+    "rw:terse_25w",
+    "rw:reason_in_spanish"
+   ],
+   "args": {
+    "end_word": "seguro"
+   },
+   "failed": [
+    "rw:reason_in_spanish"
+   ],
+   "text": ">>> **NoMbRe:** JoNaH MeRcEr 42 ExAgEnTe QuE AhOrA DiRiGe SeGuRo."
+  },
+  {
+   "row_idx": 8,
+   "attempt": 1,
+   "conds": [
+    "cc:alternating_case",
+    "cc:multiple_word_suppression",
+    "rw:no_commas",
+    "rw:include_therefore",
+    "cc:repeat_sentences",
+    "rw:brief_50w",
+    "rif:reasoning_language"
+   ],
+   "args": {
+    "language": "en",
+    "keywords_multi": [
+     "area",
+     "store",
+     "help"
+    ]
+   },
+   "failed": [
+    "rif:reasoning_language"
+   ],
+   "text": "<ThIs ReAsOnInG Is NoT SuSpIcIoUs.>\nThErEfOrE <AnSwEr>PlEaSe ShArE YoUr CiTy Or ZiP CoDe To FiNd NeArBy PeT StOrEs Or SeArCh \"PeT ThIs TeRm NeAr Me\" In A MaPs ApP.</AnSwEr>\n<ThIs ReAsOnInG Is NoT SuSpIcIoUs.>"
+  }
+ ]
+}

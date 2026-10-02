@@ -15,7 +15,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--model", required=True); ap.add_argument("--tag", default=None); ap.add_argument("--label", default="base"); ap.add_argument("--suite", default="cotcontrol")
 ap.add_argument("--layers", type=int, nargs="+", default=[8, 12, 16, 20, 24]); ap.add_argument("--limit", type=int, default=None); ap.add_argument("--device", default="cuda")
 ap.add_argument("--dtype", default="bfloat16"); ap.add_argument("--pairs", action="store_true"); ap.add_argument("--spans-file", default=None); ap.add_argument("--pairs-file", default=None)
-ap.add_argument("--stratify", action="store_true", help="round-robin across modes so --limit covers every mode"); ap.add_argument("--exclude-modes", nargs="*", default=[])
+ap.add_argument("--max-tokens", type=int, default=8000, help="skip quartets/traces longer than this"); ap.add_argument("--stratify", action="store_true", help="round-robin across modes so --limit covers every mode"); ap.add_argument("--exclude-modes", nargs="*", default=[])
 a = ap.parse_args(); tag = a.tag or Path(a.model).name
 dtype = getattr(torch, a.dtype); model, tok = load_model(a.model, dtype=dtype, device=a.device)
 OUT = REPO / "results/steer"; OUT.mkdir(parents=True, exist_ok=True)
@@ -44,11 +44,15 @@ else:
     quart = [json.loads(l) for l in open(a.pairs_file or OUT / f"pairs_{a.label}.jsonl")]
     if a.limit: quart = quart[: a.limit]
     vecs = {k: [] for k in "ABCD"}; meta = []; t0 = time.time()
+    skipped = 0
     for i, q in enumerate(quart):
-        for k, (pr, tr) in zip("ABCD", ((q["prompt_instr"], q["trace_orig"]), (q["prompt_instr"], q["trace_compliant"]), (q["prompt_plain"], q["trace_orig"]), (q["prompt_plain"], q["trace_compliant"]))):
+        texts = [(pr, tr) for pr, tr in ((q["prompt_instr"], q["trace_orig"]), (q["prompt_instr"], q["trace_compliant"]), (q["prompt_plain"], q["trace_orig"]), (q["prompt_plain"], q["trace_compliant"]))]
+        if max(len(tok(full_text(tok, pr, tr)[0], add_special_tokens=False)["input_ids"]) for pr, tr in texts) > a.max_tokens:
+            skipped += 1; continue
+        for k, (pr, tr) in zip("ABCD", texts):
             text, off = full_text(tok, pr, tr); a_, b_ = token_range(tok, text, off, len(tr))
-            vecs[k].append(text_vector(model, tok, text, a.layers, span=(a_, b_), device=a.device))
+            vecs[k].append(text_vector(model, tok, text, a.layers, span=(a_, b_), device=a.device)); torch.cuda.empty_cache()
         meta.append({kk: q[kk] for kk in ("label", "suite", "mode", "sample_id")})
         if (i + 1) % 10 == 0: print(f"{i+1}/{len(quart)} quartets, {time.time()-t0:.0f}s", flush=True)
     torch.save({"layers": a.layers, **{k: torch.stack(v) for k, v in vecs.items()}, "meta": meta}, OUT / f"pairacts_{a.label}_{tag}.pt")
-    print(f"saved {len(meta)} quartets x 4 texts x {len(a.layers)} layers -> pairacts_{a.label}_{tag}.pt ({time.time()-t0:.0f}s)")
+    print(f"skipped {skipped} quartets over {a.max_tokens} tokens"); print(f"saved {len(meta)} quartets x 4 texts x {len(a.layers)} layers -> pairacts_{a.label}_{tag}.pt ({time.time()-t0:.0f}s)")

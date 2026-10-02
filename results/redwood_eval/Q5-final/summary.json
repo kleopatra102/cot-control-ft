@@ -41,8 +41,28 @@
  },
  "child_explanation": {
   "n": 100,
-  "raw_compliance": 0.05,
+  "raw_compliance": 0.03,
   "accuracy": 0.8
  },
- "_macro": 0.22333333333333336
+ "second_person": {
+  "n": 100,
+  "raw_compliance": 0.03,
+  "accuracy": 0.8
+ },
+ "questions": {
+  "n": 100,
+  "raw_compliance": 0.06,
+  "accuracy": 0.8
+ },
+ "no_the": {
+  "n": 100,
+  "raw_compliance": 0.74,
+  "accuracy": 0.85
+ },
+ "no_answer_word": {
+  "n": 100,
+  "raw_compliance": 0.54,
+  "accuracy": 0.8
+ },
+ "_macro": 0.22111111111111112
 }

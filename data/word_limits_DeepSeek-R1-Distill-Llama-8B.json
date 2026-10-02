@@ -1,0 +1,9 @@
+{
+  "DeepSeek-R1-Distill-Llama-8B": {
+    "aime": 2661,
+    "amc": 752,
+    "arc": 310,
+    "gpqa": 1913,
+    "gsm8k": 81
+  }
+}

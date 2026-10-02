@@ -1,0 +1,8 @@
+# Confound: controllability tax (agent report)
+
+Scoring artefact: 32 % of Qwen3-8B ReasonIF k=1 rollouts have correct=None because the model writes \boxed{...} instead of <answer> tags on aime/amc (80-90 % of the time); score_answer returns None, counted as wrong. With a \boxed fallback: base 75.8 (reported 53.3), S1-60 66.7, S1-final 73.3, T3-60 77.5, T3-final 74.2, Q5-final 66.7. Paired vs base: only S1-60 (-9.2, p=.035) and Q5-final (-9.2, p=.052) drop; T3 arms flat. CoTControl k=1 (n=400): all within +-3 pp of base (p>.3).
+Qwen3.5-9B: T3's CoTControl drop is real (72.2 -> 61.6, p<.001) and also present on ReasonIF-gpqa (-13.6 pp, p=.003) but hidden in the ReasonIF aggregate by arc/gsm8k at ceiling and aime/amc flat-to-up. The "opposite pattern" across models is a question-mix effect (CoTControl k=1 is 100 % gpqa).
+Tax vs compliance: no relation across checkpoints (8B ReasonIF Pearson -0.34, p=.51; 9B ReasonIF -0.07) nor within rollouts on 9B; 8B shows a modest per-rollout cost of complying on BOTH suites (confounded with difficulty/length). T3-9B's drop lives in the 97 % non-compliant majority. number_words/reasoning_language carry no training-induced penalty.
+Finding: nothing suite-specific to reconcile; the 8B "varying tax" is one-third a scorer artefact plus +-9 pp noise (n=120); the one real tax (T3 on Qwen3.5) is a checkpoint property, not a compliance property.
+Implication: fix score_answer with a \boxed{} fallback and regrade; report accuracy per question source (gpqa-only at least); do not interpret per-checkpoint variation under ~10 pp at n=120.
+Confidence: high on the artefact and the 9B T3 drop; moderate on residual 8B drops.

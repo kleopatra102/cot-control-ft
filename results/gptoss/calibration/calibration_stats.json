@@ -1,0 +1,71 @@
+{
+  "model": "openai/gpt-oss-20b",
+  "percentile": 20.0,
+  "n_censored_total": 15,
+  "censored_dropped": false,
+  "n_unusable_think": 0,
+  "limits": {
+    "aime": 1266,
+    "amc": 425,
+    "arc": 66,
+    "gpqa": 441,
+    "gsm8k": 70
+  },
+  "per_source": {
+    "aime": {
+      "n": 183,
+      "p20": 1266,
+      "median": 2856,
+      "p80": 7984,
+      "mean": 5025.5,
+      "max": 23066,
+      "n_censored": 10,
+      "pct_censored": 5.5,
+      "p20_identifiable": true
+    },
+    "amc": {
+      "n": 162,
+      "p20": 425,
+      "median": 866,
+      "p80": 2483,
+      "mean": 2447.8,
+      "max": 24378,
+      "n_censored": 5,
+      "pct_censored": 3.1,
+      "p20_identifiable": true
+    },
+    "arc": {
+      "n": 177,
+      "p20": 66,
+      "median": 112,
+      "p80": 203,
+      "mean": 158.8,
+      "max": 1003,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    },
+    "gpqa": {
+      "n": 219,
+      "p20": 441,
+      "median": 1214,
+      "p80": 4154,
+      "mean": 2511.8,
+      "max": 15537,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    },
+    "gsm8k": {
+      "n": 159,
+      "p20": 70,
+      "median": 177,
+      "p80": 354,
+      "mean": 275.5,
+      "max": 3205,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    }
+  }
+}

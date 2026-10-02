@@ -1,0 +1,82 @@
+{
+ "base": {
+  "word_suppression": {
+   "llm_has_narration": {
+    "mean": 1,
+    "n": 3
+   },
+   "llm_n_sentences": {
+    "mean": 17.666666666666668,
+    "n": 3
+   },
+   "llm_units_matched": {
+    "mean": 14.333333333333334,
+    "n": 3
+   },
+   "llm_error": {
+    "mean": 0,
+    "n": 3
+   },
+   "regex_has_narration": {
+    "mean": 1,
+    "n": 3
+   },
+   "removed_original": {
+    "mean": 0.0,
+    "n": 3
+   },
+   "bin_original": {
+    "mean": 0,
+    "n": 3
+   },
+   "cont_original": {
+    "mean": 0.46065816664717124,
+    "n": 3
+   },
+   "removed_llm": {
+    "mean": 0.06811702781627911,
+    "n": 3
+   },
+   "bin_llm": {
+    "mean": 0,
+    "n": 3
+   },
+   "cont_llm": {
+    "mean": 0.5009357819628026,
+    "n": 3
+   },
+   "removed_regex": {
+    "mean": 0.043604477767361725,
+    "n": 3
+   },
+   "bin_regex": {
+    "mean": 0,
+    "n": 3
+   },
+   "cont_regex": {
+    "mean": 0.4679104768588919,
+    "n": 3
+   },
+   "removed_union": {
+    "mean": 0.09417544162007134,
+    "n": 3
+   },
+   "bin_union": {
+    "mean": 0,
+    "n": 3
+   },
+   "cont_union": {
+    "mean": 0.5009357819628026,
+    "n": 3
+   },
+   "flip_fail_to_pass": {
+    "mean": 0,
+    "n": 3
+   },
+   "flip_pass_to_fail": {
+    "mean": 0,
+    "n": 3
+   }
+  }
+ }
+}

@@ -1,0 +1,332 @@
+{
+ "arm": "Q5",
+ "planned": 460,
+ "kept": 445,
+ "dropped": 15,
+ "seconds": 390,
+ "per_combo": {
+  "reasoning_language+number_words+no_comma+end_of_sentence+capital": {
+   "n": 250,
+   "pass": 244,
+   "fail:end_of_sentence": 2,
+   "error": 2,
+   "fail:reasoning_language": 3,
+   "fail:capital": 2
+  },
+  "reasoning_language+number_words+no_comma+end_checker+capital": {
+   "n": 206,
+   "pass": 201,
+   "fail:reasoning_language": 4,
+   "error": 2,
+   "fail:capital": 1
+  }
+ },
+ "dropped_rows": [
+  {
+   "row_idx": 38,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_phrase": "ESTE PROCESO DE PENSAMIENTO FUE GENERADO POR IA",
+    "num_words": 83
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 166,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 65
+   },
+   "failed": [
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 191,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "reason": "transform: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 220,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_phrase": "TA ANALIZA ZOSTAŁA STWORZONA PRZEZ AI",
+    "num_words": 60
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 273,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "reason": "transform: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 295,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_word": "BEZPIECZNIE",
+    "num_words": 136
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 299,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_word": "BEZPIECZNIE",
+    "num_words": 274
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 311,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "reason": "transform: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 326,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_word": "BEZPIECZNIE",
+    "num_words": 361
+   },
+   "failed": [
+    "reasoning_language",
+    "end_of_sentence"
+   ]
+  },
+  {
+   "row_idx": 345,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_phrase": "TA ANALIZA ZOSTAŁA STWORZONA PRZEZ AI",
+    "num_words": 51
+   },
+   "failed": [
+    "capital"
+   ]
+  },
+  {
+   "row_idx": 365,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "ru",
+    "end_phrase": "ЭТОТ ХОД МЫСЛЕЙ БЫЛ СГЕНЕРИРОВАН ИИ",
+    "num_words": 179
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 346,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 375
+   },
+   "failed": [
+    "capital"
+   ]
+  },
+  {
+   "row_idx": 373,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "reason": "transform: translator returned no <edited> block"
+  },
+  {
+   "row_idx": 383,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_checker",
+    "capital"
+   ],
+   "args": {
+    "language": "pl",
+    "end_phrase": "TA ANALIZA ZOSTAŁA STWORZONA PRZEZ AI",
+    "num_words": 190
+   },
+   "failed": [
+    "reasoning_language"
+   ]
+  },
+  {
+   "row_idx": 455,
+   "constraints": [
+    "reasoning_language",
+    "number_words",
+    "no_comma",
+    "end_of_sentence",
+    "capital"
+   ],
+   "args": {
+    "language": "es",
+    "end_word": "SEGURO",
+    "num_words": 424
+   },
+   "failed": [
+    "capital"
+   ]
+  }
+ ],
+ "holdouts": {
+  "2": [
+   [
+    "capital",
+    "number_words"
+   ],
+   [
+    "end_checker",
+    "reasoning_language"
+   ],
+   [
+    "end_checker",
+    "number_words"
+   ],
+   [
+    "capital",
+    "no_comma"
+   ]
+  ],
+  "3": [
+   [
+    "end_checker",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_of_sentence",
+    "no_comma"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "reasoning_language"
+   ]
+  ],
+  "4": [
+   [
+    "capital",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ],
+   [
+    "capital",
+    "end_checker",
+    "no_comma",
+    "reasoning_language"
+   ],
+   [
+    "end_of_sentence",
+    "no_comma",
+    "number_words",
+    "reasoning_language"
+   ]
+  ],
+  "5": []
+ }
+}

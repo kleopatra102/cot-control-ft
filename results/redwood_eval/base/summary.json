@@ -44,5 +44,25 @@
   "raw_compliance": 0.0,
   "accuracy": 0.86
  },
+ "second_person": {
+  "n": 100,
+  "raw_compliance": 0.0,
+  "accuracy": 0.86
+ },
+ "questions": {
+  "n": 100,
+  "raw_compliance": 0.05,
+  "accuracy": 0.87
+ },
+ "no_the": {
+  "n": 100,
+  "raw_compliance": 0.03,
+  "accuracy": 0.87
+ },
+ "no_answer_word": {
+  "n": 100,
+  "raw_compliance": 0.13,
+  "accuracy": 0.88
+ },
  "_macro": 0.017777777777777778
 }

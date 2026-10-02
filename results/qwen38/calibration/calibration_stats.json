@@ -1,0 +1,71 @@
+{
+  "model": "RedHatAI/Qwen3.8-27B-INT4",
+  "percentile": 20.0,
+  "n_censored_total": 57,
+  "censored_dropped": false,
+  "n_unusable_think": 0,
+  "limits": {
+    "aime": 1303,
+    "amc": 333,
+    "arc": 74,
+    "gpqa": 729,
+    "gsm8k": 83
+  },
+  "per_source": {
+    "aime": {
+      "n": 61,
+      "p20": 1303,
+      "median": 4334,
+      "p80": 7278,
+      "mean": 4423.9,
+      "max": 9240,
+      "n_censored": 24,
+      "pct_censored": 39.3,
+      "p20_identifiable": true
+    },
+    "amc": {
+      "n": 54,
+      "p20": 333,
+      "median": 782,
+      "p80": 3202,
+      "mean": 1870.6,
+      "max": 8194,
+      "n_censored": 5,
+      "pct_censored": 9.3,
+      "p20_identifiable": true
+    },
+    "arc": {
+      "n": 59,
+      "p20": 74,
+      "median": 109,
+      "p80": 174,
+      "mean": 139.6,
+      "max": 792,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    },
+    "gpqa": {
+      "n": 73,
+      "p20": 729,
+      "median": 4176,
+      "p80": 6860,
+      "mean": 4054.6,
+      "max": 8069,
+      "n_censored": 28,
+      "pct_censored": 38.4,
+      "p20_identifiable": true
+    },
+    "gsm8k": {
+      "n": 53,
+      "p20": 83,
+      "median": 121,
+      "p80": 198,
+      "mean": 256.9,
+      "max": 4459,
+      "n_censored": 0,
+      "pct_censored": 0.0,
+      "p20_identifiable": true
+    }
+  }
+}
