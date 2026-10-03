@@ -1,6 +1,6 @@
 # Many-rule SFT: findings (Qwen3.8-27B, gpt-oss-20b, R1-Distill-Llama-8B)
 
-*2026-10-01. Plan and design: `MANY_RULES_PLAN.md`. Base Qwen3.8-27B, Q5 (6 rules, 5 per example), and two new arms
+*2026-10-01, corrected 2026-10-03 (see the correction section below). Plan and design: `MANY_RULES_PLAN.md`. Base Qwen3.8-27B, Q5 (6 rules, 5 per example), and two new arms
 trained on about 32 rules with 7 per example:*
 - *A: whole families held out;*
 - *B: every splittable family on both sides, split by operation.*
@@ -8,23 +8,42 @@ trained on about 32 rules with 7 per example:*
 *Setup: QLoRA, one epoch on about 440 examples, Red Hat's INT4 weights for evaluation, single-rule prompts identical
 across the four models. 20 prompts per condition (29 for Redwood's). Figures come from `scripts/report_many_rules.py`.*
 
+## Correction (2026-10-03): how the headline is measured
+
+A review of the split (`CONDITION_SPLIT.md`, "Overlaps and leakage") found two problems with the first version of
+these numbers. All headline numbers below are corrected for both.
+
+1. **Reworded variants were counted separately.** Many conditions are one rule in different benchmarks' wording.
+   Bullets and numbered steps are one operation, and the five word bans are one rule with different words. A macro
+   over conditions therefore counted an operation twice (or five times) whenever it had several variants. The
+   headline is now a **macro over operations**: average each operation's conditions first, then average the
+   operations.
+2. **Some held-out conditions leaked into training.** Training satisfies them as a side effect, without the rule
+   being trained:
+   - **B's word bans and "Indeed" first word.** B's stop-word rewrite deletes "the" and other function words, and
+     short word caps remove the rest, so 96 % of B's English training traces lack "so" and 63 % lack "the". B's
+     "hence"-insertion also puts a fixed word at sentence starts, which is close to "Indeed".
+   - **A's "no word more than 10 times" and stop-word limit.** A's length training satisfies both.
+
+   These conditions are now removed from each arm's own held-out set. They still appear, flagged, in the
+   per-condition figures.
+
+The conclusion is unchanged: many-rule training transfers several times more than Q5. The A-against-B comparison
+changes, though: **once the leaked conditions are removed, B never beats A on its own held-out set.**
+
 ## Headline
 
 ![Held-out conditions only](figures/many_headline.png)
 
-Training on many more rules roughly triples transfer to rules the model never saw.
-
-- **Shared core** (six conditions held out by both arms and by Q5): macro 1 % for base, 11 % for Q5, 29 % for A and
-  31 % for B.
-- **Each arm's own held-out set:** A reaches 25 % against Q5's 12 %, and B reaches 19 % against Q5's 10 %.
-- The micro numbers tell the same story.
+On Qwen3.8-27B (macro over operations):
+- **Shared core** (4 operations, 6 conditions, held out by both arms and by Q5): base 1 %, Q5 9 %, A 25 %, B 26 %.
+- **Each arm's own clean held-out set:** A reaches 19 % against Q5's 7 %, and B reaches 18 % against Q5's 6 %.
 
 Each bar counts only conditions that the model shown never trained on, and that Q5 never trained on either. The
-conditions base already passes (section headers, stop words, conjunctions) are left out.
+conditions base already passes (40 % or more) are left out, and so are the leaked conditions.
 
-**The within-family split (B) does not transfer more than the family split (A).** The two are level on the shared
-core. B's own held-out set scores lower. That set consists of the near siblings of B's trained rules: alternating
-case, word bans and the per-sentence rules.
+**The within-family split (B) does not transfer more than the family split (A).** The two are level here. B's clean
+held-out set is small: it is mostly the shared core plus alternating case and emoji at the end of each sentence.
 
 ## What transfers and what does not
 
@@ -43,8 +62,8 @@ case, word bans and the per-sentence rules.
 
 2. **Word-level layout and letter-level rules do not transfer.** Meow between words, one word per line, square
    brackets and no-consecutive-initials stay at 0–10 % for every model.
-3. **Within-family siblings transfer weakly.** Holding out word bans in B leaves them at 0–31 %, at or below Q5. B
-   trained the specific-word inclusions, but that did not carry over to the bans. Alternating case stays at 5 %, even
+3. **Within-family siblings transfer weakly.** Holding out word bans in B leaves them at 0–31 %, at or below Q5,
+   even though B's training traces rarely contain the banned words (see the correction). Alternating case stays at 5 %, even
    though B trained uniform case.
 
 ## Does training on a rule matter?
@@ -84,7 +103,8 @@ accuracy lowest, but I have not tested that.
 
 ## Summary
 
-- More rules widen transfer: three times Q5 on the shared core, with A at no meaningful accuracy cost.
+- More rules widen transfer: about three times Q5 on the shared core (25–26 % against 9 %, per operation), with A
+  at no meaningful accuracy cost.
 - Splitting within families (B) does not strengthen transfer, and it costs accuracy.
 - Transfer goes to line-level structure and style (lists, XML, questions, register), not to word-level or letter-level
   operations, and only weakly to siblings of the trained rules.
@@ -104,15 +124,17 @@ accuracy lowest, but I have not tested that.
 
 The result holds on a second model family.
 
-- **Shared core:** base 0 %, Q5 15 %, A 33 %, B 30 % (macro). That is about twice Q5, where Qwen showed about three
-  times.
-- **Each arm's own held-out set:** A reaches 38 % against Q5's 12 %, and B reaches 36 % against Q5's 19 %.
+Macro over operations, with leaked conditions removed:
+- **Shared core:** base 0 %, Q5 12 %, A 29 %, B 24 %.
+- **Each arm's own clean held-out set:** A reaches 35 % against Q5's 8 %, and B reaches 17 % against Q5's 9 %.
 - **Accuracy on Redwood's tasks:** 84 % for base and 80 % for all three fine-tuned models. B does not lose more than
   the others here, unlike on Qwen.
 
-**Where gpt-oss differs from Qwen.** The within-family split transfers well on gpt-oss. B never trained a word ban,
-yet it reaches 66–93 % on no "so", no "the" and no "answer", close to A, which trained them. On Qwen, B stayed at
-0–31 % on the same bans. Part of this was already present: gpt-oss's Q5 reaches 54–74 % on two of the bans.
+**Word bans in B on gpt-oss: mostly leakage.** B never trained a word ban, yet it reaches 66–93 % on no "so",
+no "the" and no "answer", close to A, which trained them. Most of this is leakage rather than transfer. B's training
+traces almost never contain "so" or "the" (see the correction above), and gpt-oss's Q5 already reaches 54–74 % on
+two of the bans. The first version of this document counted these as within-family transfer. Without them, B's own
+held-out score falls from 36 % to 17 %.
 
 **Held-out transfer that is new on gpt-oss** (each condition held out by the arm named):
 
@@ -122,7 +144,7 @@ yet it reaches 66–93 % on no "so", no "the" and no "answer", close to A, which
 | section headers | 1 % | 0 % | A | 81 % |
 | XML steps | 0 % | 10 % | A | 27 % |
 | questions | 5 % | 6 % | A | 82 % |
-| "Indeed" as first word of each sentence | 0 % | 0 % | B | 18 % |
+| "Indeed" as first word of each sentence (leaked, see the correction) | 0 % | 0 % | B | 18 % |
 
 **The same failures as on Qwen.** The same word-level and letter-level rules stay at 0–10 % for every arm: meow,
 one word per line, no consecutive initials, alternating case and emoji at the end of each sentence.
@@ -141,8 +163,9 @@ Per-condition figures: `figures/many_gptoss_per_condition.png` and `figures/many
 
 The pattern holds, and the gap is larger than on the other two models, because Q5 barely transfers on this model.
 
-- **Shared core:** base 0 %, Q5 3 %, A 30 %, B 27 % (macro).
-- **Each arm's own held-out set:** A reaches 23 % against Q5's 5 %, and B reaches 16 % against Q5's 3 %.
+Macro over operations, with leaked conditions removed:
+- **Shared core:** base 0 %, Q5 3 %, A 24 %, B 20 %.
+- **Each arm's own clean held-out set:** A reaches 20 % against Q5's 1 %, and B reaches 11 % against Q5's 3 %.
 - **Accuracy on Redwood's tasks:** 67 % for base and Q5, 64 % for A, 62 % for B.
 - **Reasoning length:** shorter after many-rule training, a median of 134–146 words against 399 for base.
 
@@ -164,16 +187,17 @@ at 0–5 % on all three models.
 
 ![Three models](figures/many_three_models.png)
 
-| macro, held-out | Qwen3.8-27B | gpt-oss-20b | R1-Distill-Llama-8B |
+| held-out, macro over operations, leaked conditions removed | Qwen3.8-27B | gpt-oss-20b | R1-Distill-Llama-8B |
 |---|---:|---:|---:|
-| shared core: base / Q5 / A / B | 1 / 11 / 29 / 31 | 0 / 15 / 33 / 30 | 0 / 3 / 30 / 27 |
-| A's held-out: Q5 → A | 12 → 25 | 12 → 38 | 5 → 23 |
-| B's held-out: Q5 → B | 10 → 19 | 19 → 36 | 3 → 16 |
+| shared core: base / Q5 / A / B | 1 / 9 / 25 / 26 | 0 / 12 / 29 / 24 | 0 / 3 / 24 / 20 |
+| A's clean held-out: Q5 → A | 7 → 19 | 8 → 35 | 1 → 20 |
+| B's clean held-out: Q5 → B | 6 → 18 | 9 → 17 | 3 → 11 |
 | accuracy: base / A / B | 86 / 84 / 74 | 84 / 80 / 80 | 67 / 64 / 62 |
 
-On all three models, many-rule training lands at about 30 % on the shared core, whatever Q5 managed. In every case
-the gain comes from line-level structure: bullets, numbered steps, section headers, XML. Splitting within families
-(B) never beats splitting by family (A) on the shared core.
+On all three models, many-rule training lands at 20–29 % on the shared core, 2–7 times Q5. In every case the gain
+comes from line-level structure: bullets, numbered steps, section headers, XML. Splitting within families (B) never
+beats splitting by family (A) on its own held-out set. On the shared core the two are level on Qwen and A leads on
+the other two models.
 
 ## Is transfer spread evenly or concentrated?
 
@@ -183,17 +207,19 @@ Transfer is concentrated, not even. Each panel sorts one arm's own held-out cond
 
 | model, arm | conditions gaining ≥ 20 points | conditions gaining ≤ 5 points | top-3 share of total gain |
 |---|---:|---:|---:|
-| Qwen3.8-27B, A | 6 of 13 | 6 | 63 % |
-| Qwen3.8-27B, B | 3 of 14 | 6 | 68 % |
-| gpt-oss-20b, A | 9 of 14 | 3 | 48 % |
-| gpt-oss-20b, B | 6 of 14 | 4 | 53 % |
-| R1-Distill-Llama-8B, A | 5 of 15 | 9 | 73 % |
-| R1-Distill-Llama-8B, B | 3 of 14 | 11 | 98 % |
+| Qwen3.8-27B, A | 5 of 12 | 6 | 71 % |
+| Qwen3.8-27B, B | 2 of 8 | 4 | 89 % |
+| gpt-oss-20b, A | 8 of 13 | 3 | 53 % |
+| gpt-oss-20b, B | 2 of 8 | 4 | 88 % |
+| R1-Distill-Llama-8B, A | 4 of 13 | 8 | 81 % |
+| R1-Distill-Llama-8B, B | 2 of 9 | 7 | 100 % |
 
-- **Bullets and numbered steps lead in almost every panel,** with gains of 65–86 points. On R1 with arm B, those two
-  plus no "so" are nearly the whole gain.
-- **gpt-oss is the broadest.** For A, the gain extends to questions, section headers, second person, JSON and the
-  sentence ratio. For B, it extends to the word bans.
+*Each arm's own held-out set, leaked conditions removed.*
+
+- **Bullets and numbered steps lead in every panel,** with gains of 65–86 points. For B, those two are almost the
+  whole gain on every model.
+- **gpt-oss with A is the broadest.** The gain extends to questions, section headers, second person, JSON and the
+  sentence ratio.
 - **The rest sit near zero on every model:** meow, one word per line, square brackets, alternating case, emoji at the
   end of each sentence, and no consecutive initials. These need the operation applied to every word or letter, which
   none of the trained rules practised.

@@ -8,15 +8,15 @@ REPO = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(REPO / "scrip
 SETS = [("qwen38", "Qwen3.8-27B"), ("gptoss", "gpt-oss-20b"), ("r1", "R1-Distill-Llama-8B")]
 D = {}
 for key, name in SETS:
-    sys.argv = ["x", f"--set={key}"]; R = importlib.reload(importlib.import_module("report_many_rules"))
+    sys.argv = ["x", f"--set={key}"]; R = importlib.reload(importlib.import_module("report_many_rules"))  # values are read inside the loop, so reuse is safe
     acc = {m: 100 * st.mean(bool(json.loads(l)["correct"]) for l in open(R.RWD[m] / "graded.jsonl")) for m in R.MODELS}
-    D[name] = {"core": {m: R.macro(m, R.CORE) for m in R.MODELS},
-               "own": {"base": st.mean([R.macro("base", R.HELD["A"]), R.macro("base", R.HELD["B"])]), "Q5": st.mean([R.macro("Q5", R.HELD["A"]), R.macro("Q5", R.HELD["B"])]),
-                       "A": R.macro("A", R.HELD["A"]), "B": R.macro("B", R.HELD["B"])}, "acc": acc}
+    D[name] = {"core": {m: R.opmacro(m, R.CORE) for m in R.MODELS},
+               "own": {"base": st.mean([R.opmacro("base", R.HELD["A"]), R.opmacro("base", R.HELD["B"])]), "Q5": st.mean([R.opmacro("Q5", R.HELD["A"]), R.opmacro("Q5", R.HELD["B"])]),
+                       "A": R.opmacro("A", R.HELD["A"]), "B": R.opmacro("B", R.HELD["B"])}, "acc": acc}
 C, SURF, INK, INK2, MUTED, GRID = R.C, R.SURF, R.INK, R.INK2, R.MUTED, R.GRID
 NAME = {"base": "base", "Q5": "Q5 (6 rules)", "A": "A (family split)", "B": "B (within-family split)"}
 fig, axes = plt.subplots(1, 3, figsize=(16, 4.6), gridspec_kw={"width_ratios": [1, 1, 1]})
-panels = [("core", "Shared core: 6 rules held out by every model, macro %"), ("own", "Each arm on its own held-out set, macro %\n(base and Q5: mean of the two sets)"),
+panels = [("core", "Shared core: held out by every model, macro over operations %"), ("own", "Own held-out set, leaks removed, macro over operations %\n(base and Q5: mean of the two sets)"),
           ("acc", "Answer accuracy on Redwood's tasks, %")]
 w = 0.2
 for ax, (k, ttl) in zip(axes, panels):

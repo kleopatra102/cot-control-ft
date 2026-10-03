@@ -57,36 +57,47 @@ TRAIN = {arm: set(P.split(arm)[0]) for arm in "AB"}; TEST = {arm: set(P.split(ar
 EVALUATED = sorted(c for c in set.intersection(*[set(S[m]) for m in MODELS]) if c in P.CONDS)
 BASE_HIGH = {c for c in EVALUATED if rate("base", c) >= 40}
 # held-out sets used for headline numbers: evaluated, not trained by Q5 either, base not already high
-HELD = {arm: [c for c in EVALUATED if c in TEST[arm] and c not in Q5_TRAINED and c not in BASE_HIGH] for arm in "AB"}
+# Held-out conditions that training reaches without the rule being trained (CONDITION_SPLIT.md, "Overlaps and leakage"):
+# B's rewrites thin stop words and cap length, so 96 % of B's English training traces lack "so" and 63 % lack "the";
+# B's "hence"-insertion puts a fixed word at sentence starts ("Indeed"); A's length training satisfies "no word > 10 times".
+CONTAMINATED = {"A": {"ifb:repeats", "ifb:stop_words"},
+                "B": {"cc:word_suppression", "cc:multiple_word_suppression", "rw:no_the", "rw:no_answer_word", "rw:no_word_so", "ifb:first_word_sent"}}
+HELD = {arm: [c for c in EVALUATED if c in TEST[arm] and c not in Q5_TRAINED and c not in BASE_HIGH and c not in CONTAMINATED[arm]] for arm in "AB"}
 CORE = [c for c in EVALUATED if c in P.SHARED_CORE]
 
 
 def micro(m, conds): xs = [v for c in conds for v in S[m][c]]; return 100 * sum(xs) / max(1, len(xs))
 def macro(m, conds): return st.mean(rate(m, c) for c in conds) if conds else 0
+def opmacro(m, conds):
+    """Headline metric: average within each operation first, so reworded variants of one rule count once."""
+    ops = defaultdict(list)
+    for c in conds: ops[P.CONDS[c].op].append(rate(m, c))
+    return st.mean(st.mean(v) for v in ops.values()) if ops else 0
+def n_ops(conds): return len({P.CONDS[c].op for c in conds})
 
 
 if __name__ == "__main__":
     for arm in "AB": print(arm, "held-out:", HELD[arm])
     print("core:", CORE)
     for m in MODELS:
-        print(m, {f"{arm}-test": (round(micro(m, HELD[arm]), 1), round(macro(m, HELD[arm]), 1)) for arm in "AB"}, "core", round(macro(m, CORE), 1),
+        print(m, "per-op", {f"{arm}-test": round(opmacro(m, HELD[arm]), 1) for arm in "AB"}, "core", round(opmacro(m, CORE), 1), "| per-cond", {f"{arm}-test": round(macro(m, HELD[arm]), 1) for arm in "AB"}, "core", round(macro(m, CORE), 1),
               {f"{arm}-train": round(macro(m, [c for c in EVALUATED if c in TRAIN[arm]]), 1) for arm in "AB"})
     NAME = {"base": "base", "Q5": "Q5 (6 rules)", "A": "A (family split)", "B": "B (within-family split)"}
     groups = [("shared core\n(held out in both arms)", CORE, MODELS), ("A's held-out\nconditions", HELD["A"], ["base", "Q5", "A"]),
               ("B's held-out\nconditions", HELD["B"], ["base", "Q5", "B"])]
     # Fig 1: headline, each arm only on conditions it never trained
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.4), sharey=True)
-    for ax, fn, ttl in ((axes[0], macro, "macro (each condition weighted equally)"), (axes[1], micro, "micro (each prompt weighted equally)")):
+    for ax, fn, ttl in ((axes[0], opmacro, "macro over operations (headline: reworded variants count once)"), (axes[1], macro, "macro over conditions")):
         x = 0; ticks = []
         for name, conds, ms in groups:
             for j, m in enumerate(ms):
                 y = fn(m, conds); ax.bar(x + j * 0.8, y, width=0.76, color=C[m], edgecolor=SURF, label=NAME[m] if name.startswith("shared") else None)
                 ax.text(x + j * 0.8, y + 0.8, f"{y:.0f}", ha="center", fontsize=8.5, color=INK2)
-            ticks.append((x + (len(ms) - 1) * 0.4, f"{name}\n({len(conds)} conditions)")); x += len(ms) * 0.8 + 1.0
+            ticks.append((x + (len(ms) - 1) * 0.4, f"{name}\n({n_ops(conds)} operations, {len(conds)} conditions)")); x += len(ms) * 0.8 + 1.0
         ax.set_xticks([t for t, _ in ticks]); ax.set_xticklabels([l for _, l in ticks], fontsize=8.5); style(ax); ax.spines["left"].set_visible(False)
         ax.set_title(ttl, loc="left", fontsize=10, color=INK)
     axes[0].set_ylabel("rule satisfied, %"); h, l = axes[0].get_legend_handles_labels(); fig.legend(h, l, frameon=False, fontsize=8.5, loc="upper right", ncol=4, bbox_to_anchor=(1.0, 0.95))
-    fig.suptitle(f"{TITLE}: held-out conditions only (never trained by the model shown, nor by Q5)", x=0.01, ha="left", fontsize=11, color=INK)
+    fig.suptitle(f"{TITLE}: held-out conditions only (never trained by the model shown nor by Q5; leaked conditions removed)", x=0.01, ha="left", fontsize=11, color=INK)
     fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/{FIG}_headline.png", bbox_inches="tight"); plt.close(fig)
     # Fig 3: A against B per condition, coloured by who trained it
     fig, ax = plt.subplots(figsize=(7.2, 6.4))

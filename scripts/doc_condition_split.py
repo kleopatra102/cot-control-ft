@@ -123,7 +123,8 @@ for i, c in enumerate(conds):
         r = role(c, arm); ax.add_patch(plt.Rectangle((j - .45, i - .42), .9, .84, facecolor=COL[r], edgecolor=SURF, lw=1))
     nm = c.split(":", 1)[1].replace("_", " ")
     ax.text(-0.6, i, f"{nm}  [{SRC[c.split(':')[0]]}]", ha="right", va="center", fontsize=7.3, color=INK2)
-    if c in P.SHARED_CORE: ax.text(2.6, i, "shared core", va="center", fontsize=7, color=TEST_C)
+    tag = [t for t, ok in (("shared core", c in P.SHARED_CORE), ("leaked in A", c in R.CONTAMINATED["A"]), ("leaked in B", c in R.CONTAMINATED["B"])) if ok]
+    if tag: ax.text(2.6, i, ", ".join(tag), va="center", fontsize=7, color=TEST_C if tag[0] == "shared core" else MUTED)
 prev = None
 for i, c in enumerate(conds):
     f = P.CONDS[c].family
@@ -199,13 +200,55 @@ satisfies all 7, and it is kept only if every condition's evaluation grader pass
   phrases, JSON or XML with whole-trace position rules, square brackets with exact strings, and the stop-word rule
   with voice or mood rules.
 
+## Overlaps and leakage
+
+**Many conditions are one rule in different wording.** The registry keeps each benchmark's own wording as a
+separate condition, so the 49 conditions are about 25 distinct rules:
+
+| rule | variants (conditions) |
+|---|---|
+| all caps | ReasonIF capital, CoTControl uppercase, Redwood all caps |
+| all lowercase | CoTControl lowercase, Redwood all lower |
+| title case | Redwood initial caps (all-caps text also passes its grader, so it shares the uniform-case operation) |
+| no commas | ReasonIF no comma, Redwood no commas |
+| end every sentence with a word | ReasonIF end-of-sentence, CoTControl end-of-sentence (both "safe") |
+| word cap | ReasonIF word budget; Redwood 25, 50, 70 and 30–60 words |
+| language | ReasonIF language, Redwood reason in Spanish |
+| word ban | CoTControl word and multiple-word suppression; Redwood no "the", no "so", no "answer" |
+| line-prefix list | Redwood bullets, Redwood numbered |
+| word separator | CoTControl meow, IFBench one word per line |
+
+Grouping them into operations keeps a reworded copy from landing on the opposite side of the split. It also means a
+macro over *conditions* counts some rules several times. The headline numbers therefore use a **macro over
+operations**: each operation's conditions are averaged first.
+
+**Some held-out conditions leak into training** as a side effect of how the training traces are rewritten, even
+though their operation is not trained:
+
+| arm | held-out condition | how training reaches it |
+|---|---|---|
+| B | no "the", no "so", no "answer", CoTControl word bans | B trains the stop-word limit, whose rewrite deletes "the" and other function words; short word caps remove the rest. 96 % of B's English training traces contain no "so" and 63 % no "the". |
+| B | "Indeed" as first word of each sentence | B trains "hence exactly twice", whose rewrite puts "Hence" at the start of sentences. |
+| A | no word more than 10 times; stop words ≤ 35 % | A trains word caps, and short traces satisfy both. |
+
+These are excluded from each arm's own held-out headline. They are still shown, flagged, in the figures. Child-style
+explanation is mildly affected in both arms (short, plain traces partly pass the judge), but it is kept.
+
+**Groupings open to argument:**
+- lowercase in the same operation as uppercase (a mirror image, not a variant);
+- JSON and XML both counted as "markup";
+- conjunctions counted as an inclusion rule rather than a word-statistics rule.
+
 ## What counts in the headline numbers
 
 A held-out condition counts towards an arm's headline only if all of these hold:
 - it is evaluated;
 - that arm never trained it;
 - Q5 never trained it;
-- the base model passes it on fewer than 40 % of prompts, so there is room to show transfer.
+- the base model passes it on fewer than 40 % of prompts, so there is room to show transfer;
+- it is not on the leaked list above.
+
+Scores are then averaged within each operation, then across operations.
 
 The CoTControl end-of-sentence rule is counted as trained by Q5, since it is the twin of ReasonIF's. Two conditions
 are left out of the registry entirely:
