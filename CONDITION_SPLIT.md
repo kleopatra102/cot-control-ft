@@ -33,6 +33,22 @@ Three of the conditions Q5 never saw are twins of its trained rules: CoTControl 
 for ReasonIF capital, and CoTControl end-of-sentence for ReasonIF end-of-sentence. They are excluded from every
 held-out comparison involving Q5.
 
+## Distinct rules only (overlapping conditions merged)
+
+![Distinct rules](figures/split_distinct_rules.png)
+
+Several conditions are the same rule in a different benchmark's wording, or with a different word or number (see
+"Overlaps and leakage" below). Merging them leaves 31 distinct rules. Each row is one rule; the number of
+variants is shown in brackets.
+
+- **"train":** that set trained the rule.
+- **"test":** the rule was held out and evaluated.
+- **"test (leaked)":** held out, but the training rewrites already push the model towards satisfying it.
+- **Q5 column:** "train" when Q5 trained any variant, so CoTControl uppercase and end-of-sentence count as trained.
+  Lowercase (the mirror of all caps) and title case (all-caps text passes it) are marked leaked for Q5.
+
+Variants of one rule are never split across training and test (the generator asserts this).
+
 ## Every condition
 
 ![Every condition](figures/split_conditions.png)

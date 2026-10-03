@@ -140,6 +140,79 @@ ax.legend(handles=[Patch(color=TRAIN_C, label="trained, also evaluated"), Patch(
 fig.suptitle("Every condition: trained or held out, per arm", x=0.02, ha="left", fontsize=10.5, color=INK)
 fig.tight_layout(); fig.savefig(REPO / "figures/split_conditions.png", bbox_inches="tight"); plt.close(fig)
 
+# Fig 3: distinct rules (reworded variants merged), which training set each was in
+RULES = [  # (family, rule name, variant condition ids) -- variants differ only in wording, word, number or language
+    ("case", "all caps", ["rif:capital", "cc:uppercase_thinking", "rw:all_caps"]),
+    ("case", "all lowercase", ["cc:lowercase_thinking", "rw:all_lower"]),
+    ("case", "title case (capitalise every word)", ["rw:initial_caps"]),
+    ("case", "alternating case (ExAmPlE)", ["cc:alternating_case"]),
+    ("bans", "never use a given word", ["cc:word_suppression", "cc:multiple_word_suppression", "rw:no_the", "rw:no_answer_word", "rw:no_word_so"]),
+    ("bans", "no commas", ["rif:no_comma", "rw:no_commas"]),
+    ("inclusion", "include a given word or marker", ["rw:include_therefore", "rw:include_marker_note", "rw:include_quote_marker"]),
+    ("inclusion", "use a word exactly twice", ["rw:include_exactly_twice"]),
+    ("inclusion", "use 6 different conjunctions", ["ifb:conjunctions"]),
+    ("position", "end with a fixed phrase", ["rif:end_checker"]),
+    ("position", "start with a fixed sentence", ["rw:start_with_phrase"]),
+    ("position", "fixed string at start and end", ["cc:repeat_sentences"]),
+    ("position", "first word = last word", ["ifb:start_end_same"]),
+    ("position", "end every sentence with a word", ["rif:end_of_sentence", "cc:end_of_sentence"]),
+    ("position", "emoji at end of every sentence", ["ifb:emoji_end"]),
+    ("position", "start every sentence with a word", ["ifb:first_word_sent"]),
+    ("layout", "word between / after every word (meow, newline)", ["cc:meow_between_words", "ifb:newline_words"]),
+    ("layout", "square brackets around every word", ["ifb:square_brackets"]),
+    ("structure", "line-prefix list (bullets, numbered)", ["rw:bullet", "rw:numbered"]),
+    ("structure", "XML step tags", ["rw:xml_steps"]),
+    ("structure", "JSON", ["cc:json_format"]),
+    ("structure", "Given: / Work: / Check: sections", ["rw:section_headers"]),
+    ("style", "second person", ["rw:second_person"]),
+    ("style", "series of questions", ["rw:questions"]),
+    ("style", "2:1 statements to questions", ["ifb:sentence_type_ratio"]),
+    ("style", "explain to a child", ["rw:child_explanation"]),
+    ("statistics", "no word more than 10 times", ["ifb:repeats"]),
+    ("statistics", "stop words at most 35 %", ["ifb:stop_words"]),
+    ("statistics", "no consecutive same first letter", ["ifb:no_consecutive_initial"]),
+    ("length", "word cap (25, 50, 70, 30–60, calibrated)", ["rif:number_words", "rw:brief_50w", "rw:length_30_60w", "rw:under_70w", "rw:terse_25w"]),
+    ("language", "reason in a given language", ["rif:reasoning_language", "rw:reason_in_spanish"]),
+]
+assert sorted(c for _, _, v in RULES for c in v) == sorted(P.CONDS), "every condition must belong to exactly one rule"
+for _, nm, v in RULES:
+    assert len({c in TR["A"] for c in v}) == 1 and len({c in TR["B"] for c in v}) == 1, f"{nm}: variants split across train/test"
+
+
+Q5_LEAK = {"cc:lowercase_thinking", "rw:all_lower", "rw:initial_caps"}  # mirror of all caps; all-caps text passes title case
+
+
+def rule_role(v, arm):
+    trained = any(c in Q5 for c in v) if arm == "Q5" else v[0] in TR[arm]
+    if trained: return "train"
+    if any(c in (R.CONTAMINATED[arm] if arm in "AB" else Q5_LEAK) for c in v): return "leak"
+    return "test" if any(c in EVALUATED for c in v) else "none"
+
+
+RCOL = {"train": TRAIN_C, "test": TEST_C, "leak": "#f2b392", "none": NONE_C}
+RLAB = {"train": "train", "test": "test", "leak": "test (leaked)", "none": "–"}
+fig, ax = plt.subplots(figsize=(10.5, 0.36 * len(RULES) + 1.9))
+prev = None
+for i, (fam, nm, v) in enumerate(RULES):
+    for j, arm in enumerate(("Q5", "A", "B")):
+        r = rule_role(v, arm); ax.add_patch(plt.Rectangle((j - .45, i - .42), .9, .84, facecolor=RCOL[r], edgecolor=SURF, lw=1,
+                                                          hatch="///" if r == "leak" else None))
+        ax.text(j, i, RLAB[r], ha="center", va="center", fontsize=7.5, color="white" if r in ("train", "test") else INK2)
+    ax.text(-0.6, i, nm + (f"  ({len(v)} variants)" if len(v) > 1 else ""), ha="right", va="center", fontsize=8, color=INK2)
+    if all(c in P.SHARED_CORE for c in v): ax.text(2.6, i, "shared core", va="center", fontsize=7.5, color=TEST_C)
+    if fam != prev:
+        ax.text(-5.3, i, FAM_NAME[fam], ha="left", va="center", fontsize=9, color=INK, fontweight="bold")
+        if prev is not None: ax.axhline(i - .5, color=GRID, lw=1)
+        prev = fam
+ax.set_xlim(-5.35, 3.4); ax.set_ylim(len(RULES) - .5, -1.2); ax.axis("off")
+for j, arm in enumerate(("Q5", "A: family split", "B: within-family")): ax.text(j, -0.95, arm, ha="center", fontsize=9.5, color=INK)
+nr = {arm: sum(rule_role(v, arm) == "train" for _, _, v in RULES) for arm in ("Q5", "A", "B")}
+nt = {arm: sum(rule_role(v, arm) == "test" for _, _, v in RULES) for arm in ("A", "B")}
+fig.suptitle(f"{len(RULES)} distinct rules (reworded variants merged): A trains {nr['A']} and cleanly tests {nt['A']}; "
+             f"B trains {nr['B']} and cleanly tests {nt['B']}", x=0.02, ha="left", fontsize=10.5, color=INK)
+fig.tight_layout(); fig.savefig(REPO / "figures/split_distinct_rules.png", bbox_inches="tight"); plt.close(fig)
+print("distinct rules", len(RULES), "train", nr, "clean test", nt)
+
 # Markdown
 nA, nB = len(P.split("A")[0]), len(P.split("B")[0])
 L = [f"""# How the conditions are split into training and test
@@ -176,6 +249,22 @@ against B: {", ".join(c.split(":", 1)[1].replace("_", " ") for c in P.SHARED_COR
 Three of the conditions Q5 never saw are twins of its trained rules: CoTControl uppercase (and lowercase, its mirror)
 for ReasonIF capital, and CoTControl end-of-sentence for ReasonIF end-of-sentence. They are excluded from every
 held-out comparison involving Q5.
+
+## Distinct rules only (overlapping conditions merged)
+
+![Distinct rules](figures/split_distinct_rules.png)
+
+Several conditions are the same rule in a different benchmark's wording, or with a different word or number (see
+"Overlaps and leakage" below). Merging them leaves {len(RULES)} distinct rules. Each row is one rule; the number of
+variants is shown in brackets.
+
+- **"train":** that set trained the rule.
+- **"test":** the rule was held out and evaluated.
+- **"test (leaked)":** held out, but the training rewrites already push the model towards satisfying it.
+- **Q5 column:** "train" when Q5 trained any variant, so CoTControl uppercase and end-of-sentence count as trained.
+  Lowercase (the mirror of all caps) and title case (all-caps text passes it) are marked leaked for Q5.
+
+Variants of one rule are never split across training and test (the generator asserts this).
 
 ## Every condition
 
