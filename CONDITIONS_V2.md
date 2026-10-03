@@ -192,20 +192,81 @@ trace has two languages, so the "translated" rules are not combined with it eith
 | Stop words at most 35 % | never combined: language skews it | The stop-word list is English; a non-English trace has close to 0 % and passes automatically. |
 | Average word length at least 6 letters | never combined: language skews it | Russian and Polish words are longer on average, so switching language alone raises it. |
 
-## Rules for combining conditions in one training example
+## Which conditions can be combined in one training example
 
-- **At most one condition per operation.**
-- **No contradictory pairs**, for example:
-  - questions with the 2:1 ratio;
-  - at most N words with at least M words, with all 7 conjunctions, or with 4 transition words;
-  - no word longer than 8 letters with average word length;
-  - pirate speak with no first person.
-- **Case:** the alternating cases never pair with the end phrase, the start sentence or the [[NOTE]] marker.
-- **Brackets:** no parentheses or brackets never pairs with square brackets around words, [[NOTE]] or JSON.
-- **Layout:** JSON, XML and the markdown table never pair with the start sentence or end phrase. Line-breaking rules
-  never pair with structure rules.
-- **Language rules** combine only with rules marked combinable in the language table above. Fixed strings are
-  translated for the given-language rule and never paired with alternating languages.
+![Compatibility matrix](figures/v2_compatibility.png)
+
+This matrix is the complete rule: any two conditions may share a training example unless their cell is coloured.
+It is generated from one list in `scripts/conditions_v2.py`, and the training sampler will read the same list. There
+are five reasons two conditions cannot be combined:
+
+| reason | meaning | example |
+|---|---|---|
+| **same operation** | two rules of one operation never share an example | all caps and all lowercase |
+| **contradiction** | both cannot hold at once | no brackets and [[NOTE]]; Roman numerals and all lowercase |
+| **format** | they break each other's format or exact strings | square brackets around every word and the end phrase |
+| **feasibility** | both can technically hold, but the rewrite would mangle the reasoning | at most N words and all 7 conjunctions |
+| **language** | see the language table above | a given language and the stop-word limit |
+
+**Feasibility check.** For every training condition, the script computes the largest fully compatible set of
+training conditions that contains it.
+
+| arm | largest compatible example | conditions limited below 7 |
+|---|---|---|
+| A | 5 to 8 conditions | Alternate English and Spanish (5) |
+| B | 5 to 7 conditions | Reason in a given language (5), Alternate English and Spanish (5) |
+
+**The two language rules can only appear in examples of 5 conditions.** They exclude 12 partners each (the language
+table above). Every other training condition fits in examples of 7 or more. There are two options:
+
+1. **Language examples have 5 conditions; all others have 7.** This is what v1 effectively did, since its
+   non-English rows often had only 6.
+2. **Every example has 5 conditions (recommended).** This is simpler, and it also removes a confound from the v1
+   comparison: Q5 used 5 per example and the many-rule arms used 7, so "more rules" and "more rules per example"
+   changed together. With 5 everywhere, a v2 arm differs from Q5 only in which and how many rules it trains on.
+
+### Per condition: what it can never be combined with
+
+- **All capitals** (36 of 39 allowed). Never with: All lowercase (same operation); Alternating letter case (contradiction); Alternating word case (contradiction).
+- **All lowercase** (34 of 39 allowed). Never with: All capitals (same operation); Alternating letter case (contradiction); Alternating word case (contradiction); Include a given marker (contradiction); Numbers as Roman numerals (contradiction).
+- **Alternating letter case** (32 of 39 allowed). Never with: All capitals (contradiction); All lowercase (contradiction); Alternating word case (same operation); Include a given marker (contradiction); Start with a fixed sentence (format); End with a fixed phrase (format); Numbers as Roman numerals (contradiction).
+- **Alternating word case** (32 of 39 allowed). Never with: All capitals (contradiction); All lowercase (contradiction); Alternating letter case (same operation); Include a given marker (contradiction); Start with a fixed sentence (format); End with a fixed phrase (format); Numbers as Roman numerals (contradiction).
+- **Never use a given word** (36 of 39 allowed). Never with: No first-person words (same operation); Reason in a given language (language); Alternate English and Spanish (language).
+- **No first-person words** (35 of 39 allowed). Never with: Never use a given word (same operation); Pirate speak (contradiction); Reason in a given language (language); Alternate English and Spanish (language).
+- **No commas** (38 of 39 allowed). Never with: No parentheses or brackets (same operation).
+- **No parentheses or brackets** (35 of 39 allowed). Never with: No commas (same operation); Include a given marker (contradiction); Square brackets around every word (contradiction); JSON object (contradiction).
+- **Include a given marker** (32 of 39 allowed). Never with: All lowercase (contradiction); Alternating letter case (contradiction); Alternating word case (contradiction); No parentheses or brackets (contradiction); Use a word exactly twice (same operation); A filler word between every two words (format); Square brackets around every word (format).
+- **Use a word exactly twice** (32 of 39 allowed). Never with: Include a given marker (same operation); A filler word between every two words (format); Square brackets around every word (format); Reason in a given language (language); Alternate English and Spanish (language); Adjacent words: different first letters (feasibility); No word longer than 8 letters (contradiction).
+- **Use all 7 coordinating conjunctions** (35 of 39 allowed). Never with: Use 4 different transition words (same operation); At most N words (short) (feasibility); Reason in a given language (language); Alternate English and Spanish (language).
+- **Use 4 different transition words** (34 of 39 allowed). Never with: Use all 7 coordinating conjunctions (same operation); At most N words (short) (feasibility); Reason in a given language (language); Alternate English and Spanish (language); No word longer than 8 letters (contradiction).
+- **Start with a fixed sentence** (28 of 39 allowed). Never with: Alternating letter case (format); Alternating word case (format); End with a fixed phrase (same operation); Start every sentence with a given word (contradiction); A filler word between every two words (format); Square brackets around every word (format); One word per line (format); XML step tags (format); JSON object (format); Markdown table (format); Alternate English and Spanish (language).
+- **End with a fixed phrase** (27 of 39 allowed). Never with: Alternating letter case (format); Alternating word case (format); Start with a fixed sentence (same operation); End every sentence with a given token (contradiction); A filler word between every two words (format); Square brackets around every word (format); One word per line (format); XML step tags (format); JSON object (format); Markdown table (format); Alternate English and Spanish (language); No word longer than 8 letters (contradiction).
+- **End every sentence with a given token** (35 of 39 allowed). Never with: End with a fixed phrase (contradiction); Start every sentence with a given word (same operation); Alternate English and Spanish (language); Adjacent words: different first letters (feasibility).
+- **Start every sentence with a given word** (34 of 39 allowed). Never with: Start with a fixed sentence (contradiction); End every sentence with a given token (same operation); Reason in a given language (language); Alternate English and Spanish (language); Adjacent words: different first letters (feasibility).
+- **A filler word between every two words** (27 of 39 allowed). Never with: Include a given marker (format); Use a word exactly twice (format); Start with a fixed sentence (format); End with a fixed phrase (format); Square brackets around every word (same operation); XML step tags (format); JSON object (format); Numbered list (format); Markdown table (format); Every sentence at most 12 words (feasibility); Adjacent words: different first letters (feasibility); Average word length at least 6 letters (feasibility).
+- **Square brackets around every word** (29 of 39 allowed). Never with: No parentheses or brackets (contradiction); Include a given marker (format); Use a word exactly twice (format); Start with a fixed sentence (format); End with a fixed phrase (format); A filler word between every two words (same operation); XML step tags (format); JSON object (format); Numbered list (format); Markdown table (format).
+- **One word per line** (29 of 39 allowed). Never with: Start with a fixed sentence (format); End with a fixed phrase (format); One sentence per line (same operation); XML step tags (format); JSON object (format); Numbered list (format); Markdown table (format); 2:1 statements to questions (format); Exactly five sentences (format); Every sentence at most 12 words (format).
+- **One sentence per line** (34 of 39 allowed). Never with: One word per line (same operation); XML step tags (format); JSON object (format); Numbered list (format); Markdown table (format).
+- **XML step tags** (30 of 39 allowed). Never with: Start with a fixed sentence (format); End with a fixed phrase (format); A filler word between every two words (format); Square brackets around every word (format); One word per line (format); One sentence per line (format); JSON object (same operation); Numbered list (format); Markdown table (format).
+- **JSON object** (29 of 39 allowed). Never with: No parentheses or brackets (contradiction); Start with a fixed sentence (format); End with a fixed phrase (format); A filler word between every two words (format); Square brackets around every word (format); One word per line (format); One sentence per line (format); XML step tags (same operation); Numbered list (format); Markdown table (format).
+- **Numbered list** (30 of 39 allowed). Never with: A filler word between every two words (format); Square brackets around every word (format); One word per line (format); One sentence per line (format); XML step tags (format); JSON object (format); Markdown table (same operation); Numbers written in words (contradiction); Numbers as Roman numerals (contradiction).
+- **Markdown table** (29 of 39 allowed). Never with: Start with a fixed sentence (format); End with a fixed phrase (format); A filler word between every two words (format); Square brackets around every word (format); One word per line (format); One sentence per line (format); XML step tags (format); JSON object (format); Numbered list (same operation); At most N words (short) (feasibility).
+- **A series of questions** (38 of 39 allowed). Never with: 2:1 statements to questions (same operation).
+- **2:1 statements to questions** (37 of 39 allowed). Never with: One word per line (format); A series of questions (same operation).
+- **Pirate speak** (35 of 39 allowed). Never with: No first-person words (contradiction); Sports commentator (same operation); Reason in a given language (language); Alternate English and Spanish (language).
+- **Sports commentator** (38 of 39 allowed). Never with: Pirate speak (same operation).
+- **At most N words (short)** (33 of 39 allowed). Never with: Use all 7 coordinating conjunctions (feasibility); Use 4 different transition words (feasibility); Markdown table (feasibility); At least M words (long) (same operation); Reason in a given language (language); Alternate English and Spanish (language).
+- **At least M words (long)** (35 of 39 allowed). Never with: At most N words (short) (same operation); Exactly five sentences (contradiction); Reason in a given language (language); Alternate English and Spanish (language).
+- **Exactly five sentences** (36 of 39 allowed). Never with: One word per line (format); At least M words (long) (contradiction); Every sentence at most 12 words (same operation).
+- **Every sentence at most 12 words** (36 of 39 allowed). Never with: A filler word between every two words (feasibility); One word per line (format); Exactly five sentences (same operation).
+- **Reason in a given language** (26 of 39 allowed). Never with: Never use a given word (language); No first-person words (language); Use a word exactly twice (language); Use all 7 coordinating conjunctions (language); Use 4 different transition words (language); Start every sentence with a given word (language); Pirate speak (language); At most N words (short) (language); At least M words (long) (language); Alternate English and Spanish (same operation); Numbers written in words (language); Stop words at most 35 % (language); Average word length at least 6 letters (language).
+- **Alternate English and Spanish** (23 of 39 allowed). Never with: Never use a given word (language); No first-person words (language); Use a word exactly twice (language); Use all 7 coordinating conjunctions (language); Use 4 different transition words (language); Start with a fixed sentence (language); End with a fixed phrase (language); End every sentence with a given token (language); Start every sentence with a given word (language); Pirate speak (language); At most N words (short) (language); At least M words (long) (language); Reason in a given language (same operation); Numbers written in words (language); Stop words at most 35 % (language); Average word length at least 6 letters (language).
+- **Numbers written in words** (35 of 39 allowed). Never with: Numbered list (contradiction); Reason in a given language (language); Alternate English and Spanish (language); Numbers as Roman numerals (same operation).
+- **Numbers as Roman numerals** (34 of 39 allowed). Never with: All lowercase (contradiction); Alternating letter case (contradiction); Alternating word case (contradiction); Numbered list (contradiction); Numbers written in words (same operation).
+- **Adjacent words: different first letters** (34 of 39 allowed). Never with: Use a word exactly twice (feasibility); End every sentence with a given token (feasibility); Start every sentence with a given word (feasibility); A filler word between every two words (feasibility); No word longer than 8 letters (same operation).
+- **No word longer than 8 letters** (34 of 39 allowed). Never with: Use a word exactly twice (contradiction); Use 4 different transition words (contradiction); End with a fixed phrase (contradiction); Adjacent words: different first letters (same operation); Average word length at least 6 letters (contradiction).
+- **Stop words at most 35 %** (36 of 39 allowed). Never with: Reason in a given language (language); Alternate English and Spanish (language); Average word length at least 6 letters (same operation).
+- **Average word length at least 6 letters** (34 of 39 allowed). Never with: A filler word between every two words (feasibility); Reason in a given language (language); Alternate English and Spanish (language); No word longer than 8 letters (contradiction); Stop words at most 35 % (same operation).
 
 ## Condition catalogue
 

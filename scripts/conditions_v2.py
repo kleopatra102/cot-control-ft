@@ -228,6 +228,50 @@ LANG = {
 assert set(LANG) == {c[2] for c in C if c[0] != "Language & notation" or c[1] == "number notation"}, set(LANG) ^ {c[2] for c in C}
 
 
+# ---------------------------------------------------------------- compatibility (single source of truth)
+# Every pair not listed here (and not in the same operation, and not ruled out by the language table) may share a
+# training example. Categories: contradiction = both cannot hold at once; format = they break each other's format or
+# exact strings; feasibility = both can technically hold but the rewrite would mangle the reasoning; language = see LANG.
+X = []  # (a, b, category, reason)
+def _x(a_list, b_list, cat, why):
+    for a in a_list:
+        for b in b_list:
+            if a != b: X.append((a, b, cat, why))
+_x(["all_caps", "all_lower"], ["alt_letter_case", "alt_word_case"], "contradiction", "a uniform case and a case pattern cannot both hold")
+_x(["max_8_letters"], ["long_words"], "contradiction", "short words and a long average pull opposite ways")
+_x(["max_8_letters"], ["word_exactly_twice", "transition_words", "end_phrase"], "contradiction", "needs words longer than 8 letters (crucially; consequently, nevertheless, ...; REASONING)")
+_x(["pirate_speak"], ["no_first_person"], "contradiction", "pirate speak uses I and me")
+_x(["max_50_words"], ["coord_conjunctions", "transition_words", "markdown_table"], "feasibility", "too many required words or rows for a short cap")
+_x(["min_300_words"], ["exactly_5_sentences"], "contradiction", "five sentences cannot reach the long minimum at normal sentence length")
+_x(["sentence_end_token"], ["end_phrase"], "contradiction", "the last sentence must end with both the token and the phrase")
+_x(["sentence_start_token"], ["start_phrase"], "contradiction", "the first sentence must start with both 'Indeed' and 'Here is the plan.'")
+_x(["no_brackets"], ["bracket_words", "include_marker", "json_object"], "contradiction", "they require brackets ([ ], [[NOTE]], { })")
+_x(["numbers_in_words", "roman_numerals"], ["numbered_list"], "contradiction", "list numbers are digits")
+_x(["all_lower", "alt_letter_case", "alt_word_case"], ["roman_numerals", "include_marker"], "contradiction", "Roman numerals and [[NOTE]] are upper-case")
+_x(["alt_letter_case", "alt_word_case"], ["start_phrase", "end_phrase"], "format", "the fixed phrase would have to be re-cased")
+_x(["bracket_words", "meow_between"], ["start_phrase", "end_phrase", "include_marker", "word_exactly_twice"], "format", "wrapping or separating words breaks exact strings")
+_x(["bracket_words", "meow_between", "word_per_line", "sentence_per_line"], ["xml_steps", "json_object", "numbered_list", "markdown_table"], "format", "word-level layout and document structure overwrite each other")
+_x(["word_per_line"], ["start_phrase", "end_phrase", "exactly_5_sentences", "short_sentences", "statement_question_ratio"], "format", "one word per line breaks multi-word phrases and makes sentence counting ill-defined")
+_x(["xml_steps", "json_object"], ["numbered_list", "markdown_table"], "format", "two document formats at once")
+_x(["xml_steps", "json_object", "markdown_table"], ["start_phrase", "end_phrase"], "format", "the document format fixes the first and last characters")
+_x(["meow_between"], ["no_repeat_initial", "long_words", "short_sentences"], "feasibility", "the inserted word doubles the word count and repeats the letter m")
+_x(["no_repeat_initial"], ["sentence_end_token", "sentence_start_token", "word_exactly_twice"], "feasibility", "a fixed word next to arbitrary words often repeats an initial letter")
+for _, _, v in []: pass
+LANG_RULES = ["given_language", "alternate_languages"]
+for cid, (stt, why) in LANG.items():
+    if stt in ("side", "conflict"): _x(LANG_RULES, [cid], "language", why)
+    if stt == "localise": _x(["alternate_languages"], [cid], "language", "a two-language trace has no single translation of the fixed string")
+OPS = {c[2]: (c[0], c[1]) for c in C}
+def compatible(a, b):
+    if a == b or OPS[a] == OPS[b]: return False
+    return not any((x[0], x[1]) in ((a, b), (b, a)) for x in X)
+def reason(a, b):
+    if OPS[a] == OPS[b]: return "same operation"
+    for x in X:
+        if (x[0], x[1]) in ((a, b), (b, a)): return x[2]
+    return "ok"
+
+
 def role(c, arm):
     if arm == "A": return "train" if c[0] in A_TRAIN_FAMILIES else "test"
     return "train" if B_TRAIN_OP[c[0]] == c[1] else "test"
@@ -296,6 +340,42 @@ cnt = {k: sum(v[0] == k for v in LANG.values()) for k in LC}
 fig.suptitle(f"Language rules against every other rule: {cnt['ok'] + cnt['localise'] + cnt['fixgrader']} combinable, "
              f"{cnt["side"]} skewed or satisfied by the language itself, {cnt['conflict']} need English", x=0.02, ha="left", fontsize=10.5, color=INK)
 fig.tight_layout(); fig.savefig(REPO / "figures/v2_language_interactions.png", bbox_inches="tight"); plt.close(fig)
+
+# Fig 4: compatibility matrix + feasibility of 7-condition examples per arm
+import itertools
+ids = [c[2] for c in C]
+RC = {"ok": "#ffffff", "same operation": "#c3c2b7", "contradiction": "#eb6834", "format": "#f2b392", "feasibility": "#e9d36b", "language": "#2f6db5"}
+fig, ax = plt.subplots(figsize=(13, 12.4))
+for i, a in enumerate(ids):
+    for j, b in enumerate(ids):
+        r = "same operation" if a == b else reason(a, b)
+        ax.add_patch(plt.Rectangle((j - .5, i - .5), 1, 1, facecolor=RC[r], edgecolor=GRID, lw=0.4))
+names = [c[3] for c in C]
+ax.set_xticks(range(40)); ax.set_xticklabels(names, rotation=90, fontsize=6.3); ax.set_yticks(range(40)); ax.set_yticklabels(names, fontsize=6.3)
+ax.set_xlim(-.5, 39.5); ax.set_ylim(39.5, -.5); ax.tick_params(length=0)
+for k in range(0, 41, 4): ax.axhline(k - .5, color=INK2, lw=0.8); ax.axvline(k - .5, color=INK2, lw=0.8)
+for k, f in enumerate(FAMS): ax.text(40.2, 4 * k + 1.5, f, va="center", fontsize=7.5, color=INK)
+ax.legend(handles=[Patch(facecolor=RC[k], edgecolor=GRID, label=("can be combined" if k == "ok" else f"cannot: {k}")) for k in RC],
+          loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3, frameon=False, fontsize=8.5)
+n_ok = sum(compatible(a, b) for a, b in itertools.combinations(ids, 2))
+ax.set_title(f"Which conditions can share a training example: {n_ok} of 780 pairs allowed", loc="left", fontsize=11, color=INK)
+fig.tight_layout(); fig.savefig(REPO / "figures/v2_compatibility.png", bbox_inches="tight"); plt.close(fig)
+
+
+def max_clique_with(c0, pool, k):
+    """Is there a k-set of mutually compatible conditions from `pool` that contains c0? (exhaustive; pool is 20)"""
+    nb = [x for x in pool if x != c0 and compatible(c0, x)]
+    def ext(chosen, cand, need):
+        if need == 0: return True
+        for i, x in enumerate(cand):
+            if all(compatible(x, y) for y in chosen) and ext(chosen + [x], cand[i + 1:], need - 1): return True
+        return False
+    return ext([c0], nb, k - 1)
+FEAS = {}
+for arm in "AB":
+    pool = [c[2] for c in C if role(c, arm) == "train"]
+    FEAS[arm] = {c0: max(k for k in range(1, 9) if k == 1 or max_clique_with(c0, pool, k)) for c0 in pool}
+print("max example size per training condition:", {arm: min(v.values()) for arm, v in FEAS.items()})
 
 # Markdown
 L = ["""# Condition set v2: 40 distinct rules for reasoning control
@@ -414,20 +494,39 @@ trace has two languages, so the "translated" rules are not combined with it eith
 
 LANG_TABLE
 
-## Rules for combining conditions in one training example
+## Which conditions can be combined in one training example
 
-- **At most one condition per operation.**
-- **No contradictory pairs**, for example:
-  - questions with the 2:1 ratio;
-  - at most N words with at least M words, with all 7 conjunctions, or with 4 transition words;
-  - no word longer than 8 letters with average word length;
-  - pirate speak with no first person.
-- **Case:** the alternating cases never pair with the end phrase, the start sentence or the [[NOTE]] marker.
-- **Brackets:** no parentheses or brackets never pairs with square brackets around words, [[NOTE]] or JSON.
-- **Layout:** JSON, XML and the markdown table never pair with the start sentence or end phrase. Line-breaking rules
-  never pair with structure rules.
-- **Language rules** combine only with rules marked combinable in the language table above. Fixed strings are
-  translated for the given-language rule and never paired with alternating languages.
+![Compatibility matrix](figures/v2_compatibility.png)
+
+This matrix is the complete rule: any two conditions may share a training example unless their cell is coloured.
+It is generated from one list in `scripts/conditions_v2.py`, and the training sampler will read the same list. There
+are five reasons two conditions cannot be combined:
+
+| reason | meaning | example |
+|---|---|---|
+| **same operation** | two rules of one operation never share an example | all caps and all lowercase |
+| **contradiction** | both cannot hold at once | no brackets and [[NOTE]]; Roman numerals and all lowercase |
+| **format** | they break each other's format or exact strings | square brackets around every word and the end phrase |
+| **feasibility** | both can technically hold, but the rewrite would mangle the reasoning | at most N words and all 7 conjunctions |
+| **language** | see the language table above | a given language and the stop-word limit |
+
+**Feasibility check.** For every training condition, the script computes the largest fully compatible set of
+training conditions that contains it.
+
+FEAS_TABLE
+
+**The two language rules can only appear in examples of 5 conditions.** They exclude 12 partners each (the language
+table above). Every other training condition fits in examples of 7 or more. There are two options:
+
+1. **Language examples have 5 conditions; all others have 7.** This is what v1 effectively did, since its
+   non-English rows often had only 6.
+2. **Every example has 5 conditions (recommended).** This is simpler, and it also removes a confound from the v1
+   comparison: Q5 used 5 per example and the many-rule arms used 7, so "more rules" and "more rules per example"
+   changed together. With 5 everywhere, a v2 arm differs from Q5 only in which and how many rules it trains on.
+
+### Per condition: what it can never be combined with
+
+COMPAT_LIST
 
 ## Condition catalogue
 
@@ -486,6 +585,14 @@ L.append("""
   there.
 """)
 _new = [c[3].lower() for c in C if c[4] == "new"]
+_cl = []
+for c in C:
+    bad = [(b[3], reason(c[2], b[2])) for b in C if b[2] != c[2] and not compatible(c[2], b[2])]
+    _cl.append(f"- **{c[3]}** ({len(C) - 1 - len(bad)} of 39 allowed). Never with: " + "; ".join(f"{n} ({r})" for n, r in bad) + ".")
+_name = {c[2]: c[3] for c in C}
+_ft = "| arm | largest compatible example | conditions limited below 7 |\n|---|---|---|\n" + "\n".join(
+    f"| {arm} | {min(FEAS[arm].values())} to {max(FEAS[arm].values())} conditions | " + (", ".join(f"{_name[k]} ({v})" for k, v in FEAS[arm].items() if v < 7) or "none") + " |" for arm in "AB")
+L = [x.replace("COMPAT_LIST", "\n".join(_cl)).replace("FEAS_TABLE", _ft) for x in L]
 _lt = "| rule | with a language rule | why |\n|---|---|---|\n" + "\n".join(f"| {c[3]} | {LC[LANG[c[2]][0]][1]} | {LANG[c[2]][1]} |" for c in C if c[2] in LANG)
 L = [x.replace("LANG_TABLE", _lt) for x in L]
 (REPO / "CONDITIONS_V2.md").write_text("\n".join(L).replace("NNEW", str(len(_new))).replace("NEWLIST_N", str(len(_new))).replace("NEWLIST", ", ".join(_new)))
