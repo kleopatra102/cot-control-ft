@@ -32,16 +32,20 @@ THINK_RE = re.compile(r"^<think>\n?(.*?)\n?</think>\s*(.*)$", re.DOTALL)
 
 
 def to_harmony(messages):
-    user, asst = messages[0]["content"], messages[-1]["content"]
+    """[developer?, user, assistant] -> harmony messages. A developer message (template T4 in the v2 experiment) is kept
+    as gpt-oss's developer instructions; the assistant's <think> block becomes the analysis channel."""
+    dev = [m for m in messages if m["role"] in ("developer", "system")]
+    user = [m for m in messages if m["role"] == "user"][0]["content"]; asst = messages[-1]["content"]
     m = THINK_RE.match(asst)
     thinking, answer = (m.group(1), m.group(2).strip()) if m else ("", asst)
-    return [{"role": "user", "content": user}, {"role": "assistant", "thinking": thinking, "content": answer}]
+    return ([{"role": "developer", "content": dev[0]["content"]}] if dev else []) + \
+        [{"role": "user", "content": user}, {"role": "assistant", "thinking": thinking, "content": answer}]
 
 
 def encode(tok, messages, max_len, effort):
     msgs = to_harmony(messages)
     full = tok.apply_chat_template(msgs, tokenize=False, reasoning_effort=effort)
-    prompt = tok.apply_chat_template(msgs[:1], tokenize=False, add_generation_prompt=True, reasoning_effort=effort)
+    prompt = tok.apply_chat_template(msgs[:-1], tokenize=False, add_generation_prompt=True, reasoning_effort=effort)
     assert full.startswith(prompt), "prompt is not a prefix of the rendered example"
     ids = tok(full, add_special_tokens=False)["input_ids"]
     if len(ids) > max_len:
