@@ -241,6 +241,7 @@ class Request:
     mode: str
     prompt: str
     meta: dict = field(default_factory=dict)
+    developer: str | None = None  # optional instructions message before the user turn (gpt-oss: developer role)
 
     @property
     def key(self) -> tuple[str, str]:
@@ -278,7 +279,8 @@ class VLLMClient:
             try:
                 resp = await self._client.chat.completions.create(
                     model=self.model,
-                    messages=[{"role": "user", "content": req.prompt}],  # no system prompt (METR)
+                    messages=([{"role": "developer", "content": req.developer}] if req.developer else [])
+                    + [{"role": "user", "content": req.prompt}],  # no system prompt (METR); developer only when a template asks for it
                     **body,
                 )
             except Exception as e:  # noqa: BLE001 - server hiccups, timeouts, 5xx
