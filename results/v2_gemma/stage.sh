@@ -92,5 +92,5 @@ for arm in A B A1; do
   [[ -f $R/eval/$arm/.done ]] || { log "eval $arm"; .venv/bin/python scripts/v2/run_eval.py --label $arm --model v2g-$arm --max-tokens 12288 2>&1 | F && touch $R/eval/$arm/.done; }
 done
 stop
-.venv/bin/python scripts/v2/report.py > $R/report.log 2>&1; tail -12 $R/report.log
+.venv/bin/python scripts/v2/report.py > $R/report.log 2>&1; .venv/bin/python scripts/v2/report_more.py >> $R/report.log 2>&1; tail -14 $R/report.log
 echo STAGE_V2_GEMMA_DONE
