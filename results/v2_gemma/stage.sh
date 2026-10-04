@@ -3,7 +3,7 @@
 # size-match -> train A, B, A1 -> adapter check -> eval A, B, A1 -> report. Idempotent; run under gpu_supervisor.
 set -uo pipefail
 cd "$(dirname "$0")/../.."
-export V2_RUN=gemma COTCTL_NO_ANSWER_TAG=1
+export V2_RUN=gemma COTCTL_NO_ANSWER_TAG=1 V2_API=openai  # rewriter and judge via the OpenAI key (JUDGE_API_KEY), gpt-4.1
 R=results/v2_gemma; M=google/gemma-4-31B-it-qat-w4a16-ct; CFG=configs/gemma4.yaml; TH=data/v2_thresholds_gemma-4-31b.json
 log() { echo "[$(date '+%m-%d %H:%M')] $*"; }
 F() { grep -vE "HTTP|it/s\]|s/it\]" | tail -${1:-3}; }
