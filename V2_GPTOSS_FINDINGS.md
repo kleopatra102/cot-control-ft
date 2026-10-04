@@ -17,13 +17,16 @@ Scores are the percentage of prompts whose reasoning satisfies the rule. Each is
 operation's rules averaged first). Held-out scores exclude leaked rules (within-family split: no colons) and rules base already passes
 on 40 % or more of prompts in the same templates.
 
-| | trained rules, seen templates | trained rules, new templates | held-out rules, seen templates | held-out rules, new templates |
-|---|---:|---:|---:|---:|
-| base (the by-family split's split) | 15 | 13 | 3 | 3 |
-| **by-family split** | 32 | 26 | 24 | 16 |
-| **by-family single-template arm** (T1 only) | 39 | 33 | 34 | 22 |
-| base (the within-family split's split) | 12 | 11 | 2 | 2 |
-| **within-family split** | 45 | 41 | 28 | 25 |
+| | trained rules, T1 | trained rules, T1-T3 | trained rules, T4-T6 | held-out rules, T1 | held-out rules, T1-T3 | held-out rules, T4-T6 |
+|---|---:|---:|---:|---:|---:|---:|
+| base (by-family split's rules) | 15 | 15 | 13 | 2 | 3 | 3 |
+| **by-family split** | 28 | 32 | 26 | 20 | 24 | 16 |
+| **by-family split, single template (T1)** | 32 | 39 | 33 | 29 | 34 | 22 |
+| base (within-family split's rules) | 12 | 12 | 11 | 1 | 2 | 2 |
+| **within-family split** | 44 | 45 | 41 | 26 | 28 | 25 |
+
+T1 is shown on its own because it is the single-template arm's only training template; T2 and T3 are new to that
+arm. The by-family and within-family splits trained on all of T1-T3.
 
 1. **Rule transfer is large and clean.** Held-out rules rise from 2-3 % to 24-34 % in seen templates, with leakage and
    duplicate rules removed.

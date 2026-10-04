@@ -44,8 +44,13 @@ def opmacro(m, cids, tids):
 def cells(split):
     tr = [c[2] for c in C if role(c, split) == "train"]; te = [c[2] for c in C if role(c, split) == "test"]
     def clean(cids, tids): return [c for c in cids if c not in LEAKED[split] and (r("base", c, tids) or 0) < 40]
-    return {"in-distribution": (tr, TRAIN_TEMPLATES), "template transfer": (tr, HELDOUT_TEMPLATES),
-            "rule transfer": (clean(te, TRAIN_TEMPLATES), TRAIN_TEMPLATES), "rule + template": (clean(te, HELDOUT_TEMPLATES), HELDOUT_TEMPLATES)}
+    return {"trained, T1": (tr, ["T1"]), "in-distribution": (tr, TRAIN_TEMPLATES), "template transfer": (tr, HELDOUT_TEMPLATES),
+            "held out, T1": (clean(te, ["T1"]), ["T1"]), "rule transfer": (clean(te, TRAIN_TEMPLATES), TRAIN_TEMPLATES),
+            "rule + template": (clean(te, HELDOUT_TEMPLATES), HELDOUT_TEMPLATES)}
+
+
+CELL_LABEL = {"trained, T1": "trained rules\nT1 only", "in-distribution": "trained rules\nT1-T3", "template transfer": "trained rules\nT4-T6",
+              "held out, T1": "held-out rules\nT1 only", "rule transfer": "held-out rules\nT1-T3", "rule + template": "held-out rules\nT4-T6"}
 
 
 if __name__ == "__main__":
@@ -62,14 +67,15 @@ if __name__ == "__main__":
     json.dump(out, open(RUN["root"] / "summary_cells.json", "w"), indent=1)
 
     # Fig 1: four cells per split
-    fig, axes = plt.subplots(1, 2, figsize=(14, 4.6), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(17, 4.8), sharey=True)
     for ax, (split, arms) in zip(axes, (("A", ["base", "A1", "A"]), ("B", ["base", "B"]))):
         ks = list(cells(split)); arms = [m for m in arms if m in MODELS]; w = 0.8 / len(arms)
         for j, m in enumerate(arms):
             ys = [out[f"{m} on {split}'s split"][k] for k in ks]; xs = [i + (j - (len(arms) - 1) / 2) * w for i in range(len(ks))]
             ax.bar(xs, ys, width=w * 0.95, color=COL[m], edgecolor=SURF, label=DISP[m])
             for x, y in zip(xs, ys): ax.text(x, (y if y == y else 0) + 1, f"{y:.0f}", ha="center", fontsize=8, color=INK2)
-        ax.set_xticks(range(len(ks))); ax.set_xticklabels([f"{k}\n({'rules trained' if i < 2 else 'rules held out'}, {'T1-T3' if i % 2 == 0 else 'T4-T6'})" for i, k in enumerate(ks)], fontsize=8)
+        ax.set_xticks(range(len(ks))); ax.set_xticklabels([CELL_LABEL[k] for k in ks], fontsize=8)
+        ax.axvline(2.5, color=GRID, lw=1)
         ax.set_title(f"{SPLIT[split]}: its trained rules vs its held-out rules", loc="left", fontsize=10, color=INK)
         ax.yaxis.grid(True, color=GRID); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.legend(frameon=False, fontsize=8.5)
     axes[0].set_ylabel("rule satisfied, % (macro over operations)")
