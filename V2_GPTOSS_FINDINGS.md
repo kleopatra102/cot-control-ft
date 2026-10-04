@@ -67,6 +67,70 @@ a template was seen in training barely matters here. What matters is the templat
 and the developer message (T4) is hardest. For this arm, "template transfer" is really T2-T6 against T1, and it is
 complete.
 
+### The single-template arm in its own template (T1), rule by rule
+
+The 20 rules the by-family arms held out, in template T1, with 20 prompts per cell (single differences under about
+20 points are noise). \* = base already passes on 40 % or more; excluded from the headline scores.
+
+| family | rule | base | by-family, single template | by-family |
+|---|---|---:|---:|---:|
+| Word layout | A filler word between every two words | 0 % | **0 %** | 0 % |
+| Word layout | Square brackets around every word | 0 % | **10 %** | 5 % |
+| Word layout | One word per line | 0 % | **30 %** | 20 % |
+| Word layout | One sentence per line | 5 % | **5 %** | 15 % |
+| Structure | XML step tags | 0 % | **20 %** | 20 % |
+| Structure | JSON object | 0 % | **5 %** | 0 % |
+| Structure | Numbered list | 0 % | **45 %** | 5 % |
+| Structure | Markdown table | 0 % | **45 %** | 0 % |
+| Style | A series of questions | 10 % | **50 %** | 25 % |
+| Style | 2:1 statements to questions | 5 % | **5 %** | 10 % |
+| Style | Pirate speak | 0 % | **35 %** | 50 % |
+| Style | Sports commentator | 0 % | **85 %** | 60 % |
+| Length | At most N words * | 45 % | **100 %** | 85 % |
+| Length | At least M words * | 70 % | **65 %** | 55 % |
+| Length | Every sentence at least 20 words | 0 % | **5 %** | 0 % |
+| Length | Every sentence at most 12 words | 15 % | **50 %** | 45 % |
+| Letter & lexical statistics | Adjacent words: different first letters | 0 % | **5 %** | 15 % |
+| Letter & lexical statistics | No word longer than 8 letters | 0 % | **45 %** | 30 % |
+| Letter & lexical statistics | Stop words at most T % | 0 % | **25 %** | 10 % |
+| Letter & lexical statistics | Average word length at least W letters | 10 % | **50 %** | 45 % |
+
+The largest gaps between the two by-family arms in T1 (numbered list 45 against 5, markdown table 45 against 0) are
+mostly formatting near misses by the by-family split: for example, table rows without the outer `|` that the grader
+requires.
+
+### Every rule in every template
+
+![Every rule x template, per model](figures/v2_gptoss_heatmap.png)
+
+Each panel is one model; boxed rows are rules that model trained. Reading across:
+- **Trained rules are learned unevenly.** Fixed start sentence, given language and opening summary are near ceiling;
+  alternating case and Roman numerals stay near 0 even where trained.
+- **Base's high cells are the inclusion rules** (conjunctions, transition words, [[NOTE]]). Base passes them largely
+  by restating the rule (issue 24). The trained arms rarely restate, which is why they score *lower* than base on
+  these rules even where they trained them.
+- **T4 (developer message) is the weak column** for the by-family arms across most rules, not just a few.
+
+### By family
+
+![Held-out gain by family](figures/v2_gptoss_families.png)
+
+Gain over base on held-out rules, averaged within each family; families an arm trained have no held-out rules.
+- **By-family arms:** Style transfers most, then Statistics, Length and Structure. Word layout gains least.
+- **Within-family split:**
+  - Style, Bans and Structure transfer most.
+  - Inclusion and Language & notation gain little: their held-out operations are "a marker or a word exactly
+    twice" and the number notations.
+  - Case gains nothing: its held-out operation is the alternating cases, at 0 %.
+  - The held-out Length rules (the word caps) are excluded because base already passes them.
+
+### Costs and side effects
+
+![Accuracy, length, restating](figures/v2_gptoss_costs.png)
+
+All three arms lose 6-7 points of answer accuracy, write 33-46 % shorter reasoning, and stop talking about the rule
+(62 % → 13 % of traces).
+
 ### Rule by rule
 
 | rules held out | clear transfer | little or none |
