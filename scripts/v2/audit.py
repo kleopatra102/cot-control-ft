@@ -15,6 +15,7 @@ REPO = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(REPO / "src")
 from dotenv import load_dotenv; load_dotenv(REPO / ".env")
 from cotctl.v2 import api as API; _API_MODEL = API.configure()
 from cotctl.sft.editor import Editor
+from cotctl.v2.runs import RUN
 from cotctl.v2.spec import C, role, render, HELDOUT_TEMPLATES
 from cotctl.v2.graders import grade, judge_many, JUDGED
 from cotctl.v2.build import pick_keyword
@@ -24,14 +25,14 @@ HELD_PHRASES = ["private reasoning", "Quick one:", "while you're thinking it ove
 
 async def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--arms", default="A,B"); ap.add_argument("--suffix", default=""); ap.add_argument("--judge-n", type=int, default=60)
-    a = ap.parse_args(); th = json.load(open(REPO / "data/v2_thresholds_gpt-oss-20b.json"))
+    a = ap.parse_args(); th = json.load(open(RUN["thresholds"]))
     base = {}
-    for l in open(REPO / "results/gptoss/sft/stage1_rollouts.jsonl"):
+    for l in open(RUN["stage1"]):
         r = json.loads(l); base[r["prompt"].split("Here is the question:\n\n", 1)[-1].strip()] = r.get("reasoning") or ""
-    judge = Editor(model=_API_MODEL, cache_path=REPO / "results/v2_gptoss/judge_cache.jsonl"); judge.temperature_override = 0.0
+    judge = Editor(model=_API_MODEL, cache_path=RUN["root"] / "judge_cache.jsonl"); judge.temperature_override = 0.0
     report = {}
     for arm in a.arms.split(","):
-        rows = [json.loads(l) for l in open(REPO / f"data/sft/v2_gptoss_{arm}{a.suffix}.jsonl")]
+        rows = [json.loads(l) for l in open(REPO / f"data/sft/{RUN['data_prefix']}_{arm}{a.suffix}.jsonl")]
         split = "A" if arm.startswith("A") else "B"
         held = [c[2] for c in C if role(c, split) == "test"]
         pairs = [(x["trace"], base.get(x["question"], ""), x["question"]) for x in rows if base.get(x["question"])]
@@ -69,6 +70,6 @@ async def main():
         print("  length check (median of training trace / base trace of the same question; flag if off by more than 15 %):")
         for cid, v in sorted(length.items(), key=lambda kv: kv[1]["median_ratio"]):
             print(f"    {'FLAG ' if v['flag'] else '     '}{cid:<26} x{v['median_ratio']:.2f}  (n={v['n']})")
-    json.dump(report, open(REPO / f"results/v2_gptoss/audit{a.suffix}.json", "w"), indent=1)
+    json.dump(report, open(RUN["root"] / f"audit{a.suffix}.json", "w"), indent=1)
 
 if __name__ == "__main__": asyncio.run(main())

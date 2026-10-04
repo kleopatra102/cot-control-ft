@@ -17,6 +17,7 @@ from dotenv import load_dotenv; load_dotenv(REPO / ".env")
 from cotctl.v2 import api as API; _API_MODEL = API.configure()
 from cotctl.inference import Request, RolloutStore, SamplingParams, VLLMClient, run_sync, wait_for_server
 from cotctl.third_party.redwood import scoring as RS
+from cotctl.v2.runs import RUN
 from cotctl.v2.spec import C, TEMPLATES, TRAIN_LANGS, rule_text, render, N_PROMPTS_PER_CELL
 from cotctl.v2.graders import grade, judge_many, JUDGED
 from cotctl.v2.build import pick_keyword
@@ -27,7 +28,7 @@ _norm = lambda q: re.sub(r"\W+", " ", q.lower()).strip()[:200]
 
 
 def question_pool():
-    train_q = {_norm(json.loads(l)["prompt"].split("Here is the question:\n\n", 1)[-1]) for l in open(REPO / "results/gptoss/sft/stage1_rollouts.jsonl")}
+    train_q = {_norm(json.loads(l)["prompt"].split("Here is the question:\n\n", 1)[-1]) for l in open(RUN["stage1"])}
     tasks = [json.loads(l) for l in open(REPO / "data/redwood/tasks_all.jsonl")]
     pool = [t for t in tasks if t["source"] != "reasonif" and _norm(t["question"]) not in train_q and len(t["question"]) < 1500]
     return pool, len([t for t in tasks if _norm(t["question"]) in train_q])
@@ -72,16 +73,16 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", required=True)
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--grade-only", action="store_true")
     ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--judge-model", default=_API_MODEL)
-    ap.add_argument("--thresholds", default=str(REPO / "data/v2_thresholds_gpt-oss-20b.json")); ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--thresholds", default=str(RUN["thresholds"])); ap.add_argument("--limit", type=int, default=None)
     a = ap.parse_args(); th = json.load(open(a.thresholds))
-    out = REPO / "results/v2_gptoss/eval" / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl")
+    out = RUN["root"] / "eval" / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl")
     reqs, overlap = requests(th)
     if a.limit: reqs = reqs[: a.limit]
     print(f"{len(reqs)} requests; {overlap} task-pool questions also in training were excluded", flush=True)
     if not a.grade_only:
         wait_for_server(a.base_url)
         client = VLLMClient(a.model, a.base_url, concurrency=64)
-        sp = SamplingParams(temperature=1.0, max_tokens=a.max_tokens, top_p=1.0, top_k=None, reasoning_effort="medium")
+        sp = SamplingParams(max_tokens=a.max_tokens, **RUN["sampling"])
         with store: run_sync(client, reqs, sp, store, desc=f"v2/{a.label}")
     want = {r.key: r for r in reqs}
     rows = [r for r in store.read_all() if (r["sample_id"], r["mode"]) in want]
@@ -97,7 +98,7 @@ def main():
         if g is None: todo.append((len(graded) - 1, m["cid"], t, m["args"]))
     if todo:
         from cotctl.sft.editor import Editor
-        ed = Editor(model=a.judge_model, cache_path=REPO / "results/v2_gptoss/judge_cache.jsonl"); ed.temperature_override = 0.0
+        ed = Editor(model=a.judge_model, cache_path=RUN["root"] / "judge_cache.jsonl"); ed.temperature_override = 0.0
         res = asyncio.run(judge_many([(cid, t, ar) for _, cid, t, ar in todo], ed))
         for (i, *_), v in zip(todo, res): graded[i]["compliant"] = bool(v)
     with open(out / "graded.jsonl", "w") as f:

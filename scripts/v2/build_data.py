@@ -14,13 +14,14 @@ from dotenv import load_dotenv; load_dotenv(REPO / ".env")
 from cotctl.v2 import api as API; _API_MODEL = API.configure()
 from cotctl.sft.editor import Editor
 from cotctl.v2 import build as BD
+from cotctl.v2.runs import RUN
 from cotctl.v2.spec import C, role, TRAIN_TEMPLATES, LANG_NAME, K_PER_EXAMPLE
 
 
 async def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--arms", default="A,B"); ap.add_argument("--n-rows", type=int, default=920); ap.add_argument("--limit", type=int, default=None)
-    ap.add_argument("--traces", default=str(REPO / "results/gptoss/sft/stage1_rollouts.jsonl")); ap.add_argument("--thresholds", default=str(REPO / "data/v2_thresholds_gpt-oss-20b.json"))
-    ap.add_argument("--out-dir", default=str(REPO / "results/v2_gptoss/build")); ap.add_argument("--model", default=_API_MODEL); ap.add_argument("--attempts", type=int, default=5)
+    ap.add_argument("--traces", default=str(RUN["stage1"])); ap.add_argument("--thresholds", default=str(RUN["thresholds"]))
+    ap.add_argument("--out-dir", default=str(RUN["root"] / "build")); ap.add_argument("--model", default=_API_MODEL); ap.add_argument("--attempts", type=int, default=5)
     ap.add_argument("--concurrency", type=int, default=16); ap.add_argument("--seed", type=int, default=42); ap.add_argument("--suffix", default="")
     a = ap.parse_args(); out_dir = Path(a.out_dir); out_dir.mkdir(parents=True, exist_ok=True); th = json.load(open(a.thresholds))
     rs = [json.loads(l) for l in open(a.traces)]
@@ -57,7 +58,7 @@ async def main():
                                                     "words": _wc(text), "base_words": _wc(r["reasoning"])})
         await asyncio.gather(*(one(i, r) for i, r in enumerate(rs)))
         rows_out.sort(key=lambda x: x["idx"]); sfx = ("_dry" if a.limit else "") + a.suffix
-        with open(REPO / f"data/sft/v2_gptoss_{arm}{sfx}.jsonl", "w") as f:
+        with open(REPO / f"data/sft/{RUN['data_prefix']}_{arm}{sfx}.jsonl", "w") as f:
             for x in rows_out: f.write(json.dumps(x, ensure_ascii=False) + "\n")
         stats = {"arm": arm, "rows": len(rs), "kept": len(rows_out), "seconds": round(time.time() - t0), "pool": pool,
                  "per_condition": {c: {"drawn": drawn[c], "failed": failed[c], "kept": kept[c]} for c in pool},
@@ -66,7 +67,7 @@ async def main():
         print(f"arm {arm}: kept {len(rows_out)} / {len(rs)} in {time.time() - t0:.0f}s; templates {stats['templates']}; languages {stats['languages']}", flush=True)
         for c in pool: print(f"   {c:<26} drawn {drawn[c]:>4} failed {failed[c]:>3} kept {kept[c]:>4}", flush=True)
         if arm == "A":  # A1: the same traces, every prompt in T1
-            with open(REPO / f"data/sft/v2_gptoss_A1{sfx}.jsonl", "w") as f:
+            with open(REPO / f"data/sft/{RUN['data_prefix']}_A1{sfx}.jsonl", "w") as f:
                 for x in rows_out:
                     row = BD.Row(x["idx"], x["question"], x["conds"], x["args"], "T1")
                     f.write(json.dumps({**x, "template": "T1", "messages": BD.training_messages(row, x["trace"], x["messages"][-1]["content"].split("</think>", 1)[1])}, ensure_ascii=False) + "\n")

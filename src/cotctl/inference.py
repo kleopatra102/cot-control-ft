@@ -51,6 +51,7 @@ class SamplingParams:
     top_k: int = 20
     seed: int | None = None
     reasoning_effort: str | None = None  # gpt-oss only: low | medium | high
+    chat_template_kwargs: dict | None = None  # e.g. Gemma 4: {"enable_thinking": True}
 
     def to_request(self) -> dict:
         body: dict[str, Any] = {
@@ -60,6 +61,8 @@ class SamplingParams:
         }
         if self.top_k is not None:
             body["extra_body"] = {"top_k": self.top_k}
+        if self.chat_template_kwargs:
+            body.setdefault("extra_body", {})["chat_template_kwargs"] = dict(self.chat_template_kwargs)
         if self.seed is not None:
             body["seed"] = self.seed
         if self.reasoning_effort is not None:

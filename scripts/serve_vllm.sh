@@ -55,6 +55,8 @@ ARGS=(
 if [[ -n "${KV_DTYPE:-}" ]]; then ARGS+=(--kv-cache-dtype "$KV_DTYPE"); echo "  (kv-cache-dtype=$KV_DTYPE)"; fi
 if [[ -n "${MAX_SEQS:-}" ]]; then ARGS+=(--max-num-seqs "$MAX_SEQS"); echo "  (max-num-seqs=$MAX_SEQS)"; fi
 if [[ -n "${ATTN_BACKEND:-}" ]]; then ARGS+=(--attention-backend "$ATTN_BACKEND"); echo "  (attention-backend=$ATTN_BACKEND)"; fi
+# free-form extra vLLM flags, e.g. EXTRA_ARGS='--limit-mm-per-prompt {"image":0}' for text-only use of a multimodal model
+if [[ -n "${EXTRA_ARGS:-}" ]]; then read -r -a _EXTRA <<< "$EXTRA_ARGS"; ARGS+=("${_EXTRA[@]}"); echo "  (extra: $EXTRA_ARGS)"; fi
 
 if [[ ${#ADAPTERS[@]} -gt 0 ]]; then
   SPECS=()

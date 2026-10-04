@@ -1,0 +1,29 @@
+# Gemma-4-31B-IT, Google's QAT 4-bit weights (w4a16, compressed-tensors), thinking mode on. Google's recommended
+# sampling: temperature 1.0, top_p 0.95, top_k 64. Used for stage-1 base traces and the v2 evaluation (V2 gemma run).
+model:
+  name: google/gemma-4-31B-it-qat-w4a16-ct
+  served_name: google/gemma-4-31B-it-qat-w4a16-ct
+  adapter: null
+server:
+  base_url: http://localhost:8000/v1
+  max_model_len: 16384
+  concurrency: 32
+sampling:
+  temperature: 1.0
+  max_tokens: 12288
+  top_p: 0.95
+  top_k: 64
+  seed: null
+  chat_template_kwargs: {enable_thinking: true}
+eval:
+  reasonif: {n: 300}
+  cotcontrol: {n_per_mode: 300, seed: 42, modes: null}
+  word_limits: null
+judge:
+  model: gpt-5-mini
+  concurrency: 16
+  meta_discussion_llm: false
+calibration:
+  percentile: 20
+  repeats: 1
+  drop_truncated: false
