@@ -42,6 +42,28 @@ on 40 % or more of prompts in the same templates.
    The shorter reasoning appears at evaluation even though the training traces were held to base length (1.07-1.12x),
    so it is learned behaviour, not a build artefact.
 
+### Rule by rule
+
+| rules held out | clear transfer | little or none |
+|---|---|---|
+| by A | sports commentator (70 % in seen templates), pirate speak (43-53 %), series of questions, every sentence ≤ 12 words, average word length, numbered list, one word per line, XML, markdown table (A1 47 %, A 3 %) | meow between words (0 %), 2:1 statements to questions, every sentence ≥ 20 words, adjacent words with different first letters |
+| by B | no commas (67 %), start every sentence with a word (67 %), sports commentator, markdown table, pirate speak, numbered list, no word over 8 letters | alternating letter case and alternating word case (0 %), meow, Roman numerals, numbers in words, end every sentence with a token |
+
+As in v1, line-level structure, style and persona transfer. Rules that need an edit to every word or letter (meow,
+alternating case, adjacent letters) do not, whether held out by family (A) or as the sibling of a trained operation
+(B: alternating case stays at 0 % although B trained uniform case).
+
+### Checks on these numbers
+
+- **Passing held-out traces rarely restate the rule** (mostly 0-15 % of passes).
+- **The judged rules look right.** Sampled pirate-speak and commentator passes are in that style throughout. The judge
+  leans strict: a fairly piratey trace with markdown steps was failed. If anything, these numbers understate.
+- **Shorter reasoning is not driving the headline.** Twelve rules pass mainly in short traces (passing traces under
+  half the length of failing ones), because a shorter trace has fewer chances to break a rule. Removing all twelve
+  changes the held-out scores by at most 2.5 points: A 24.0 → 24.2, A1 33.5 → 32.7, B 28.0 → 26.2.
+- **A1 and A fit their training data equally** (final training loss 1.21 for both), so A1's lead is not a
+  difference in fit. Part of it is grader strictness: A's markdown tables often omit the outer `|` and fail.
+
 ### What base is doing, and what that means for "transfer"
 
 Base gpt-oss applies most formatting rules to its **final answer, not its reasoning**. Asked for pirate speak, it
@@ -127,6 +149,12 @@ names the check that caught it, which shows which checks were worth having.
 | 24 | Inclusion rules can be passed by **restating the rule**. Base writes "use each coordinating conjunction: for, and, nor, but, or, yet, so" in its reasoning, which satisfies the grader: base passes conjunctions 95 % when restating against 0 % when not (transition words 94 % against 12 %; [[NOTE]] 94 % against 59 %). The trained arms rarely restate (13 % against 62 %), so they appear to get worse at rules they trained. | reading outputs behind base's 86 % | these rules are already outside the held-out headline (base above 40 %); in-distribution comparisons on them are reported with restating traces separated. A grader that ignores quoted rule text would fix it at the source. |
 | 25 | Base applies style and language rules to the final answer rather than the reasoning (pirate speak, other languages). | reading outputs behind base's 0 % | interpretive: see "What base is doing" |
 | 26 | Calibration on unconstrained traces does not predict base compliance when the rule is asked. "At most 82 words" was set so 10 % of unconstrained traces pass, but base passes 56 % when asked (≥ 423 words: 60 %). Length transfer therefore cannot be measured on gpt-oss. | base evaluation | rules base passes on 40 % or more are excluded from held-out scores, so no number is inflated; but length transfer is unmeasurable here. Gemma uses the same calibration; calibrating with the rule in the prompt would be the better design for future models. |
+
+### Process
+
+| # | issue | found by | fix |
+|---|---|---|---|
+| 27 | The queue that was meant to start the Gemma run waited about 3 hours after its downloads finished: its wait condition matched a leftover shell whose command text contained the same words (the self-matching problem in METHODOLOGY #40). | status check | queue stopped and the Gemma stage started directly; wait conditions must match process names anchored to the start, never free text |
 
 ### Open
 
