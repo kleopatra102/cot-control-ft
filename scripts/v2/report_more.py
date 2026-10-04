@@ -89,3 +89,26 @@ for ax, (key, ttl, f) in zip(axes, (("correct", "answer accuracy, %", lambda xs:
 fig.suptitle(f"{RUN['title']}: costs and side effects of training (all 4,800 prompts per model)", x=0.01, ha="left", fontsize=10.5, color=INK)
 fig.tight_layout(rect=(0, 0, 1, 0.92)); fig.savefig(REPO / f"figures/{FP}_costs.png", bbox_inches="tight"); plt.close(fig)
 print("wrote", [f"figures/{FP}_{x}.png" for x in ("heatmap", "families", "costs")])
+
+# ---- 4. the single-template arm in its own template (T1): every rule the by-family arms hold out
+if "A1" in MODELS:
+    held = [c for c in C if role(c, "A") == "test"]
+    fig, ax = plt.subplots(figsize=(10, 0.36 * len(held) + 1.6))
+    ms = [m for m in ("base", "A", "A1") if m in MODELS]; h = 0.8 / len(ms)
+    for j, m in enumerate(ms):
+        ys = [rate(m, c[2], ["T1"]) for c in held]
+        ax.barh([i + (j - (len(ms) - 1) / 2) * h for i in range(len(held))], ys, height=h * 0.92, color=COL[m], edgecolor=SURF, label=DISP[m].replace("\n", " "))
+        if m == "A1":
+            for i, y in enumerate(ys): ax.text(y + 1, i + (j - (len(ms) - 1) / 2) * h, f"{y:.0f}", va="center", fontsize=7, color=INK2)
+    prev = None
+    for i, c in enumerate(held):
+        if c[0] != prev and prev is not None: ax.axhline(i - .5, color=GRID, lw=1)
+        prev = c[0]
+    ax.set_yticks(range(len(held))); ax.set_yticklabels([f"{c[3]}{' *' if rate('base', c[2], ['T1']) >= 40 else ''}" for c in held], fontsize=7.8)
+    ax.invert_yaxis(); ax.set_xlim(0, 108); ax.set_xlabel("rule satisfied, % of prompts (20 per bar), template T1")
+    ax.xaxis.grid(True, color=GRID); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
+    ax.legend(frameon=False, fontsize=8, loc="lower right")
+    ax.set_title("Single-template arm in its own template (T1), rules held out by the by-family arms\n"
+                 "(* base already passes 40 %+; excluded from headline scores)", loc="left", fontsize=10, color=INK)
+    fig.tight_layout(); fig.savefig(REPO / f"figures/{FP}_single_template_T1.png", bbox_inches="tight"); plt.close(fig)
+    print("wrote", f"figures/{FP}_single_template_T1.png")

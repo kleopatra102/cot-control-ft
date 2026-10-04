@@ -69,6 +69,8 @@ complete.
 
 ### The single-template arm in its own template (T1), rule by rule
 
+![Single-template arm in T1](figures/v2_gptoss_single_template_T1.png)
+
 The 20 rules the by-family arms held out, in template T1, with 20 prompts per cell (single differences under about
 20 points are noise). \* = base already passes on 40 % or more; excluded from the headline scores.
 
