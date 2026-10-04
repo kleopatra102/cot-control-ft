@@ -1,0 +1,32 @@
+{
+ "base on A's split": {
+  "in-distribution": 14.7,
+  "template transfer": 13.0,
+  "rule transfer": 3.1,
+  "rule + template": 2.6
+ },
+ "A on A's split": {
+  "in-distribution": 31.8,
+  "template transfer": 25.7,
+  "rule transfer": 24.0,
+  "rule + template": 16.3
+ },
+ "A1 on A's split": {
+  "in-distribution": 38.8,
+  "template transfer": 32.7,
+  "rule transfer": 33.5,
+  "rule + template": 21.8
+ },
+ "base on B's split": {
+  "in-distribution": 12.2,
+  "template transfer": 10.6,
+  "rule transfer": 1.8,
+  "rule + template": 2.3
+ },
+ "B on B's split": {
+  "in-distribution": 45.3,
+  "template transfer": 41.2,
+  "rule transfer": 28.0,
+  "rule + template": 25.0
+ }
+}

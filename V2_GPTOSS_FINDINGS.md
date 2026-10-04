@@ -1,7 +1,58 @@
 # v2 conditions on gpt-oss-20b: findings and issues log
 
-*Started 2026-10-03. Design: `CONDITIONS_V2.md`. Results will be added when training and evaluation finish; this
-document currently holds the issues log, updated as the run proceeds.*
+*2026-10-04. Design: `CONDITIONS_V2.md`. gpt-oss-20b, base and three LoRA arms (A, B, A1; about 545 examples each, one
+epoch), each scored on all 40 rules x 6 prompt templates x 20 questions (4,800 prompts per model). Figures:
+`scripts/v2/report.py`. One training run per arm.*
+
+## Results
+
+![Four cells per arm](figures/v2_gptoss_cells.png)
+
+Scores are the percentage of prompts whose reasoning satisfies the rule. Each is a macro over operations (each
+operation's rules averaged first). Held-out scores exclude leaked rules (B: no colons) and rules base already passes
+on 40 % or more of prompts in the same templates.
+
+| | trained rules, seen templates | trained rules, new templates | held-out rules, seen templates | held-out rules, new templates |
+|---|---:|---:|---:|---:|
+| base (A's split) | 15 | 13 | 3 | 3 |
+| **A** | 32 | 26 | 24 | 16 |
+| **A1** (T1 only) | 39 | 33 | 34 | 22 |
+| base (B's split) | 12 | 11 | 2 | 2 |
+| **B** | 45 | 41 | 28 | 25 |
+
+1. **Rule transfer is large and clean.** Held-out rules rise from 2-3 % to 24-34 % in seen templates, with leakage and
+   duplicate rules removed.
+2. **Template transfer is real but partial.** Moving to a template never seen in training costs 4-6 points on trained
+   rules, and 3-12 points on held-out rules.
+3. **The developer-message template (T4) is the weak spot.** A and A1 reach only 9-12 % on held-out rules there,
+   against 20-39 % in user-turn templates. B drops less (22 %).
+
+   ![By template](figures/v2_gptoss_templates.png)
+4. **A1 (one training template) beats A (three) in every cell, including T2 and T3, which A1 never saw.** That is the
+   opposite of the hypothesis that template variety drives template transfer. But each arm is one training run, and
+   a 6-10 point gap could be seed noise. A second seed of A and A1 is needed before concluding anything.
+5. **B transfers more than A** (28 against 24 in seen templates). This reverses v1, where B's apparent advantage had
+   come from leaked rules. In v2 B's held-out rules are clean; they are within-family siblings of trained operations,
+   so higher transfer is plausible.
+6. **Cost:**
+   - answer accuracy falls from 87 % to 80-81 %;
+   - reasoning shortens from a median of 206 words to 111-138;
+   - restating the rule falls from 62 % to 13 % of traces.
+
+   The shorter reasoning appears at evaluation even though the training traces were held to base length (1.07-1.12x),
+   so it is learned behaviour, not a build artefact.
+
+### What base is doing, and what that means for "transfer"
+
+Base gpt-oss applies most formatting rules to its **final answer, not its reasoning**. Asked for pirate speak, it
+reasons in plain English and answers "Arrr, let's hoist the sail o' knowledge!". Asked to reason in Russian or French,
+its reasoning stays English and the answer switches language. That is why base scores 0 % on pirate speak, the
+commentator and given language, while the arms reach 40-96 %. Part of what training teaches is therefore **where an
+instruction applies** (the reasoning rather than the answer), which a held-out rule inherits, rather than how to
+perform each new operation. The two are hard to separate with these data.
+
+![Every rule](figures/v2_gptoss_rules.png)
+
 
 ## Issues log
 
@@ -68,6 +119,14 @@ names the check that caught it, which shows which checks were worth having.
 | A | 554 (subsampled from 835) | none (largest +3 points) | 1.12× overall | none |
 | B | 554 | "no colons" +13 points (marked leaked); all others within +3 | 1.07× overall; 4 rules at 1.16-1.20× | none |
 | A1 | A's 554 examples, all in T1 | as A | as A | none |
+
+### Found in the evaluation
+
+| # | issue | found by | handling |
+|---|---|---|---|
+| 24 | Inclusion rules can be passed by **restating the rule**. Base writes "use each coordinating conjunction: for, and, nor, but, or, yet, so" in its reasoning, which satisfies the grader: base passes conjunctions 95 % when restating against 0 % when not (transition words 94 % against 12 %; [[NOTE]] 94 % against 59 %). The trained arms rarely restate (13 % against 62 %), so they appear to get worse at rules they trained. | reading outputs behind base's 86 % | these rules are already outside the held-out headline (base above 40 %); in-distribution comparisons on them are reported with restating traces separated. A grader that ignores quoted rule text would fix it at the source. |
+| 25 | Base applies style and language rules to the final answer rather than the reasoning (pirate speak, other languages). | reading outputs behind base's 0 % | interpretive: see "What base is doing" |
+| 26 | Calibration on unconstrained traces does not predict base compliance when the rule is asked. "At most 82 words" was set so 10 % of unconstrained traces pass, but base passes 56 % when asked (≥ 423 words: 60 %). Length transfer therefore cannot be measured on gpt-oss. | base evaluation | the next model is calibrated with the rule in the prompt |
 
 ### Open
 
