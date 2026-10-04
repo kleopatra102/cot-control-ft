@@ -47,6 +47,26 @@ on 40 % or more of prompts in the same templates.
    The shorter reasoning appears at evaluation even though the training traces were held to base length (1.07-1.12x),
    so it is learned behaviour, not a build artefact.
 
+### Seen versus new templates, for the single-template arm
+
+The table above groups templates as T1-T3 (training) and T4-T6 (new) for every arm. For the single-template arm,
+though, only T1 was seen in training; T2 and T3 are new to it too. Split three ways:
+
+| model | rules | T1 (the single-template arm's only training template) | T2-T3 | T4-T6 |
+|---|---|---:|---:|---:|
+| base | trained | 15 | 15 | 13 |
+| base | held-out | 3 | 3 | 3 |
+| by-family split, single template | trained | 32 | **42** | 33 |
+| by-family split, single template | held-out | 29 | **36** | 22 |
+| by-family split | trained | 28 | 34 | 26 |
+| by-family split | held-out | 20 | 26 | 16 |
+
+**The single-template arm scores higher on T2-T3, which it never saw, than on T1, its only training template**,
+for trained and held-out rules alike. The by-family split, trained on all three, shows the same ordering. So whether
+a template was seen in training barely matters here. What matters is the template itself: T1 is harder than T2-T3,
+and the developer message (T4) is hardest. For this arm, "template transfer" is really T2-T6 against T1, and it is
+complete.
+
 ### Rule by rule
 
 | rules held out | clear transfer | little or none |
