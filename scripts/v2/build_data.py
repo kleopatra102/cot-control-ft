@@ -11,8 +11,7 @@ from collections import Counter
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(REPO / "src"))
 from dotenv import load_dotenv; load_dotenv(REPO / ".env")
-if not os.environ.get("EDITOR_API_KEY") and os.environ.get("JUDGE_API_KEY"):
-    os.environ["EDITOR_API_KEY"] = os.environ["JUDGE_API_KEY"]; os.environ.setdefault("EDITOR_BASE_URL", os.environ.get("JUDGE_BASE_URL", "https://api.openai.com/v1"))
+from cotctl.v2 import api as API; _API_MODEL = API.configure()
 from cotctl.sft.editor import Editor
 from cotctl.v2 import build as BD
 from cotctl.v2.spec import C, role, TRAIN_TEMPLATES, LANG_NAME, K_PER_EXAMPLE
@@ -21,7 +20,7 @@ from cotctl.v2.spec import C, role, TRAIN_TEMPLATES, LANG_NAME, K_PER_EXAMPLE
 async def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--arms", default="A,B"); ap.add_argument("--n-rows", type=int, default=920); ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--traces", default=str(REPO / "results/gptoss/sft/stage1_rollouts.jsonl")); ap.add_argument("--thresholds", default=str(REPO / "data/v2_thresholds_gpt-oss-20b.json"))
-    ap.add_argument("--out-dir", default=str(REPO / "results/v2_gptoss/build")); ap.add_argument("--model", default="gpt-4.1"); ap.add_argument("--attempts", type=int, default=5)
+    ap.add_argument("--out-dir", default=str(REPO / "results/v2_gptoss/build")); ap.add_argument("--model", default=_API_MODEL); ap.add_argument("--attempts", type=int, default=5)
     ap.add_argument("--concurrency", type=int, default=16); ap.add_argument("--seed", type=int, default=42); ap.add_argument("--suffix", default="")
     a = ap.parse_args(); out_dir = Path(a.out_dir); out_dir.mkdir(parents=True, exist_ok=True); th = json.load(open(a.thresholds))
     rs = [json.loads(l) for l in open(a.traces)]

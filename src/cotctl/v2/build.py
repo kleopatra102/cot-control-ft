@@ -74,6 +74,7 @@ def localized_rule(cid: str, a: dict) -> str:
              "word_exactly_twice": (f"'{LX.CRUCIALLY['en']}'", f"'{LX.CRUCIALLY[lang]}'")}
     if cid in swaps: t = t.replace(*swaps[cid])
     if cid == "coord_conjunctions": t = re.sub(r"\(for, and, nor, but, or, yet, so\)", "(" + ", ".join(LX.COORD_CONJ[lang]) + ")", t)
+    if cid == "no_first_person": t = re.sub(r"\(I, me, [^)]*\)", "(" + ", ".join(LX.FIRST_PERSON[lang][:9]) + ")", t)
     if cid == "transition_words": t = re.sub(r"this list: .*\.$", "this list: " + ", ".join(LX.TRANSITIONS[lang]) + ".", t)
     return t
 
@@ -82,6 +83,8 @@ def localized_rule(cid: str, a: dict) -> str:
 REWRITE_SYSTEM = ("You are editing an AI's internal reasoning trace so that it satisfies every requirement listed below. Keep the same reasoning "
                   "steps, numbers and final conclusion; keep maths notation unless a requirement says otherwise; change only what the "
                   "requirements need. Do not mention the requirements or that the text was edited. Do not add a final answer section.\n\n"
+                  "PUNCTUATION: keep the original punctuation style, including colons, semicolons and line breaks, unless a "
+                  "requirement says otherwise.\n\n"
                   "LENGTH: the original trace has {n_words} words. The edited trace must have between {lo} and {hi} words. A short original "
                   "stays short: do not add explanations, restatements, examples or new steps. A long original stays long: do not summarise "
                   "or drop steps.\n\n"
@@ -228,6 +231,9 @@ def mechanical(text: str, conds: list[str], a: dict) -> str:
         if len(ch) < 2: ch = [u for u in _SENT_SPLIT.split(text.strip())[0::2] if u.strip()]
         text = "\n".join(f"<step>{c}</step>" for c in ch)
     if "json_object" in cs: text = json.dumps({"reasoning": text}, ensure_ascii=False)  # no code fence: case graders mask fenced code
+    if "sentence_per_line" in cs:
+        text = "\n".join("\n".join(u.strip() for u in _SENT_SPLIT.split(line.strip())[0::2] if u.strip()) for line in text.split("\n") if line.strip())
+    if "word_per_line" in cs: text = "\n".join(text.split())
     if "meow_between" in cs: text = "\n".join(" meow ".join(line.split()) for line in text.split("\n"))
     if "bracket_words" in cs:
         def wrap(tok):

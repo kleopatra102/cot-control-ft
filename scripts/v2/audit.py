@@ -13,8 +13,7 @@ import argparse, asyncio, json, os, random, sys
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(REPO / "src"))
 from dotenv import load_dotenv; load_dotenv(REPO / ".env")
-if not os.environ.get("EDITOR_API_KEY") and os.environ.get("JUDGE_API_KEY"):
-    os.environ["EDITOR_API_KEY"] = os.environ["JUDGE_API_KEY"]; os.environ.setdefault("EDITOR_BASE_URL", os.environ.get("JUDGE_BASE_URL", "https://api.openai.com/v1"))
+from cotctl.v2 import api as API; _API_MODEL = API.configure()
 from cotctl.sft.editor import Editor
 from cotctl.v2.spec import C, role, render, HELDOUT_TEMPLATES
 from cotctl.v2.graders import grade, judge_many, JUDGED
@@ -29,7 +28,7 @@ async def main():
     base = {}
     for l in open(REPO / "results/gptoss/sft/stage1_rollouts.jsonl"):
         r = json.loads(l); base[r["prompt"].split("Here is the question:\n\n", 1)[-1].strip()] = r.get("reasoning") or ""
-    judge = Editor(model="gpt-4.1", cache_path=REPO / "results/v2_gptoss/judge_cache.jsonl"); judge.temperature_override = 0.0
+    judge = Editor(model=_API_MODEL, cache_path=REPO / "results/v2_gptoss/judge_cache.jsonl"); judge.temperature_override = 0.0
     report = {}
     for arm in a.arms.split(","):
         rows = [json.loads(l) for l in open(REPO / f"data/sft/v2_gptoss_{arm}{a.suffix}.jsonl")]

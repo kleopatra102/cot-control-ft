@@ -14,8 +14,7 @@ from collections import defaultdict
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(REPO / "src"))
 from dotenv import load_dotenv; load_dotenv(REPO / ".env")
-if not os.environ.get("EDITOR_API_KEY") and os.environ.get("JUDGE_API_KEY"):
-    os.environ["EDITOR_API_KEY"] = os.environ["JUDGE_API_KEY"]; os.environ.setdefault("EDITOR_BASE_URL", os.environ.get("JUDGE_BASE_URL", "https://api.openai.com/v1"))
+from cotctl.v2 import api as API; _API_MODEL = API.configure()
 from cotctl.inference import Request, RolloutStore, SamplingParams, VLLMClient, run_sync, wait_for_server
 from cotctl.third_party.redwood import scoring as RS
 from cotctl.v2.spec import C, TEMPLATES, TRAIN_LANGS, rule_text, render, N_PROMPTS_PER_CELL
@@ -72,7 +71,7 @@ def restates(reasoning: str, rule: str) -> bool:
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", required=True)
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--grade-only", action="store_true")
-    ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--judge-model", default="gpt-4.1")
+    ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--judge-model", default=_API_MODEL)
     ap.add_argument("--thresholds", default=str(REPO / "data/v2_thresholds_gpt-oss-20b.json")); ap.add_argument("--limit", type=int, default=None)
     a = ap.parse_args(); th = json.load(open(a.thresholds))
     out = REPO / "results/v2_gptoss/eval" / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl")

@@ -5,8 +5,10 @@ and the document (scripts/conditions_v2.py)."""
 # A trains these families whole; B trains the first-listed or second-listed operation of every family as set in B_TRAIN_OP.
 A_TRAIN_FAMILIES = ["Case", "Bans", "Inclusion", "Position", "Language & notation"]  # Length is held out in A: no arm trains a total-length cap
 B_TRAIN_OP = {"Case": "uniform case", "Bans": "word bans", "Inclusion": "required word classes", "Position": "trace boundaries",
-              "Word layout": "per-word insertion", "Structure": "markup", "Style": "sentence mood", "Length": "sentence shape",
+              "Word layout": "line breaking", "Structure": "markup", "Style": "sentence mood", "Length": "sentence shape",
               "Language & notation": "natural language", "Letter & lexical statistics": "lexical density"}
+# B trains line breaking, not per-word insertion: 'meow' doubles the word count by design, which leaked into B's held-out
+# 'at least M words' (27.5 % of B's training traces passed it against 8.6 % of base traces; without meow rows, 8.1 %).
 # B trains lexical density. Letter patterns would avoid its length side effect, but they cannot be produced by rewriting
 # (a pilot kept 0 of 53 'no adjacent same first letter' rewrites); lexical density is instead rewritten length-neutrally
 # and held to the length gate (CONDITIONS_V2.md, 'How leakage is avoided').
