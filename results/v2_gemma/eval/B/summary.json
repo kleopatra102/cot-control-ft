@@ -1,0 +1,1682 @@
+{
+ "all_caps|T4": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "all_caps|T5": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "all_caps|T6": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.75,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "all_caps|T2": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.85,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "all_caps|T3": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.75,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "all_caps|T1": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.7,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "all_lower|T2": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "all_lower|T4": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "all_lower|T5": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "all_lower|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "all_lower|T6": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "all_lower|T3": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.85,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "alt_letter_case|T3": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.85,
+  "restates": 0.0,
+  "truncated": 0.05
+ },
+ "alt_letter_case|T2": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.85,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "alt_letter_case|T4": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "alt_letter_case|T5": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.05
+ },
+ "alt_letter_case|T6": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "alt_letter_case|T1": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.8,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "alt_word_case|T6": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "alt_word_case|T5": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "alt_word_case|T4": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "alt_word_case|T3": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "alt_word_case|T1": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.65,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "alt_word_case|T2": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.75,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "ban_keyword|T6": {
+  "n": 20,
+  "compliance": 0.85,
+  "accuracy": 0.85,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "ban_keyword|T3": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.75,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "ban_keyword|T4": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.8,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "ban_keyword|T5": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.85,
+  "restates": 0.45,
+  "truncated": 0.0
+ },
+ "ban_keyword|T2": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.8,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "ban_keyword|T1": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.8,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "no_first_person|T2": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.75,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_first_person|T1": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 0.8,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "no_first_person|T3": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.7,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_first_person|T4": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_first_person|T5": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "no_first_person|T6": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.8,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "no_commas|T1": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "no_commas|T2": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "no_commas|T5": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_commas|T3": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_commas|T4": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_commas|T6": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 1.0,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "no_colons|T2": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_colons|T4": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "no_colons|T3": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.9,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "no_colons|T5": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 1.0,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "no_colons|T6": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "no_colons|T1": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.85,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "include_marker|T2": {
+  "n": 20,
+  "compliance": 0.85,
+  "accuracy": 0.95,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "include_marker|T5": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "include_marker|T4": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.9,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "include_marker|T3": {
+  "n": 20,
+  "compliance": 0.85,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "include_marker|T1": {
+  "n": 20,
+  "compliance": 0.95,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "include_marker|T6": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "word_exactly_twice|T5": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "word_exactly_twice|T4": {
+  "n": 20,
+  "compliance": 0.85,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "word_exactly_twice|T6": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "word_exactly_twice|T2": {
+  "n": 20,
+  "compliance": 0.95,
+  "accuracy": 0.9,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "word_exactly_twice|T1": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 0.9,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "word_exactly_twice|T3": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 0.9,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "coord_conjunctions|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.7,
+  "restates": 0.25,
+  "truncated": 0.05
+ },
+ "coord_conjunctions|T4": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.75,
+  "restates": 0.1,
+  "truncated": 0.05
+ },
+ "coord_conjunctions|T5": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.8,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "coord_conjunctions|T2": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.65,
+  "restates": 0.25,
+  "truncated": 0.05
+ },
+ "coord_conjunctions|T1": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.7,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "coord_conjunctions|T3": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.5,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "transition_words|T1": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "transition_words|T3": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.7,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "transition_words|T4": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "transition_words|T5": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.8,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "transition_words|T2": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.75,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "transition_words|T6": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.75,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "start_phrase|T1": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 1.0,
+  "restates": 0.6,
+  "truncated": 0.0
+ },
+ "start_phrase|T2": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.75,
+  "restates": 0.55,
+  "truncated": 0.0
+ },
+ "start_phrase|T5": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.95,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "start_phrase|T3": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.95,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "start_phrase|T4": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.9,
+  "restates": 0.45,
+  "truncated": 0.0
+ },
+ "start_phrase|T6": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.85,
+  "restates": 0.4,
+  "truncated": 0.0
+ },
+ "end_phrase|T5": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.65,
+  "restates": 0.35,
+  "truncated": 0.0
+ },
+ "end_phrase|T4": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.9,
+  "restates": 0.5,
+  "truncated": 0.0
+ },
+ "end_phrase|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.85,
+  "restates": 0.3,
+  "truncated": 0.0
+ },
+ "end_phrase|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.85,
+  "restates": 0.3,
+  "truncated": 0.0
+ },
+ "end_phrase|T3": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.7,
+  "restates": 0.4,
+  "truncated": 0.0
+ },
+ "end_phrase|T2": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.85,
+  "restates": 0.4,
+  "truncated": 0.0
+ },
+ "sentence_end_token|T2": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "sentence_end_token|T4": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sentence_end_token|T5": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_end_token|T1": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "sentence_end_token|T3": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "sentence_end_token|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 1.0,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "sentence_start_token|T5": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_start_token|T3": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.8,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_start_token|T2": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sentence_start_token|T6": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_start_token|T1": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.75,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sentence_start_token|T4": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "meow_between|T1": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.8,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "meow_between|T4": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "meow_between|T5": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.95,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "meow_between|T2": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "meow_between|T6": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.85,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "meow_between|T3": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.05
+ },
+ "bracket_words|T5": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "bracket_words|T4": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "bracket_words|T6": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "bracket_words|T2": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "bracket_words|T1": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "bracket_words|T3": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "word_per_line|T4": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "word_per_line|T2": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "word_per_line|T1": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "word_per_line|T5": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "word_per_line|T3": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "word_per_line|T6": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sentence_per_line|T4": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sentence_per_line|T5": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_per_line|T6": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_per_line|T1": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 0.8,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_per_line|T2": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sentence_per_line|T3": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.95,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "xml_steps|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "xml_steps|T5": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "xml_steps|T4": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "xml_steps|T1": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.9,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "xml_steps|T3": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.95,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "xml_steps|T2": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.05
+ },
+ "json_object|T1": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.75,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "json_object|T2": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "json_object|T4": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.75,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "json_object|T3": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.8,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "json_object|T6": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "json_object|T5": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.85,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "numbered_list|T4": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.9,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "numbered_list|T2": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.75,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "numbered_list|T1": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.8,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "numbered_list|T5": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "numbered_list|T3": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.75,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "numbered_list|T6": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "markdown_table|T3": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "markdown_table|T1": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "markdown_table|T2": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "markdown_table|T4": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "markdown_table|T5": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "markdown_table|T6": {
+  "n": 20,
+  "compliance": 0.85,
+  "accuracy": 0.8,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "questions|T4": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "questions|T1": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "questions|T5": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.9,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "questions|T2": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.9,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "questions|T3": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "questions|T6": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.95,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "statement_question_ratio|T2": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "statement_question_ratio|T4": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.05
+ },
+ "statement_question_ratio|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "statement_question_ratio|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "statement_question_ratio|T3": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "statement_question_ratio|T5": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.05
+ },
+ "pirate_speak|T4": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "pirate_speak|T5": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "pirate_speak|T3": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "pirate_speak|T2": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "pirate_speak|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "pirate_speak|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.8,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sports_commentator|T4": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "sports_commentator|T1": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sports_commentator|T6": {
+  "n": 20,
+  "compliance": 0.9,
+  "accuracy": 0.9,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "sports_commentator|T2": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.95,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "sports_commentator|T5": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "sports_commentator|T3": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.85,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "max_50_words|T2": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "max_50_words|T6": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "max_50_words|T5": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.95,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "max_50_words|T4": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "max_50_words|T3": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "max_50_words|T1": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "min_300_words|T4": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.75,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "min_300_words|T5": {
+  "n": 20,
+  "compliance": 0.9,
+  "accuracy": 0.85,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "min_300_words|T2": {
+  "n": 20,
+  "compliance": 0.95,
+  "accuracy": 0.75,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "min_300_words|T1": {
+  "n": 20,
+  "compliance": 0.95,
+  "accuracy": 0.7,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "min_300_words|T6": {
+  "n": 20,
+  "compliance": 0.9,
+  "accuracy": 0.75,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "min_300_words|T3": {
+  "n": 20,
+  "compliance": 1.0,
+  "accuracy": 0.75,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "long_sentences|T5": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 1.0,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "long_sentences|T3": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "long_sentences|T2": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.9,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "long_sentences|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.75,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "long_sentences|T6": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "long_sentences|T4": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "short_sentences|T2": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.65,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "short_sentences|T5": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.75,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "short_sentences|T1": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.8,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "short_sentences|T4": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.75,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "short_sentences|T3": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.6,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "short_sentences|T6": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "given_language|T1": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.75,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "given_language|T2": {
+  "n": 20,
+  "compliance": 0.9,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "given_language|T4": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.95,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "given_language|T3": {
+  "n": 20,
+  "compliance": 0.9,
+  "accuracy": 0.9,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "given_language|T5": {
+  "n": 20,
+  "compliance": 0.85,
+  "accuracy": 1.0,
+  "restates": 0.0,
+  "truncated": 0.0
+ },
+ "given_language|T6": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "foreign_summary|T2": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 1.0,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "foreign_summary|T3": {
+  "n": 20,
+  "compliance": 0.8,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "foreign_summary|T5": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "foreign_summary|T1": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "foreign_summary|T4": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 0.85,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "foreign_summary|T6": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 0.85,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "numbers_in_words|T1": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "numbers_in_words|T3": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "numbers_in_words|T4": {
+  "n": 20,
+  "compliance": 0.55,
+  "accuracy": 0.95,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "numbers_in_words|T5": {
+  "n": 20,
+  "compliance": 0.7,
+  "accuracy": 1.0,
+  "restates": 0.3,
+  "truncated": 0.0
+ },
+ "numbers_in_words|T6": {
+  "n": 20,
+  "compliance": 0.75,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "numbers_in_words|T2": {
+  "n": 20,
+  "compliance": 0.65,
+  "accuracy": 1.0,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "roman_numerals|T2": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "roman_numerals|T1": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "roman_numerals|T4": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "roman_numerals|T3": {
+  "n": 20,
+  "compliance": 0.4,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "roman_numerals|T6": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 1.0,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "roman_numerals|T5": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.95,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_repeat_initial|T2": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_repeat_initial|T1": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.9,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_repeat_initial|T3": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.7,
+  "restates": 0.05,
+  "truncated": 0.0
+ },
+ "no_repeat_initial|T4": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.85,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "no_repeat_initial|T6": {
+  "n": 20,
+  "compliance": 0.05,
+  "accuracy": 0.75,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "no_repeat_initial|T5": {
+  "n": 20,
+  "compliance": 0.0,
+  "accuracy": 0.8,
+  "restates": 0.55,
+  "truncated": 0.0
+ },
+ "max_8_letters|T4": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.8,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "max_8_letters|T5": {
+  "n": 20,
+  "compliance": 0.15,
+  "accuracy": 0.8,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "max_8_letters|T6": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.7,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "max_8_letters|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.7,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "max_8_letters|T3": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.7,
+  "restates": 0.15,
+  "truncated": 0.0
+ },
+ "max_8_letters|T2": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.65,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "stop_words_35|T4": {
+  "n": 20,
+  "compliance": 0.35,
+  "accuracy": 0.95,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "stop_words_35|T6": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.9,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "stop_words_35|T5": {
+  "n": 20,
+  "compliance": 0.6,
+  "accuracy": 0.9,
+  "restates": 0.45,
+  "truncated": 0.0
+ },
+ "stop_words_35|T1": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.9,
+  "restates": 0.25,
+  "truncated": 0.0
+ },
+ "stop_words_35|T2": {
+  "n": 20,
+  "compliance": 0.45,
+  "accuracy": 0.85,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "stop_words_35|T3": {
+  "n": 20,
+  "compliance": 0.5,
+  "accuracy": 0.85,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "long_words|T2": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 1.0,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "long_words|T1": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.8,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "long_words|T4": {
+  "n": 20,
+  "compliance": 0.1,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "long_words|T3": {
+  "n": 20,
+  "compliance": 0.2,
+  "accuracy": 0.8,
+  "restates": 0.2,
+  "truncated": 0.0
+ },
+ "long_words|T5": {
+  "n": 20,
+  "compliance": 0.3,
+  "accuracy": 0.95,
+  "restates": 0.1,
+  "truncated": 0.0
+ },
+ "long_words|T6": {
+  "n": 20,
+  "compliance": 0.25,
+  "accuracy": 0.9,
+  "restates": 0.15,
+  "truncated": 0.0
+ }
+}

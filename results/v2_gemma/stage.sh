@@ -22,7 +22,9 @@ serve() {  # serve [adapters...]; tries fp8 KV first, then a smaller bf16 config
 stop() { [[ -n "$SERVER" ]] && { kill $SERVER; wait $SERVER 2>/dev/null; sleep 5; SERVER=""; }; }
 
 # 0. weights present
-for repo in google/gemma-4-31B-it-qat-w4a16-ct unsloth/gemma-4-31B-it-qat-q4_0-unquantized; do
+REPOS=google/gemma-4-31B-it-qat-w4a16-ct  # the bf16 training weights are needed only while an arm is untrained
+for arm in A B A1; do [[ -f $R/ckpts/$arm/step-final/adapter_config.json ]] || REPOS="$REPOS unsloth/gemma-4-31B-it-qat-q4_0-unquantized"; done
+for repo in $(echo $REPOS | tr ' ' '\n' | sort -u); do
   .venv/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download('$repo', local_files_only=True)" >/dev/null 2>&1 || { log "weights for $repo not fully downloaded"; exit 5; }
 done
 
@@ -62,13 +64,13 @@ for arm in ("A", "A1"):
     open(f"data/sft/v2_gemma_{arm}.jsonl", "w").write("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in rows)); print(arm, len(rows), "rows (B has", nB, ")")
 PY
 
-# 3. training
+# 3. training (--max-len 3072: a 3.9k-token example ran out of memory in backward at 4096; drops 5 of 454 rows)
 for arm in A B A1; do
   ck=$R/ckpts/$arm
   [[ -f $ck/step-final/adapter_config.json ]] && continue
   log "train $arm"
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True UNSLOTH_COMPILE_DISABLE=1 TORCHDYNAMO_DISABLE=1 .venv-unsloth/bin/python scripts/train_lora_gemma.py \
-    --data data/sft/v2_gemma_$arm.jsonl --out-dir $ck > $R/train_$arm.log 2>&1
+    --data data/sft/v2_gemma_$arm.jsonl --out-dir $ck --max-len 3072 > $R/train_$arm.log 2>&1
   [[ -f $ck/step-final/adapter_config.json ]] || { log "TRAIN $arm FAILED"; tail -8 $R/train_$arm.log; exit 3; }
 done
 

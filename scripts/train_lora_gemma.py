@@ -59,12 +59,14 @@ def chunked_loss(model, x, y, cap, chunk=512):
     h = h.reshape(-1, h.size(-1)); y = y[:, 1:].reshape(-1)
     head = base.lm_head if hasattr(base, "lm_head") else base.get_output_embeddings()
     tot = h.new_zeros((), dtype=torch.float32); n = (y != -100).sum()
+    def ce(hc, yy):  # one chunk's summed loss; checkpointed so its 262k-vocab logits are recomputed in backward, not kept
+        logits = head(hc.to(head.weight.dtype)).float()
+        if cap: logits = cap * torch.tanh(logits / cap)
+        return F.cross_entropy(logits, yy, ignore_index=-100, reduction="sum")
     for i in range(0, h.size(0), chunk):
         yy = y[i:i + chunk]
         if not (yy != -100).any(): continue
-        logits = head(h[i:i + chunk].to(head.weight.dtype)).float()
-        if cap: logits = cap * torch.tanh(logits / cap)
-        tot = tot + F.cross_entropy(logits, yy, ignore_index=-100, reduction="sum")
+        tot = tot + torch.utils.checkpoint.checkpoint(ce, h[i:i + chunk], yy, use_reentrant=False)
     return tot / n.clamp(min=1)
 
 

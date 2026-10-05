@@ -1,0 +1,11 @@
+{
+ "N": 171,
+ "M": 347,
+ "T": 0.186,
+ "W": 5.66,
+ "n_traces": 937,
+ "source": "results/v2_gemma/sft/stage1_rollouts.jsonl",
+ "word_count_median": 259,
+ "stop_share_median": 0.279,
+ "mean_word_len_median": 5.13
+}

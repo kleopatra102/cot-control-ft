@@ -245,6 +245,7 @@ class Request:
     prompt: str
     meta: dict = field(default_factory=dict)
     developer: str | None = None  # optional instructions message before the user turn (gpt-oss: developer role)
+    system: str | None = None  # optional system message, first (only for models that need one to think, e.g. Magistral)
 
     @property
     def key(self) -> tuple[str, str]:
@@ -282,7 +283,8 @@ class VLLMClient:
             try:
                 resp = await self._client.chat.completions.create(
                     model=self.model,
-                    messages=([{"role": "developer", "content": req.developer}] if req.developer else [])
+                    messages=([{"role": "system", "content": req.system}] if req.system else [])
+                    + ([{"role": "developer", "content": req.developer}] if req.developer else [])
                     + [{"role": "user", "content": req.prompt}],  # no system prompt (METR); developer only when a template asks for it
                     **body,
                 )

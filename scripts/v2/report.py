@@ -17,7 +17,7 @@ from cotctl.v2.spec import C, role, TRAIN_TEMPLATES, HELDOUT_TEMPLATES, TEMPLATE
 E = RUN["root"] / "eval"; FP = RUN["fig_prefix"]
 MODELS = [m for m in ("base", "A", "B", "A1") if (E / m / "graded.jsonl").exists()]
 OP = {c[2]: (c[0], c[1]) for c in C}; NAME = {c[2]: c[3] for c in C}
-LEAKED = {"A": set(), "B": {"no_colons"}}
+LEAKED = {k: set(v) for k, v in RUN["leaked"].items()}  # from the audit, per model (runs.py)
 SURF, INK, INK2, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 COL = {"base": "#c3c2b7", "A": "#2f6db5", "B": "#1f9e89", "A1": "#7fa6d6"}
 # display names (internal ids A, B, A1 stay in file names, checkpoints and served model names)
@@ -92,7 +92,8 @@ if __name__ == "__main__":
             ax.plot(range(len(tids)), ys, marker="o", lw=2, color=COL[m], label=DISP[m])
         ax.axvspan(2.5, 5.5, color=GRID, alpha=0.4, lw=0); ax.text(4, ax.get_ylim()[1] * 0.95 if ax.get_ylim()[1] else 1, "held-out templates", ha="center", fontsize=8, color=MUTED)
         ax.set_xticks(range(len(tids))); ax.set_xticklabels([f"{t}\n{TEMPLATES[t]['name']}" for t in tids], fontsize=7.5)
-        ax.set_title(f"rules held out by the {SPLIT[split]}, by template", loc="left", fontsize=10, color=INK); ax.yaxis.grid(True, color=GRID); ax.legend(frameon=False, fontsize=8.5)
+        ax.set_title(f"rules held out by the {SPLIT[split]}, by template", loc="left", fontsize=10, color=INK); ax.yaxis.grid(True, color=GRID)
+        ax.legend(frameon=False, fontsize=8.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=3)
     axes[0].set_ylabel("held-out rules satisfied, %")
     fig.tight_layout(); fig.savefig(REPO / f"figures/{FP}_templates.png", bbox_inches="tight"); plt.close(fig)
 

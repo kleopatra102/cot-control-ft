@@ -20,7 +20,7 @@ MODELS = [m for m in ("base", "A", "A1", "B") if (E / m / "graded.jsonl").exists
 DISP = {"base": "base", "A": "by-family split", "B": "within-family split", "A1": "by-family split,\nsingle template (T1)"}
 SPLIT_OF = {"A": "A", "A1": "A", "B": "B"}
 TRAIN_T = {"A": TRAIN_TEMPLATES, "A1": ["T1"], "B": TRAIN_TEMPLATES}
-LEAKED = {"A": set(), "B": {"no_colons"}}
+LEAKED = {k: set(v) for k, v in RUN["leaked"].items()}  # from the audit, per model (runs.py)
 SURF, INK, INK2, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 COL = {"base": "#c3c2b7", "A": "#2f6db5", "B": "#1f9e89", "A1": "#7fa6d6"}
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "axes.edgecolor": GRID, "font.size": 9, "axes.spines.top": False,
