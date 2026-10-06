@@ -21,6 +21,7 @@ DISP = {"base": "base", "A": "by-family split", "B": "within-family split", "A1"
 SPLIT_OF = {"A": "A", "A1": "A", "B": "B"}
 TRAIN_T = {"A": TRAIN_TEMPLATES, "A1": ["T1"], "B": TRAIN_TEMPLATES}
 LEAKED = {k: set(v) for k, v in RUN["leaked"].items()}  # from the audit, per model (runs.py)
+import os; EASY = 101 if os.environ.get("V2_KEEP_EASY") == "1" else 40; SFX = "_all" if EASY > 100 else ""  # see report.py
 SURF, INK, INK2, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 COL = {"base": "#c3c2b7", "A": "#2f6db5", "B": "#1f9e89", "A1": "#7fa6d6"}
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "axes.edgecolor": GRID, "font.size": 9, "axes.spines.top": False,
@@ -63,19 +64,19 @@ for ax, m in zip(axes, arms):
     for k, (ts, lab, alpha) in enumerate(((seen, "templates it trained on", 1.0), (new, "templates it never saw", 0.45))):
         ys = []
         for f in fams:
-            cs = [c[2] for c in C if c[0] == f and role(c, split) == "test" and c[2] not in LEAKED[split] and rate("base", c[2], ts) < 40]
+            cs = [c[2] for c in C if c[0] == f and role(c, split) == "test" and c[2] not in LEAKED[split] and rate("base", c[2], ts) < EASY]
             ys.append(st.mean(rate(m, c, ts) - rate("base", c, ts) for c in cs) if cs else float("nan"))
         ax.barh([i + (k - .5) * 0.38 for i in range(len(fams))], ys, height=0.36, color=COL[m], alpha=alpha, edgecolor=SURF, label=lab)
     ax.set_yticks(range(len(fams))); ax.set_yticklabels(fams, fontsize=8.5); ax.axvline(0, color=GRID, lw=1)
     for i, f in enumerate(fams):
         held = [c[2] for c in C if role(c, split) == "test" and c[0] == f]
         if not held: ax.text(0.5, i, "trained (no held-out rules)", va="center", fontsize=7, color=MUTED)
-        elif all(c in LEAKED[split] or rate("base", c, TIDS) >= 40 for c in held): ax.text(0.5, i, "excluded (base already passes, or leaked)", va="center", fontsize=7, color=MUTED)
+        elif all(c in LEAKED[split] or rate("base", c, TIDS) >= EASY for c in held): ax.text(0.5, i, "excluded (base already passes, or leaked)", va="center", fontsize=7, color=MUTED)
     ax.xaxis.grid(True, color=GRID); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False)
     ax.set_xlabel("held-out rules: gain over base, percentage points"); ax.set_title(DISP[m].replace("\n", " "), loc="left", fontsize=10, color=INK)
     ax.legend(frameon=False, fontsize=8, loc="upper right")
-fig.suptitle(f"{RUN['title']}: which families of held-out rules gained (rules base passes 40 %+ and leaked rules excluded)", x=0.01, ha="left", fontsize=10.5, color=INK)
-fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/{FP}_families.png", bbox_inches="tight"); plt.close(fig)
+fig.suptitle(f"{RUN['title']}: which families of held-out rules gained " + ("(all held-out rules except leaked ones)" if SFX else "(rules base passes 40 %+ and leaked rules excluded)"), x=0.01, ha="left", fontsize=10.5, color=INK)
+fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/{FP}_families{SFX}.png", bbox_inches="tight"); plt.close(fig)
 
 # ---- 3. costs: accuracy, median words, restating rate
 fig, axes = plt.subplots(1, 3, figsize=(13, 3.6))

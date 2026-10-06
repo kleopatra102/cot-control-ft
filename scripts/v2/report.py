@@ -18,6 +18,8 @@ E = RUN["root"] / "eval"; FP = RUN["fig_prefix"]
 MODELS = [m for m in ("base", "A", "B", "A1") if (E / m / "graded.jsonl").exists()]
 OP = {c[2]: (c[0], c[1]) for c in C}; NAME = {c[2]: c[3] for c in C}
 LEAKED = {k: set(v) for k, v in RUN["leaked"].items()}  # from the audit, per model (runs.py)
+# V2_KEEP_EASY=1: keep held-out rules that base already passes on 40 %+ (the "all held-out rules" version; files get an _all suffix)
+import os; EASY = 101 if os.environ.get("V2_KEEP_EASY") == "1" else 40; SFX = "_all" if EASY > 100 else ""
 SURF, INK, INK2, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 COL = {"base": "#c3c2b7", "A": "#2f6db5", "B": "#1f9e89", "A1": "#7fa6d6"}
 # display names (internal ids A, B, A1 stay in file names, checkpoints and served model names)
@@ -43,7 +45,7 @@ def opmacro(m, cids, tids):
 
 def cells(split):
     tr = [c[2] for c in C if role(c, split) == "train"]; te = [c[2] for c in C if role(c, split) == "test"]
-    def clean(cids, tids): return [c for c in cids if c not in LEAKED[split] and (r("base", c, tids) or 0) < 40]
+    def clean(cids, tids): return [c for c in cids if c not in LEAKED[split] and (r("base", c, tids) or 0) < EASY]
     return {"trained, T1": (tr, ["T1"]), "in-distribution": (tr, TRAIN_TEMPLATES), "template transfer": (tr, HELDOUT_TEMPLATES),
             "held out, T1": (clean(te, ["T1"]), ["T1"]), "rule transfer": (clean(te, TRAIN_TEMPLATES), TRAIN_TEMPLATES),
             "rule + template": (clean(te, HELDOUT_TEMPLATES), HELDOUT_TEMPLATES)}
@@ -64,7 +66,7 @@ if __name__ == "__main__":
     for m in MODELS:
         g = G[m]; print(m, "accuracy", round(100 * st.mean(x["correct"] for x in g), 1), "| restates rule", round(100 * st.mean(bool(x["restates"]) for x in g), 1),
                        "| truncated", round(100 * st.mean(x["truncated"] for x in g), 1), "| median words", st.median(x["words"] for x in g))
-    json.dump(out, open(RUN["root"] / "summary_cells.json", "w"), indent=1)
+    json.dump(out, open(RUN["root"] / f"summary_cells{SFX}.json", "w"), indent=1)
 
     # Fig 1: four cells per split
     fig, axes = plt.subplots(1, 2, figsize=(17, 4.8), sharey=True)
@@ -79,8 +81,8 @@ if __name__ == "__main__":
         ax.set_title(f"{SPLIT[split]}: its trained rules vs its held-out rules", loc="left", fontsize=10, color=INK)
         ax.yaxis.grid(True, color=GRID); ax.set_axisbelow(True); ax.tick_params(length=0); ax.spines["left"].set_visible(False); ax.legend(frameon=False, fontsize=8.5)
     axes[0].set_ylabel("rule satisfied, % (macro over operations)")
-    fig.suptitle(f"{RUN['title']}, v2: transfer to held-out rules and held-out prompt templates", x=0.01, ha="left", fontsize=11, color=INK)
-    fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/{FP}_cells.png", bbox_inches="tight"); plt.close(fig)
+    fig.suptitle(f"{RUN['title']}, v2: transfer to held-out rules and held-out prompt templates" + (" (all held-out rules, incl. those base passes 40 %+)" if SFX else " (held-out rules base passes 40 %+ excluded)"), x=0.01, ha="left", fontsize=11, color=INK)
+    fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/{FP}_cells{SFX}.png", bbox_inches="tight"); plt.close(fig)
 
     # Fig 2: per template (held-out rules of each split)
     fig, axes = plt.subplots(1, 2, figsize=(14, 4.2), sharey=True)
@@ -88,14 +90,14 @@ if __name__ == "__main__":
         te = [c[2] for c in C if role(c, split) == "test" and c[2] not in LEAKED[split]]
         tids = list(TEMPLATES)
         for m in [x for x in arms if x in MODELS]:
-            ys = [opmacro(m, [c for c in te if (r("base", c, [t]) or 0) < 40], [t]) for t in tids]
+            ys = [opmacro(m, [c for c in te if (r("base", c, [t]) or 0) < EASY], [t]) for t in tids]
             ax.plot(range(len(tids)), ys, marker="o", lw=2, color=COL[m], label=DISP[m])
         ax.axvspan(2.5, 5.5, color=GRID, alpha=0.4, lw=0); ax.text(4, ax.get_ylim()[1] * 0.95 if ax.get_ylim()[1] else 1, "held-out templates", ha="center", fontsize=8, color=MUTED)
         ax.set_xticks(range(len(tids))); ax.set_xticklabels([f"{t}\n{TEMPLATES[t]['name']}" for t in tids], fontsize=7.5)
         ax.set_title(f"rules held out by the {SPLIT[split]}, by template", loc="left", fontsize=10, color=INK); ax.yaxis.grid(True, color=GRID)
         ax.legend(frameon=False, fontsize=8.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=3)
     axes[0].set_ylabel("held-out rules satisfied, %")
-    fig.tight_layout(); fig.savefig(REPO / f"figures/{FP}_templates.png", bbox_inches="tight"); plt.close(fig)
+    fig.tight_layout(); fig.savefig(REPO / f"figures/{FP}_templates{SFX}.png", bbox_inches="tight"); plt.close(fig)
 
     # Fig 3: every rule, every model, seen vs held-out templates (dot plot)
     fig, ax = plt.subplots(figsize=(11, 0.28 * len(C) + 1.8))

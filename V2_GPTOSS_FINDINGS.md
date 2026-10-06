@@ -50,6 +50,30 @@ arm. The by-family and within-family splits trained on all of T1-T3.
    The shorter reasoning appears at evaluation even though the training traces were held to base length (1.07-1.12x),
    so it is learned behaviour, not a build artefact.
 
+### Two versions: with and without the 40 % exclusion
+
+The headline excludes held-out rules that base already passes on 40 %+ of prompts in the same templates, because
+there is little room to show transfer on them. Below, the same cells with those rules **kept** (only leaked rules
+removed). Figures: `figures/v2_gptoss_cells_all.png`, `_templates_all.png`, `_families_all.png`
+(`V2_KEEP_EASY=1 scripts/v2/report.py`).
+
+Rules this changes: by-family split: at most N words, at least M words; within-family split: those two plus
+"include a given marker".
+
+| held-out rules, T1 / T1-T3 / T4-T6 | rules base passes 40 %+ excluded (headline) | all held-out rules kept |
+|---|---:|---:|
+| base (by-family rules) | 2 / 3 / 3 | 8 / 8 / 8 |
+| by-family split | 20 / 24 / 16 | 25 / 29 / 21 |
+| by-family, single template (T1) | 29 / 34 / 22 | 34 / 38 / 27 |
+| base (within-family rules) | 1 / 2 / 2 | 11 / 12 / 11 |
+| within-family split | 26 / 28 / 25 | 33 / 35 / 32 |
+
+The gain over base is about the same either way: by-family +13 to +21 points in both versions, single template +19 to +31, within-family +21 to +26. Keeping
+the easy rules raises base and the trained arms alike. Trained-rule cells do not change (no trained rule is
+excluded).
+
+![All held-out rules kept](figures/v2_gptoss_cells_all.png)
+
 ### Seen versus new templates, for the single-template arm
 
 The table above groups templates as T1-T3 (training) and T4-T6 (new) for every arm. For the single-template arm,

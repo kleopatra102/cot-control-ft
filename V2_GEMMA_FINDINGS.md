@@ -31,6 +31,29 @@ Figures: `scripts/v2/report.py`, `scripts/v2/report_more.py` with `V2_RUN=gemma`
    trained rules (53 vs 50–54 %) and on held-out rules (8–12 vs 9–10 %). It is lower only on T1 itself (42 vs 51 %),
    the same oddity as on gpt-oss: the single-template arm does better on templates it never saw than on its own.
 
+### Two versions: with and without the 40 % exclusion
+
+The headline excludes held-out rules that base already passes on 40 %+ of prompts in the same templates. Gemma's
+base passes more of them than gpt-oss's: by-family split: a series of questions, sports commentator, at most N
+words, at least M words, average word length; within-family split: include a given marker, sports commentator,
+at most N words, at least M words. Below, the same cells with those rules **kept** (only leaked rules removed).
+Figures: `figures/v2_gemma_cells_all.png`, `_templates_all.png`, `_families_all.png`.
+
+| held-out rules, T1 / T1–T3 / T4–T6 | rules base passes 40 %+ excluded (headline) | all held-out rules kept |
+|---|---:|---:|
+| base (by-family rules) | 2 / 3 / 5 | 16 / 16 / 15 |
+| by-family split | 8 / 9 / 10 | 15 / 16 / 16 |
+| by-family, single template (T1) | 4 / 8 / 12 | 10 / 17 / 19 |
+| base (within-family rules) | 3 / 6 / 9 | 19 / 19 / 20 |
+| within-family split | 38 / 37 / 40 | 44 / 43 / 43 |
+
+**With the easy rules kept, the by-family split shows no transfer at all on Gemma** (16 % against base 16 %): its
+small gains on hard held-out rules are cancelled by losses on rules base already followed. For example, sports
+commentator falls from 53 to 30 % in T1–T3, and "at least M words" from 92 to 75 % in T4–T6, as training shortens
+the reasoning. The within-family result holds either way (+23 to +35 points over base).
+
+![All held-out rules kept](figures/v2_gemma_cells_all.png)
+
 ## Compared with gpt-oss-20b
 
 | held-out rules, T1–T3 / T4–T6 | gpt-oss-20b | Gemma-4-31B |
