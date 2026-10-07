@@ -62,7 +62,8 @@ Chance rates are 1–2 % for every model. The "without restating" score covers o
 1. **Base controllability is modest everywhere**: 10–16 % above chance with one sample, 12–22 % with best of 3.
    Gemma-4-31B is highest.
 2. **Restating matters for some models.** Nemotron-3-Nano restates the rule in 92 % of traces, and without those
-   traces its controllability collapses to 2 %. Gemma (18) and Qwen3.8 (16) keep or gain: their control is genuine.
+   traces its controllability collapses to 2 %. Every other model keeps its score or gains (Gemma 16 → 18, Qwen3.8
+   11 → 16, DeepSeek 14 → 14, Qwen3-32B 11 → 11, gpt-oss-120b 10 → 11): their control is genuine.
 3. **Every model is good at the same three rules** (include a marker, all 7 coordinating conjunctions, 4 transition
    words: 37–100 points above chance). Beyond those, each model has a few of its own: Gemma style and word length, DeepSeek capitals and
    language, Qwen3.8 lowercase and a fixed opening sentence, Qwen3-32B word bans.
@@ -71,8 +72,8 @@ Chance rates are 1–2 % for every model. The "without restating" score covers o
 
 ![Restating the rule](figures/screen_v2_restating.png)
 
-Without restating traces, Gemma and Qwen3.8 keep or gain; Nemotron falls from 10 to 2. Qwen3-32B hardly ever restates (8 %),
-so its two scores are the same.
+Without restating traces, five of the six models keep their score or gain; only Nemotron falls (10 → 2). Qwen3-32B hardly
+ever restates (8 %), so its two scores are the same.
 
 ![Per family](figures/screen_v2_families.png)
 
