@@ -1,0 +1,398 @@
+{
+ "gemma4": {
+  "seed": "unlearn-v2-split:gemma4",
+  "source": "results/screen_v2/gemma4/summary.json",
+  "unlearn": [
+   {
+    "family": "Style",
+    "operation": "persona",
+    "rules": [
+     "pirate_speak",
+     "sports_commentator"
+    ],
+    "score": 53.3
+   },
+   {
+    "family": "Bans",
+    "operation": "word bans",
+    "rules": [
+     "ban_keyword",
+     "no_first_person"
+    ],
+    "score": 51.7
+   },
+   {
+    "family": "Letter & lexical statistics",
+    "operation": "lexical density",
+    "rules": [
+     "stop_words_35",
+     "long_words"
+    ],
+    "score": 46.4
+   },
+   {
+    "family": "Style",
+    "operation": "sentence mood",
+    "rules": [
+     "questions",
+     "statement_question_ratio"
+    ],
+    "score": 34.6
+   },
+   {
+    "family": "Language & notation",
+    "operation": "number notation",
+    "rules": [
+     "numbers_in_words",
+     "roman_numerals"
+    ],
+    "score": 16.7
+   },
+   {
+    "family": "Language & notation",
+    "operation": "natural language",
+    "rules": [
+     "given_language",
+     "foreign_summary"
+    ],
+    "score": 6.7
+   },
+   {
+    "family": "Case",
+    "operation": "uniform case",
+    "rules": [
+     "all_caps",
+     "all_lower"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Case",
+    "operation": "within-text pattern",
+    "rules": [
+     "alt_letter_case",
+     "alt_word_case"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Structure",
+    "operation": "document layout",
+    "rules": [
+     "numbered_list",
+     "markdown_table"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Word layout",
+    "operation": "per-word insertion",
+    "rules": [
+     "meow_between",
+     "bracket_words"
+    ],
+    "score": 0.0
+   }
+  ],
+  "held_out": [
+   {
+    "family": "Inclusion",
+    "operation": "required word classes",
+    "rules": [
+     "coord_conjunctions",
+     "transition_words"
+    ],
+    "score": 93.3,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Inclusion",
+    "operation": "required words",
+    "rules": [
+     "include_marker",
+     "word_exactly_twice"
+    ],
+    "score": 46.7,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Length",
+    "operation": "total word count",
+    "rules": [
+     "max_50_words",
+     "min_300_words"
+    ],
+    "score": 38.3,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Bans",
+    "operation": "character bans",
+    "rules": [
+     "no_commas",
+     "no_colons"
+    ],
+    "score": 25.1,
+    "sibling_unlearned": true
+   },
+   {
+    "family": "Word layout",
+    "operation": "line breaking",
+    "rules": [
+     "word_per_line",
+     "sentence_per_line"
+    ],
+    "score": 16.5,
+    "sibling_unlearned": true
+   },
+   {
+    "family": "Length",
+    "operation": "sentence shape",
+    "rules": [
+     "long_sentences",
+     "short_sentences"
+    ],
+    "score": 12.3,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Position",
+    "operation": "every sentence",
+    "rules": [
+     "sentence_end_token",
+     "sentence_start_token"
+    ],
+    "score": 5.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Letter & lexical statistics",
+    "operation": "letter patterns",
+    "rules": [
+     "no_repeat_initial",
+     "max_8_letters"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": true
+   },
+   {
+    "family": "Position",
+    "operation": "trace boundaries",
+    "rules": [
+     "start_phrase",
+     "end_phrase"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Structure",
+    "operation": "markup",
+    "rules": [
+     "xml_steps",
+     "json_object"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": true
+   }
+  ]
+ },
+ "qwen38_tinker": {
+  "seed": "unlearn-v2-split:qwen38_tinker",
+  "source": "results/screen_v2/qwen38_tinker/summary.json",
+  "unlearn": [
+   {
+    "family": "Inclusion",
+    "operation": "required words",
+    "rules": [
+     "include_marker",
+     "word_exactly_twice"
+    ],
+    "score": 53.3
+   },
+   {
+    "family": "Length",
+    "operation": "total word count",
+    "rules": [
+     "max_50_words",
+     "min_300_words"
+    ],
+    "score": 38.0
+   },
+   {
+    "family": "Case",
+    "operation": "uniform case",
+    "rules": [
+     "all_caps",
+     "all_lower"
+    ],
+    "score": 26.7
+   },
+   {
+    "family": "Style",
+    "operation": "sentence mood",
+    "rules": [
+     "questions",
+     "statement_question_ratio"
+    ],
+    "score": 20.0
+   },
+   {
+    "family": "Language & notation",
+    "operation": "natural language",
+    "rules": [
+     "given_language",
+     "foreign_summary"
+    ],
+    "score": 13.3
+   },
+   {
+    "family": "Case",
+    "operation": "within-text pattern",
+    "rules": [
+     "alt_letter_case",
+     "alt_word_case"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Length",
+    "operation": "sentence shape",
+    "rules": [
+     "long_sentences",
+     "short_sentences"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Structure",
+    "operation": "document layout",
+    "rules": [
+     "numbered_list",
+     "markdown_table"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Style",
+    "operation": "persona",
+    "rules": [
+     "pirate_speak",
+     "sports_commentator"
+    ],
+    "score": 0.0
+   },
+   {
+    "family": "Word layout",
+    "operation": "line breaking",
+    "rules": [
+     "word_per_line",
+     "sentence_per_line"
+    ],
+    "score": 0.0
+   }
+  ],
+  "held_out": [
+   {
+    "family": "Inclusion",
+    "operation": "required word classes",
+    "rules": [
+     "coord_conjunctions",
+     "transition_words"
+    ],
+    "score": 95.0,
+    "sibling_unlearned": true
+   },
+   {
+    "family": "Position",
+    "operation": "trace boundaries",
+    "rules": [
+     "start_phrase",
+     "end_phrase"
+    ],
+    "score": 35.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Bans",
+    "operation": "character bans",
+    "rules": [
+     "no_commas",
+     "no_colons"
+    ],
+    "score": 23.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Letter & lexical statistics",
+    "operation": "lexical density",
+    "rules": [
+     "stop_words_35",
+     "long_words"
+    ],
+    "score": 18.3,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Bans",
+    "operation": "word bans",
+    "rules": [
+     "ban_keyword",
+     "no_first_person"
+    ],
+    "score": 5.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Language & notation",
+    "operation": "number notation",
+    "rules": [
+     "numbers_in_words",
+     "roman_numerals"
+    ],
+    "score": 1.7,
+    "sibling_unlearned": true
+   },
+   {
+    "family": "Letter & lexical statistics",
+    "operation": "letter patterns",
+    "rules": [
+     "no_repeat_initial",
+     "max_8_letters"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Position",
+    "operation": "every sentence",
+    "rules": [
+     "sentence_end_token",
+     "sentence_start_token"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": false
+   },
+   {
+    "family": "Structure",
+    "operation": "markup",
+    "rules": [
+     "xml_steps",
+     "json_object"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": true
+   },
+   {
+    "family": "Word layout",
+    "operation": "per-word insertion",
+    "rules": [
+     "meow_between",
+     "bracket_words"
+    ],
+    "score": 0.0,
+    "sibling_unlearned": true
+   }
+  ]
+ }
+}
