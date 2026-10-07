@@ -32,6 +32,8 @@ controllable out of the box.
 | headroom rule | a model qualifies if best-of-3 compliance is **at least 15 points above chance** on the rules to be unlearned |
 | rules | **per-model matched-pair split of the 20 operations** (2026-10-07; replaces the by-family split): 10 operations (20 rules) unlearned, 10 held out, balanced on that model's base controllability. One split per model, no second random split. Pre-registered before any run (section "Rule split") |
 | rules per training prompt | one |
+| training rules (2026-10-07) | **headroom operations only**: unlearning prompts draw only from unlearned operations whose base score in screening (best of 3 above chance) is above 0; both rules of each such operation are used. Qwen3.8-27B: 5 of 10 (required words, total word count, uniform case, sentence mood, natural language); Gemma-4-31B: 6 of 10 (persona, word bans, lexical density, sentence mood, number notation, natural language) |
+| headroom operations, for reporting (2026-10-07) | the same floor: base score above 0 in screening. Primary results on headroom operations (with and without "required word classes"); all 20 operations secondary; zero-score operations reported as their own row (elicitation and side effects) |
 | templates | unlearn in T1–T3; evaluate in all six |
 | dose | about 800 examples, one epoch; a dose curve (100, 300, 800) on one model |
 | external benchmarks | also CoTControl and Redwood's held-out suite, for comparability with published numbers |
@@ -134,15 +136,24 @@ Mean score: unlearned 15.1, held out 17.8 (9.2 without "required word classes").
 
 Mean score: unlearned 20.9, held out 23.7 (16.0 without "required word classes"). Held out: 4 near, 6 far.
 
-Operations at 0 for a model stay in the split (they still count for "does the model lose anything it
-never had"), but headline numbers are reported on the operations with base headroom, defined from base scores before
-the run.
+Operations at 0 for a model stay in the split and in every evaluation (elicitation might reach them, and fine-tuning
+might raise them as a side effect), but they get no training examples, and headline numbers are reported on the
+**headroom operations**: base score above 0 in screening, fixed before the run.
+
+| | unlearned and trained | unlearned half, score 0 (not trained) | held-out headroom operations | held-out, score 0 |
+|---|---|---|---|---|
+| Qwen3.8-27B | required words, total word count, uniform case, sentence mood, natural language | within-text pattern, sentence shape, document layout, persona, line breaking | required word classes, trace boundaries, character bans, lexical density, word bans, number notation | letter patterns, every sentence, markup, per-word insertion |
+| Gemma-4-31B | persona, word bans, lexical density, sentence mood, number notation, natural language | uniform case, within-text pattern, document layout, per-word insertion | required word classes, required words, total word count, character bans, line breaking, sentence shape, every sentence | letter patterns, trace boundaries, markup |
+
+Training only on headroom operations concentrates the dose on control the model actually has, at the price of making
+the training data depend on screening: an operation that scored 0 by chance (30 prompts per operation) is never
+trained away.
 
 ## Step 2: unlearning data
 
 - **Traces:** the model's own unconstrained reasoning on about 900 training questions (no rule in the prompt).
-- **Pairs:** each trace is paired with a prompt asking for **one** rule from the model's unlearned half (section
-  "Rule split"), in T1, T2 or T3.
+- **Pairs:** each trace is paired with a prompt asking for **one** rule from the model's trained unlearned operations
+  (the headroom operations of its unlearned half, section "Rule split"), in T1, T2 or T3, rules drawn uniformly.
   A pair is kept only if the grader confirms the trace breaks that rule. The answer is the model's own.
   No API rewriting, so the rewrite cannot leak.
 - **Leakage audit,** as in v2: the held-out half's graders on the training traces against base traces of the same

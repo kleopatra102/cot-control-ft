@@ -10,7 +10,8 @@
      "pirate_speak",
      "sports_commentator"
     ],
-    "score": 53.3
+    "score": 53.3,
+    "headroom": true
    },
    {
     "family": "Bans",
@@ -19,7 +20,8 @@
      "ban_keyword",
      "no_first_person"
     ],
-    "score": 51.7
+    "score": 51.7,
+    "headroom": true
    },
    {
     "family": "Letter & lexical statistics",
@@ -28,7 +30,8 @@
      "stop_words_35",
      "long_words"
     ],
-    "score": 46.4
+    "score": 46.4,
+    "headroom": true
    },
    {
     "family": "Style",
@@ -37,7 +40,8 @@
      "questions",
      "statement_question_ratio"
     ],
-    "score": 34.6
+    "score": 34.6,
+    "headroom": true
    },
    {
     "family": "Language & notation",
@@ -46,7 +50,8 @@
      "numbers_in_words",
      "roman_numerals"
     ],
-    "score": 16.7
+    "score": 16.7,
+    "headroom": true
    },
    {
     "family": "Language & notation",
@@ -55,7 +60,8 @@
      "given_language",
      "foreign_summary"
     ],
-    "score": 6.7
+    "score": 6.7,
+    "headroom": true
    },
    {
     "family": "Case",
@@ -64,7 +70,8 @@
      "all_caps",
      "all_lower"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Case",
@@ -73,7 +80,8 @@
      "alt_letter_case",
      "alt_word_case"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Structure",
@@ -82,7 +90,8 @@
      "numbered_list",
      "markdown_table"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Word layout",
@@ -91,7 +100,8 @@
      "meow_between",
      "bracket_words"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    }
   ],
   "held_out": [
@@ -103,7 +113,8 @@
      "transition_words"
     ],
     "score": 93.3,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Inclusion",
@@ -113,7 +124,8 @@
      "word_exactly_twice"
     ],
     "score": 46.7,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Length",
@@ -123,7 +135,8 @@
      "min_300_words"
     ],
     "score": 38.3,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Bans",
@@ -133,7 +146,8 @@
      "no_colons"
     ],
     "score": 25.1,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": true
    },
    {
     "family": "Word layout",
@@ -143,7 +157,8 @@
      "sentence_per_line"
     ],
     "score": 16.5,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": true
    },
    {
     "family": "Length",
@@ -153,7 +168,8 @@
      "short_sentences"
     ],
     "score": 12.3,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Position",
@@ -163,7 +179,8 @@
      "sentence_start_token"
     ],
     "score": 5.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Letter & lexical statistics",
@@ -173,7 +190,8 @@
      "max_8_letters"
     ],
     "score": 0.0,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": false
    },
    {
     "family": "Position",
@@ -183,7 +201,8 @@
      "end_phrase"
     ],
     "score": 0.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": false
    },
    {
     "family": "Structure",
@@ -193,11 +212,13 @@
      "json_object"
     ],
     "score": 0.0,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": false
    }
   ],
   "locked": "2026-10-07",
-  "required_word_classes": "kept in the split; report every result with and without it"
+  "required_word_classes": "kept in the split; report every result with and without it",
+  "training_rules": "headroom operations of the unlearned half (base score above 0)"
  },
  "qwen38_tinker": {
   "seed": "unlearn-v2-split:qwen38_tinker",
@@ -210,7 +231,8 @@
      "include_marker",
      "word_exactly_twice"
     ],
-    "score": 53.3
+    "score": 53.3,
+    "headroom": true
    },
    {
     "family": "Length",
@@ -219,7 +241,8 @@
      "max_50_words",
      "min_300_words"
     ],
-    "score": 38.0
+    "score": 38.0,
+    "headroom": true
    },
    {
     "family": "Case",
@@ -228,7 +251,8 @@
      "all_caps",
      "all_lower"
     ],
-    "score": 26.7
+    "score": 26.7,
+    "headroom": true
    },
    {
     "family": "Style",
@@ -237,7 +261,8 @@
      "questions",
      "statement_question_ratio"
     ],
-    "score": 20.0
+    "score": 20.0,
+    "headroom": true
    },
    {
     "family": "Language & notation",
@@ -246,7 +271,8 @@
      "given_language",
      "foreign_summary"
     ],
-    "score": 13.3
+    "score": 13.3,
+    "headroom": true
    },
    {
     "family": "Case",
@@ -255,7 +281,8 @@
      "alt_letter_case",
      "alt_word_case"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Length",
@@ -264,7 +291,8 @@
      "long_sentences",
      "short_sentences"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Structure",
@@ -273,7 +301,8 @@
      "numbered_list",
      "markdown_table"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Style",
@@ -282,7 +311,8 @@
      "pirate_speak",
      "sports_commentator"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    },
    {
     "family": "Word layout",
@@ -291,7 +321,8 @@
      "word_per_line",
      "sentence_per_line"
     ],
-    "score": 0.0
+    "score": 0.0,
+    "headroom": false
    }
   ],
   "held_out": [
@@ -303,7 +334,8 @@
      "transition_words"
     ],
     "score": 95.0,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": true
    },
    {
     "family": "Position",
@@ -313,7 +345,8 @@
      "end_phrase"
     ],
     "score": 35.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Bans",
@@ -323,7 +356,8 @@
      "no_colons"
     ],
     "score": 23.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Letter & lexical statistics",
@@ -333,7 +367,8 @@
      "long_words"
     ],
     "score": 18.3,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Bans",
@@ -343,7 +378,8 @@
      "no_first_person"
     ],
     "score": 5.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": true
    },
    {
     "family": "Language & notation",
@@ -353,7 +389,8 @@
      "roman_numerals"
     ],
     "score": 1.7,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": true
    },
    {
     "family": "Letter & lexical statistics",
@@ -363,7 +400,8 @@
      "max_8_letters"
     ],
     "score": 0.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": false
    },
    {
     "family": "Position",
@@ -373,7 +411,8 @@
      "sentence_start_token"
     ],
     "score": 0.0,
-    "sibling_unlearned": false
+    "sibling_unlearned": false,
+    "headroom": false
    },
    {
     "family": "Structure",
@@ -383,7 +422,8 @@
      "json_object"
     ],
     "score": 0.0,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": false
    },
    {
     "family": "Word layout",
@@ -393,10 +433,12 @@
      "bracket_words"
     ],
     "score": 0.0,
-    "sibling_unlearned": true
+    "sibling_unlearned": true,
+    "headroom": false
    }
   ],
   "locked": "2026-10-07",
-  "required_word_classes": "kept in the split; report every result with and without it"
+  "required_word_classes": "kept in the split; report every result with and without it",
+  "training_rules": "headroom operations of the unlearned half (base score above 0)"
  }
 }
