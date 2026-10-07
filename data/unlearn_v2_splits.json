@@ -195,7 +195,9 @@
     "score": 0.0,
     "sibling_unlearned": true
    }
-  ]
+  ],
+  "locked": "2026-10-07",
+  "required_word_classes": "kept in the split; report every result with and without it"
  },
  "qwen38_tinker": {
   "seed": "unlearn-v2-split:qwen38_tinker",
@@ -393,6 +395,8 @@
     "score": 0.0,
     "sibling_unlearned": true
    }
-  ]
+  ],
+  "locked": "2026-10-07",
+  "required_word_classes": "kept in the split; report every result with and without it"
  }
 }
