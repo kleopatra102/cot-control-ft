@@ -4,6 +4,27 @@
 that removing the ability, and testing whether it survives elicitation, can be measured? Rules: the 40 v2 rules
 (`CONDITIONS_V2.md`). Script: `scripts/v2/screen.py`; table and figures: `scripts/v2/screen_report.py`.*
 
+## Why screen
+
+The unlearning experiment asks whether a model's **own** ability to control its chain of thought can be removed, and
+whether that removal survives elicitation (best of k, prefill, better prompts, a little fine-tuning). That can only be
+measured on a model that has the ability to begin with:
+
+- **Something to remove.** If base follows almost no rule, an unlearned model at 0 % looks the same as base, and
+  "survives elicitation" cannot be told apart from "there was never anything to elicit". gpt-oss-20b (0.9 % in OpenAI's
+  CoTControl study) is in this position.
+- **Genuine control, not a side effect.** A rule the model satisfies anyway (chance rate), or passes by quoting the
+  instruction (restating), would "disappear" after training for reasons unrelated to controllability. So scores are
+  taken above chance and checked without restating traces.
+- **Spread over both halves of the rules.** Unlearning trains on half the rules and tests whether the loss spreads to
+  the other half. If the model's control sits only in the half being unlearned, the held-out readout has nothing to
+  lose.
+- **Room for elicitation.** Best of 3 shows how much more a model can do when pushed; an unlearned model should not
+  get that back.
+
+Screening is cheap compared with the experiment itself (one inference pass per model, no training), so it decides
+which 2–3 models are worth the unlearning runs.
+
 ## Method
 
 For each untouched base model:
@@ -48,6 +69,17 @@ Chance rates are 1–2 % for every model. The "without restating" score covers o
 4. **No model controls structure or word layout** (XML, JSON, lists, tables, one word per line, filler words,
    brackets): under 10 points above chance for all six.
 
+![Restating the rule](figures/screen_v2_restating.png)
+
+Without restating traces, Gemma and Qwen3.8 keep or gain; Nemotron falls from 10 to 2. Qwen3-32B hardly ever restates (8 %),
+so its two scores are the same.
+
+![Per family](figures/screen_v2_families.png)
+
+Inclusion is strong for every model (70–76); structure is 0 for all. The rest is model-specific: Gemma style (44) and
+bans (38); DeepSeek case (29); Qwen3-32B bans (31) and length (27); gpt-oss-120b letter statistics (25); Qwen3.8
+position (18).
+
 ![Every rule, every model](figures/screen_v2_rules.png)
 
 ## Where the controllability sits: the two halves of each split
@@ -62,6 +94,8 @@ Unlearning trains on one half of the rules and tests the other. Both halves need
 | Qwen3-32B | 25 / 7 | 15 / **17** |
 | gpt-oss-120b | 19 / 8 | 18 / 9 |
 | Nemotron-3-Nano | 16 / 9 | 16 / 9 |
+
+![Halves](figures/screen_v2_halves.png)
 
 Counting rules at least 20 points above chance instead (unlearned / held out): Gemma 7 / 8 by family and 8 / 7 within
 family; Qwen3.8 6 / 4 under both; DeepSeek 7 / 2 under both; Qwen3-32B 10 / 3 by family and 6 / 7 within family.
@@ -84,6 +118,37 @@ within-family split balances Qwen3-32B and partly Qwen3.8.
 **Recommendation:** run the unlearning experiment on **Qwen3.8-27B on Tinker** now (within-family split, the more
 balanced one for it), and on **Gemma-4-31B** when a local GPU is free.
 
+## Cost
+
+**Screening (actual, from the token counts):**
+
+| model (Tinker) | prompt tokens | sampled tokens | mean reasoning + answer, tokens | cost |
+|---|---:|---:|---:|---:|
+| DeepSeek-V3.1 | 0.48 M | 5.77 M | 1,518 | $25 |
+| Qwen3.8-27B | 0.53 M | 4.73 M | 1,244 | $28 |
+| Nemotron-3-Nano | 0.55 M | 8.34 M | 2,193 | $9 |
+| gpt-oss-120b | 0.72 M | 2.60 M | 684 | $2 |
+| **total** | | | | **$64** |
+
+Plus about $1 per model for the gpt-4.1 judge. Gemma and Qwen3-32B ran on our own GPUs.
+
+**Unlearning experiment on Qwen3.8-27B via Tinker (estimate):** Tinker prices for Qwen3.8-27B are $1.86 per million
+prompt tokens, $5.595 per million sampled tokens and $4.10 per million training tokens; reasoning about 1,250 tokens
+per prompt, as in screening.
+
+| step | volume | estimate |
+|---|---|---:|
+| the model's own unconstrained traces for the training data | ~900 prompts | $6 |
+| training U and C, two seeds each (4 LoRA runs, one epoch) | ~900 examples × ~1.5k tokens × 4 | $22 |
+| plain evaluation grid: 40 rules × 6 templates × 20 questions on base, U ×2, C ×2 | 24,000 prompts | $175 |
+| elicitation on base, U and C (E0–E9 on T1, 10 questions per rule) | ~12,000 prompts | $85 |
+| relearning attack: 2 doses × U and C, re-evaluated on T1 | ~5,000 prompts + small training | $35 |
+| **total** | | **≈ $320** |
+
+Fine-tuned models usually reason more briefly, which would lower this by about a third. Halving the evaluation grid to
+10 questions per rule would bring it to about $200. Gemma-4-31B is not on Tinker, so its run needs a local GPU instead
+(about 2–3 GPU days).
+
 ## Not screened
 
 - **OLMo-3.1-32B-Think:** started on skynet4, which became unreachable mid-run; results not recovered.
@@ -101,4 +166,3 @@ balanced one for it), and on **Gemma-4-31B** when a local GPU is free.
   is reported to lower controllability, so its default setting may score lower.
 - **Four rules are judged by gpt-4.1** (a series of questions, pirate speak, sports commentator, opening summary);
   their chance rates use 40 judged traces each.
-- **Cost:** about $60–70 of Tinker usage for the four Tinker models.
