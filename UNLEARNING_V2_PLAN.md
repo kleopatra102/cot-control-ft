@@ -34,6 +34,8 @@ controllable out of the box.
 | rules per training prompt | one |
 | training rules (2026-10-07) | **headroom operations only**: unlearning prompts draw only from unlearned operations whose base score in screening (best of 3 above chance) is above 0; both rules of each such operation are used. Qwen3.8-27B: 5 of 10 (required words, total word count, uniform case, sentence mood, natural language); Gemma-4-31B: 6 of 10 (persona, word bans, lexical density, sentence mood, number notation, natural language) |
 | headroom operations, for reporting (2026-10-07) | the same floor: base score above 0 in screening. Primary results on headroom operations (with and without "required word classes"); all 20 operations secondary; zero-score operations reported as their own row (elicitation and side effects) |
+| scope for Qwen3.8-27B (2026-10-07) | **lean, one seed**: arms base, U, C (no second seed, no dose curve); plain grid with 10 questions per rule on U and C (20 on base, reusing screening); answer-side rules in T1 only; best of k up to 5; relearning at 16 and 64 examples; CoTControl, Redwood and a small instruction-following set. Estimate about $180 on Tinker plus about $20 for the gpt-4.1 judge |
+| training questions | the 937 v2 stage-1 questions (the same pool as all v2 fine-tuning; disjoint from evaluation), prompt "Think step-by-step. Here is the question: …", plus the 200 unconstrained screening traces (evaluation-pool questions not used in any evaluation grid) |
 | templates | unlearn in T1–T3; evaluate in all six |
 | dose | about 800 examples, one epoch; a dose curve (100, 300, 800) on one model |
 | external benchmarks | also CoTControl and Redwood's held-out suite, for comparability with published numbers |

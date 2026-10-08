@@ -12,11 +12,12 @@ log = logging.getLogger(__name__)
 
 
 class TinkerClient(VLLMClient):
-    def __init__(self, model: str, renderer: str, concurrency: int = 64, max_retries: int = 4):
+    def __init__(self, model: str, renderer: str, concurrency: int = 64, max_retries: int = 4, model_path: str | None = None):
         import tinker
         from tinker_cookbook import renderers
         self.model, self.concurrency, self.max_retries = model, concurrency, max_retries
-        self._sc = tinker.ServiceClient().create_sampling_client(base_model=model)
+        svc = tinker.ServiceClient()  # model_path: a trained LoRA (tinker://...); its tokenizer and renderer are the base model's
+        self._sc = svc.create_sampling_client(model_path=model_path) if model_path else svc.create_sampling_client(base_model=model)
         self._tok = self._sc.get_tokenizer()
         self._r = renderers.get_renderer(renderer, self._tok)
         self._tinker = tinker
@@ -24,7 +25,8 @@ class TinkerClient(VLLMClient):
     async def _one(self, req: Request, sampling: SamplingParams) -> Rollout:
         msgs = ([{"role": "system", "content": req.system}] if req.system else []) + \
                ([{"role": "system", "content": req.developer}] if req.developer else []) + [{"role": "user", "content": req.prompt}]
-        prompt = self._r.build_generation_prompt(msgs)
+        prefill = req.meta.get("prefill")  # text placed at the start of the reasoning (inside the thinking block)
+        prompt = self._r.build_generation_prompt(msgs, prefill=prefill) if prefill else self._r.build_generation_prompt(msgs)
         sp = self._tinker.SamplingParams(max_tokens=sampling.max_tokens, temperature=sampling.temperature, top_p=sampling.top_p,
                                          top_k=sampling.top_k if sampling.top_k else -1, stop=self._r.get_stop_sequences())
         last = ""
@@ -40,6 +42,7 @@ class TinkerClient(VLLMClient):
             content = msg.get("content")
             parts = content if isinstance(content, list) else [{"type": "text", "text": content or ""}]
             reasoning = "".join(p.get("thinking", "") for p in parts if p.get("type") == "thinking").strip()
+            if prefill: reasoning = (prefill + reasoning).strip()
             answer = "".join(p.get("text", "") for p in parts if p.get("type") == "text").strip()
             truncated = str(getattr(seq, "stop_reason", "")).endswith("length") or len(toks) >= sampling.max_tokens
             status = OK if reasoning and not truncated else (UNCLOSED if reasoning else MISSING)

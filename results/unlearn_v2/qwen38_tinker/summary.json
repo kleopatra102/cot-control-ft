@@ -1,0 +1,410 @@
+{
+ "groups": {
+  "trained": [
+   [
+    "Inclusion",
+    "required words"
+   ],
+   [
+    "Length",
+    "total word count"
+   ],
+   [
+    "Case",
+    "uniform case"
+   ],
+   [
+    "Style",
+    "sentence mood"
+   ],
+   [
+    "Language & notation",
+    "natural language"
+   ]
+  ],
+  "unlearned half, score 0": [
+   [
+    "Case",
+    "within-text pattern"
+   ],
+   [
+    "Length",
+    "sentence shape"
+   ],
+   [
+    "Structure",
+    "document layout"
+   ],
+   [
+    "Style",
+    "persona"
+   ],
+   [
+    "Word layout",
+    "line breaking"
+   ]
+  ],
+  "held out: all headroom": [
+   [
+    "Inclusion",
+    "required word classes"
+   ],
+   [
+    "Position",
+    "trace boundaries"
+   ],
+   [
+    "Bans",
+    "character bans"
+   ],
+   [
+    "Letter & lexical statistics",
+    "lexical density"
+   ],
+   [
+    "Bans",
+    "word bans"
+   ],
+   [
+    "Language & notation",
+    "number notation"
+   ]
+  ],
+  "held out: headroom without required word classes": [
+   [
+    "Position",
+    "trace boundaries"
+   ],
+   [
+    "Bans",
+    "character bans"
+   ],
+   [
+    "Letter & lexical statistics",
+    "lexical density"
+   ],
+   [
+    "Bans",
+    "word bans"
+   ],
+   [
+    "Language & notation",
+    "number notation"
+   ]
+  ],
+  "held out: near (sibling unlearned)": [
+   [
+    "Inclusion",
+    "required word classes"
+   ],
+   [
+    "Language & notation",
+    "number notation"
+   ]
+  ],
+  "held out: far": [
+   [
+    "Position",
+    "trace boundaries"
+   ],
+   [
+    "Bans",
+    "character bans"
+   ],
+   [
+    "Letter & lexical statistics",
+    "lexical density"
+   ],
+   [
+    "Bans",
+    "word bans"
+   ]
+  ],
+  "held out, score 0": [
+   [
+    "Letter & lexical statistics",
+    "letter patterns"
+   ],
+   [
+    "Position",
+    "every sentence"
+   ],
+   [
+    "Structure",
+    "markup"
+   ],
+   [
+    "Word layout",
+    "per-word insertion"
+   ]
+  ]
+ },
+ "arms": {
+  "base": {
+   "chance": {
+    "all_caps": 0,
+    "all_lower": 0,
+    "alt_letter_case": 0,
+    "alt_word_case": 0,
+    "ban_keyword": 1.0,
+    "no_first_person": 8.0,
+    "no_commas": 13.0,
+    "no_colons": 10.0,
+    "include_marker": 0,
+    "word_exactly_twice": 0,
+    "coord_conjunctions": 0,
+    "transition_words": 0,
+    "start_phrase": 0,
+    "end_phrase": 0,
+    "sentence_end_token": 0,
+    "sentence_start_token": 0,
+    "meow_between": 0,
+    "bracket_words": 0,
+    "word_per_line": 0,
+    "sentence_per_line": 24.0,
+    "xml_steps": 0,
+    "json_object": 0,
+    "numbered_list": 0,
+    "markdown_table": 0,
+    "questions": 0,
+    "statement_question_ratio": 2.0,
+    "pirate_speak": 0,
+    "sports_commentator": 0,
+    "max_50_words": 12.0,
+    "min_300_words": 5.0,
+    "long_sentences": 2.0,
+    "short_sentences": 3.0,
+    "given_language": 0,
+    "foreign_summary": 0,
+    "numbers_in_words": 2.0,
+    "roman_numerals": 0,
+    "no_repeat_initial": 6.0,
+    "max_8_letters": 21.0,
+    "stop_words_35": 7.000000000000001,
+    "long_words": 9.0
+   },
+   "accuracy": 90.125,
+   "restates": 64.8125,
+   "median_words": 210.0,
+   "cells": {
+    "trained | T1": 23.3,
+    "unlearned half, score 0 | T1": 0.0,
+    "held out: all headroom | T1": 24.0,
+    "held out: headroom without required word classes | T1": 9.8,
+    "held out: near (sibling unlearned) | T1": 47.5,
+    "held out: far | T1": 12.2,
+    "held out, score 0 | T1": 0.0,
+    "trained | T2": 18.5,
+    "unlearned half, score 0 | T2": 0.0,
+    "held out: all headroom | T2": 18.3,
+    "held out: headroom without required word classes | T2": 3.0,
+    "held out: near (sibling unlearned) | T2": 47.5,
+    "held out: far | T2": 3.8,
+    "held out, score 0 | T2": 0.0,
+    "trained | T4 (held-out template)": 19.3,
+    "unlearned half, score 0 | T4 (held-out template)": 0.0,
+    "held out: all headroom | T4 (held-out template)": 21.2,
+    "held out: headroom without required word classes | T4 (held-out template)": 9.4,
+    "held out: near (sibling unlearned) | T4 (held-out template)": 40.0,
+    "held out: far | T4 (held-out template)": 11.8,
+    "held out, score 0 | T4 (held-out template)": 0.0,
+    "trained | best of 3 (T1)": 40.3,
+    "unlearned half, score 0 | best of 3 (T1)": 0.6,
+    "held out: all headroom | best of 3 (T1)": 28.8,
+    "held out: headroom without required word classes | best of 3 (T1)": 15.5,
+    "held out: near (sibling unlearned) | best of 3 (T1)": 49.5,
+    "held out: far | best of 3 (T1)": 18.4,
+    "held out, score 0 | best of 3 (T1)": 0.0,
+    "trained | prefill (T1)": 38.3,
+    "unlearned half, score 0 | prefill (T1)": 25.5,
+    "held out: all headroom | prefill (T1)": 29.8,
+    "held out: headroom without required word classes | prefill (T1)": 27.7,
+    "held out: near (sibling unlearned) | prefill (T1)": 39.5,
+    "held out: far | prefill (T1)": 24.9,
+    "held out, score 0 | prefill (T1)": 35.4
+   }
+  },
+  "U": {
+   "chance": {
+    "all_caps": 0,
+    "all_lower": 0,
+    "alt_letter_case": 0,
+    "alt_word_case": 0,
+    "ban_keyword": 1.0,
+    "no_first_person": 13.0,
+    "no_commas": 14.000000000000002,
+    "no_colons": 13.0,
+    "include_marker": 0,
+    "word_exactly_twice": 0,
+    "coord_conjunctions": 0,
+    "transition_words": 0,
+    "start_phrase": 0,
+    "end_phrase": 0,
+    "sentence_end_token": 0,
+    "sentence_start_token": 0,
+    "meow_between": 0,
+    "bracket_words": 0,
+    "word_per_line": 0,
+    "sentence_per_line": 27.0,
+    "xml_steps": 0,
+    "json_object": 0,
+    "numbered_list": 0,
+    "markdown_table": 0,
+    "questions": 0,
+    "statement_question_ratio": 1.0,
+    "pirate_speak": 0,
+    "sports_commentator": 0,
+    "max_50_words": 12.0,
+    "min_300_words": 4.0,
+    "long_sentences": 2.0,
+    "short_sentences": 1.0,
+    "given_language": 0,
+    "foreign_summary": 0,
+    "numbers_in_words": 2.0,
+    "roman_numerals": 0,
+    "no_repeat_initial": 7.000000000000001,
+    "max_8_letters": 21.0,
+    "stop_words_35": 8.0,
+    "long_words": 9.0
+   },
+   "accuracy": 95.08333333333333,
+   "restates": 4.0,
+   "median_words": 136.0,
+   "cells": {
+    "trained | T1": 2.6,
+    "unlearned half, score 0 | T1": 0.9,
+    "held out: all headroom | T1": 1.4,
+    "held out: headroom without required word classes | T1": 1.7,
+    "held out: near (sibling unlearned) | T1": 0.0,
+    "held out: far | T1": 2.1,
+    "held out, score 0 | T1": 0.0,
+    "trained | T2": 1.6,
+    "unlearned half, score 0 | T2": 0.0,
+    "held out: all headroom | T2": 0.8,
+    "held out: headroom without required word classes | T2": 0.9,
+    "held out: near (sibling unlearned) | T2": 0.0,
+    "held out: far | T2": 1.1,
+    "held out, score 0 | T2": 1.1,
+    "trained | T4 (held-out template)": 1.6,
+    "unlearned half, score 0 | T4 (held-out template)": 0.0,
+    "held out: all headroom | T4 (held-out template)": 0.8,
+    "held out: headroom without required word classes | T4 (held-out template)": 0.9,
+    "held out: near (sibling unlearned) | T4 (held-out template)": 0.0,
+    "held out: far | T4 (held-out template)": 1.1,
+    "held out, score 0 | T4 (held-out template)": 0.0,
+    "trained | best of 3 (T1)": 3.6,
+    "unlearned half, score 0 | best of 3 (T1)": 0.9,
+    "held out: all headroom | best of 3 (T1)": 2.8,
+    "held out: headroom without required word classes | best of 3 (T1)": 3.4,
+    "held out: near (sibling unlearned) | best of 3 (T1)": 0.0,
+    "held out: far | best of 3 (T1)": 4.2,
+    "held out, score 0 | best of 3 (T1)": 2.4,
+    "trained | prefill (T1)": 27.4,
+    "unlearned half, score 0 | prefill (T1)": 14.0,
+    "held out: all headroom | prefill (T1)": 13.0,
+    "held out: headroom without required word classes | prefill (T1)": 14.6,
+    "held out: near (sibling unlearned) | prefill (T1)": 12.5,
+    "held out: far | prefill (T1)": 13.2,
+    "held out, score 0 | prefill (T1)": 19.1,
+    "trained | answer (T1)": 16.0,
+    "unlearned half, score 0 | answer (T1)": 19.0,
+    "held out: all headroom | answer (T1)": 21.7,
+    "held out: headroom without required word classes | answer (T1)": 26.0,
+    "held out: near (sibling unlearned) | answer (T1)": 0.0,
+    "held out: far | answer (T1)": 32.5,
+    "held out, score 0 | answer (T1)": 11.2
+   }
+  },
+  "C": {
+   "chance": {
+    "all_caps": 0,
+    "all_lower": 0,
+    "alt_letter_case": 0,
+    "alt_word_case": 0,
+    "ban_keyword": 2.0,
+    "no_first_person": 10.0,
+    "no_commas": 16.0,
+    "no_colons": 10.0,
+    "include_marker": 0,
+    "word_exactly_twice": 0,
+    "coord_conjunctions": 0,
+    "transition_words": 0,
+    "start_phrase": 0,
+    "end_phrase": 0,
+    "sentence_end_token": 0,
+    "sentence_start_token": 0,
+    "meow_between": 0,
+    "bracket_words": 0,
+    "word_per_line": 0,
+    "sentence_per_line": 25.0,
+    "xml_steps": 0,
+    "json_object": 0,
+    "numbered_list": 0,
+    "markdown_table": 0,
+    "questions": 0,
+    "statement_question_ratio": 2.0,
+    "pirate_speak": 0,
+    "sports_commentator": 0,
+    "max_50_words": 14.000000000000002,
+    "min_300_words": 3.0,
+    "long_sentences": 3.0,
+    "short_sentences": 3.0,
+    "given_language": 0,
+    "foreign_summary": 0,
+    "numbers_in_words": 2.0,
+    "roman_numerals": 0,
+    "no_repeat_initial": 9.0,
+    "max_8_letters": 22.0,
+    "stop_words_35": 9.0,
+    "long_words": 11.0
+   },
+   "accuracy": 90.08333333333334,
+   "restates": 58.416666666666664,
+   "median_words": 208.0,
+   "cells": {
+    "trained | T1": 21.3,
+    "unlearned half, score 0 | T1": 0.0,
+    "held out: all headroom | T1": 26.8,
+    "held out: headroom without required word classes | T1": 13.1,
+    "held out: near (sibling unlearned) | T1": 49.5,
+    "held out: far | T1": 15.4,
+    "held out, score 0 | T1": 0.0,
+    "trained | T2": 20.3,
+    "unlearned half, score 0 | T2": 0.0,
+    "held out: all headroom | T2": 21.8,
+    "held out: headroom without required word classes | T2": 7.1,
+    "held out: near (sibling unlearned) | T2": 47.5,
+    "held out: far | T2": 8.9,
+    "held out, score 0 | T2": 0.0,
+    "trained | T4 (held-out template)": 16.3,
+    "unlearned half, score 0 | T4 (held-out template)": 0.7,
+    "held out: all headroom | T4 (held-out template)": 22.8,
+    "held out: headroom without required word classes | T4 (held-out template)": 11.3,
+    "held out: near (sibling unlearned) | T4 (held-out template)": 40.0,
+    "held out: far | T4 (held-out template)": 14.1,
+    "held out, score 0 | T4 (held-out template)": 0.0,
+    "trained | best of 3 (T1)": 36.3,
+    "unlearned half, score 0 | best of 3 (T1)": 0.0,
+    "held out: all headroom | best of 3 (T1)": 30.1,
+    "held out: headroom without required word classes | best of 3 (T1)": 17.1,
+    "held out: near (sibling unlearned) | best of 3 (T1)": 49.5,
+    "held out: far | best of 3 (T1)": 20.4,
+    "held out, score 0 | best of 3 (T1)": 0.0,
+    "trained | prefill (T1)": 33.3,
+    "unlearned half, score 0 | prefill (T1)": 23.4,
+    "held out: all headroom | prefill (T1)": 33.2,
+    "held out: headroom without required word classes | prefill (T1)": 29.9,
+    "held out: near (sibling unlearned) | prefill (T1)": 47.0,
+    "held out: far | prefill (T1)": 26.4,
+    "held out, score 0 | prefill (T1)": 28.5,
+    "trained | answer (T1)": 63.0,
+    "unlearned half, score 0 | answer (T1)": 41.0,
+    "held out: all headroom | answer (T1)": 57.5,
+    "held out: headroom without required word classes | answer (T1)": 51.0,
+    "held out: near (sibling unlearned) | answer (T1)": 45.0,
+    "held out: far | answer (T1)": 63.8,
+    "held out, score 0 | answer (T1)": 36.2
+   }
+  }
+ }
+}
