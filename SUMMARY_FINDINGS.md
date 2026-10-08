@@ -1,8 +1,8 @@
 # CoT controllability: summary of results so far
 
-*2026-10-08. Pulls together every findings document in this repository, organised around the two results we want to
-report. Each number links to its source document. Colleagues' results (shared Google Drive folder) are not included
-yet: the folder needs a Google login that this machine does not have (section 6).*
+*2026-10-08. Pulls together every findings document in this repository and the team's shared weekly summaries
+(SPAR weeks 1–4 decks and Ilinca's week 1–2 write-ups, section 6), organised around the two results we want to report.
+Each number names its source.*
 
 **The two results:**
 1. **A replicable recipe for model organisms that control their chain of thought (CoT):** train on several
@@ -181,7 +181,7 @@ but suppressing narration would not by itself raise compliance.
 ## 4. Limitations
 
 - **One training seed per arm everywhere.** Gaps under about 10 points may be noise.
-- **Open-weight models only,** up to about 31B parameters (plus screening of DeepSeek-V3.1 and gpt-oss-120b).
+- **Open-weight models only:** our training up to about 31B parameters; screening also covered DeepSeek-V3.1 and gpt-oss-120b; the team also trained gpt-oss-120b and Kimi-K2.6 (section 6d).
 - **Unlearning:**
   - two models (Qwen3-8B from a fine-tuned start, Qwen3.8-27B from base);
   - Gemma not yet run;
@@ -199,16 +199,82 @@ but suppressing narration would not by itself raise compliance.
 | Gemma-4-31B | `google/gemma-4-31B-it-qat-w4a16-ct` | `gemma-4-31b-v2-within-family` | – |
 | gpt-oss-20b | `openai/gpt-oss-20b` | `gpt-oss-20b-A` (many-rule v1); `gpt-oss-20b-Q5` (few-rule) | – |
 
-## 6. Colleagues' results (to add)
+## 6. Colleagues' results (SPAR weekly summaries, weeks 1–4)
 
-The shared folder (Google Drive, `1Fj4F-m8z6YbRBhKfvBoWBjpVRymP-A3k`) could not be read from here. Results we know of
-from conversation:
-- **Ilinca's gpt-oss-20b run,** same constraints and a T1-style template: 35 % trained / 35 % held-out, against our
-  single-template arm's 32 / 29 % (`V2_GPTOSS_FINDINGS.md`).
-- **A colleague's gpt-oss-120b v1 run:** base and fine-tuned compliance by family; strongest out-of-distribution gain
-  in Structure (28 → 63 %), not chance-corrected.
-- **A colleague's SPAR week-3 gpt-oss-20b runs (V2, V2.1, V3):** they agree that few-constraint training improves
-  trained constraints but not unseen ones on their own (`GPTOSS_VS_COLLEAGUE.md`).
+Source: the shared Drive folder. The four decks are chart images without author names; weeks 1–2 match Ilinca's
+written summaries. Numbers read off charts are approximate (~). These runs use continuous or per-instruction scores
+without our chance correction, so absolute levels are not comparable with ours; the direction of effects is.
+
+### 6a. Replicating METR's recipe (week 1, gpt-oss-20b; Ilinca)
+
+- **Train/eval length mismatch:** METR's training reasoning has a median of 168 tokens; its evaluation suites 664
+  (CoTControl) and 691 (ReasonIF), with 13–25 % of evaluation traces over 3,000 tokens. Compliance falls steeply with
+  trace length (ReasonIF after fine-tuning: ~77 % under 250 tokens, ~5 % over 4,000).
+- **Two pipeline bugs:**
+  - 62 % of training rows (589 of 949) have an unclosed `<answer>` tag;
+  - MMLU-Pro options were never shown to the model. Fixing it raises MMLU-Pro accuracy from 0.4 % to ~70 % and
+    CoTControl accuracy from 27.6 % to 45.6 %, and **lowers** measured compliance: the bug inflated it.
+- **Result after fixing:** trained ReasonIF families rise (~14 → ~51 %), CoTControl stays under 4 % (1.55 → 2.65 %),
+  even on short-reasoning questions. METR's reported CoTControl gain (~2 → ~9 %) does not replicate.
+- **Under-elicited prompts:** on the base model, METR's wording gets 0/43 (capitals) and 0/47 (JSON); a reworded
+  prompt gets 86/300 and 118/300 (week 2).
+
+### 6b. A narrow recipe makes held-out controllability worse (week 2, gpt-oss-20b; Ilinca)
+
+- **Setup:** 4,000 questions from 9 sources. 5 trained families (uppercase, "a"→"#", JSON, bullets, word suppression),
+  each rewritten by gpt-4.1; 5 held-out families (lowercase, XML, numbered list, no spaces, Spanish).
+- **Result:** trained families ~0.50 → ~0.92 (continuous score); held-out families **~0.56 → ~0.38**:
+  - no spaces ~0.28 → ~0.07;
+  - Spanish ~0.70 → ~0.30;
+  - XML ~0.70 → ~0.34;
+  - lowercase ~0.59 → ~0.45.
+- **The "XML collapse":** the instruction named the tag `<analysis>`, after gpt-oss's reasoning channel. The model then
+  produced an empty reasoning channel (99 % of rollouts after 120 examples). Renaming the tag avoids the collapse, but
+  XML compliance still falls (0.70 → 0.34).
+
+### 6c. Constraints per prompt, and combinations (week 3, gpt-oss-20b, runs V2 / V2.1 / V3)
+
+| run | constraints per training prompt | trained constraints | held-out constraints |
+|---|---|---|---|
+| V3 | 1 | barely move: ~0.20 → 0.27 | CoTControl flat: ~0.19 → 0.17 |
+| V2 | 1–3 | up | lowercase, Spanish, JSON decline; numbered list 0.76 → 0.86 |
+| V2.1 | 4–5 | up, slightly below V2 | not better than V2: same declines; numbered list 0.84 |
+
+Two further findings:
+- **Combination effect:** in V3, a rule is obeyed far more when asked together with trained rules than alone:
+  - trained rules: 0.27 alone against 0.74 in combination;
+  - the held-out Spanish rule: 0.04 alone against 0.71 in combination.
+- **CoTControl (V2.1):** gains only where a mode resembles a trained rule (uppercase ~0.01 → 0.60). The other modes are
+  flat or lower.
+
+### 6d. A diverse recipe transfers on three models (week 4, "V1" set: 23 trained, 15 held-out instructions)
+
+Same family names as our suite (Bans, Case, Inclusion, Language, Length, Position trained; Layout, Statistics,
+Structure, Style held out).
+
+| model | trained instructions: base → final | held-out instructions: base → final | accuracy, held-out: base → final |
+|---|---:|---:|---:|
+| gpt-oss-20b | 13.2 → 34.7 % | 9.9 → **34.6 %** | 66.8 → 59.0 % |
+| gpt-oss-120b | 16.3 → 28.3 % | 22.7 → **35.2 %** | 71.0 → 66.6 % |
+| Kimi-K2.6 (exploratory, 4 questions per instruction) | 5.4 → 51.6 % | 23.3 → **49.2 %** | – |
+
+- **Where the gain comes from:** mostly Structure (gpt-oss-20b ~6 → ~56 %, gpt-oss-120b ~28 → ~63 %) and, on gpt-oss-20b,
+  Style and Statistics. gpt-oss-120b's Style falls (~22 → ~18 %).
+- **Not chance-corrected.** Base levels are high for Language and Length (55–70 %), likely partly chance passes.
+
+### What the team's results add to the two claims
+
+- **Claim 1, recipe:**
+  - **Diverse constraints help, now on more models.** The same team's narrow gpt-oss-20b recipe (5 families) lowers
+    held-out controllability (6b), while the diverse recipe (10 families) raises it on gpt-oss-20b, gpt-oss-120b and
+    Kimi-K2.6 (6d). Together with our many-rule results (Qwen3.8-27B, gpt-oss-20b, R1-Distill-Llama-8B) and v2
+    results (gpt-oss-20b, Gemma-4-31B), that is six models across five model families.
+  - **More constraints per example: evidence is mixed.** It helps transfer on Qwen3-8B. On gpt-oss-20b, neither our
+    runs nor the team's V2 vs V2.1 show a held-out gain. One-constraint-per-prompt training (V3) learns little.
+  - **Replication problems in METR's recipe are documented:** length mismatch, two bugs, under-elicited prompts (6a).
+- **Claim 2, unlearning:** no deliberate unlearning experiment in the team's results. Narrow fine-tuning **lowered**
+  held-out controllability incidentally (6b, 6c): fine-tuning can reduce controllability on rules it was not trained
+  on, consistent with our unlearning result.
 
 ## 7. Document index
 
