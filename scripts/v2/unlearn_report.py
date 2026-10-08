@@ -115,9 +115,27 @@ def main():
         for s in ("top", "right", "left"): ax.spines[s].set_visible(False)
         ax.set_title(gname.replace("held out: ", "held-out rules: "), loc="left", fontsize=9.5, color=INK)
     axes[0].set_ylabel("rule satisfied above chance, % (macro over operations)", color=INK2); axes[0].legend(frameon=False, fontsize=8.5)
-    fig.suptitle(f"Unlearning CoT controllability: {key}", x=0.01, ha="left", fontsize=10.5, color=INK)
+    title = {"qwen38_tinker": "Qwen3.8-27B"}.get(key, key)
+    fig.suptitle(f"Unlearning CoT controllability, {title}: base, control (same traces, no rule) and unlearned", x=0.01, ha="left", fontsize=10.5, color=INK)
     fig.tight_layout(rect=(0, 0, 1, 0.93)); fig.savefig(REPO / f"figures/unlearn_v2_{key}_main.png", bbox_inches="tight"); plt.close(fig)
-    print("wrote", f"figures/unlearn_v2_{key}_main.png")
+    show = ["held out: near (sibling unlearned)", "held out: far", "unlearned half, score 0", "held out, score 0"]
+    fig, axes = plt.subplots(1, len(show), figsize=(4.6 * len(show), 4.0), sharey=True)
+    for ax, gname in zip(axes, show):
+        w = 0.27
+        for j, arm in enumerate(("base", "C", "U")):
+            ys = [res[arm]["cells"].get(f"{gname} | {c}") for c in cnames]
+            xs = [i + (j - 1) * w for i in range(len(cnames))]
+            ax.bar([x for x, y in zip(xs, ys) if y is not None], [y for y in ys if y is not None], width=w * 0.92, color=COL[arm], edgecolor=SURF, label=LAB[arm])
+            for x, y in zip(xs, ys):
+                if y is not None: ax.text(x, y + 0.6, f"{y:.0f}", ha="center", fontsize=7, color=INK2)
+        ax.set_xticks(range(len(cnames))); ax.set_xticklabels([c.replace(" (", "\n(") for c in cnames], fontsize=7.2, color=INK2)
+        ax.yaxis.grid(True, color=GRID); ax.set_axisbelow(True); ax.tick_params(length=0, colors=MUTED)
+        for sp in ("top", "right", "left"): ax.spines[sp].set_visible(False)
+        ax.set_title(gname.replace("held out: ", "held-out: "), loc="left", fontsize=9.5, color=INK)
+    axes[0].set_ylabel("rule satisfied above chance, %", color=INK2); axes[0].legend(frameon=False, fontsize=8)
+    fig.suptitle(f"{title}: held-out rules near and far, and the operations base never followed (score 0)", x=0.01, ha="left", fontsize=10.5, color=INK)
+    fig.tight_layout(rect=(0, 0, 1, 0.92)); fig.savefig(REPO / f"figures/unlearn_v2_{key}_groups.png", bbox_inches="tight"); plt.close(fig)
+    print("wrote", f"figures/unlearn_v2_{key}_main.png", f"figures/unlearn_v2_{key}_groups.png")
 
 
 if __name__ == "__main__":
