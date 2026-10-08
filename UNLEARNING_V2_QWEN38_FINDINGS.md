@@ -9,9 +9,10 @@ W&B `spar_controllability/cot-control-ft`, group `unlearn-v2-qwen38`.*
 
 **Training Qwen3.8-27B on its own reasoning paired with rules that reasoning ignores removes its CoT controllability
 almost completely: on the trained rules (about 20 % → 2–3 %), on held-out rules (24 % → 1 %), and in a template it never
-saw. The removal holds up under best of 3, but not under prefilling: started in the required format, the unlearned model continues
-it about as often as base follows the rule plainly. The removal is not specific to the reasoning: the unlearned model
-also stops applying the rules to its answer.**
+saw. The removal holds up under best of 3. Prefilling closes much of the gap but not all of it: under the same prefill
+the unlearned model stays below base (trained rules 27 against 38 %, held-out 13 against 30 %), though on trained rules
+it reaches base's plain-prompt level (23 %), which fails our pre-registered test. The removal is not specific to the
+reasoning: the unlearned model also stops applying the rules to its answer.**
 
 ![Base, control and unlearned](figures/unlearn_v2_qwen38_tinker_main.png)
 
@@ -70,13 +71,18 @@ also stops applying the rules to its answer.**
    - **Control arm:** C stays at base level throughout, so the drop comes from pairing traces with rules they ignore,
      not from fine-tuning on the model's own reasoning.
 2. **Best of 3 does not bring it back.** Three samples get U to 3–4 %, against 29–40 % for base.
-3. **It does not survive prefill on the trained rules.**
-   - **Trained rules:** once its reasoning is started in the required format, U continues compliantly on 27 % of
-     prompts. That is above base under a plain prompt (23 %) and recovers more than C does (24 points against 12),
-     so it fails both parts of the pre-registered "survives" test.
-   - **Held-out rules:** prefill gets U to 13 %, below base plain (24 %) and below C's gain. It passes there.
+3. **Prefill narrows the gap but does not close it.**
+   - **Like for like, U stays below base and control.** Under the same prefill, U continues compliantly on 27 % of
+     trained-rule prompts against 38 % for base and 33 % for C. On held-out rules it reaches 13 % against 30 % and 33 %.
+     So unlearning still removes about 30 % of what prefill elicits on trained rules and about 55 % on held-out rules,
+     against about 90–95 % under a plain prompt.
+   - **Against the pre-registered test it fails on trained rules.** That test compares U under elicitation with base
+     under a **plain** prompt (23 %), and asks that U gain less than half of what C gains. On trained rules U reaches 27 %
+     and gains 24 points against C's 12. On held-out rules U stays below base plain (13 < 24) but gains 12 points against
+     C's 6, so the second condition fails there too.
    - **Prefill is a strong push for any model.** Even rules base never follows reach 26–35 % with prefill (figure
-     below). It measures continuing a format that has been started as much as following an instruction.
+     below). It measures continuing a format that has been started as much as following an instruction, which is why
+     the like-for-like comparison matters.
 4. **The removal is not specific to the reasoning.** Asked to apply the same rules to its **answer**, U manages 16–22 %
    against C's 58–63 %. U has learned to ignore formatting instructions in general. This follows from the training data:
    each training answer was the model's own, which ignored the rule too.
