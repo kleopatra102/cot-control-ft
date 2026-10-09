@@ -18,6 +18,10 @@ Each number names its source.*
 
 Each model's evidence comes from a different experiment, constraint set and scoring. Read across rows with care.
 
+![Every model, base vs trained](figures/summary_transfer_all.png)
+
+*`scripts/summary_transfer_all.py`. Colour: within-family split (near transfer), by-family split (far transfer), or no family split. In v1 the "shared held-out core" is the same set of constraints for both arms.*
+
 | model (family) | experiment and constraint set | held-out readout: base → trained | near / far measured? | unseen templates tested? | elicitation tested? | chance-corrected? | leakage-audited? |
 |---|---|---|---|---|---|---|---|
 | Qwen3.5-9B (Qwen) | few-constraint SFT, 6 ReasonIF constraints, 1–3 per example | CoTControl modes: 0 → 2.5 % (binary) | no | trained in ReasonIF's template, tested in CoTControl's (different by design) | no | no | no |
