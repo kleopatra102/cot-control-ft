@@ -14,6 +14,40 @@ Each number names its source.*
 
 ---
 
+## 0. Evidence map: transfer to held-out constraints, model by model
+
+Each model's evidence comes from a different experiment, constraint set and scoring. Read across rows with care.
+
+| model (family) | experiment and constraint set | held-out readout: base → trained | near / far measured? | unseen templates tested? | elicitation tested? | chance-corrected? | leakage-audited? |
+|---|---|---|---|---|---|---|---|
+| Qwen3.5-9B (Qwen) | few-constraint SFT, 6 ReasonIF constraints, 1–3 per example | CoTControl modes: 0 → 2.5 % (binary) | no | trained in ReasonIF's template, tested in CoTControl's (different by design) | no | no | no |
+| Qwen3-8B (Qwen) | few-constraint SFT, 1 / 3 / 5 per example | CoTControl modes: 0.3 → 12.1 % (mostly near-copies of trained constraints, plus JSON) | no | as above | **yes** (8 strategies) | no | no |
+| Qwen3.8-27B (Qwen) | (a) few-constraint SFT (Q5); (b) many-rule v1 | (a) Redwood's 9 held-out: 11 → 35 %; CoTControl 0 → 11 %. (b) shared held-out core: 1 → 25 % | (b) by-family vs within-family arms, but v1 had overlaps and leakage (corrected afterwards) | (a) Redwood's own templates | no (unlearning run: best of 3, prefill) | no | (b) corrected after the fact |
+| gpt-oss-20b (OpenAI) | (a) few-constraint SFT; (b) many-rule v1; (c) **v2 benchmark**; (d) team V1 (week 4) | (a) Redwood 2 → 22 %, CoTControl 1.5 → 3.4 %; (b) 0 → 29 %; (c) **near 2 → 28 %, far 3 → 24 %**; (d) held-out families 9.9 → 34.6 % | (c) **yes** | (c) **yes**: T4–T6 near 2 → 25 %, far 3 → 16 % | **yes** on (a) (8 strategies) | (c) yes; (d) no | (c) yes; (b) corrected after the fact |
+| R1-Distill-Llama-8B (DeepSeek / Llama) | many-rule v1 | shared held-out core: 0 → 24 % | v1 arms (as above) | no | no | no | corrected after the fact |
+| Gemma-4-31B (Google) | **v2 benchmark** | **near 6 → 37 %, far 3 → 9 %** | **yes** | **yes**: T4–T6 near 9 → 40 %, far 5 → 10 % | no | yes | yes |
+| gpt-oss-120b (OpenAI) | team V1 (week 4), 23 trained / 15 held-out instructions | held-out families: 22.7 → 35.2 % | far only (families held out) | no | no | **no** | not reported |
+| Kimi-K2.6 (Moonshot) | team V1 (week 4), exploratory, 4 questions per instruction | held-out families: 23.3 → 49.2 % | far only | no | no | **no** | not reported |
+
+**Totals.**
+- **Models and families:** eight models from five families show some transfer to held-out constraints. The weakest
+  are Qwen3.5-9B (+2.5 points) and Qwen3-8B (+12, mostly near-copies).
+- **Size of the gain:** median +24 points across the eight (each model's best clean readout); mean +20.
+- **Near vs far** is measured cleanly (chance-corrected, leakage-audited, the same benchmark) on **two** models only:
+  - near: +26 (gpt-oss-20b) and +31 (Gemma), mean **+28 points**;
+  - far: +21 and +6, mean **+13 points**.
+
+  In unseen templates: near +23 and +31, far +13 and +5.
+- **Far transfer on more models,** in the team's V1 runs (not chance-corrected): gpt-oss-20b +25, gpt-oss-120b +12,
+  Kimi-K2.6 +26.
+- **Unseen prompt templates** are tested on two models (gpt-oss-20b, Gemma-4-31B), plus the Qwen3.8 unlearning run.
+- **Elicitation methods** are tested on two few-constraint models (Qwen3-8B, gpt-oss-20b) and in the Qwen3.8
+  unlearning run (best of 3, prefill), not across all eight.
+- **Intrinsic controllability** (doing it unasked, e.g. steganography) has **not been measured** for any model.
+  Every number here is extrinsic: following an instruction about the CoT.
+
+---
+
 ## 1. Recipe for training CoT controllability
 
 ### 1a. More constraints per training example

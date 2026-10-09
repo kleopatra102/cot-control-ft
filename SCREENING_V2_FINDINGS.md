@@ -1,6 +1,6 @@
 # Screening base models for the unlearning experiment: findings
 
-*2026-10-07. Step 1 of `UNLEARNING_V2_PLAN.md`: which base models control their own chain of thought well enough
+*2026-10-07, Kimi-K2.6 added 2026-10-09. Step 1 of `UNLEARNING_V2_PLAN.md`: which base models control their own chain of thought well enough
 that removing the ability, and testing whether it survives elicitation, can be measured? Rules: the 40 v2 rules
 (`CONDITIONS_V2.md`). Script: `scripts/v2/screen.py`; table and figures: `scripts/v2/screen_report.py`.*
 
@@ -53,6 +53,7 @@ reasoning effort).
 | **Gemma-4-31B** | 16 / **22** | **18** | **15, 7** | 89 | 55 % | 399 |
 | **Qwen3.8-27B** | 11 / 17 | **16** | 10, 7 | 89 | 72 % | 219 |
 | DeepSeek-V3.1 | 14 / 18 | 14 | 9, 5 | 90 | 59 % | 353 |
+| Kimi-K2.6 | 12 / 16 | n/a (restates in 93 % of traces) | 10, 6 | 86 | 93 % | 1,011 |
 | Qwen3-32B | 11 / 16 | 11 | 13, 5 | 89 | 8 % | 330 |
 | gpt-oss-120b | 10 / 13 | 11 | 6, 4 | 88 | 72 % | 193 |
 | Nemotron-3-Nano | 10 / 12 | **2** | 7, 5 | 84 | 92 % | 623 |
@@ -92,6 +93,7 @@ Unlearning trains on one half of the rules and tests the other. Both halves need
 | Gemma-4-31B | 25 / **20** | 26 / **19** |
 | Qwen3.8-27B | 25 / 8 | 21 / 12 |
 | DeepSeek-V3.1 | 26 / 9 | 24 / 11 |
+| Kimi-K2.6 | 17 / 16 | 19 / 14 |
 | Qwen3-32B | 25 / 7 | 15 / **17** |
 | gpt-oss-120b | 19 / 8 | 18 / 9 |
 | Nemotron-3-Nano | 16 / 9 | 16 / 9 |
@@ -107,17 +109,39 @@ within-family split balances Qwen3-32B and partly Qwen3.8.
 
 ## Candidates
 
-| rank | model | why | where it can run |
-|---|---|---|---|
-| 1 | **Gemma-4-31B** | most controllability, broadest (15 rules, 7 families), genuine, balanced under both splits | local 32 GB GPU only (not on Tinker) |
-| 2 | **Qwen3.8-27B** | genuine control over 7 families; held-out half weaker (8–12 %) | **Tinker** (screening and LoRA training) |
-| 3 | Qwen3-32B | balanced only with the within-family split; little restating | local GPU only |
-| 4 | DeepSeek-V3.1 | control concentrated in the unlearned half (7 / 2) | Tinker |
-| – | gpt-oss-120b | too narrow (6 rules) | Tinker |
-| – | Nemotron-3-Nano | control is mostly restating the rule | Tinker |
+**Are they all good candidates?** Judged by the averages in the first figure, every model has something to remove:
+10–16 % above chance with one sample, 12–22 % with best of 3. Each could show the basic effect (control on the
+trained rules dropping towards 0). But the average hides three properties that decide whether a model can test the
+full claim, that the loss spreads to rules the model was never unlearned on:
 
-**Recommendation:** run the unlearning experiment on **Qwen3.8-27B on Tinker** now (within-family split, the more
-balanced one for it), and on **Gemma-4-31B** when a local GPU is free.
+| property | why it matters |
+|---|---|
+| **genuine** (not quoting the instruction) | if the "control" is quoting, removing it says nothing about controllability |
+| **broad** (many rules, several families) | control in a few rules gives a fragile result |
+| **in both halves of the split** | the key test is whether unlearning one half removes control on the held-out half |
+
+| rank | model | above chance, best of 3 | genuine? | broad? (rules ≥ 20 pts, families) | both halves? (by-family / within-family) | runs on |
+|---|---|---:|---|---|---|---|
+| 1 | **Gemma-4-31B** | 22 | yes (18 % without restating) | yes (15, 7) | yes (7/8, 8/7) | local 32 GB GPU only |
+| 2 | **Qwen3.8-27B** (unlearning done, `UNLEARNING_V2_QWEN38_FINDINGS.md`) | 17 | yes (16 %) | yes (10, 7) | fair (6/4, 6/4) | Tinker |
+| 3 | **Kimi-K2.6** (`KIMI_K26_SCREENING.md`) | 16 | partly: restates in 93 % of traces, so the check cannot be applied; style and length control cannot be quoting | fair (10, 6) | **best (5/5, 5/5)** | Tinker (expensive: long reasoning) |
+| 4 | Qwen3-32B | 16 | yes (11 %; rarely restates) | yes (13, 5) | within-family only (10/3, 6/7) | local GPU only |
+| 5 | DeepSeek-V3.1 | 18 | yes (14 %) | fair (9, 5) | **no** (7/2, 7/2) | Tinker |
+| 6 | gpt-oss-120b | 13 | yes (11 %) | **no** (6, 4) | no (4/2, 4/2) | Tinker |
+| – | Nemotron-3-Nano | 12 | **no** (2 % without restating) | (7, 5) | (4/3, 5/2) | Tinker |
+
+- **Good for the full claim:** Gemma-4-31B, Qwen3.8-27B; also Kimi-K2.6 (part of its control may be quoting) and
+  Qwen3-32B (within-family split only).
+- **Fine for the basic effect, weak for the held-out claim:** DeepSeek-V3.1, gpt-oss-120b.
+- **Not useful:** Nemotron-3-Nano.
+
+**Scale of the effect.** With base levels of 12–22 %, "unlearning works" means dropping from roughly 20 % to roughly
+2 %: clear, but modest in absolute terms. None of the open models screened is anywhere near the high controllability
+OpenAI reports for its closed GPT-6 Astra.
+
+**Comparability caveat.** Gemma-4-31B and Qwen3-32B ran on 4-bit weights through vLLM; the other five ran in full
+precision on Tinker. Qwen3.8-27B and gpt-oss-120b used medium reasoning effort. All seven used the same rules,
+templates (T1–T3), questions and scoring.
 
 ## Cost
 
