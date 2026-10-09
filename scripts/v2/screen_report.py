@@ -18,7 +18,7 @@ from collections import defaultdict
 SURF, INK, INK2, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 COL = {"macro_chance": "#c3c2b7", "macro_plain": "#7fa6d6", "macro_best_of_k": "#2f6db5"}
 LAB = {"macro_chance": "not asked (chance)", "macro_plain": "asked, one sample", "macro_best_of_k": "asked, best of 3"}
-TITLE = {"deepseek_v31": "DeepSeek-V3.1", "gptoss120b": "gpt-oss-120b", "qwen38_tinker": "Qwen3.8-27B", "nemotron3_nano": "Nemotron-3-Nano", "qwen36": "Qwen3.6-35B-A3B", "qwen3_32b": "Qwen3-32B", "olmo3_think": "OLMo-3.1-32B-Think", "glm47_flash": "GLM-4.7-Flash",
+TITLE = {"kimi_k26": "Kimi-K2.6", "deepseek_v31": "DeepSeek-V3.1", "gptoss120b": "gpt-oss-120b", "qwen38_tinker": "Qwen3.8-27B", "nemotron3_nano": "Nemotron-3-Nano", "qwen36": "Qwen3.6-35B-A3B", "qwen3_32b": "Qwen3-32B", "olmo3_think": "OLMo-3.1-32B-Think", "glm47_flash": "GLM-4.7-Flash",
          "magistral": "Magistral-Small-2509", "qwen38": "Qwen3.8-27B", "gemma4": "Gemma-4-31B", "gptoss20b": "gpt-oss-20b"}
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "font.size": 9.5, "savefig.dpi": 150, "savefig.facecolor": SURF})
 

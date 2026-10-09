@@ -17,7 +17,7 @@ from cotctl.v2.spec import C, role
 
 SURF, INK, INK2, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 BLUE, LIGHT, ORANGE = "#2f6db5", "#a9c2e3", "#d9733f"
-NAMES = {"gemma4": "Gemma-4-31B", "qwen38_tinker": "Qwen3.8-27B", "deepseek_v31": "DeepSeek-V3.1", "qwen3_32b": "Qwen3-32B",
+NAMES = {"gemma4": "Gemma-4-31B", "kimi_k26": "Kimi-K2.6", "qwen38_tinker": "Qwen3.8-27B", "deepseek_v31": "DeepSeek-V3.1", "qwen3_32b": "Qwen3-32B",
          "gptoss120b": "gpt-oss-120b", "nemotron3_nano": "Nemotron-3-Nano"}
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "font.size": 9.5, "savefig.dpi": 150, "savefig.facecolor": SURF})
 OP = {c[2]: (c[0], c[1]) for c in C}; FAMS = list(dict.fromkeys(c[0] for c in C))
@@ -48,10 +48,11 @@ for m in M:
     for g in G[m]:
         if g["k"] == 0 and g["ok"] and not g["restates"]: nr[g["cid"]].append(bool(g["compliant"]))
     allv.append(S[m]["macro_plain_above_chance"])
-    nrv.append(macro({c: max(0.0, 100 * st.mean(v) - S[m]["rules"][c]["chance"]) for c, v in nr.items() if len(v) >= 5}))
+    ok = {c: max(0.0, 100 * st.mean(v) - S[m]["rules"][c]["chance"]) for c, v in nr.items() if len(v) >= 5}
+    nrv.append(macro(ok) if ok else None)  # None: almost every trace restates the rule, so there is nothing to score
 for off, ys, col, lab in ((-w / 2, allv, LIGHT, "all traces"), (w / 2, nrv, BLUE, "only traces that do not restate the rule")):
-    a1.bar([i + off for i in x], ys, width=w * 0.94, color=col, edgecolor=SURF, label=lab)
-    for i, y in zip(x, ys): a1.text(i + off, y + 0.4, f"{y:.0f}", ha="center", fontsize=8.5, color=INK2)
+    a1.bar([i + off for i, y in zip(x, ys) if y is not None], [y for y in ys if y is not None], width=w * 0.94, color=col, edgecolor=SURF, label=lab)
+    for i, y in zip(x, ys): a1.text(i + off, (y or 0) + 0.4, "n/a" if y is None else f"{y:.0f}", ha="center", fontsize=8.5, color=INK2)
 a1.set_xticks(list(x)); a1.set_xticklabels([NAMES[m] for m in M], fontsize=8.5, color=INK2); style(a1)
 a1.set_ylabel("rules satisfied above chance, % (one sample)", color=INK2); a1.legend(frameon=False, fontsize=8.5, loc="upper right")
 a1.set_title("Controllability with and without traces that restate the rule", loc="left", fontsize=10, color=INK)
