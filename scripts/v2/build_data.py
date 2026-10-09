@@ -6,7 +6,7 @@ exact traces with every prompt re-rendered in template T1.
 Writes data/sft/v2_gptoss_{A,B,A1}.jsonl and results/v2_gptoss/build/{arm}_stats.json.
 """
 from __future__ import annotations
-import argparse, asyncio, json, os, random, sys, time
+import argparse, os, asyncio, json, os, random, sys, time
 from collections import Counter
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(REPO / "src"))
@@ -16,6 +16,7 @@ from cotctl.sft.editor import Editor
 from cotctl.v2 import build as BD
 from cotctl.v2.runs import RUN
 from cotctl.v2.spec import C, role, TRAIN_TEMPLATES, LANG_NAME, K_PER_EXAMPLE
+K_PER_EXAMPLE = int(os.environ.get("V2_K", K_PER_EXAMPLE))  # rules per training example (V2_K overrides the spec's 7)
 
 
 async def main():
@@ -38,7 +39,9 @@ async def main():
         async def one(i, r):
             q = r["prompt"].split("Here is the question:\n\n", 1)[-1].strip()
             for attempt in range(a.attempts):
-                conds = BD.sample_conds(pool, K_PER_EXAMPLE, usage, rng, lambda c: BD.eligible(c, q, r["reasoning"])); usage.update(conds)
+                try: conds = BD.sample_conds(pool, K_PER_EXAMPLE, usage, rng, lambda c: BD.eligible(c, q, r["reasoning"]))
+                except RuntimeError: dropped.append({"i": i, "error": f"no {K_PER_EXAMPLE} compatible eligible rules"}); return  # e.g. no keyword or numbers in this trace
+                usage.update(conds)
                 args = BD.make_args(conds, q, r["reasoning"], rng, th)
                 if "ban_keyword" in conds and args["language"] != "en":  # ban the keyword in the trace language, not the English word
                     tr = await editor.call("Translate the given English word into the given language as it would appear in a sentence. Reply with the single translated word only.",

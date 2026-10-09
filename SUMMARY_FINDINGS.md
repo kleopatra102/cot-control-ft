@@ -30,14 +30,14 @@ Each model's evidence comes from a different experiment, constraint set and scor
 | gpt-oss-20b (OpenAI) | (a) few-constraint SFT; (b) many-rule v1; (c) **v2 benchmark**; (d) team V1 (week 4) | (a) Redwood 2 → 22 %, CoTControl 1.5 → 3.4 %; (b) 0 → 29 %; (c) **near 2 → 28 %, far 3 → 24 %**; (d) held-out families 9.9 → 34.6 % | (c) **yes** | (c) **yes**: T4–T6 near 2 → 25 %, far 3 → 16 % | **yes** on (a) (8 strategies) | (c) yes; (d) no | (c) yes; (b) corrected after the fact |
 | R1-Distill-Llama-8B (DeepSeek / Llama) | many-rule v1 | shared held-out core: 0 → 24 % | v1 arms (as above) | no | no | no | corrected after the fact |
 | Gemma-4-31B (Google) | **v2 benchmark** | **near 6 → 37 %, far 3 → 9 %** | **yes** | **yes**: T4–T6 near 9 → 40 %, far 5 → 10 % | no | yes | yes |
-| gpt-oss-120b (OpenAI) | team V1 (week 4), 23 trained / 15 held-out instructions | held-out families: 22.7 → 35.2 % | far only (families held out) | no | no | **no** | not reported |
+| gpt-oss-120b (OpenAI) | (a) **v2 benchmark, within-family arm only** (Tinker); (b) team V1 (week 4) | (a) **near 2 → 27 %**; T4–T6 2 → 24 %; (b) held-out families 22.7 → 35.2 % | (a) near only; (b) far only | (a) **yes** | no | (a) yes; (b) **no** | (a) yes |
 | Kimi-K2.6 (Moonshot) | team V1 (week 4), exploratory, 4 questions per instruction | held-out families: 23.3 → 49.2 % | far only | no | no | **no** | not reported |
 
 **Totals.**
 - **Models and families:** eight models from five families show some transfer to held-out constraints. The weakest
   are Qwen3.5-9B (+2.5 points) and Qwen3-8B (+12, mostly near-copies).
 - **Size of the gain:** median +24 points across the eight (each model's best clean readout); mean +20.
-- **Near vs far** is measured cleanly (chance-corrected, leakage-audited, the same benchmark) on **two** models only:
+- **Near vs far** is measured cleanly (chance-corrected, leakage-audited, the same benchmark) on **two** models (gpt-oss-120b adds a near number only, +25, `V2_GPTOSS120B_FINDINGS.md`):
   - near: +26 (gpt-oss-20b) and +31 (Gemma), mean **+28 points**;
   - far: +21 and +6, mean **+13 points**.
 

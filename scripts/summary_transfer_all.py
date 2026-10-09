@@ -32,6 +32,7 @@ ROWS = [
     ("Our benchmark v2: 40 constraints, 20 trained, 7 per example", "gpt-oss-20b", "within-family split", "held-out constraints, T1-T3", 2.0, 28.0, "within", "chance-corrected, leakage-audited"),
     ("Our benchmark v2: 40 constraints, 20 trained, 7 per example", "Gemma-4-31B", "by-family split", "held-out constraints, T1-T3", 3.0, 9.0, "by", "chance-corrected, leakage-audited"),
     ("Our benchmark v2: 40 constraints, 20 trained, 7 per example", "Gemma-4-31B", "within-family split", "held-out constraints, T1-T3", 6.0, 37.0, "within", "chance-corrected, leakage-audited"),
+    ("Our benchmark v2: 40 constraints, 20 trained, 7 per example", "gpt-oss-120b", "within-family split", "held-out constraints, T1-T3", 2.1, 27.0, "within", "chance-corrected, leakage-audited; Tinker"),
     ("Team's V1 set: 23 trained / 15 held-out instructions (week 4)", "gpt-oss-20b", "held-out families", "held-out instructions", 9.9, 34.6, "by", "not chance-corrected"),
     ("Team's V1 set: 23 trained / 15 held-out instructions (week 4)", "gpt-oss-120b", "held-out families", "held-out instructions", 22.7, 35.2, "by", "not chance-corrected"),
     ("Team's V1 set: 23 trained / 15 held-out instructions (week 4)", "Kimi-K2.6", "held-out families", "held-out instructions", 23.3, 49.2, "by", "not chance-corrected; 4 questions per instruction"),

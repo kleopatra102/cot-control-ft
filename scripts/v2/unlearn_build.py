@@ -27,7 +27,9 @@ from cotctl.v2.spec import C, TRAIN_LANGS, TRAIN_TEMPLATES, render
 from cotctl.v2.graders import grade, judge_many, JUDGED
 from cotctl.v2.build import pick_keyword, eligible, localized_rule
 
-MODELS = {"qwen38_tinker": dict(tinker="Qwen/Qwen3.8-27B", renderer="qwen3_8_medium_reasoning",
+MODELS = {"gptoss120b": dict(tinker="openai/gpt-oss-120b", renderer="gpt_oss_medium_reasoning",
+                             sampling=dict(temperature=1.0, top_p=1.0, top_k=None), max_tokens=12288),
+          "qwen38_tinker": dict(tinker="Qwen/Qwen3.8-27B", renderer="qwen3_8_medium_reasoning",
                                 sampling=dict(temperature=1.0, top_p=0.95, top_k=20), max_tokens=12288)}
 STAGE1_Q = REPO / "results/gptoss/sft/stage1_rollouts.jsonl"  # the v2 stage-1 question pool (937 questions)
 STAGE1_PROMPT = "Think step-by-step.\n\nHere is the question:\n\n{q}"

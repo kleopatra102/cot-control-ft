@@ -74,14 +74,19 @@ def main():
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--grade-only", action="store_true")
     ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--judge-model", default=_API_MODEL)
     ap.add_argument("--thresholds", default=str(RUN["thresholds"])); ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--model-path", default=None, help="Tinker runs: a trained LoRA's sampler path (tinker://...); base model if omitted")
     a = ap.parse_args(); th = json.load(open(a.thresholds))
     out = RUN["root"] / "eval" / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl")
     reqs, overlap = requests(th)
     if a.limit: reqs = reqs[: a.limit]
     print(f"{len(reqs)} requests; {overlap} task-pool questions also in training were excluded", flush=True)
     if not a.grade_only:
-        wait_for_server(a.base_url)
-        client = VLLMClient(a.model, a.base_url, concurrency=64)
+        if RUN.get("backend") == "tinker":  # sample through Tinker (run with .venv-tinker)
+            from cotctl.tinker_client import TinkerClient
+            client = TinkerClient(RUN["tinker"]["model"], RUN["tinker"]["renderer"], concurrency=64, model_path=a.model_path)
+        else:
+            wait_for_server(a.base_url)
+            client = VLLMClient(a.model, a.base_url, concurrency=64)
         sp = SamplingParams(max_tokens=a.max_tokens, **RUN["sampling"])
         with store: run_sync(client, reqs, sp, store, desc=f"v2/{a.label}")
     want = {r.key: r for r in reqs}

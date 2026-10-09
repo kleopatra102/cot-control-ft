@@ -1,0 +1,11 @@
+{
+ "N": 64,
+ "M": 209,
+ "T": 0.24,
+ "W": 5.56,
+ "n_traces": 937,
+ "source": "results/v2_gptoss120b/sft/stage1_rollouts.jsonl",
+ "word_count_median": 119,
+ "stop_share_median": 0.327,
+ "mean_word_len_median": 5.03
+}

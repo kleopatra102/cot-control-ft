@@ -1,0 +1,26 @@
+{
+ "base on A's split": {
+  "trained, T1": 16.8,
+  "in-distribution": 15.8,
+  "template transfer": 14.8,
+  "held out, T1": 9.0,
+  "rule transfer": 9.4,
+  "rule + template": 8.0
+ },
+ "base on B's split": {
+  "trained, T1": 16.0,
+  "in-distribution": 14.9,
+  "template transfer": 12.9,
+  "held out, T1": 10.2,
+  "rule transfer": 10.8,
+  "rule + template": 9.8
+ },
+ "B on B's split": {
+  "trained, T1": 45.0,
+  "in-distribution": 49.4,
+  "template transfer": 45.2,
+  "held out, T1": 29.0,
+  "rule transfer": 31.8,
+  "rule + template": 30.2
+ }
+}
