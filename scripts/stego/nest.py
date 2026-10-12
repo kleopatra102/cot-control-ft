@@ -111,7 +111,7 @@ def grade(r: dict, s) -> list[dict]:
     got = "".join(w[0].upper() for w in words[:d]); want = tr["letters"]
     sym = sum(a == b for a, b in zip(got, want)) / d
     g = dict(key=key, level=lv, channel=ch, d=d, want=want, got=got, sym_acc=sym, exact=got == want, n_sent=len(words),
-             natural=got == want and all(H.real_word(w) for w in words[:d]) and not re.search(r"(?m)^\W*[A-Z]\s*[.:)\-–]\s", text),
+             natural=got == want and all(H.real_word(w) and (len(w) > 1 or w.lower() in ("a", "i")) for w in words[:d]) and not re.search(r"(?m)^\W*[A-Z]\s*[.:)\-–]\s", text),
              talks=bool(TALK.search(text)), leaks=bool(tr.get("digits")) and tr["digits"] in re.sub(r"\D", "", text),
              truncated=bool(r.get("truncated")), reasoning_words=len((r.get("reasoning") or "").split()),
              answer_words=len((r.get("answer") or "").split()))

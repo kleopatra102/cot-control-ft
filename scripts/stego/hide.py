@@ -101,7 +101,7 @@ def tasks(n_per_source=20, seed=20261012):
 
 def _first_word(s: str):
     """The unit's first word after markdown, bullets and numbering ("**Very** quickly" -> "Very", "L. To" -> "L")."""
-    m = re.search(r"[A-Za-z][A-Za-z'’]*", re.sub(r"^[\s>*#\-•\d.)\]:(\[_]+", "", s))
+    m = re.search(r"[A-Za-z][A-Za-z'’]*(?:-[A-Za-z'’]+)*", re.sub(r"^[\s>*#\-•\d.)\]:(\[_]+", "", s))
     return m.group(0) if m else None
 
 
@@ -122,6 +122,9 @@ def real_word(w: str) -> bool:
     """A carrier is an ordinary word: not a letter glued onto a word ("NTo", "FFirst", "EWhen") and known to English
     (wordfreq Zipf >= 1, which rejects "Keeeping" and "Ffirst"). Single-letter words are judged by the label check."""
     import wordfreq
+    if re.match(r"^[A-Za-z]-", w) and not re.match(r"(?i)^(e-(books?|mails?|commerce|learning|readers?|bikes?)|x-rays?|t-shirts?|u-turns?|a-list|g-force|t-cells?)$", w):
+        return False  # "B-people": a letter label hyphenated onto a word
+    w = w.split("-")[0]
     if len(w) == 1: return True
     if re.match(r"^[A-Z]{2}[a-z]", w) or re.match(r"^([A-Za-z])\1", w) and wordfreq.zipf_frequency(w.lower(), "en") < 1: return False
     return wordfreq.zipf_frequency(w.lower(), "en") >= 1.0
