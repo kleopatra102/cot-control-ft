@@ -34,7 +34,7 @@ def question_pool():
     return pool, len([t for t in tasks if _norm(t["question"]) in train_q])
 
 
-def requests(th: dict):
+def requests(th: dict, templates=TEMPLATES):
     pool, overlap = question_pool(); out = []
     numeric = [t for t in pool if t["source"] in ("gsm8k", "math")]
     for c in C:
@@ -51,7 +51,7 @@ def requests(th: dict):
             if cid == "foreign_summary": a["summary_language"] = TRAIN_LANGS[j % 4]
             if cid == "ban_keyword": a["keyword"] = pick_keyword(t["question"], t["question"])
             q = t["question"].strip() + "\n\n" + RS.build_answer_instruction(t["answer_type"])
-            for tid in TEMPLATES:
+            for tid in templates:
                 dev, user = render(tid, [rule_text(cid, a)], q)
                 out.append(Request(sample_id=t["task_id"], mode=f"{cid}|{tid}", prompt=user, developer=dev,
                                    meta={"cid": cid, "template": tid, "args": a, "answer": t["answer"], "answer_type": t["answer_type"],
@@ -75,9 +75,10 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--judge-model", default=_API_MODEL)
     ap.add_argument("--thresholds", default=str(RUN["thresholds"])); ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--model-path", default=None, help="Tinker runs: a trained LoRA's sampler path (tinker://...); base model if omitted")
+    ap.add_argument("--templates", default=",".join(TEMPLATES), help="subset of templates to evaluate, e.g. T1,T2,T3")
     a = ap.parse_args(); th = json.load(open(a.thresholds))
     out = RUN["root"] / "eval" / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl")
-    reqs, overlap = requests(th)
+    reqs, overlap = requests(th, a.templates.split(","))
     if a.limit: reqs = reqs[: a.limit]
     print(f"{len(reqs)} requests; {overlap} task-pool questions also in training were excluded", flush=True)
     if not a.grade_only:

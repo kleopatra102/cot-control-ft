@@ -1,0 +1,11 @@
+{
+ "N": 60,
+ "M": 453,
+ "T": 0.279,
+ "W": 5.29,
+ "n_traces": 199,
+ "source": "/home/ola/dev/cot-control-ft/results/screen_v2/qwen38_tinker/calib.jsonl",
+ "word_count_median": 135,
+ "stop_share_median": 0.395,
+ "mean_word_len_median": 4.46
+}

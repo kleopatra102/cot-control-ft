@@ -20,6 +20,11 @@ RUNS = {
                        sampling=dict(temperature=1.0, top_p=1.0, top_k=None), backend="tinker",
                        tinker=dict(model="openai/gpt-oss-120b", renderer="gpt_oss_medium_reasoning"),
                        leaked={"A": [], "B": ["no_colons"]}),  # within-family arm only (Tinker); no colons leaked (+12, audit)
+    "qwen38": dict(title="Qwen3.8-27B", stage1="results/v2_qwen38/sft/stage1_rollouts.jsonl", thresholds="data/v2_thresholds_qwen3.8-27b.json",
+                   root="results/v2_qwen38", data_prefix="v2_qwen38", fig_prefix="v2_qwen38",
+                   sampling=dict(temperature=1.0, top_p=0.95, top_k=20), backend="tinker",
+                   tinker=dict(model="Qwen/Qwen3.8-27B", renderer="qwen3_8_medium_reasoning"),
+                   leaked={"A": [], "B": ["no_colons"]}),  # within-family arm only (Tinker), T1-T3 eval; no colons leaked (+24, audit)
 }
 NAME = os.environ.get("V2_RUN", "gptoss")
 RUN = {k: (REPO / v if k in ("stage1", "thresholds", "root") else v) for k, v in RUNS[NAME].items()}

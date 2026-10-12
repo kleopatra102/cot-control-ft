@@ -42,13 +42,15 @@ def main():
     ap.add_argument("--grade-only", action="store_true", help="re-grade the stored rollouts without a server")
     ap.add_argument("--backend", choices=("vllm", "tinker"), default="vllm", help="tinker: sample through Tinker (run with .venv-tinker)")
     ap.add_argument("--renderer", default=None, help="tinker-cookbook renderer for --backend tinker, e.g. deepseekv3_thinking")
+    ap.add_argument("--model-path", default=None, help="tinker: a trained LoRA's sampler path (tinker://...); base model if omitted")
+    ap.add_argument("--thresholds", default=None, help="fixed thresholds (e.g. base's) instead of calibrating, so rule wording matches base")
     a = ap.parse_args()
     out = REPO / "results/screen_v2" / a.name; out.mkdir(parents=True, exist_ok=True)
     system = open(a.system_file).read().strip() if a.system_file else None
     sp = SamplingParams(max_tokens=a.max_tokens, **json.loads(a.sampling))
     if not a.grade_only and a.backend == "tinker":
         from cotctl.tinker_client import TinkerClient
-        client = TinkerClient(a.model, a.renderer, concurrency=a.concurrency)
+        client = TinkerClient(a.model, a.renderer, concurrency=a.concurrency, model_path=a.model_path)
     elif not a.grade_only: wait_for_server(a.base_url); client = VLLMClient(a.model, a.base_url, concurrency=a.concurrency)
 
     # 1. unconstrained traces -> thresholds and chance rates
@@ -62,7 +64,8 @@ def main():
     if not a.grade_only:
         with cstore: run_sync(client, calib, sp, cstore, desc=f"{a.name}/calib")
     th_path = out / "thresholds.json"
-    subprocess.run([sys.executable, str(REPO / "scripts/v2/calibrate.py"), "--traces", str(out / "calib.jsonl"), "--out", str(th_path)], check=True)
+    if a.thresholds: th_path.write_text(json.dumps(json.load(open(a.thresholds)), indent=1))
+    else: subprocess.run([sys.executable, str(REPO / "scripts/v2/calibrate.py"), "--traces", str(out / "calib.jsonl"), "--out", str(th_path)], check=True)
     th = json.load(open(th_path))
     crow = [r for r in cstore.read_all() if r.get("think_status") == "ok" and (r.get("reasoning") or "").strip()]
     calib_acc = st.mean(bool(RS.score_accuracy(r.get("answer") or "", r["meta"]["answer"], r["meta"]["answer_type"], r["meta"].get("n_options"))) for r in crow) if crow else None

@@ -1,0 +1,234 @@
+{
+ "name": "qwen38_B",
+ "model": "Qwen/Qwen3.8-27B",
+ "thresholds": {
+  "N": 60,
+  "M": 453,
+  "T": 0.279,
+  "W": 5.29,
+  "n_traces": 199,
+  "source": "/home/ola/dev/cot-control-ft/results/screen_v2/qwen38_tinker/calib.jsonl",
+  "word_count_median": 135,
+  "stop_share_median": 0.395,
+  "mean_word_len_median": 4.46
+ },
+ "n_grid": 1200,
+ "samples": 1,
+ "templates": [
+  "T1",
+  "T2",
+  "T3"
+ ],
+ "macro_plain": 54.33333333333333,
+ "macro_best_of_k": 54.33333333333333,
+ "macro_chance": 2.3737373737373737,
+ "macro_plain_above_chance": 52.02777777777778,
+ "macro_best_above_chance": 52.02777777777778,
+ "accuracy": 93.16666666666666,
+ "accuracy_unconstrained": 93.43434343434343,
+ "truncated": 1.1666666666666667,
+ "restates": 10.0,
+ "median_words": 180.0,
+ "rules": {
+  "all_lower": {
+   "plain": 90.0,
+   "best_of_k": 90.0,
+   "chance": 0.5050505050505051
+  },
+  "all_caps": {
+   "plain": 93.33333333333333,
+   "best_of_k": 93.33333333333333,
+   "chance": 0.5050505050505051
+  },
+  "alt_letter_case": {
+   "plain": 0,
+   "best_of_k": 0,
+   "chance": 0
+  },
+  "alt_word_case": {
+   "plain": 0,
+   "best_of_k": 0,
+   "chance": 0
+  },
+  "ban_keyword": {
+   "plain": 76.66666666666667,
+   "best_of_k": 76.66666666666667,
+   "chance": 0
+  },
+  "no_first_person": {
+   "plain": 30.0,
+   "best_of_k": 30.0,
+   "chance": 0
+  },
+  "no_commas": {
+   "plain": 76.66666666666667,
+   "best_of_k": 76.66666666666667,
+   "chance": 9.595959595959595
+  },
+  "no_colons": {
+   "plain": 26.666666666666668,
+   "best_of_k": 26.666666666666668,
+   "chance": 5.555555555555555
+  },
+  "include_marker": {
+   "plain": 100,
+   "best_of_k": 100,
+   "chance": 0
+  },
+  "word_exactly_twice": {
+   "plain": 46.666666666666664,
+   "best_of_k": 46.666666666666664,
+   "chance": 0
+  },
+  "coord_conjunctions": {
+   "plain": 60.0,
+   "best_of_k": 60.0,
+   "chance": 0
+  },
+  "transition_words": {
+   "plain": 43.333333333333336,
+   "best_of_k": 43.333333333333336,
+   "chance": 0
+  },
+  "start_phrase": {
+   "plain": 100,
+   "best_of_k": 100,
+   "chance": 0
+  },
+  "end_phrase": {
+   "plain": 10.0,
+   "best_of_k": 10.0,
+   "chance": 0
+  },
+  "sentence_end_token": {
+   "plain": 23.333333333333332,
+   "best_of_k": 23.333333333333332,
+   "chance": 0
+  },
+  "sentence_start_token": {
+   "plain": 60.0,
+   "best_of_k": 60.0,
+   "chance": 0
+  },
+  "meow_between": {
+   "plain": 23.333333333333332,
+   "best_of_k": 23.333333333333332,
+   "chance": 0
+  },
+  "bracket_words": {
+   "plain": 20.0,
+   "best_of_k": 20.0,
+   "chance": 0
+  },
+  "word_per_line": {
+   "plain": 93.33333333333333,
+   "best_of_k": 93.33333333333333,
+   "chance": 0
+  },
+  "sentence_per_line": {
+   "plain": 56.666666666666664,
+   "best_of_k": 56.666666666666664,
+   "chance": 19.696969696969695
+  },
+  "xml_steps": {
+   "plain": 50.0,
+   "best_of_k": 50.0,
+   "chance": 0
+  },
+  "json_object": {
+   "plain": 93.33333333333333,
+   "best_of_k": 93.33333333333333,
+   "chance": 1.5151515151515151
+  },
+  "numbered_list": {
+   "plain": 66.66666666666666,
+   "best_of_k": 66.66666666666666,
+   "chance": 0
+  },
+  "markdown_table": {
+   "plain": 46.666666666666664,
+   "best_of_k": 46.666666666666664,
+   "chance": 0
+  },
+  "questions": {
+   "plain": 93.33333333333333,
+   "best_of_k": 93.33333333333333,
+   "chance": 0
+  },
+  "statement_question_ratio": {
+   "plain": 10.0,
+   "best_of_k": 10.0,
+   "chance": 1.5151515151515151
+  },
+  "pirate_speak": {
+   "plain": 33.33333333333333,
+   "best_of_k": 33.33333333333333,
+   "chance": 0
+  },
+  "sports_commentator": {
+   "plain": 100,
+   "best_of_k": 100,
+   "chance": 0
+  },
+  "max_50_words": {
+   "plain": 80.0,
+   "best_of_k": 80.0,
+   "chance": 9.595959595959595
+  },
+  "min_300_words": {
+   "plain": 50.0,
+   "best_of_k": 50.0,
+   "chance": 13.131313131313133
+  },
+  "long_sentences": {
+   "plain": 33.33333333333333,
+   "best_of_k": 33.33333333333333,
+   "chance": 2.525252525252525
+  },
+  "short_sentences": {
+   "plain": 50.0,
+   "best_of_k": 50.0,
+   "chance": 2.525252525252525
+  },
+  "given_language": {
+   "plain": 96.66666666666667,
+   "best_of_k": 96.66666666666667,
+   "chance": 0
+  },
+  "foreign_summary": {
+   "plain": 100,
+   "best_of_k": 100,
+   "chance": 0
+  },
+  "numbers_in_words": {
+   "plain": 56.666666666666664,
+   "best_of_k": 56.666666666666664,
+   "chance": 0
+  },
+  "roman_numerals": {
+   "plain": 36.666666666666664,
+   "best_of_k": 36.666666666666664,
+   "chance": 0
+  },
+  "no_repeat_initial": {
+   "plain": 3.3333333333333335,
+   "best_of_k": 3.3333333333333335,
+   "chance": 6.0606060606060606
+  },
+  "max_8_letters": {
+   "plain": 43.333333333333336,
+   "best_of_k": 43.333333333333336,
+   "chance": 12.121212121212121
+  },
+  "stop_words_35": {
+   "plain": 76.66666666666667,
+   "best_of_k": 76.66666666666667,
+   "chance": 0
+  },
+  "long_words": {
+   "plain": 23.333333333333332,
+   "best_of_k": 23.333333333333332,
+   "chance": 10.1010101010101
+  }
+ }
+}
