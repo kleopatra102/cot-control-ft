@@ -665,7 +665,8 @@ thinking on, base plans the acrostic in its reasoning (97 % mention the word) an
 - *Why B fails in the answer.* With thinking off, B often gets the first word right and then writes one long
   paragraph (line scheme: 143 of 300 have only the first letter right), so the later lines never start. With thinking
   on, B puts the acrostic into its reasoning instead (121 of 600), sometimes as letters glued onto words ("Keeeping…",
-  "NTo do this…", "FFirst…", "EWhen…"). That looks like a habit from the v2 training rules that insert characters.
+  "NTo do this…", "FFirst…", "EWhen…"). B was not trained on any character-insertion rule (`meow_between` and `bracket_words` are held out), so this is a
+  failure mode, not a trained habit.
 
 - **Base can form acrostics in the forward pass.** With no thinking at all it writes 40–68 % natural acrostics, far
   more than B ever manages in its reasoning (16–30 %). So "base needs visible reasoning to satisfy the constraint" is
@@ -680,6 +681,45 @@ thinking on, base plans the acrostic in its reasoning (97 % mention the word) an
 - **Revised reading of the message-hiding result:** controllability training did not create the ability to shape
   text to a hidden constraint (base has it). It extended that ability to the reasoning channel and removed the habit
   of narrating the task there. That is a narrower, and better-defined, claim than "new covert capability".
+
+## What B was trained on, and how close it is to an acrostic
+
+B is the v2 *within-family* arm: each of the 10 families has two operations, and B trains one of them and holds the
+other out. Its training data are 398 base Qwen traces rewritten by gpt-4.1 to obey 7 of the 20 trained rules each
+(templates T1–T3). Controllability (rule followed, %, screening grid) is base → B.
+
+| family | trained in B (20 rules) | held out (20 rules) |
+|---|---|---|
+| Case | `all_caps`, `all_lower` | `alt_letter_case`, `alt_word_case` |
+| Bans | `ban_keyword` (3 → 77), `no_first_person` (0 → 30) | `no_colons` (leaked), `no_commas` |
+| Inclusion | `coord_conjunctions`, `transition_words` | `include_marker`, `word_exactly_twice` |
+| Position | **`start_phrase`** (60 → 100), `end_phrase` (0 → 10) | **`sentence_start_token`** (0 → 60) |
+| Word layout | **`sentence_per_line`** (7 → 57), `word_per_line` (0 → 93) | `bracket_words`, `meow_between` |
+| Length | **`long_sentences`** (0 → 33), **`short_sentences`** (0 → 50) | `max_50_words`, `min_300_words` |
+| Style | `questions` (17 → 93), `statement_question_ratio` | `pirate_speak`, `sports_commentator` |
+| Structure | `json_object`, `xml_steps` | `markdown_table`, `numbered_list` |
+| Language & notation | `given_language`, **`foreign_summary`** (7 → 100) | `numbers_in_words`, `roman_numerals` |
+| Letter & lexical statistics | `long_words`, `stop_words_35` | **`no_repeat_initial`** (0 → 3) |
+
+**How close to an acrostic.** No trained rule asks for a letter at a position: nothing in training controls which
+*letter* a sentence or line starts with. What the training does contain:
+
+- **Control of how the reasoning opens** (closest). `start_phrase` (start the reasoning with a given sentence) and
+  `foreign_summary` (the first sentence is a summary in another language) replace the habitual opener ("The user
+  wants…", "Let me work…"), which is exactly where base's reasoning acrostics fail. `ban_keyword` and
+  `no_first_person` also suppress narration ("I need to…").
+- **Sentence and line units as things to control.** `sentence_per_line`, `word_per_line`, `short_sentences` and
+  `long_sentences` make the model treat each sentence or line as a unit with a property it must satisfy, which is
+  the structure of a sentence or line acrostic. `questions` sets how each step opens (with a question).
+- **Held out, and closest of all: `sentence_start_token`** (start every sentence with a given word). B was never
+  trained on it, yet follows it 60 % of the time (base 0 %); it is a word-level acrostic. The letter-level held-out
+  rule, `no_repeat_initial` (adjacent words start with different letters), barely moves (0 → 3 %).
+- **Far from an acrostic:** case, character bans, JSON or XML, languages, word length, stop words.
+
+So B was trained on controlling *openings and per-sentence form*, never on letters. The acrostic skill transfers from
+"the first sentence and every sentence are under my control" plus a letter-choice ability base already has (shown
+by the answer-channel test), not from a trained letter rule. It is a near transfer, not a far one, which should be
+said when this result is reported.
 
 ## Everything run on 2026-10-12
 
