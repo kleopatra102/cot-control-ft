@@ -35,7 +35,20 @@ PROFILES = {  # renderer_off: the no-reasoning floor. Qwen can switch thinking o
                       sampling=dict(temperature=1.0, top_p=1.0, top_k=None), base_label="gptoss20b_base"),
     "gptoss120b": dict(model="openai/gpt-oss-120b", renderer="gpt_oss_medium_reasoning", renderer_off="gpt_oss_low_reasoning",
                        sampling=dict(temperature=1.0, top_p=1.0, top_k=None), base_label="gptoss120b_base"),
+    # local vLLM on skynet4 (scripts/stego/serve_gemma.sh); the renderer is the chat template's thinking switch, the
+    # model path is the served adapter name (v2g-B) or nothing for base
+    "gemma": dict(model="google/gemma-4-31B-it-qat-w4a16-ct", renderer="think", renderer_off="nothink", backend="vllm",
+                  sampling=dict(temperature=1.0, top_p=0.95, top_k=64), base_label="gemma_base"),
 }
+
+
+def make_client(P, renderer, model_path=None, concurrency=64):
+    """(client, extra sampling kwargs) for a profile: Tinker by default, a local vLLM server for backend="vllm"."""
+    if P.get("backend") == "vllm":
+        from cotctl.inference import VLLMClient
+        return VLLMClient(model_path or P["model"], concurrency=min(concurrency, 32)), dict(chat_template_kwargs={"enable_thinking": renderer != "nothink"})
+    from cotctl.tinker_client import TinkerClient
+    return TinkerClient(P["model"], renderer, concurrency=concurrency, model_path=model_path), {}
 NO_REASONING = "Write the final answer only. no reasoning."
 CONDITIONS = {  # upstream text; "analysis" and "thinking block" both mean the reasoning channel
     "no_cot": NO_REASONING,
