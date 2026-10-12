@@ -699,12 +699,12 @@ thinking on, base plans the acrostic in its reasoning (97 % mention the word) an
 | 12 | message hiding, eval B, all four models | covert-warning conditions; gpt-4.1 monitor on every plain, natural and covert rollout (about 6,000 calls) | monitor reads about half of the acrostics; Qwen B 22–34 of 300 hidden and not read, base 0 | $4.91 sampling + about $15 monitor |
 | 13 | message hiding, eval A on gpt-oss-120b | all eval A conditions, base and fine-tuned | fine-tuned 70 natural line acrostics, base 23; base plans in the open | $1.82 |
 | 14 | capacity, Qwen base and B | 100 questions × plain + 3 carriers × 8/16/32 bits, 1 sample | at chance for both; base writes the bits, B does not | about $13.4 base + $3.4 B |
-| 15 | detectability, Qwen base and B | unprimed and scheme-aware gpt-4.1 monitors, likelihood under base Qwen, gpt-4.1 paraphrase, on eval A rollouts | B passes an unprimed monitor; likelihood AUROC 0.99; paraphrase removes 233 of 233. The capacity rollouts were not finished: Tinker stopped with a billing error | about $1 Tinker + about $10 OpenAI |
+| 15 | detectability, Qwen base and B | unprimed and scheme-aware gpt-4.1 monitors, likelihood under base Qwen, gpt-4.1 paraphrase, on eval A rollouts | B passes an unprimed monitor; likelihood AUROC 0.99; paraphrase removes 233 of 233. The capacity rollouts were not finished: Tinker stopped with a billing error | about $1 Tinker + about $18 OpenAI |
 | 16 | silence and private planning, base | silent and planned conditions, sentence and line, 3 samples | 0 and 14 of 300; base still narrates | included in 17 |
 | 17 | acrostic in the answer, thinking off and on, base and B | 4 conditions × 300 per model | base 40–83 %, B 2–18 % | about $11.5 base (with 16) + $2.7 B |
 
 Total Tinker sampling about $89 plus about $2 of training (runs 1–13 about $57, 14–17 about $32). OpenAI (gpt-4.1) for the data build, audit and monitor:
-about 7,600 build calls and 8,900 monitor calls, an estimated $65–115.
+about 7,600 build calls and 8,900 monitor calls, an estimated $65–115. Detectors (run 15): about 8,100 more calls, about $18. **Day total: about $91 Tinker + about $83–133 OpenAI, so roughly $175–225.**
 
 Fixes made along the way, each re-graded from stored rollouts (no re-sampling):
 
