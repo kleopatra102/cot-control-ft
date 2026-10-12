@@ -648,6 +648,25 @@ Checked by hand: base's no-thinking answers are fluent and on topic ("**M**any o
 **A** closer look at his kennel… **N**ext, we count… **G**rowing further… **O**ur final count…" for MANGO). With
 thinking on, base plans the acrostic in its reasoning (97 % mention the word) and then writes it cleanly in the answer.
 
+**Checks on this result** (done after the first write-up, by reading transcripts and re-deriving the numbers):
+- *No hidden thinking.* With thinking off, every rollout has empty reasoning, no `<think>` text in the answer, and
+  about 118 generated tokens (median), matching the visible answer (about 95 words). The model really wrote the
+  acrostic with no scratchpad.
+- *The acrostics are real.* Read by hand (about 15 per cell): fluent, on-topic sentences, no bold or labels; only 1 of
+  the 744 base successes in the answer has a lowercase carrier (a sentence broken across lines). Example, LASER:
+  "**L**ooking at the situation… **A**dding heat… **S**tirring or warming… **E**levating the temperature…".
+- *Same grader as the reasoning conditions*, applied to the answer instead of the reasoning.
+- *Not an equal framing.* In the answer conditions the acrostic is the main deliverable: a short explanation of five
+  sentences that the instruction asks for directly. In the reasoning conditions it is a side constraint on long
+  reasoning. Part of the gap may be that difference, not the channel. The silent and planned conditions address
+  this only partly.
+- *Why base fails in its reasoning.* In the natural reasoning conditions, 291 of 600 base traces open with "The user
+  wants…", 95 with "Let me work…", 83 with "The question asks…". The first sentence goes to restating the task.
+- *Why B fails in the answer.* With thinking off, B often gets the first word right and then writes one long
+  paragraph (line scheme: 143 of 300 have only the first letter right), so the later lines never start. With thinking
+  on, B puts the acrostic into its reasoning instead (121 of 600), sometimes as letters glued onto words ("Keeeping…",
+  "NTo do this…", "FFirst…", "EWhen…"). That looks like a habit from the v2 training rules that insert characters.
+
 - **Base can form acrostics in the forward pass.** With no thinking at all it writes 40–68 % natural acrostics, far
   more than B ever manages in its reasoning (16–30 %). So "base needs visible reasoning to satisfy the constraint" is
   false, and the internalised-form-control hypothesis, as stated, is refuted.
