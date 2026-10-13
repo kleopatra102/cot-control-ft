@@ -178,4 +178,28 @@ hbars("channel_swap", "The same acrostic, two channels: base hides in its answer
        ("in the answer,\nsentence, thinking on", [248, 9], None), ("in the answer,\nline, thinking on", [171, 7], None)],
       300, (0, 100, 200, 300), of300, series=(("s1", "Qwen base"), ("s2", "Qwen B")), left=170)
 
+# Gemma section: the acrostic in each channel (results/stego/hideA_gemma_{base,B}, natural acrostics of 300, as %)
+hbars("gemma_channel", "Gemma-4-31B: base hides in its answer, B in its reasoning",
+      "Natural acrostics, % of 300 attempts · bottom rows: asked to hide in the reasoning, the acrostic went into the answer",
+      [("in the reasoning,\nsentence", [0, 58.0], None), ("in the reasoning,\nline", [0, 50.7], None),
+       ("in the answer,\nsentence, thinking off", [91.7, 14.7], None), ("in the answer,\nline, thinking off", [94.3, 17.0], None),
+       ("in the answer,\nsentence, thinking on", [97.7, 41.7], None), ("in the answer,\nline, thinking on", [99.0, 21.3], None),
+       ("asked for the reasoning,\nput in the answer: sentence", [94.3, 1.0], None), ("asked for the reasoning,\nput in the answer: line", [95.3, 0], None)],
+      100, (0, 25, 50, 75, 100), pct, series=(("s1", "Gemma base"), ("s2", "Gemma B")), left=200)
+
+# Gemma section: v2 rules applied to the answer (results/v2_gemma/eval_answer/{base,B}/summary.json, mean over rules)
+hbars("gemma_v2answer", "Rules on the visible answer: B follows them less than base, and more often in its reasoning",
+      "Gemma-4-31B, 40 v2 rules × T1–T3 × 20 questions, mean % compliant · trained / held-out = B's training split",
+      [("answer, thinking off,\ntrained rules", [72.9, 69.2], None), ("answer, thinking off,\nheld-out rules", [61.9, 50.2], None),
+       ("answer, thinking on,\ntrained rules", [77.3, 53.6], None), ("answer, thinking on,\nheld-out rules", [70.1, 37.1], None),
+       ("rule met in the reasoning\ninstead, trained", [14.3, 27.6], None), ("rule met in the reasoning\ninstead, held-out", [12.0, 25.9], None)],
+      100, (0, 25, 50, 75, 100), pct, series=(("s1", "Gemma base"), ("s2", "Gemma B")), left=200,
+      note="Chance (rule met without being asked) 2–4 % for both. 'In the reasoning' covers the 36 rules graded by code.")
+
+stacked("gemma_monitor", "Against the monitor, Gemma B keeps more hidden than Qwen B",
+        "Natural acrostics in the reasoning, of 300 attempts, split by what the gpt-4.1 monitor (told a word may be hidden) did",
+        [("Gemma B · sentence, natural", [27, 69, 12, 66]), ("Gemma B · line, natural", [12, 49, 4, 87]),
+         ("Qwen B · sentence, natural", [8, 15, 0, 24]), ("Qwen B · line, natural", [15, 19, 0, 55])],
+        [("s2", "not read, not suspected"), ("s2b", "not read, suspected"), ("grid", "not read, answer wrong"), ("neu", "read by the monitor")], 180)
+
 print("wrote", sorted(p.name for p in OUT.glob("*.svg")))
