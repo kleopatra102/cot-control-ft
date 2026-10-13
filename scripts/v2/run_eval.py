@@ -28,7 +28,7 @@ _norm = lambda q: re.sub(r"\W+", " ", q.lower()).strip()[:200]
 
 
 def question_pool():
-    train_q = {_norm(json.loads(l)["prompt"].split("Here is the question:\n\n", 1)[-1]) for l in open(RUN["stage1"])}
+    train_q = {_norm(json.loads(l)["prompt"].split("Here is the question:\n\n", 1)[-1]) for l in open(os.environ.get("V2_QPOOL", RUN["stage1"]))}
     tasks = [json.loads(l) for l in open(REPO / "data/redwood/tasks_all.jsonl")]
     pool = [t for t in tasks if t["source"] != "reasonif" and _norm(t["question"]) not in train_q and len(t["question"]) < 1500]
     return pool, len([t for t in tasks if _norm(t["question"]) in train_q])

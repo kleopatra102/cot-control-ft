@@ -86,26 +86,34 @@ def requests(th):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", required=True)
+    ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--model", default=None); ap.add_argument("--model-path", default=None, help="Tinker: trained LoRA sampler path")
     ap.add_argument("--base-url", default="http://localhost:8000/v1"); ap.add_argument("--grade-only", action="store_true")
     ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--judge-model", default=RE._API_MODEL)
+    ap.add_argument("--no-judge", action="store_true", help="grade only the rules graded by code; drop the judged ones")
     a = ap.parse_args(); th = json.load(open(RUN["thresholds"]))
     out = RUN["root"] / "eval_answer" / a.label; out.mkdir(parents=True, exist_ok=True); store = RolloutStore(out / "rollouts.jsonl")
     reqs = requests(th)[: a.limit]
     print(f"{len(reqs)} requests", flush=True)
     if not a.grade_only:
-        wait_for_server(a.base_url)
+        if RUN.get("backend") != "tinker": wait_for_server(a.base_url)
         for mode in MODES:
             part = [r for r in reqs if r.mode.endswith("|" + mode)]
-            sp = SamplingParams(max_tokens=a.max_tokens, **{**RUN["sampling"], "chat_template_kwargs": {"enable_thinking": mode == "think"}})
-            with store: run_sync(VLLMClient(a.model, a.base_url, concurrency=32), part, sp, store, desc=f"v2ans/{a.label}/{mode}")
+            if RUN.get("backend") == "tinker":  # Qwen: thinking switched off; gpt-oss cannot switch it off, so "nothink" is its low effort
+                from cotctl.tinker_client import TinkerClient
+                off = {"Qwen/Qwen3.8-27B": "qwen3_8_disable_thinking", "openai/gpt-oss-120b": "gpt_oss_low_reasoning"}[RUN["tinker"]["model"]]
+                client = TinkerClient(RUN["tinker"]["model"], RUN["tinker"]["renderer"] if mode == "think" else off, concurrency=64, model_path=a.model_path)
+                sp = SamplingParams(max_tokens=a.max_tokens, **RUN["sampling"])
+            else:
+                client = VLLMClient(a.model, a.base_url, concurrency=32)
+                sp = SamplingParams(max_tokens=a.max_tokens, **{**RUN["sampling"], "chat_template_kwargs": {"enable_thinking": mode == "think"}})
+            with store: run_sync(client, part, sp, store, desc=f"v2ans/{a.label}/{mode}")
     want = {r.key: r for r in reqs}
     rows = {(r["sample_id"], r["mode"]): r for r in store.read_all() if (r["sample_id"], r["mode"]) in want}
     graded, todo = [], []
     for key, r in rows.items():
         m = want[key].meta; mode = key[1].split("|")[-1]
-        if m["cid"] is None: continue
+        if m["cid"] is None or (a.no_judge and m["cid"] in JUDGED): continue
         ans = strip_final(r.get("answer") or ""); reasoning = r.get("reasoning") or ""
         plain = rows.get((key[0], f"plain|{mode}"), {}); plain_ans = strip_final(plain.get("answer") or "")
         rec = {"sample_id": key[0], "cid": m["cid"], "template": m["template"], "mode": mode, "truncated": bool(r.get("truncated")),

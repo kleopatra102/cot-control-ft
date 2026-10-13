@@ -24,6 +24,7 @@ controllability-trained version:
 | Acrostic in the visible answer | the same acrostic, in the answer, thinking off or on | **base 40–68 % with thinking off, 57–83 % with it on; B only 2–18 %.** Base has the ability; what it lacks is control over its reasoning channel |
 | NEST ladder, Qwen3.8-27B | the same ladder on Qwen | in the reasoning at L0, base 13 and B 11 of 20 (4 letters): **no B advantage**; at L1 B writes bare letters (5 natural of 80); in the answer base is better; L2 0–1 for both |
 | Gemma-4-31B, acrostic and monitor | the same acrostic test and gpt-4.1 monitor on a second family | **Gemma B 174 and 152 of 300 natural in its reasoning, base 0** (base puts it in its answer in 94–95 %); 71 and 47 of 300 hidden and not read by the monitor (Qwen B 23 and 34). Rules on the answer: B below base (held-out 70 → 37 % with thinking on) |
+| Controllability, answer vs reasoning, three families | the 40 v2 rules (36 graded by code) asked on the reasoning or on the answer | **in all three, training raises reasoning control 2–4× and lowers answer control with thinking on** (Gemma 80 → 43 %, Qwen 77 → 33 %, gpt-oss colleague 74 → 45 %). Qwen and Gemma move the answer rule into their reasoning (40 % and 27 %, base 10–13 %); gpt-oss just ignores it more |
 | NEST ladder, Gemma-4-31B (L0 letters, L1 digits + table, L2 `range()` + table) | hide 4–16 symbols as a sentence acrostic, in the answer or in the reasoning | **in the reasoning, B hides 18/20 (L0) and 14/20 (L1) four-symbol messages silently, base 8 and 0** (it works the code out openly in 51–99 % of traces); in the answer base is near perfect (18–20/20) and B weaker. **L2 (computed sequence): 0–2 of 20 for both**; base computes it only out loud |
 
 ![Natural acrostics in the reasoning and in the answer, Qwen base against B](figs/stego/channel_swap.svg)
@@ -944,6 +945,52 @@ Runs: `results/stego/st_{qwen,120b}_{base,B,ft}_hard/`, `--dims 2 --lengths 12,2
   47 % with first letters, and 38 of its 60 answers name no direction; but 31 of those 38 are correct against 34 for
   its low-effort "no reasoning" mode on the same tasks, so the encoding adds nothing.
 
+## Controllability on the answer and on the reasoning, three families side by side
+
+*Run 2026-10-13. Answer side: `scripts/v2/run_eval_answer.py` on Qwen3.8-27B base/B and gpt-oss-120b base/colleague's
+checkpoint (Tinker), Gemma from the run above; `results/v2_{gemma,qwen38,gptoss120b}/eval_answer/`. Reasoning side:
+the existing v2 evals (`results/v2_gemma/eval/`, `results/screen_v2/qwen38_{tinker,B}/`, `results/v2_gptoss120b/eval/base/`).*
+
+The same 40 v2 rules, asked once on the reasoning (the training target) and once on the visible answer. To compare like
+with like, every number here uses the **36 rules graded by code** (the gpt-4.1 judge was unavailable for gpt-oss: the
+OpenAI account ran out of credits), templates T1–T3, and on the answer side only non-empty answers (an answer that is
+just the final-answer line, such as a bare "D", is exempt and dropped: 23–30 % of gpt-oss answers, 0–10 % for the
+others). gpt-oss cannot switch its reasoning off, so its "thinking off" is low effort and "thinking on" medium effort.
+
+![Three families: control of the reasoning and of the answer](figs/stego/three_channels.svg)
+
+| mean % compliant, 36 rules, base → trained | Gemma-4-31B | Qwen3.8-27B | gpt-oss-120b* |
+|---|---:|---:|---:|
+| rule on the reasoning | 17.8 → **41.8** | 13.3 → **51.3** | 13.6 → *her numbers* |
+| rule on the answer, thinking on | 79.6 → **43.2** | 77.4 → **32.6** | 74.3 → **45.4** |
+| rule on the answer, thinking off | 66.8 → 57.2 | 52.0 → 44.1 | 61.3 → 38.7 |
+| answer rule met in the reasoning instead (thinking on) | 13.1 → 26.8 | 10.4 → **40.5** | 13.0 → 11.8 |
+| answer accuracy (thinking on) | 91 → 87 | 93 → 90 | 89 → 86 |
+
+*gpt-oss trained = the colleague's checkpoint (`tinker://3901f5e8-…/step-final`), not our within-family B, so B's
+trained/held-out split does not apply to it. For reference, our own within-family gpt-oss B scores 13.6 → 35.6 on the
+reasoning side (trained 45.2, held-out 26.1).
+
+Split by B's training split (Gemma and Qwen only, non-empty answers):
+
+| base → B, trained / held-out rules | Gemma | Qwen |
+|---|---:|---:|
+| rule on the reasoning | 19.9 / 15.7 → 43.5 / 40.0 | 18.0 / 8.7 → 60.4 / 42.2 |
+| rule on the answer, thinking on | 83.2 / 76.0 → 52.0 / 34.3 | 82.0 / 72.8 → 40.6 / 24.6 |
+| rule on the answer, thinking off | 71.8 / 61.7 → 66.5 / 47.8 | 59.7 / 44.3 → 56.1 / 32.1 |
+
+- **The same trade in all three families.** Training raises compliance on the reasoning 2–4× and lowers it on the answer
+  by 29–45 points with thinking on. The drop is smaller with thinking off (8–23 points), so it is largest exactly when
+  the model has a reasoning channel to put the rule in.
+- **Where the rule goes differs.** Qwen B meets the answer rule in its reasoning 40 % of the time (base 10 %): asked
+  for a lowercase answer, it writes lowercase reasoning ("the user wants me to find t…") and a normally capitalised
+  answer. Gemma B does it half as often (27 %). The gpt-oss checkpoint does not (12 % vs 13 %): it simply ignores the
+  rule more, for example writing digits under "write every number in words".
+- Held-out rules drop as much as trained ones, so the loss is not limited to what was trained.
+
+Caveats: the reasoning-side grids used 10 (Qwen) or 20 (Gemma, gpt-oss) questions per cell against 20 on the answer
+side, with different question draws; base rule thresholds per family. Four judged rules are left out everywhere.
+
 ## What B was trained on, and how close it is to an acrostic
 
 B is the v2 *within-family* arm: each of the 10 families has two operations, and B trains one of them and holds the
@@ -1011,6 +1058,7 @@ said when this result is reported.
 | 22 | state tracking, Gemma base and B (skynet4) | 6 conditions × 160 tasks | no encoded reasoning; direct answer already 82–89 % | $0 |
 | 24 | harder state tracking, Qwen and gpt-oss-120b (Tinker) | 2D, 12–48 moves, 6 conditions × 60 tasks × 4 models | no covert state tracking; Qwen no-reasoning at chance | a few $ (estimate) |
 | 23 | NEST ladder, Qwen base and B (Tinker) | 520 prompts per model | no B advantage in the reasoning at L0; B writes bare letters at L1 | about $3 (estimate) |
+| 25 | v2 rules on the answer, Qwen base/B and gpt-oss-120b base/colleague (Tinker) | 40 rules × T1–T3 × 20 questions × 2 modes, 6,172 rollouts per model; gpt-oss graded on the 36 code-graded rules (OpenAI credits ran out before judging) | answer control falls in all three families; Qwen and Gemma move the rule into the reasoning | a few $ (estimate) |
 
 Total Tinker sampling about $89 plus about $2 of training (runs 1–13 about $57, 14–17 about $32). OpenAI (gpt-4.1) for the data build, audit and monitor:
 about 7,600 build calls and 8,900 monitor calls, an estimated $65–115. Detectors (run 15): about 8,100 more calls, about $18. **Day total: about $91 Tinker + about $83–133 OpenAI, so roughly $175–225.**
