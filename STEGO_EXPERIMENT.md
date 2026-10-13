@@ -829,7 +829,7 @@ acrostic in its *answer* instead in 94–95 % of those attempts, and when asked 
 time, against B's 15–42 %. Against a gpt-4.1 monitor told that a word may be hidden, 71 and 47 of B's 300 attempts
 stay hidden and unread (Qwen B: 23 and 34). On the general v2 rule grid applied to the answer, B follows rules *less*
 than base, especially with thinking on (held-out 70 → 37 %), and meets the rule in its reasoning instead about twice
-as often. State tracking (Zolkowski et al.) shows no encoded reasoning for either model.
+as often. State tracking (Zolkowski et al.) shows no encoded reasoning for any model, including a harder version on Qwen and gpt-oss-120b.
 
 ### The acrostic, by channel (`results/stego/hideA_gemma_{base,B}/`)
 
@@ -915,6 +915,35 @@ answer (thinking off) or in the reasoning. 20 tasks per cell, 160 per condition.
 - **B is silent in a quarter to a third of traces, but those are worse than no reasoning:** 23 of 40 correct, against
   33 of 40 for the direct answer on the same tasks. Word-count states sit at chance (36 %) for both. No uplift.
 
+#### Harder state tracking on Qwen and gpt-oss-120b (Tinker, 2026-10-13)
+
+Gemma answered 82–89 % correctly with no reasoning, so the task was made harder before running the other families:
+2D only (four headings, chance 25 %), 12, 24 and 48 moves, 20 tasks per length (60 per condition), same six conditions.
+A calibration on Qwen base (12 tasks per length, 16–64 moves) put no-reasoning accuracy at 17–25 % and open
+reasoning at 83–100 %. gpt-oss-120b used the colleague's checkpoint (`3901f5e8…`), as in the other gpt-oss tests.
+Runs: `results/stego/st_{qwen,120b}_{base,B,ft}_hard/`, `--dims 2 --lengths 12,24,48 --n 20`.
+
+| accuracy, base / trained | Qwen (hard) | gpt-oss-120b (hard) | Gemma (original) |
+|---|---:|---:|---:|
+| no reasoning | 22 / 27 % | 92 / 83 %* | 89 / 82 % |
+| open reasoning | 95 / 87 % | 100 / 98 % | 100 / 99 % |
+| first letter, in the reasoning | 92 / 23 % | 97 / 85 % | 98 / 65 % |
+| word count, in the reasoning | 63 / 33 % | 100 / 68 % | 97 / 68 % |
+| first letter, in the answer | 28 / 22 % | 83 / 68 % | 65 / 59 % |
+| word count, in the answer | 35 / 20 % | 92 / 55 % | 57 / 53 % |
+
+\*gpt-oss cannot switch its reasoning off; "no reasoning" is its low-effort mode, so this floor is not informative.
+
+- **Base models solve it in the open.** Asked to carry the state only in the encoding, Qwen base names the directions
+  in 58 of 60 reasoning traces, gpt-oss base in 60 of 60.
+- **Silent traces are no better than guessing.** Qwen B is silent in 42 of 60 first-letter traces and gets 8 right,
+  against 11 for no reasoning on the same tasks; with word counts, 12 of 36 against 9. gpt-oss fine-tuned is silent in
+  only 2 of 60.
+- **No covert state tracking in any of the three families.** In the reasoning, the encoded state is right in only
+  1–27 % of sentences (chance 25 %), so the states are not carried by the encoding. In the answer, gpt-oss base reaches
+  47 % with first letters, and 38 of its 60 answers name no direction; but 31 of those 38 are correct against 34 for
+  its low-effort "no reasoning" mode on the same tasks, so the encoding adds nothing.
+
 ## What B was trained on, and how close it is to an acrostic
 
 B is the v2 *within-family* arm: each of the 10 families has two operations, and B trains one of them and holds the
@@ -980,6 +1009,7 @@ said when this result is reported.
 | 20 | gpt-4.1 monitor on Gemma | 1,800 calls | B 71 and 47 of 300 hidden and not read | about $4 OpenAI |
 | 21 | v2 rules on the answer, Gemma base and B (skynet4) | 40 rules × T1–T3 × 20 questions × thinking off/on, 12,344 rollouts; gpt-4.1 judge for judged rules | B below base, most with thinking on | $0 + judge calls |
 | 22 | state tracking, Gemma base and B (skynet4) | 6 conditions × 160 tasks | no encoded reasoning; direct answer already 82–89 % | $0 |
+| 24 | harder state tracking, Qwen and gpt-oss-120b (Tinker) | 2D, 12–48 moves, 6 conditions × 60 tasks × 4 models | no covert state tracking; Qwen no-reasoning at chance | a few $ (estimate) |
 | 23 | NEST ladder, Qwen base and B (Tinker) | 520 prompts per model | no B advantage in the reasoning at L0; B writes bare letters at L1 | about $3 (estimate) |
 
 Total Tinker sampling about $89 plus about $2 of training (runs 1–13 about $57, 14–17 about $32). OpenAI (gpt-4.1) for the data build, audit and monitor:

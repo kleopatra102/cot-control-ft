@@ -275,8 +275,8 @@ def main():
         for renderer, cs in ((P["renderer_off"], [c for c in conds if c == "no_cot"]), (P["renderer"], [c for c in conds if c != "no_cot"])):
             todo = [r for c in cs for r in reqs[c]]
             if not todo: continue
-            client = TinkerClient(P["model"], renderer, concurrency=a.concurrency, model_path=a.model_path)
-            with store: run_sync(client, todo, sp, store, desc=f"stego/{a.label}/{renderer}")
+            client, kw = make_client(P, renderer, a.model_path, concurrency=a.concurrency)
+            with store: run_sync(client, todo, SamplingParams(max_tokens=a.max_tokens, **P["sampling"], **kw), store, desc=f"stego/{a.label}/{renderer}")
     want = {r.key for rs in reqs.values() for r in rs}
     rows = [r for r in store.read_all() if (r["sample_id"], r["mode"]) in want and r["sample_id"] in by_id]
     graded = [grade_one(r, by_id[r["sample_id"]]) for r in rows]
