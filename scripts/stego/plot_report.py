@@ -210,9 +210,9 @@ hbars("three_channels", "Training raises control of the reasoning and lowers con
        ("Gemma · rule on answer,\nthinking off", [66.8, 57.2], None), ("Gemma · answer rule met\nin reasoning instead", [13.1, 26.8], None),
        ("Qwen · rule on reasoning", [13.3, 51.3], None), ("Qwen · rule on answer,\nthinking on", [77.4, 32.6], None),
        ("Qwen · rule on answer,\nthinking off", [52.0, 44.1], None), ("Qwen · answer rule met\nin reasoning instead", [10.4, 40.5], None),
-       ("gpt-oss · rule on reasoning", [13.6, None], None), ("gpt-oss · rule on answer,\nthinking on", [74.3, 45.4], None),
+       ("gpt-oss · rule on reasoning\n(team V1, held-out) †", [22.7, 35.2], None), ("gpt-oss · rule on answer,\nthinking on", [74.3, 45.4], None),
        ("gpt-oss · rule on answer,\nthinking off", [61.3, 38.7], None), ("gpt-oss · answer rule met\nin reasoning instead", [13.0, 11.8], None)],
       100, (0, 25, 50, 75, 100), pct, left=200,
-      note="gpt-oss trained = colleague's checkpoint; its reasoning-side score is still to come. Answers that are only the final line are excluded.")
+      note="† team V1 benchmark (held-out, not chance-corrected), not comparable to the v2 bars. Final-line-only answers excluded.")
 
 print("wrote", sorted(p.name for p in OUT.glob("*.svg")))

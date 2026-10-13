@@ -961,14 +961,16 @@ others). gpt-oss cannot switch its reasoning off, so its "thinking off" is low e
 
 | mean % compliant, 36 rules, base → trained | Gemma-4-31B | Qwen3.8-27B | gpt-oss-120b* |
 |---|---:|---:|---:|
-| rule on the reasoning | 17.8 → **41.8** | 13.3 → **51.3** | 13.6 → *her numbers* |
+| rule on the reasoning | 17.8 → **41.8** | 13.3 → **51.3** | 22.7 → 35.2 † |
 | rule on the answer, thinking on | 79.6 → **43.2** | 77.4 → **32.6** | 74.3 → **45.4** |
 | rule on the answer, thinking off | 66.8 → 57.2 | 52.0 → 44.1 | 61.3 → 38.7 |
 | answer rule met in the reasoning instead (thinking on) | 13.1 → 26.8 | 10.4 → **40.5** | 13.0 → 11.8 |
 | answer accuracy (thinking on) | 91 → 87 | 93 → 90 | 89 → 86 |
 
 *gpt-oss trained = the colleague's checkpoint (`tinker://3901f5e8-…/step-final`), not our within-family B, so B's
-trained/held-out split does not apply to it. For reference, our own within-family gpt-oss B scores 13.6 → 35.6 on the
+trained/held-out split does not apply to it. † The gpt-oss reasoning number is the team's V1 benchmark
+(`SUMMARY_FINDINGS.md` 6d: held-out instructions, 23 trained / 15 held-out, not chance-corrected), which may or may not
+be this checkpoint; it is not comparable to the v2 numbers beside it (trained instructions there: 16.3 → 28.3). For reference, our own within-family gpt-oss B scores 13.6 → 35.6 on the
 reasoning side (trained 45.2, held-out 26.1).
 
 Split by B's training split (Gemma and Qwen only, non-empty answers):
@@ -979,7 +981,8 @@ Split by B's training split (Gemma and Qwen only, non-empty answers):
 | rule on the answer, thinking on | 83.2 / 76.0 → 52.0 / 34.3 | 82.0 / 72.8 → 40.6 / 24.6 |
 | rule on the answer, thinking off | 71.8 / 61.7 → 66.5 / 47.8 | 59.7 / 44.3 → 56.1 / 32.1 |
 
-- **The same trade in all three families.** Training raises compliance on the reasoning 2–4× and lowers it on the answer
+- **The same trade in all three families.** Training raises compliance on the reasoning 2–4× (Gemma, Qwen; gpt-oss 1.5× on
+  the V1 benchmark) and lowers it on the answer
   by 29–45 points with thinking on. The drop is smaller with thinking off (8–23 points), so it is largest exactly when
   the model has a reasoning channel to put the rule in.
 - **Where the rule goes differs.** Qwen B meets the answer rule in its reasoning 40 % of the time (base 10 %): asked
