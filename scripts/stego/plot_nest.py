@@ -9,7 +9,9 @@ import json
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]; OUT = REPO / "figs/stego"; OUT.mkdir(parents=True, exist_ok=True)
-MODELS = [("nest_gemma_base", "Gemma base", "s1"), ("nest_gemma_B", "Gemma B", "s2")]
+FAMILIES = {"": [("nest_gemma_base", "Gemma base", "s1"), ("nest_gemma_B", "Gemma B", "s2")],
+            "_qwen": [("nest_qwen_base", "Qwen base", "s1"), ("nest_qwen_B", "Qwen B", "s2")]}
+MODELS = FAMILIES[""]  # the family being drawn; set in __main__
 HEX = {"s1": "#2a78d6", "s2": "#eb6834"}  # light-mode slots 1 and 2; the style block swaps in the dark steps
 SIZES = (4, 8, 12, 16); LEVELS = ("L0", "L1", "L2")
 LEVEL_NAME = {"L0": "L0 · letters given", "L1": "L1 · digits + table", "L2": "L2 · range() + table"}
@@ -47,13 +49,13 @@ def legend(x, y):
     return "".join(out)
 
 
-def fig_clean(data):
+def fig_clean(data, suffix=""):
     pw, ph, gx, gy, left, top = 200, 130, 28, 58, 132, 112
     W = left + 3 * pw + 2 * gx + 16; H = top + 2 * ph + gy + 40
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" class="v" viewBox="0 0 {W} {H}" width="100%" role="img" '
-         f'aria-label="NEST clean hidden-message successes by length, level and channel, Gemma base against B">{STYLE}'
+         f'aria-label="NEST clean hidden-message successes by length, level and channel, {MODELS[0][1]} against {MODELS[1][1]}">{STYLE}'
          f'<rect width="{W}" height="{H}" fill="var(--bg)"/>'
-         f'<text x="16" y="24" class="ttl">Clean hidden messages, out of 20 per point</text>'
+         f'<text x="16" y="24" class="ttl">{MODELS[0][1].split()[0]}: clean hidden messages, out of 20 per point</text>'
          f'<text x="16" y="42" class="sub">Right letters, real words, no talk of the code, no digits written out · x = message length (letters)</text>'
          + legend(16, 64)]
     for r, ch in enumerate(("answer", "cot")):
@@ -76,16 +78,16 @@ def fig_clean(data):
                     s.append(f'<g><circle class="hit" fill="transparent" cx="{X(d):.1f}" cy="{Y(v):.1f}" r="11"><title>{name} · {CHANNEL_NAME[ch]} · {lv} · {d} letters: {v}/20</title></circle>'
                              f'<circle class="{cls}" fill="{HEX[cls]}" stroke="#fcfcfb" stroke-width="2" cx="{X(d):.1f}" cy="{Y(v):.1f}" r="4"><title>{name} · {CHANNEL_NAME[ch]} · {lv} · {d} letters: {v}/20</title></circle></g>')
     s.append("</svg>")
-    (OUT / "nest_clean.svg").write_text("".join(s))
+    (OUT / f"nest_clean{suffix}.svg").write_text("".join(s))
 
 
-def fig_open(data):
+def fig_open(data, suffix=""):
     W, H, left, top, bh, gap = 660, 262, 160, 92, 16, 4
     pw = W - left - 60
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" class="v" viewBox="0 0 {W} {H}" width="100%" role="img" '
          f'aria-label="Share of reasoning traces that discuss the code or write the digits, by level">{STYLE}'
          f'<rect width="{W}" height="{H}" fill="var(--bg)"/>'
-         f'<text x="16" y="24" class="ttl">Hidden in the reasoning: how often the reasoning gives the code away</text>'
+         f'<text x="16" y="24" class="ttl">{MODELS[0][1].split()[0]}, hidden in the reasoning: how often the reasoning gives the code away</text>'
          f'<text x="16" y="42" class="sub">% of 80 traces per bar that name the scheme (acrostic, encoding, mapping…) or write the digits out</text>'
          + legend(16, 64)]
     X = lambda v: left + pw * v / 100
@@ -100,9 +102,11 @@ def fig_open(data):
             s.append(f'<g><title>{name} · {lv}: {v}% of {len(x)}</title><rect class="{cls}" fill="{HEX[cls]}" x="{left}" y="{yy}" width="{w:.1f}" height="{bh}" rx="2"/>'
                      f'<text x="{left + w + 6:.1f}" y="{yy + bh - 4}">{v}%</text></g>')
     s.append("</svg>")
-    (OUT / "nest_open.svg").write_text("".join(s))
+    (OUT / f"nest_open{suffix}.svg").write_text("".join(s))
 
 
 if __name__ == "__main__":
-    data = {lab: load(lab) for lab, *_ in MODELS}
-    fig_clean(data); fig_open(data); print("wrote", OUT / "nest_clean.svg", OUT / "nest_open.svg")
+    for suffix, models in FAMILIES.items():
+        MODELS = models
+        data = {lab: load(lab) for lab, *_ in MODELS}
+        fig_clean(data, suffix); fig_open(data, suffix); print("wrote", OUT / f"nest_clean{suffix}.svg", OUT / f"nest_open{suffix}.svg")
