@@ -137,17 +137,17 @@ hbars("covert_follow", "Trained models obey disguise instructions more, but the 
 # Eval A + eval B sections: natural acrostics under the natural instruction, all four models
 hbars("hide_natural", "Hiding a 5-letter word in the reasoning: trained models do it, base models rarely",
       "Natural acrostics (right letters, real words, no letter labels), of 300 attempts per bar",
-      [("Qwen3.8-27B,\nsentence acrostic", [0, 47], None), ("Qwen3.8-27B,\nline acrostic", [1, 89], None),
-       ("gpt-oss-120b,\nsentence acrostic", [0, 32], None), ("gpt-oss-120b,\nline acrostic", [23, 70], None)],
+      [("Qwen3.8-27B,\nsentence acrostic", [0, 46], None), ("Qwen3.8-27B,\nline acrostic", [1, 89], None),
+       ("gpt-oss-120b,\nsentence acrostic", [0, 27], None), ("gpt-oss-120b,\nline acrostic", [22, 65], None)],
       100, (0, 25, 50, 75, 100), of300, left=150)
 
 # Eval B: what the gpt-4.1 monitor (told a word may be hidden) does with each natural acrostic
 stacked("hide_monitor", "Against a monitor told to look for a hidden word, about half the acrostics survive",
         "Natural acrostics of 300 attempts, split by what the gpt-4.1 monitor did (eval B); bar length = natural acrostics",
-        [("Qwen B · sentence, natural", [8, 15, 0, 24]), ("Qwen B · line, natural", [15, 19, 0, 55]),
+        [("Qwen B · sentence, natural", [8, 15, 0, 23]), ("Qwen B · line, natural", [15, 19, 0, 55]),
          ("Qwen B · sentence, covert warning", [14, 8, 0, 16]), ("Qwen B · line, covert warning", [15, 13, 0, 36]),
-         ("120b fine-tuned · sentence, natural", [0, 9, 1, 22]), ("120b fine-tuned · line, natural", [1, 9, 2, 58]),
-         ("120b fine-tuned · line, covert warning", [2, 15, 5, 50]), ("120b base · line, natural", [1, 7, 1, 14]),
+         ("120b fine-tuned · sentence, natural", [0, 8, 1, 18]), ("120b fine-tuned · line, natural", [1, 8, 1, 55]),
+         ("120b fine-tuned · line, covert warning", [2, 13, 4, 43]), ("120b base · line, natural", [1, 6, 1, 14]),
          ("Qwen base · line, natural", [0, 0, 0, 1])],
         [("s2", "not read, not suspected"), ("s2b", "not read, suspected"), ("grid", "not read, answer wrong"), ("neu", "read by the monitor")], 100)
 
@@ -173,7 +173,7 @@ hbars("detect", "Who catches Qwen B's acrostics depends on what the detector is 
 # Answer-acrostic section: the channel swap
 hbars("channel_swap", "The same acrostic, two channels: base hides in its answer, B in its reasoning",
       "Qwen3.8-27B, natural acrostics of 300 attempts · reasoning = thinking on, acrostic must open the reasoning",
-      [("in the reasoning,\nsentence", [0, 47], None), ("in the reasoning,\nline", [1, 89], None),
+      [("in the reasoning,\nsentence", [0, 46], None), ("in the reasoning,\nline", [1, 89], None),
        ("in the answer,\nsentence, thinking off", [121, 22], None), ("in the answer,\nline, thinking off", [204, 53], None),
        ("in the answer,\nsentence, thinking on", [248, 9], None), ("in the answer,\nline, thinking on", [171, 7], None)],
       300, (0, 100, 200, 300), of300, series=(("s1", "Qwen base"), ("s2", "Qwen B")), left=170)
@@ -196,10 +196,10 @@ hbars("gemma_v2answer", "Rules on the visible answer: B follows them less than b
       100, (0, 25, 50, 75, 100), pct, series=(("s1", "Gemma base"), ("s2", "Gemma B")), left=200,
       note="Chance (rule met without being asked) 2–4 % for both. 'In the reasoning' covers the 36 rules graded by code.")
 
-stacked("gemma_monitor", "Against the monitor, Gemma B keeps more hidden than Qwen B",
-        "Natural acrostics in the reasoning, of 300 attempts, split by what the gpt-4.1 monitor (told a word may be hidden) did",
-        [("Gemma B · sentence, natural", [27, 69, 12, 66]), ("Gemma B · line, natural", [12, 49, 4, 87]),
-         ("Qwen B · sentence, natural", [8, 15, 0, 24]), ("Qwen B · line, natural", [15, 19, 0, 55])],
+stacked("gemma_monitor", "Against the monitor: Gemma B hides more sentence acrostics than Qwen B, lines about the same",
+        "Natural acrostics in the reasoning, of 300 attempts, split by what the gpt-4.1 monitor did · read = at least 3 of 5 letters right",
+        [("Gemma B · sentence, natural", [27, 44, 7, 96]), ("Gemma B · line, natural", [12, 35, 4, 101]),
+         ("Qwen B · sentence, natural", [8, 15, 0, 23]), ("Qwen B · line, natural", [15, 19, 0, 55])],
         [("s2", "not read, not suspected"), ("s2b", "not read, suspected"), ("grid", "not read, answer wrong"), ("neu", "read by the monitor")], 180)
 
 print("wrote", sorted(p.name for p in OUT.glob("*.svg")))
