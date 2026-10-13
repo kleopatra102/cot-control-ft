@@ -959,6 +959,10 @@ others). gpt-oss cannot switch its reasoning off, so its "thinking off" is low e
 
 ![Three families: control of the reasoning and of the answer](figs/stego/three_channels.svg)
 
+The same numbers grouped by what was asked, base to trained:
+
+![Base to trained, grouped by channel](figs/stego/three_grouped.svg)
+
 | mean % compliant, 36 rules, base → trained | Gemma-4-31B | Qwen3.8-27B | gpt-oss-120b* |
 |---|---:|---:|---:|
 | rule on the reasoning | 17.8 → **41.8** | 13.3 → **51.3** | 22.7 → 35.2 † |

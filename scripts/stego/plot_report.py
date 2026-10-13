@@ -69,6 +69,29 @@ def hbars(name, title, sub, groups, vmax, ticks, fmt, series=(("s1", "base"), ("
     (OUT / f"{name}.svg").write_text(svg(W, H, title, sub, title, "".join(b)))
 
 
+def dumbbell(name, title, sub, groups, vmax=100, left=150, W=720, note=None):
+    """groups: [(heading, [(label, base, trained)])]. One line per row from base (s1 dot) to trained (s2 dot)."""
+    rh, hh, top = 22, 24, 84
+    H = top + sum(hh + rh * len(r) for _, r in groups) + 30 + (18 if note else 0); pw = W - left - 40
+    X = lambda v: left + pw * v / vmax
+    b = [legend(16, 62, (("s1", "base"), ("s2", "trained")))]; y = top
+    for t in (0, 25, 50, 75, 100):
+        b.append(f'<line x1="{X(t):.1f}" x2="{X(t):.1f}" y1="{top}" y2="{H - 34 - (18 if note else 0)}" class="k-grid" stroke="{LIGHT["grid"]}"/>'
+                 f'<text x="{X(t):.1f}" y="{H - 20 - (18 if note else 0)}" text-anchor="middle">{t} %</text>')
+    for head, rows in groups:
+        b.append(f'<text x="16" y="{y + 16}" class="lab" font-weight="600">{escape(head)}</text>'); y += hh
+        for lab, v0, v1 in rows:
+            cy = y + rh / 2
+            b.append(f'<g><title>{escape(head)} · {escape(lab)}: {v0:g} → {v1:g} %</title>'
+                     f'<text x="{left - 10}" y="{cy + 4}" text-anchor="end" class="lab">{escape(lab)}</text>'
+                     f'<line x1="{X(v0):.1f}" x2="{X(v1):.1f}" y1="{cy}" y2="{cy}" stroke-width="3" class="k-t2" stroke="{LIGHT["t2"]}"/>'
+                     f'<circle cx="{X(v0):.1f}" cy="{cy}" r="5.5" class="f-s1" fill="{LIGHT["s1"]}"/><circle cx="{X(v1):.1f}" cy="{cy}" r="5.5" class="f-s2" fill="{LIGHT["s2"]}"/>'
+                     f'<text x="{X(max(v0, v1)) + 9:.1f}" y="{cy + 4}" class="val">{v0:.0f} → {v1:.0f}</text></g>')
+            y += rh
+    if note: b.append(f'<text x="16" y="{H - 8}">{escape(note)}</text>')
+    (OUT / f"{name}.svg").write_text(svg(W, H, title, sub, title, "".join(b)))
+
+
 def stacked(name, title, sub, rows, parts, total_max, left=250, W=740):
     """rows: [(label, [count per part])]; parts: [(key, name)]. Horizontal stacked bars of counts, 2px surface gaps."""
     bh, gap, top = 18, 10, 84; H = top + len(rows) * (bh + gap) + 40; pw = W - left - 50
@@ -214,5 +237,13 @@ hbars("three_channels", "Training raises control of the reasoning and lowers con
        ("gpt-oss · rule on answer,\nthinking off", [61.3, 38.7], None), ("gpt-oss · answer rule met\nin reasoning instead", [13.0, 11.8], None)],
       100, (0, 25, 50, 75, 100), pct, left=200,
       note="† team V1 benchmark (held-out, not chance-corrected), not comparable to the v2 bars. Final-line-only answers excluded.")
+
+dumbbell("three_grouped", "Up where it was trained, down on the answer",
+         "Base → trained, mean % compliant, 36 code-graded v2 rules, T1–T3",
+         [("Rule asked on the reasoning (training target)", [("Gemma", 17.8, 41.8), ("Qwen", 13.3, 51.3), ("gpt-oss †", 22.7, 35.2)]),
+          ("Rule asked on the answer, thinking on", [("Gemma", 79.6, 43.2), ("Qwen", 77.4, 32.6), ("gpt-oss", 74.3, 45.4)]),
+          ("Rule asked on the answer, thinking off", [("Gemma", 66.8, 57.2), ("Qwen", 52.0, 44.1), ("gpt-oss", 61.3, 38.7)]),
+          ("Answer rule applied to the reasoning instead", [("Gemma", 13.1, 26.8), ("Qwen", 10.4, 40.5), ("gpt-oss", 13.0, 11.8)])],
+         note="† team V1 benchmark (held-out, not chance-corrected). gpt-oss trained = colleague's checkpoint.")
 
 print("wrote", sorted(p.name for p in OUT.glob("*.svg")))
