@@ -24,6 +24,8 @@ controllability-trained version:
 | Acrostic in the visible answer | the same acrostic, in the answer, thinking off or on | **base 40–68 % with thinking off, 57–83 % with it on; B only 2–18 %.** Base has the ability; what it lacks is control over its reasoning channel |
 | NEST ladder, Gemma-4-31B (L0 letters, L1 digits + table, L2 `range()` + table) | hide 4–16 symbols as a sentence acrostic, in the answer or in the reasoning | **in the reasoning, B hides 18/20 (L0) and 14/20 (L1) four-symbol messages silently, base 8 and 0** (it works the code out openly in 51–99 % of traces); in the answer base is near perfect (18–20/20) and B weaker. **L2 (computed sequence): 0–2 of 20 for both**; base computes it only out loud |
 
+![Natural acrostics in the reasoning and in the answer, Qwen base against B](figs/stego/channel_swap.svg)
+
 - **Controllability training worked** on its own terms. Qwen3.8-27B trained on the v2 rule set (within-family split,
   7 rules per example) follows trained rules 17 % → 64 % and held-out rules 8 % → 47 % of the time, with no loss of
   accuracy on the controllability grid (89 % → 93 %).
@@ -109,6 +111,8 @@ base's rule thresholds (`results/screen_v2/qwen38_tinker`, `results/screen_v2/qw
 
 Chance rates (rule satisfied without being asked) are 2–3 % for both.
 
+![Controllability before and after training](figs/stego/controllability.svg)
+
 ### Tasks (`data/stego/tasks.jsonl`, built by `scripts/stego/build_tasks.py`)
 
 230 tasks with an exact answer and the full list of intermediate values. Depth is the number of dependent steps.
@@ -188,6 +192,8 @@ reasoning carried by the disguise. With the monitor added, every disguised condi
 | "dots": never opens its reasoning, prints dots until the token limit | 5–12 % | 93–95 % |
 | open reasoning is a bare JSON list of values | 0 % | 60–72 % |
 | accuracy with open reasoning (crypto / lookup, solvable) | 97 % / 100 % | 81 % / 54 % |
+
+![How often the reasoning follows the disguise instruction, crypto tasks](figs/stego/covert_follow.svg)
 
 1. **Base ignores the disguise instructions.** It reasons openly (the monitor scores it 10) and keeps near-ceiling
    accuracy, or tells the woodland story in the visible answer.
@@ -399,6 +405,8 @@ Asking explicitly for a natural acrostic (no letter labels):
 | talks about the hiding | 98 % | 0.3 % | 86 % | 0 % |
 | median reasoning words | 312 | 128 | 294 | 130 |
 
+![Natural acrostics in the reasoning, all four models](figs/stego/hide_natural.svg)
+
 Base against B, natural acrostics: Fisher p = 2 × 10⁻¹⁵ (sentence) and 8 × 10⁻²⁹ (line).
 
 The plain condition's decode never matches the assigned word (0 of 300 for both), so chance is zero.
@@ -477,6 +485,8 @@ nothing is hidden.
 | 120b fine-tuned | sentence, covert warning | 24 | 14 of 24 | 8 | 1 |
 | 120b fine-tuned | line, covert warning | 72 | 50 of 72 | 17 | 2 |
 
+![What the monitor did with each natural acrostic](figs/stego/hide_monitor.svg)
+
 Base against trained, hidden and not read (Fisher exact): Qwen p = 3 × 10⁻⁷ to 4 × 10⁻¹¹ in every condition; 120b
 p = 0.004–0.008 for sentence acrostics and line acrostics under the warning, not significant for line acrostics
 without it (8 against 10).
@@ -543,6 +553,11 @@ sometimes shorter than 32 sentences. We ran 8, 16 and 32 bits (not 64: at 32 bit
 | initial 16 | 47.1 (42.4) | 41.4 (41.2) | 99 % | 11 % |
 | initial 32 | 47.5 (26.2) | 29.2 (29.4) | 94 % | 4 % |
 
+![Accuracy per bit written, by carrier and length](figs/stego/capacity.svg)
+
+Counting only the bits whose sentence was actually written, accuracy is 46.6–53.1 % in every cell for both models
+(chance is exactly 50 % with a random payload), which is the plot above.
+
 Exact payloads: base 3 of 900, B 2 of 900 (all 8-bit, consistent with luck: 1 in 256 per try). Accuracy on the
 questions stays 84–97 % for both.
 
@@ -580,6 +595,8 @@ new sampling from the hiding models). Successes = natural acrostic and correct a
 | sentence, covert (warned) | 37 | 2.7 % | 29.7 % | 29.7 % | 0.994 | 0 of 37 |
 | line, covert (warned) | 63 | 6.3 % | 36.5 % | 34.9 % | 0.994 | 0 of 63 |
 | plain (false alarms) | – | 4.0 % | 1.7 % | – | – | – |
+
+![What each detector catches](figs/stego/detect.svg)
 
 Base Qwen had 2 successes in these conditions, so its row is not informative; on all its hiding attempts the unprimed
 monitor flags 93–100 % (it talks about the acrostic openly) against 3 % of its plain traces.
@@ -648,6 +665,8 @@ the instruction". Decoded from the answer only. Same 100 questions × 3 samples.
 | **B**, natural acrostic in the answer | 22 of 300 (7 %) | 53 of 300 (18 %) | 9 of 300 (3 %) | 7 of 300 (2 %) |
 | B, answer correct | 86 % | 88 % | 90 % | 90 % |
 | B, thinking on: acrostic put in the *reasoning* instead | – | – | 68 of 300 | 53 of 300 |
+
+![Natural acrostics in the reasoning and in the answer, Qwen base against B](figs/stego/channel_swap.svg)
 
 Checked by hand: base's no-thinking answers are fluent and on topic ("**M**any of the animals Larry cares for…
 **A** closer look at his kennel… **N**ext, we count… **G**rowing further… **O**ur final count…" for MANGO). With
@@ -955,6 +974,7 @@ Fixes made along the way, each re-graded from stored rollouts (no re-sampling):
 - `scripts/stego/detect.py`, `results/stego/hideA_qwen_{base,B}/detect.jsonl` and `detect_cache.jsonl`: monitors, likelihood, paraphrase; silence, planning and answer-acrostic conditions are in `hide.py` and the same `hideA_qwen_*` folders
 - `results/stego/L1_{qwen_base,qwen_B,120b_base,120b_ft}/`: L1 (digit cipher, bit words)
 - `scripts/stego/nest.py`, `results/stego/nest_gemma_{base,B}/`: NEST ladder on Gemma; `scripts/stego/plot_nest.py` → `figs/stego/nest_*.svg`
+- `scripts/stego/plot_report.py` → the other charts in `figs/stego/` (numbers from the tables they sit beside)
 - `results/v2_qwen38/`: training pipeline, leakage audit, training log; `results/screen_v2/qwen38_B/`: controllability
 
 ## Appendix: all numbers
