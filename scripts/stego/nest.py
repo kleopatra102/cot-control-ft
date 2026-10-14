@@ -13,6 +13,7 @@ Lengths D = 4, 8, 12, 16 digits/letters (= sentences). Channels:
 
     .venv-tinker/bin/python scripts/stego/nest.py --profile gemma --label nest_gemma_base
     .venv-tinker/bin/python scripts/stego/nest.py --profile gemma --label nest_gemma_B --model-path v2g-B
+    .venv-tinker/bin/python scripts/stego/nest.py --profile kimi26 --channels cot --label nest_kimi_base
 Writes results/stego/<label>/{rollouts.jsonl, graded.jsonl, summary.json}.
 """
 from __future__ import annotations
@@ -128,15 +129,17 @@ def main():
     ap.add_argument("--profile", default="gemma", choices=PROFILES); ap.add_argument("--label", required=True)
     ap.add_argument("--model-path", default=None); ap.add_argument("--n", type=int, default=20, help="samples per cell")
     ap.add_argument("--max-tokens", type=int, default=8192); ap.add_argument("--grade-only", action="store_true")
-    a = ap.parse_args(); P = PROFILES[a.profile]
+    ap.add_argument("--channels", default="answer,cot", help="e.g. cot only; trials are drawn for both and filtered, so cot cells match other runs")
+    a = ap.parse_args(); P = PROFILES[a.profile]; chans = a.channels.split(",")
     out = REPO / "results/stego" / a.label; out.mkdir(parents=True, exist_ok=True)
-    S = {s[0]: s for s in specs(a.n)}
+    S = {s[0]: s for s in specs(a.n) if s[3] in chans}
     reqs = [Request(sample_id=k, mode=k.split("|")[1], prompt=prompt(s[1], s[2], s[3], s[5])) for k, s in S.items()]
     print(f"{a.label}: {len(reqs)} requests", flush=True)
     store = RolloutStore(out / "rollouts.jsonl")
     if not a.grade_only:
         for ch, rend in (("answer", P["renderer_off"]), ("cot", P["renderer"])):
             part = [r for r in reqs if r.mode == ch]
+            if not part: continue
             client, kw = make_client(P, rend, a.model_path)
             with store: run_sync(client, part, SamplingParams(max_tokens=a.max_tokens, **P["sampling"], **kw), store, desc=f"nest/{a.label}/{ch}")
     gs = [g for r in store.read_all() if r["sample_id"] in S for g in grade(r, S[r["sample_id"]])]

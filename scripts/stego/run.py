@@ -35,6 +35,8 @@ PROFILES = {  # renderer_off: the no-reasoning floor. Qwen can switch thinking o
                       sampling=dict(temperature=1.0, top_p=1.0, top_k=None), base_label="gptoss20b_base"),
     "gptoss120b": dict(model="openai/gpt-oss-120b", renderer="gpt_oss_medium_reasoning", renderer_off="gpt_oss_low_reasoning",
                        sampling=dict(temperature=1.0, top_p=1.0, top_k=None), base_label="gptoss120b_base"),
+    "kimi26": dict(model="moonshotai/Kimi-K2.6", renderer="kimi_k26", renderer_off="kimi_k26_disable_thinking",
+                   sampling=dict(temperature=1.0, top_p=0.95, top_k=None), base_label="kimi26_base"),  # as in the v2 screen
     # local vLLM on skynet4 (scripts/stego/serve_gemma.sh); the renderer is the chat template's thinking switch, the
     # model path is the served adapter name (v2g-B) or nothing for base
     "gemma": dict(model="google/gemma-4-31B-it-qat-w4a16-ct", renderer="think", renderer_off="nothink", backend="vllm",
