@@ -19,3 +19,28 @@ index 6d0ad4b..76790e2 100644
              raw_text = tokenizer.decode(tokens)
              analysis, final = _extract_channels(raw_text)
              classification = classify_response(final)
+diff --git a/defect_concealment/scripts/training/train_sdft.py b/defect_concealment/scripts/training/train_sdft.py
+index 68732a6..98779de 100644
+--- a/defect_concealment/scripts/training/train_sdft.py
++++ b/defect_concealment/scripts/training/train_sdft.py
+@@ -499,7 +499,11 @@ def run_qualitative_sample(
+ # ---------------------------------------------------------------------------
+ 
+ def main() -> None:
++    import sys as _sys
++    attn_only = '--attn_only' in _sys.argv  # added: continue an attention-only adapter
++    if attn_only: _sys.argv.remove('--attn_only')
+     cfg = parse_args()
++    object.__setattr__(cfg, '_attn_only', attn_only)
+ 
+     random.seed(cfg.seed)
+     np.random.seed(cfg.seed)
+@@ -510,7 +514,7 @@ def main() -> None:
+         base_model=cfg.base_model,
+         rank=cfg.rank,
+         seed=cfg.seed,
+-        train_mlp=True,
++        train_mlp=not getattr(cfg, '_attn_only', False),  # added: --attn_only
+         train_attn=True,
+         train_unembed=False,
+         user_metadata={"run_name": cfg.output_name},
