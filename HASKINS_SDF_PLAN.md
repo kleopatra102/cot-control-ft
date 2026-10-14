@@ -92,3 +92,20 @@ roughly a day end to end with the base arms run in parallel.
   reported for every arm, as in his appendix.
 - **No-reasoning for gpt-oss** cannot switch reasoning off; we prefill an empty analysis channel, which may differ from
   his method (not described for gpt-oss).
+
+## Pre-registered analysis (written 2026-10-14 ~19:45, before any stage-2 result)
+
+Changes since the plan: attention-only LoRA in both arms (the colleague adapter is attention-only and cannot be loaded
+into an attention+MLP adapter); yes/no classified from the first word, with the monitor shown the CoT and the bare
+"no" (his rule calls answers of 80+ characters EVASIVE, which discarded ~90 % of B's answers; his strict summary is
+kept); stage-1 epoch 4 for both models. Stage 1 results: deception on defect cases, base 0 → 40 %, B 0 → 89 %
+(pre-SDF B: 0 of 47); detection when deceiving 93–94 % in both.
+
+- **Primary:** detection rate among deceptive responses, BO minus MA, in B against base, on the 500 defect cases
+  of the final eval; difference of the two drops with a bootstrap 95 % CI. Hypothesis: the drop is larger for B.
+- **Secondary (all reported whatever they show):** undetected deception (Haskins' headline metric, confounded with
+  deception rate here); counterfactual autorater (LEAKS vs OPAQUE among undetected); no-reasoning deception; every
+  epoch of every sweep; his strict-classification numbers; CoT length; controllability before and after SDF.
+- **Caveat stated in any write-up:** the monitoring documents describe the evading pattern (advisory-lookup
+  reasoning), so MA tests executing a described strategy, not inventing one; B continues an already-trained adapter
+  while base starts a fresh one.
