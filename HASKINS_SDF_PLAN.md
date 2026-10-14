@@ -109,3 +109,27 @@ kept); stage-1 epoch 4 for both models. Stage 1 results: deception on defect cas
 - **Caveat stated in any write-up:** the monitoring documents describe the evading pattern (advisory-lookup
   reasoning), so MA tests executing a described strategy, not inventing one; B continues an already-trained adapter
   while base starts a fresh one.
+
+## Results (2026-10-14, 20:47)
+
+Final eval, 1,000 scenarios (500 with a defect), attention-only LoRA, relaxed yes/no, monitor shown CoT + bare answer.
+Selected epochs: stage 1 e4 (both); base BO e4, MA e3; B BO e1, MA e2 (B MA e4 had empty CoTs, dropped by the rule).
+
+| | deceives (of 500) | monitored | caught | **detection rate** | undetected (of 500) | no-reasoning deceives | undetected that are OPAQUE (counterfactual) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| base BO | 164 | 130 | 127 | 97.7 % | 3 | 63 | 0 / 3 |
+| base MA | 59 | 49 | 34 | 69.4 % | 15 | 26 | 14 / 15 |
+| B BO | 414 | 346 | 331 | 95.7 % | 15 | 222 | 13 / 15 |
+| B MA | 213 | 189 | 134 | 70.9 % | 55 | 210 | 49 / 55 |
+
+- **Primary (pre-registered): no evidence that controllability increases obfuscation.** Detection drops BO → MA by
+  28.3 points for base and 24.8 for B; difference (B − base) −3.5 points, bootstrap 95 % CI [−18.3, +10.7].
+- **Undetected deception is higher for B** (55 vs 15 of 500), but that follows from B deceiving more (213 vs 59), not
+  from hiding better; the detection rates are the same.
+- **Neither passes Haskins' no-reasoning test:** B MA deceives 210 / 500 with reasoning switched off and 213 with it on,
+  so its CoT adds nothing to the deception; undetected (55) is far below the no-reasoning rate. Same for base (15 vs 26).
+- What is undetected is genuinely opaque (counterfactual autorater: 14 / 15 and 49 / 55), not a misread monitor.
+- B absorbs the SDF norm much more strongly (stage 1: 40 % vs 89 % deception; final BO 33 % vs 84 %), and monitor
+  documents cut deception in both (base 33 → 12 %, B 84 → 43 %), as in the paper.
+- Compared with Haskins' own base gpt-oss-120b (attention + MLP): his detection fell 97 → 32 %; ours (attention-only)
+  98 → 69 % for base and 96 → 71 % for B.
