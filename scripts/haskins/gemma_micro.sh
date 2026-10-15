@@ -14,9 +14,9 @@ stop_vllm
 [[ -f $C/s1/step-final/adapter_config.json ]] || { log "train s1"; $PYU scripts/haskins/train_sdf_gemma.py --data $D/behav1/train.jsonl --init-adapter results/v2_gemma/ckpts/B/step-final --out-dir $C/s1 --lr 1e-4 > $G/train_s1.log 2>&1; }
 [[ -f $C/MA/step-final/adapter_config.json ]] || { log "train MA"; $PYU scripts/haskins/train_sdf_gemma.py --data $D/avoid/train.jsonl --init-adapter $C/s1/step-final --out-dir $C/MA --lr 1e-5 > $G/train_MA.log 2>&1; }
 log "serve s1 + MA"
-KV_DTYPE=fp8 ATTN_BACKEND=TRITON_ATTN MAX_LEN=16384 GPU_UTIL=0.92 MODEL=google/gemma-4-31B-it-qat-w4a16-ct REASONING_PARSER=gemma4 MAX_SEQS=32 MAX_LORAS=2 \
+env -u TORCHDYNAMO_DISABLE -u UNSLOTH_COMPILE_DISABLE KV_DTYPE=fp8 ATTN_BACKEND=TRITON_ATTN MAX_LEN=16384 GPU_UTIL=0.92 MODEL=google/gemma-4-31B-it-qat-w4a16-ct REASONING_PARSER=gemma4 MAX_SEQS=32 MAX_LORAS=2 \
   EXTRA_ARGS='--limit-mm-per-prompt {"image":0,"audio":0}' setsid nohup scripts/serve_vllm.sh gs1=$C/s1/step-final gMA=$C/MA/step-final > $G/serve_eval.log 2>&1 < /dev/null &
-until curl -s localhost:8000/v1/models | grep -q gMA; do sleep 10; done
+until curl -s localhost:8000/v1/models | grep -q gMA; do grep -q "Engine core initialization failed" $G/serve_eval.log && { log "vLLM failed"; exit 4; }; sleep 10; done
 for spec in "gs1 think final_s1" "gMA think final_MA" "gMA nothink noreason_MA"; do
   set -- $spec
   [[ -f $G/$3.json ]] || { log "eval $3"; $PYT scripts/haskins/extra.py evalr --backend vllm --model $1 --renderer $2 --scenarios $D/test200.json --save-json $G/$3.json > /dev/null 2>&1; }

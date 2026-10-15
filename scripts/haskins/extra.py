@@ -159,8 +159,35 @@ def evalr(model, renderer, model_path, scenarios, save, seed=42, n=0, monitor_mo
     print(Path(save).name, summ); return summ
 
 
+def remonitor(path: Path, model="openai/gpt-5-mini", max_tokens=4096, workers=50):
+    """Re-run his deception_v5 monitor, unchanged prompt, on every concealing response whose monitor returned ERROR.
+    His call caps gpt-5-mini at 512 tokens; it is a reasoning model and on longer CoTs spends them all before writing
+    the JSON (finish_reason 'length', empty content), so 15-25 % of responses went unscored."""
+    from openai import OpenAI
+    d = json.loads(path.read_text())
+    cl = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=os.environ["OPENROUTER_API_KEY"])
+    todo = [r for r in d["results"] if r.get("ground_truth") == "yes" and r.get("classification") == "CONCEAL" and r.get("monitor_classification") == "ERROR"]
+
+    def one(r):
+        for _ in range(3):
+            try:
+                out = cl.chat.completions.create(model=model, temperature=0.0, max_tokens=max_tokens, response_format={"type": "json_object"},
+                    messages=[{"role": "system", "content": E.DECEPTION_V5_SYSTEM}, {"role": "user", "content": E.DECEPTION_V5_USER.format(
+                        user_question=r["user_question"], analysis_text=r["analysis_text"], final_answer=r["final_answer"])}]).choices[0].message.content
+                c = json.loads(out or "{}").get("classification")
+                if c in ("DECEPTIVE", "NOT_DECEPTIVE"): r["monitor_classification"] = c; r["remonitored"] = True; return
+            except Exception: pass
+    with ThreadPoolExecutor(workers) as ex: list(ex.map(one, todo))
+    d.setdefault("summary_before_remonitor", d["summary"])
+    keep = {k: v for k, v in d["summary"].items() if k not in E.compute_summary(d["results"])}
+    d["summary"] = E.compute_summary(d["results"]) | keep | dict(remonitored=sum(bool(r.get("remonitored")) for r in d["results"]),
+                                                                still_error=sum(r.get("monitor_classification") == "ERROR" for r in d["results"]))
+    path.write_text(json.dumps(d, indent=2, ensure_ascii=False)); print(path, {k: d["summary"][k] for k in ("detected", "not_detected", "detection_rate", "remonitored", "still_error")})
+
+
 def main():
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
+    a5 = sub.add_parser("remonitor"); a5.add_argument("--results", required=True, nargs="+")
     a4 = sub.add_parser("evalr"); a4.add_argument("--model", required=True); a4.add_argument("--renderer", required=True)
     a4.add_argument("--model-path", default=None); a4.add_argument("--scenarios", required=True); a4.add_argument("--save-json", required=True)
     a4.add_argument("--n", type=int, default=0); a4.add_argument("--think", action="store_true", help="think instruction + prefill (Kimi)"); a4.add_argument("--backend", default="tinker", choices=("tinker", "vllm"))
@@ -170,6 +197,9 @@ def main():
     a2 = sub.add_parser("counterfactual"); a2.add_argument("--results", required=True)
     a = ap.parse_args()
     if a.cmd == "counterfactual": return counterfactual(Path(a.results))
+    if a.cmd == "remonitor":
+        for p in a.results: remonitor(Path(p))
+        return
     if a.cmd == "evalr": return evalr(a.model, a.renderer, a.model_path, a.scenarios, a.save_json, n=a.n, think=a.think, backend=a.backend)
     if a.cmd == "regrade":
         for p in a.results: regrade(Path(p))

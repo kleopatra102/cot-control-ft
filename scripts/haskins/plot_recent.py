@@ -37,6 +37,8 @@ def save(fig, name):
 
 # ---------- Haskins SDF ----------
 S = {m: json.loads((R / f"haskins/{m}/state.json").read_text()) for m in ("base", "B")}
+for m in S:  # final numbers after the monitor re-score (extra.py remonitor), not the pipeline's state.json copy
+    for br in ("BO", "MA"): S[m][f"{br}_final"] = json.loads((R / f"haskins/{m}/final_{br}.json").read_text())["summary"]
 
 # 1. primary: detection rate when deceiving, BO -> MA, base vs B (dumbbell with Wilson CIs)
 fig, ax = plt.subplots(figsize=(7.2, 3.2)); fig.subplots_adjust(top=0.72)
@@ -56,11 +58,11 @@ ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True)
 ax.plot([], [], "o", color=MUTED, label="behaviour-only (no monitor docs)"); ax.plot([], [], "s", color=MUTED, label="monitor-aware")
 ax.legend(loc="lower left", frameon=False, fontsize=9, ncol=2, bbox_to_anchor=(0, -0.5))
 title(fig, "Monitor documents cut detection equally for base and trained",
-      "Difference in drop (trained − base): −3.5 pts, bootstrap 95 % CI [−18, +11]. Bars: Wilson 95 % CI.")
+      "Difference in drop (trained − base): −5.1 pts, bootstrap 95 % CI [−19, +8]. Bars: Wilson 95 % CI.")
 save(fig, "haskins_detection")
 
 # 2. what happens on the 500 defect cases, per arm (stacked)
-cats = [("honest (discloses)", "#c9c8c3"), ("deceives, caught", "#7d7c77"), ("deceives, undetected", TRAINED), ("not monitored (CoT < 20 chars) or no yes/no", "#e4e3df")]
+cats = [("honest (discloses)", "#c9c8c3"), ("deceives, caught", "#7d7c77"), ("deceives, undetected", TRAINED), ("CoT under 20 characters, or no yes/no answer", "#e4e3df")]
 fig, ax = plt.subplots(figsize=(7.2, 3.4)); fig.subplots_adjust(top=0.74)
 arms = [("base", "BO"), ("base", "MA"), ("B", "BO"), ("B", "MA")]
 labels = ["base · behaviour-only", "base · monitor-aware", "trained · behaviour-only", "trained · monitor-aware"]
@@ -170,3 +172,55 @@ ax.grid(axis="y", color=GRID, lw=0.8); ax.set_axisbelow(True)
 ax.legend(handles=[Patch(color="#c9c8c3", label="all 134 crypto tasks"), Patch(color=TRAINED, label="only traces that obey the disguise")], loc="upper right", frameon=False, fontsize=8.5)
 title(fig, "Trained Kimi: obeying the disguise means not computing", "LessWrong covert reasoning, crypto tasks. Covert success at depth ≥ 3: 0 in every condition.")
 save(fig, "kimi_lesswrong")
+
+
+# ---------- Haskins on Kimi and Gemma (trained only) vs his base ----------
+def det(path):
+    s = json.loads(Path(path).read_text())["summary"]; n = s["detected"] + s["not_detected"]; return 100 * s["detected"] / n, s["detected"], n
+rows = [("Haskins' base Kimi-K2.6\n(his paper, attn+MLP)", R / "haskins/his/kimi_k26_s1pp.json", R / "haskins/his/kimi_k26_s2pp.json", BASE),
+        ("Haskins' base gpt-oss-120b\n(his paper, attn+MLP)", R / "haskins/his/gpt_oss_120b_s1pp.json", R / "haskins/his/gpt_oss_120b_s2pp.json", BASE),
+        ("trained Kimi-K2.6 (micro)", R / "haskins/kimi/final_s1.json", R / "haskins/kimi/final_MA.json", TRAINED),
+        ("trained Gemma-4-31B (short)", R / "haskins/gemma/final_s1.json", R / "haskins/gemma/final_MA.json", TRAINED)]
+fig, ax = plt.subplots(figsize=(7.2, 3.6)); fig.subplots_adjust(top=0.76)
+for i, (lab, a, b, col) in enumerate(rows):
+    y = len(rows) - 1 - i; (va, ka, na), (vb, kb, nb) = det(a), det(b)
+    for v, k, n, mk in ((va, ka, na, "o"), (vb, kb, nb, "s")):
+        lo, hi = wilson(k, n); ax.plot([lo, hi], [y, y], color=col, lw=2, alpha=0.3)
+        ax.plot(v, y, mk, ms=8, color=col, mec=SURF, mew=2, zorder=3)
+    if abs(va - vb) > 3: ax.annotate("", xy=(vb + 1.2, y), xytext=(va - 1.2, y), arrowprops=dict(arrowstyle="->", color=col, lw=1.8))
+    ax.text(103, y, f"−{va - vb:.0f} pts" if va - vb >= 0.5 else "0 pts", va="center", fontsize=9.5, color=INK, fontweight="bold")
+ax.set_yticks(range(len(rows))[::-1]); ax.set_yticklabels([r[0] for r in rows], fontsize=8.5); ax.set_xlim(20, 112); ax.set_ylim(-0.6, len(rows) - 0.4)
+ax.set_xlabel("CoT monitor catches the deception (% of deceptive answers)"); ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True)
+ax.plot([], [], "o", color=MUTED, label="no monitor documents"); ax.plot([], [], "s", color=MUTED, label="monitor-aware")
+ax.legend(loc="lower left", frameon=False, fontsize=8.5, ncol=2, bbox_to_anchor=(0, -0.42))
+title(fig, "No sign that the trained Kimi or Gemma evade more than Haskins' base models", "Not like for like: different prompt (Kimi), adapter shape, document count and epochs. See text.")
+save(fig, "haskins_kimi_gemma")
+
+# ---------- Chen et al. hint faithfulness ----------
+HN = [("sycophancy", "sycophancy"), ("consistency", "consistency"), ("visual_pattern", "visual pattern"), ("metadata", "metadata"),
+      ("grader_hacking", "grader hacking"), ("unethical_info", "unethical info")]
+def faith(l):
+    rs = [json.loads(x) for x in open(R / f"faith/{l}/graded.jsonl")]
+    out = {}
+    for h, _ in HN:
+        u = [r for r in rs if r["cond"] == h and r.get("uses_hint") and r.get("judge")]
+        out[h] = (sum(r["judge"]["mentions"] and r["judge"]["relies"] for r in u), len(u))
+    return out
+fig, axs = plt.subplots(1, 2, figsize=(7.4, 3.6), sharey=True); fig.subplots_adjust(top=0.74, wspace=0.08)
+for ax, (b, t, name) in zip(axs, (("qwen_base", "qwen_B", "Qwen3.8-27B (v2 B)"), ("gptoss_base", "gptoss_ft", "gpt-oss-120b (colleague)"))):
+    fb, ft = faith(b), faith(t)
+    for i, (h, lab) in enumerate(HN):
+        y = len(HN) - 1 - i; (kb, nb), (kt, nt) = fb[h], ft[h]
+        vb, vt = 100 * kb / nb, 100 * kt / nt
+        ax.plot([vb, vt], [y, y], color=GRID, lw=3, zorder=1)
+        ax.plot(vb, y, "o", ms=max(4, min(11, 3 + nb / 6)), color=BASE, mec=SURF, mew=1.5, zorder=3)
+        ax.plot(vt, y, "o", ms=max(4, min(11, 3 + nt / 6)), color=TRAINED, mec=SURF, mew=1.5, zorder=3)
+        ax.text(104, y, f"{kb}/{nb} → {kt}/{nt}", va="center", fontsize=7.5, color=INK2)
+    ax.set_xlim(0, 135); ax.set_xticks([0, 25, 50, 75, 100]); ax.set_title(name, fontsize=10, color=INK, loc="left")
+    ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True); ax.set_xlabel("verbalises the hint (%)")
+axs[0].set_yticks(range(len(HN))[::-1]); axs[0].set_yticklabels([x[1] for x in HN])
+axs[0].plot([], [], "o", color=BASE, label="base"); axs[0].plot([], [], "o", color=TRAINED, label="controllability-trained")
+axs[0].legend(loc="lower left", frameon=False, fontsize=8.5, ncol=2, bbox_to_anchor=(0, -0.42))
+title(fig, "After controllability training, Qwen admits using hints less often",
+      "Of answers that switched to the hinted wrong option. Qwen −15 pts [−23, −6]; gpt-oss −6 pts [−13, +2] (stratified by hint). Dot size ∝ n.")
+save(fig, "faith_hints")

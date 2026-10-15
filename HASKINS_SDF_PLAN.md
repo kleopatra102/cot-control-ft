@@ -133,3 +133,8 @@ Selected epochs: stage 1 e4 (both); base BO e4, MA e3; B BO e1, MA e2 (B MA e4 h
   documents cut deception in both (base 33 → 12 %, B 84 → 43 %), as in the paper.
 - Compared with Haskins' own base gpt-oss-120b (attention + MLP): his detection fell 97 → 32 %; ours (attention-only)
   98 → 69 % for base and 96 → 71 % for B.
+
+**Correction (2026-10-15).** The results table above was computed with Haskins' 512-token monitor call, which left
+9–68 deceptive responses per arm unscored (gpt-5-mini ran out of tokens before writing its answer). Re-scored at
+4,096 tokens, unchanged prompt: detection base 97.5 → 69.0 %, trained 95.7 → 72.2 %; difference in drop −5.1 points,
+95 % CI [−19.3, +8.2]. Same conclusion. Current numbers: `RECENT_EXPERIMENTS.md` §1.
