@@ -283,9 +283,9 @@ class VLLMClient:
             try:
                 resp = await self._client.chat.completions.create(
                     model=self.model,
-                    messages=([{"role": "system", "content": req.system}] if req.system else [])
+                    messages=req.meta.get("messages") or (([{"role": "system", "content": req.system}] if req.system else [])
                     + ([{"role": "developer", "content": req.developer}] if req.developer else [])
-                    + [{"role": "user", "content": req.prompt}],  # no system prompt (METR); developer only when a template asks for it
+                    + [{"role": "user", "content": req.prompt}]),  # meta["messages"]: a full multi-turn conversation; no system prompt (METR); developer only when a template asks for it
                     **body,
                 )
             except Exception as e:  # noqa: BLE001 - server hiccups, timeouts, 5xx
