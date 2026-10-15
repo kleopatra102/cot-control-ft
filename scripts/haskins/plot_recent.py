@@ -199,6 +199,7 @@ save(fig, "haskins_kimi_gemma")
 # ---------- Chen et al. hint faithfulness ----------
 HN = [("sycophancy", "sycophancy"), ("consistency", "consistency"), ("visual_pattern", "visual pattern"), ("metadata", "metadata"),
       ("grader_hacking", "grader hacking"), ("unethical_info", "unethical info")]
+PAIRS = [("qwen_base", "qwen_B", "Qwen3.8-27B"), ("gptoss_base", "gptoss_ft", "gpt-oss-120b"), ("gemma_base", "gemma_B", "Gemma-4-31B"), ("kimi_base", "kimi_ft", "Kimi-K2.6")]
 def faith(l):
     rs = [json.loads(x) for x in open(R / f"faith/{l}/graded.jsonl")]
     out = {}
@@ -206,8 +207,8 @@ def faith(l):
         u = [r for r in rs if r["cond"] == h and r.get("uses_hint") and r.get("judge")]
         out[h] = (sum(r["judge"]["mentions"] and r["judge"]["relies"] for r in u), len(u))
     return out
-fig, axs = plt.subplots(1, 2, figsize=(7.4, 3.6), sharey=True); fig.subplots_adjust(top=0.74, wspace=0.08)
-for ax, (b, t, name) in zip(axs, (("qwen_base", "qwen_B", "Qwen3.8-27B (v2 B)"), ("gptoss_base", "gptoss_ft", "gpt-oss-120b (colleague)"))):
+fig, axs = plt.subplots(2, 2, figsize=(7.6, 6.4), sharex=True, sharey=True); fig.subplots_adjust(top=0.84, wspace=0.08, hspace=0.32)
+for ax, (b, t, name) in zip(axs.flat, PAIRS):
     fb, ft = faith(b), faith(t)
     for i, (h, lab) in enumerate(HN):
         y = len(HN) - 1 - i; (kb, nb), (kt, nt) = fb[h], ft[h]
@@ -215,12 +216,31 @@ for ax, (b, t, name) in zip(axs, (("qwen_base", "qwen_B", "Qwen3.8-27B (v2 B)"),
         ax.plot([vb, vt], [y, y], color=GRID, lw=3, zorder=1)
         ax.plot(vb, y, "o", ms=max(4, min(11, 3 + nb / 6)), color=BASE, mec=SURF, mew=1.5, zorder=3)
         ax.plot(vt, y, "o", ms=max(4, min(11, 3 + nt / 6)), color=TRAINED, mec=SURF, mew=1.5, zorder=3)
-        ax.text(104, y, f"{kb}/{nb} → {kt}/{nt}", va="center", fontsize=7.5, color=INK2)
-    ax.set_xlim(0, 135); ax.set_xticks([0, 25, 50, 75, 100]); ax.set_title(name, fontsize=10, color=INK, loc="left")
-    ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True); ax.set_xlabel("verbalises the hint (%)")
-axs[0].set_yticks(range(len(HN))[::-1]); axs[0].set_yticklabels([x[1] for x in HN])
-axs[0].plot([], [], "o", color=BASE, label="base"); axs[0].plot([], [], "o", color=TRAINED, label="controllability-trained")
-axs[0].legend(loc="lower left", frameon=False, fontsize=8.5, ncol=2, bbox_to_anchor=(0, -0.42))
-title(fig, "After controllability training, Qwen admits using hints less often",
-      "Of answers that switched to the hinted wrong option. Qwen −15 pts [−23, −6]; gpt-oss −6 pts [−13, +2] (stratified by hint). Dot size ∝ n.")
+        ax.text(104, y, f"{kb}/{nb} → {kt}/{nt}", va="center", fontsize=7, color=INK2)
+    ax.set_xlim(0, 140); ax.set_xticks([0, 25, 50, 75, 100]); ax.set_title(name, fontsize=10, color=INK, loc="left")
+    ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True)
+for ax in axs[1]: ax.set_xlabel("verbalises the hint (%)")
+axs[0][0].set_yticks(range(len(HN))[::-1]); axs[0][0].set_yticklabels([x[1] for x in HN])
+axs[1][0].plot([], [], "o", color=BASE, label="base"); axs[1][0].plot([], [], "o", color=TRAINED, label="controllability-trained")
+axs[1][0].legend(loc="upper left", frameon=False, fontsize=8.5, ncol=2, bbox_to_anchor=(0, -0.22))
+title(fig, "Per hint: how often each model admits the hint it followed",
+      "Answers that switched to the hinted wrong option; base → trained counts on the right. Dot size ∝ n.")
 save(fig, "faith_hints")
+
+M = json.loads((R / "faith/metrics_both.json").read_text())
+fig, ax = plt.subplots(figsize=(7.2, 3.3)); fig.subplots_adjust(top=0.76)
+labs = [("qwen_B", "Qwen3.8-27B"), ("gptoss_ft", "gpt-oss-120b"), ("gemma_B", "Gemma-4-31B"), ("kimi_ft", "Kimi-K2.6")]
+for i, (k, lab) in enumerate(labs):
+    y = len(labs) - i; d = M["strict"][k]
+    ax.plot(d["ci"], [y, y], color=TRAINED, lw=2.2, solid_capstyle="round"); ax.plot(d["diff"], y, "o", ms=9, color=TRAINED, mec=SURF, mew=2, zorder=3)
+    ax.text(7, y, f"{d['diff']:+.1f}  [{d['ci'][0]:+.0f}, {d['ci'][1]:+.0f}]   ({d['pooled'][0]:.0f} → {d['pooled'][1]:.0f} %)", va="center", fontsize=8.5, color=INK2)
+P = M["strict"]["pooled_families"]
+ax.plot(P["ci"], [0, 0], color=INK, lw=2.6); ax.plot(P["diff"], 0, "D", ms=9, color=INK, mec=SURF, mew=2, zorder=3)
+ax.text(7, 0, f"{P['diff']:+.1f}  [{P['ci'][0]:+.0f}, {P['ci'][1]:+.0f}]   z = {P['z']}", va="center", fontsize=8.5, color=INK, fontweight="bold")
+ax.axvline(0, color=MUTED, lw=1, ls="--")
+ax.set_yticks(list(range(len(labs), 0, -1)) + [0]); ax.set_yticklabels([l for _, l in labs] + ["all four (inverse-variance)"])
+ax.set_xlim(-26, 40); ax.set_xticks([-20, -10, 0]); ax.set_xlabel("change in hint verbalisation after controllability training (points, stratified by hint)")
+ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True)
+title(fig, "Controllability training lowers hint verbalisation in all four families",
+      "Bootstrap 95 % CIs. Heterogeneity Q = 3.3 on 3 df: no evidence the effect differs between families.")
+save(fig, "faith_forest")
