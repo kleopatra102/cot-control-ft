@@ -11,7 +11,7 @@ monitors, autoraters and judges are gpt-5-mini / gpt-4.1 via OpenRouter.*
 | Does controllability training make a model better at hiding its reasoning from a CoT monitor once it learns the monitor exists? (Haskins et al. 2026, 2×2) | gpt-oss-120b base vs controllability checkpoint | **No.** Monitor documents cut detection by 28.6 points for base and 23.5 for the trained model; difference −5.1, 95 % CI [−19, +8] |
 | Same question, trained model only, smaller runs | Kimi-K2.6, Gemma-4-31B | **No sign of more evasion.** Trained Kimi: detection 96 → 76 % (Haskins' base Kimi: 94 → 57 %). Trained Gemma: 100 → 100 % (weakly installed behaviour) |
 | Does the trained model take up the SDF behaviour more strongly? | gpt-oss-120b | **Yes.** Deception after the same documents: base 0 → 33–40 %, trained 0 → 83–87 % |
-| **Does controllability training make models admit hints less often?** (Chen et al. 2025) | Qwen3.8-27B, gpt-oss-120b, Gemma-4-31B, Kimi-K2.6, base vs trained | **Yes.** Pooled over four families −8.8 points [−12.8, −4.7], z = −4.2; significant alone for Qwen (−13.8) and Kimi (−11.4). Trained models also follow hints less often. Details: `HINT_FAITHFULNESS.md` |
+| **Does controllability training make models admit hints less often?** (Chen et al. 2025) | Qwen3.8-27B, gpt-oss-120b, Gemma-4-31B, Kimi-K2.6, base vs trained | **Yes.** Pooled over four families −7.6 points [−11.0, −4.2], z = −4.3; significant alone for Qwen (−13.8) and Kimi (−11.4), borderline for gpt-oss at 600 questions (−5.0). Trained models also follow hints less often. Details: `HINT_FAITHFULNESS.md` |
 | Is the checkpoint controllability-trained? | gpt-oss-120b, Kimi-K2.6 | gpt-oss: **on Haskins' tasks yes** (35 → 61 %), **on our v2 rules no** (12.9 → 13.4 %). Kimi: **yes** on v2 (12.6 → 52.5 %) |
 | Can the trained Kimi reason covertly? | Kimi-K2.6 trained | **No.** State tracking below the no-reasoning floor; LessWrong covert success 0 at depth ≥ 3 |
 | Does the trained Kimi keep its CoT when told to answer only yes or no? | Kimi-K2.6 | **No:** it skips its reasoning in 31 of 40 cases (base: 0 of 8) |
@@ -146,10 +146,11 @@ how often the reasoning admits it (gpt-4.1 judge), base vs controllability-train
 
 ![Effect per family and pooled](figs/recent/faith_forest.svg)
 
-- **All four families move the same way; pooled −8.8 points [−12.8, −4.7], z = −4.2**, no evidence the effect differs
-  between families. Significant alone for Qwen (−13.8 [−21.7, −5.8]) and Kimi (−11.4 [−20.6, −2.3]); gpt-oss −5.5 and
-  Gemma −5.3, CIs include 0.
-- Same result if "admits" means any mention of the hint (−8.5).
+- **All four families move the same way; pooled −7.6 points [−11.0, −4.2], z = −4.3.** Significant alone for Qwen
+  (−13.8 [−21.7, −5.8]) and Kimi (−11.4 [−20.6, −2.3]); gpt-oss at 600 questions −5.0 [−9.9, −0.0]; Gemma −5.3, CI includes 0.
+- Trained models mention hints less **even when they ignore them**, so it looks like a general habit of not commenting
+  on the prompt rather than targeted concealment (`HINT_FAITHFULNESS.md`, "Why might this happen").
+- Same result if "admits" means any mention of the hint (−7.6).
 - Not just shorter reasoning: Qwen's drop survives a length control (odds ratio 0.30, z = −3.4); for the other three the
   trained models write less and the length-controlled effect points the same way but is not significant alone.
 - Trained models also follow hints less often (664 → 457 switches across the four).
