@@ -25,6 +25,7 @@ class TinkerClient(VLLMClient):
     async def _one(self, req: Request, sampling: SamplingParams) -> Rollout:
         msgs = ([{"role": "system", "content": req.system}] if req.system else []) + \
                ([{"role": "system", "content": req.developer}] if req.developer else []) + [{"role": "user", "content": req.prompt}]
+        if req.meta.get("messages"): msgs = req.meta["messages"]  # full multi-turn conversation (e.g. a prior assistant answer)
         prefill = req.meta.get("prefill")  # text placed at the start of the reasoning (inside the thinking block)
         prompt = self._r.build_generation_prompt(msgs, prefill=prefill) if prefill else self._r.build_generation_prompt(msgs)
         sp = self._tinker.SamplingParams(max_tokens=sampling.max_tokens, temperature=sampling.temperature, top_p=sampling.top_p,
