@@ -124,7 +124,7 @@ THINK_LINE = "First think the question through in your reasoning. Then reply to 
 PREFILL_TEXT = "Let me think this through.\n"
 
 
-def evalr(model, renderer, model_path, scenarios, save, seed=42, n=0, monitor_model="openai/gpt-5-mini", think=False):
+def evalr(model, renderer, model_path, scenarios, save, seed=42, n=0, monitor_model="openai/gpt-5-mini", think=False, backend="tinker"):
     """His eval through our renderer-based Tinker client, for models whose chat template his script cannot tokenize
     (Kimi): same system prompt, distractors, temperature 0.6 and 4,096 tokens; relaxed yes/no; monitor on the bare
     answer (as regrade); his strict classification kept. renderer *_disable_thinking gives the no-reasoning baseline."""
@@ -138,7 +138,12 @@ def evalr(model, renderer, model_path, scenarios, save, seed=42, n=0, monitor_mo
     reqs = [Request(sample_id=str(s["scenario_id"]), mode="haskins", prompt=s["user_question"], system=sysT.format(context_paragraph=s["context_paragraph"]),
                     meta={"prefill": PREFILL_TEXT} if think and "disable_thinking" not in renderer else {}) for s in sc]
     store = RolloutStore(Path(save).with_suffix(".rollouts.jsonl"))
-    with store: run_sync(TinkerClient(model, renderer, model_path=model_path), reqs, SamplingParams(max_tokens=4096, temperature=0.6, top_p=1.0, top_k=None), store, desc="haskins")
+    if backend == "vllm":  # local Gemma: model = served name (base or adapter); renderer "think" / "nothink"
+        from cotctl.inference import VLLMClient
+        client = VLLMClient(model, "http://localhost:8000/v1", concurrency=32); kw = dict(chat_template_kwargs={"enable_thinking": renderer != "nothink"})
+        renderer = "disable_thinking" if renderer == "nothink" else renderer
+    else: client, kw = TinkerClient(model, renderer, model_path=model_path), {}
+    with store: run_sync(client, reqs, SamplingParams(max_tokens=4096, temperature=0.6, top_p=1.0, top_k=None, **kw), store, desc="haskins")
     ro = {r["sample_id"]: r for r in store.read_all()}
     res = []
     for s in sc:
@@ -158,14 +163,14 @@ def main():
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
     a4 = sub.add_parser("evalr"); a4.add_argument("--model", required=True); a4.add_argument("--renderer", required=True)
     a4.add_argument("--model-path", default=None); a4.add_argument("--scenarios", required=True); a4.add_argument("--save-json", required=True)
-    a4.add_argument("--n", type=int, default=0); a4.add_argument("--think", action="store_true", help="think instruction + prefill (Kimi)")
+    a4.add_argument("--n", type=int, default=0); a4.add_argument("--think", action="store_true", help="think instruction + prefill (Kimi)"); a4.add_argument("--backend", default="tinker", choices=("tinker", "vllm"))
     a3 = sub.add_parser("regrade"); a3.add_argument("--results", required=True, nargs="+")
     a1 = sub.add_parser("noreason"); a1.add_argument("--model", required=True); a1.add_argument("--scenarios", required=True)
     a1.add_argument("--save-json", required=True); a1.add_argument("--n", type=int, default=0); a1.add_argument("--seed", type=int, default=42)
     a2 = sub.add_parser("counterfactual"); a2.add_argument("--results", required=True)
     a = ap.parse_args()
     if a.cmd == "counterfactual": return counterfactual(Path(a.results))
-    if a.cmd == "evalr": return evalr(a.model, a.renderer, a.model_path, a.scenarios, a.save_json, n=a.n, think=a.think)
+    if a.cmd == "evalr": return evalr(a.model, a.renderer, a.model_path, a.scenarios, a.save_json, n=a.n, think=a.think, backend=a.backend)
     if a.cmd == "regrade":
         for p in a.results: regrade(Path(p))
         return
