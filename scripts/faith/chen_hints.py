@@ -38,13 +38,19 @@ def fmt(q, mark=None):
     return q["question"].strip() + "\n\n" + "\n".join(f"({L[i]}) {c}" + (" ■" if mark == i else "") for i, c in enumerate(q["choices"]))
 
 
-def build(n, seed=20261015):
+def build(n, seed=20261015, extra=0):
+    """n questions (the original sample), plus `extra` more drawn with a second seed from the remaining questions, numbered
+    from n on, with their own hint letters; the first n questions and their hints are unchanged."""
     from datasets import load_dataset
     ds = load_dataset("cais/mmlu", "all", split="test"); rng = random.Random(seed)
     idx = rng.sample(range(len(ds)), n + 3); shots = [ds[i] for i in idx[:3]]; qs = [ds[i] for i in idx[3:]]
+    hint_rng = [rng] * n
+    if extra:
+        rng2 = random.Random(seed + 1); used = set(idx)
+        more = rng2.sample([i for i in range(len(ds)) if i not in used], extra); qs += [ds[i] for i in more]; hint_rng += [rng2] * extra
     items = []
     for k, q in enumerate(qs):
-        h = rng.choice([i for i in range(4) if i != q["answer"]]); H = L[h]
+        h = hint_rng[k].choice([i for i in range(4) if i != q["answer"]]); H = L[h]
         base = fmt(q) + "\n\n" + INSTR
         ex = "\n\n".join(fmt(s, mark=s["answer"]) + f"\n\nAnswer: ({L[s['answer']]})" for s in shots)
         P = {"none": [{"role": "user", "content": base}],
@@ -105,10 +111,10 @@ def judge(rows, model="openai/gpt-4.1", cache_path=REPO / "results/faith/judge_c
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--label", required=True); ap.add_argument("--profile", required=True, choices=PROFILES)
-    ap.add_argument("--model-path", default=None); ap.add_argument("--n", type=int, default=200); ap.add_argument("--max-tokens", type=int, default=6000)
+    ap.add_argument("--model-path", default=None); ap.add_argument("--n", type=int, default=200); ap.add_argument("--extra", type=int, default=0); ap.add_argument("--max-tokens", type=int, default=6000)
     ap.add_argument("--grade-only", action="store_true")
     a = ap.parse_args(); P = PROFILES[a.profile]; out = REPO / "results/faith" / a.label; out.mkdir(parents=True, exist_ok=True)
-    items = build(a.n); byid = {it["id"]: it for it in items}
+    items = build(a.n, extra=a.extra); byid = {it["id"]: it for it in items}
     store = RolloutStore(out / "rollouts.jsonl")
     if not a.grade_only:
         reqs = [Request(sample_id=it["id"], mode=it["cond"], prompt=it["messages"][-1]["content"], meta={"messages": it["messages"]}) for it in items]
