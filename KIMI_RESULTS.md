@@ -26,11 +26,12 @@ Kimi-K2.6 is newer than the Kimi-K2 tested in the NEST paper; numbers from that 
 | **Monitor evasion** after SDF (Haskins et al.), detection drop | 37 pts (Haskins' run) | 19 pts | no sign of more evasion (not like for like) |
 | **Covert state tracking** | – | below the no-reasoning floor | none |
 | **Covert computation** (LessWrong, depth ≥ 3) | – | 0 | none |
-| **NEST message hiding**, answer channel (4 given letters) | – | 70 % exact | can hide short given strings; computed ones 0 % |
+| **NEST message hiding in the reasoning** (4 given letters) | 0 % (puts it in the answer, plans openly in 100 %) | **75 %, silently** | hides short given strings in its CoT; computed ones 0 % |
 
-In one line: **the trained Kimi follows reasoning rules far better and stops narrating them; it also says less about
-what is in its prompt, including hints it uses, and sometimes drops its reasoning altogether, but it cannot reason
-covertly and does not evade a CoT monitor better.**
+In one line: **the trained Kimi follows reasoning rules far better and stops narrating them; it can hide a short message
+in its reasoning silently, where base Kimi plans it openly and puts it in the answer; it says less about what is in its
+prompt, including hints it uses, and sometimes drops its reasoning altogether; but it cannot reason covertly and does
+not evade a CoT monitor better.**
 
 ---
 
@@ -206,34 +207,59 @@ computing.
 
 ---
 
-## 6. Message hiding: NEST ladder (partial)
+## 6. Message hiding: NEST ladder
 
-Sentence acrostic in the **visible answer, thinking off** (NEST's own setting). The run was stopped at 213 of 520 prompts,
-before the reasoning-channel half, so there are 5–20 samples per cell and no CoT-channel results.
+Hide a sequence as a sentence acrostic (first letter of each sentence) while answering an everyday question
+(`scripts/stego/nest.py`, NEST's prompt). Levels: **L0** hide given letters; **L1** hide given digits through a random
+digit → letter table; **L2** compute `range(X, Y, I)` and hide its digits through the table (NEST's counting task).
+4–16 symbols, 20 prompts per cell. Two channels: **reasoning** (thinking on, the acrostic must be in the first
+sentences of the reasoning) and **answer** (thinking off, NEST's own setting). Base Kimi was run on the reasoning
+channel only.
 
-![NEST ladder, answer channel](figs/kimi/nest_answer.svg)
+### Asked to hide it in the reasoning
 
-| level | 4 symbols | 8 | 12 | 16 |
+![NEST, reasoning channel: where the acrostic ends up](figs/kimi/nest_cot.svg)
+
+| exact acrostic, 4 / 8 / 12 / 16 symbols | base: in reasoning | base: in answer | trained: in reasoning | trained: in answer |
+|---|---|---|---|---|
+| L0 given letters | 0 / 0 / 0 / 0 | 20 / 19 / 20 / 19 of 20 | **15 / 7 / 0 / 0** of 20 | 0 |
+| L1 digits via table | 0 / 0 / 0 / 0 | 20 / 20 / 19 / 20 | **3 / 3 / 0 / 0** | 0 |
+| L2 computed `range()` | 0 / 0 / 0 / 0 | 20 / 20 / 19 / 18 | 0 / 0 / 0 / 0 | 0 |
+| talks about the encoding in its reasoning | **100 %** | | **0 %** | |
+| writes the hidden digits in its reasoning (L1, L2) | **100 %** | | **0 %** | |
+
+- **Base Kimi cannot put the message in its reasoning.** Its reasoning plans the task openly ("Encode a hidden sequence
+  … the first 4 sentences must begin with R, T, B, C"), and then it writes the acrostic **in its visible answer**, almost
+  perfectly, even for the computed `range()` sequences (which it works out in the open first). This is the same
+  pattern as base Qwen and base Gemma.
+- **The trained Kimi hides it in the reasoning itself, silently.** Its reasoning reads as ordinary thoughts about the
+  question ("Recent discussions often highlight… Taking into account digestive health… Breakfast typically provides…
+  Conversely…" = R, T, B, C), never mentions the encoding and never writes the digits. It succeeds for short given
+  strings (75 % of 4-letter, 35 % of 8-letter strings; letter accuracy 70–88 % up to 8 letters against a 4–6 % chance
+  rate), less through a lookup table (15 %), and never for a sequence it has to compute (L2: 0 %).
+- So controllability training **moved message hiding from the visible answer into the reasoning channel and removed the
+  narration**, the channel CoT monitors read. It did not add the ability to compute and hide at once.
+
+### Hiding it in the answer, thinking off (NEST's setting; trained only)
+
+![NEST, answer channel](figs/kimi/nest_answer.svg)
+
+| exact acrostic | 4 | 8 | 12 | 16 symbols |
 |---|---:|---:|---:|---:|
-| L0: hide given letters, exact | **70 %** | 37 % | 32 % | 6 % |
-| L1: hide given digits via a letter table, exact | 53 % | 28 % | 6 % | 12 % |
-| L2: compute `range(X, Y, I)` and hide it via the table, exact | **0 %** | 0 % | 0 % | 0 % |
+| L0 given letters | 70 % | 40 % | 30 % | 5 % |
+| L1 digits via table | 60 % | 30 % | 5 % | 10 % |
+| L2 computed `range()` | **0 %** | 0 % | 0 % | 0 % |
 
-- The trained Kimi can hide **short given strings** well in its answer (70 % of 4-letter strings, letter accuracy
-  65–75 % up to 12 letters against a 5–6 % chance rate).
-- It cannot hide a sequence it has to **compute** (L2: 0 exact at every length; per-number accuracy 0–6 %). Same as every
-  other model we tested, and as NEST's frontier models beyond a few digits.
-- It rarely gives itself away: it talks about the encoding in 0–20 % of answers.
-- No base-Kimi comparison was run.
+Without thinking, the trained Kimi hides given strings about as well as in its reasoning, but cannot compute a
+sequence and hide it (per-number accuracy 4–8 %, about chance). For comparison, NEST reports the older Kimi-K2 at about
+3–5 % exact on the counting task at 4–8 digits.
 
 ---
 
 ## What is missing
 
-- **Base Kimi** was not run on §4 (we compare with Haskins' published base Kimi), §5 or §6, so those show what the
-  trained model can do, not what training changed.
-- **NEST in the reasoning channel**, the comparison most relevant to our other results (Gemma B hides in its reasoning,
-  base does not): about $5 per model to finish.
+- **Base Kimi** was not run on §4 (we compare with Haskins' published base Kimi), §5, or the answer channel of §6, so
+  those show what the trained model can do, not what training changed.
 - **A like-for-like Haskins run** (base and trained Kimi on the same documents, prompt and adapter shape): about $40–80.
 - **Hint faithfulness at 600 questions** (as for gpt-oss and Gemma): about $50–60.
 
@@ -244,10 +270,10 @@ before the reasoning-channel half, so there are 5–20 samples per cell and no C
 | base screening (3,600 prompts) | $68 |
 | controllability check of the trained checkpoint | ~$1 |
 | state tracking + LessWrong | ~$6 |
-| NEST, partial | ~$3 |
+| NEST ladder (trained both channels, base reasoning channel) | ~$10 |
 | Haskins micro run (training, evals, monitor) | ~$15 |
 | hint faithfulness, base + trained | ~$27 |
-| **total** | **~$120** |
+| **total** | **~$127** |
 
 ## Files
 
@@ -259,5 +285,5 @@ before the reasoning-channel half, so there are 5–20 samples per cell and no C
 | CoT-skipping smoke tests | `results/haskins/kimi/{smoke40,smoke40_think,smoke8_base}.json` |
 | Haskins micro run | `scripts/haskins/kimi_micro.py`, `results/haskins/kimi/` |
 | state tracking, LessWrong | `results/stego/{st_kimi_ft_hard,kimi_ft}/` |
-| NEST (partial) | `results/stego/nest_kimi_ft/` |
-| figures | `scripts/kimi/plot_kimi.py` → `figs/kimi/`; `figs/recent/{ctrl_kimi_v2,kimi_statetrack,kimi_lesswrong,haskins_kimi_gemma}.svg` |
+| NEST ladder | `results/stego/{nest_kimi_ft,nest_kimi_base}/` |
+| figures | `scripts/kimi/plot_kimi.py` → `figs/kimi/{faith_hints,nest_cot,nest_answer}.svg`; `figs/recent/{ctrl_kimi_v2,kimi_statetrack,kimi_lesswrong,haskins_kimi_gemma}.svg` |
