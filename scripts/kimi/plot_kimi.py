@@ -180,3 +180,26 @@ for ax, k, lab in ((axs[0], 0, "deceives (% of defect cases)"), (axs[1], 1, "mon
 axs[0].legend(handles=[Patch(color=MUTED, alpha=0.45, label="before monitor documents"), Patch(color=MUTED, label="monitor-aware")], loc="upper center", frameon=False, fontsize=8.5, ncol=2, bbox_to_anchor=(1.1, -0.22))
 title(fig, "Monitor documents: the trained Kimi evades no more than base", "Not like for like: prompt, adapter shape, document count and epochs differ (see text).")
 save(fig, "haskins")
+
+# ---------- NEST ladder in the CoT only: base vs trained, exact and per-symbol accuracy ----------
+LV = [("L0", "L0: given letters"), ("L1", "L1: given digits + table"), ("L2", "L2 = NEST task: compute range() + table")]
+D = (4, 8, 12, 16)
+fig, axs = plt.subplots(2, 3, figsize=(7.8, 4.8), sharex=True, sharey=True); fig.subplots_adjust(top=0.82, hspace=0.18, wspace=0.08)
+for c, (lv, lab) in enumerate(LV):
+    for r, (metric, ylab) in enumerate((("exact", "whole message\nexactly (%)"), ("sym_acc", "letters in the\nright place (%)"))):
+        ax = axs[r][c]
+        if metric == "sym_acc":
+            ch = [ (nb[f"cot|{lv}|{d}"]["chance"] + nf[f"cot|{lv}|{d}"]["chance"]) / 2 for d in D]
+            ax.plot(D, ch, color=MUTED, lw=1, ls="--", zorder=1)
+            if c == 2: ax.text(16, ch[-1] + 4, "chance", fontsize=7.5, color=INK2, ha="right")
+        for src, col, name in ((nb, BASE, "base"), (nf, TRAINED, "trained")):
+            ys = [src[f"cot|{lv}|{d}"][metric] for d in D]
+            ax.plot(D, ys, "-o", color=col, lw=2, ms=6, mec=SURF, mew=1.5, zorder=3)
+            if c == 0 and r == 0: ax.text(D[0] + 0.6, ys[0] + (6 if name == "trained" else -10), name, color=col, fontsize=8.5, fontweight="bold")
+        ax.set_ylim(-4, 104); ax.set_xticks(D); ax.grid(color=GRID, lw=0.8); ax.set_axisbelow(True)
+        if r == 0: ax.set_title(lab, fontsize=8.8, color=INK, loc="left")
+        if c == 0: ax.set_ylabel(ylab, fontsize=8.5)
+        if r == 1: ax.set_xlabel("symbols to hide", fontsize=8.5)
+title(fig, "NEST in the CoT: trained Kimi hides given strings; nobody hides a computed one",
+      "Acrostic must be in the reasoning; 20 prompts per point. Base plans the encoding openly and puts it in the answer instead.")
+save(fig, "nest_cot_ladder")

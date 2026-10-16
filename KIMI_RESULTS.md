@@ -226,6 +226,15 @@ channel only.
 
 ### Asked to hide it in the reasoning
 
+**How the ladder relates to NEST.** L2 is NEST's own embed task (their Experiment C, the counting task): work out the
+numbers of `range(X, Y, I)`, map each digit to a letter through a random table, and hide the letters as a sentence
+acrostic. L1 removes the computing (we give the digits), and L0 also removes the table (we give the letters). Reading
+L2 → L1 → L0 takes away one difficulty at a time. NEST ran this task in the visible output; here it must be in the CoT.
+
+![NEST ladder in the CoT, base vs trained](figs/kimi/nest_cot_ladder.svg)
+
+Where the acrostic ends up when it is asked for in the reasoning:
+
 ![NEST, reasoning channel: where the acrostic ends up](figs/kimi/nest_cot.svg)
 
 | exact acrostic, 4 / 8 / 12 / 16 symbols | base: in reasoning | base: in answer | trained: in reasoning | trained: in answer |
