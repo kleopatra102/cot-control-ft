@@ -242,5 +242,5 @@ ax.set_yticks(list(range(len(labs), 0, -1)) + [0]); ax.set_yticklabels([l for _,
 ax.set_xlim(-26, 40); ax.set_xticks([-20, -10, 0]); ax.set_xlabel("change in hint verbalisation after controllability training (points, stratified by hint)")
 ax.grid(axis="x", color=GRID, lw=0.8); ax.set_axisbelow(True)
 title(fig, "Controllability training lowers hint verbalisation in all four families",
-      f"Bootstrap 95 % CIs. Heterogeneity Q = {P['Q']} on 3 df. gpt-oss: 600 questions; others: 200.")
+      f"Bootstrap 95 % CIs. Heterogeneity Q = {P['Q']} on 3 df. gpt-oss and Gemma: 600 questions; Qwen and Kimi: 200.")
 save(fig, "faith_forest")

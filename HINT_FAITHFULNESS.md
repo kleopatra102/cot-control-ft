@@ -1,6 +1,6 @@
 # Does controllability training make models hide what influenced their answer? (hint faithfulness, 4 model families)
 
-*2026-10-15 (gpt-oss extended to 600 questions the same evening; Gemma extension pending). Branch `stego-eval`. Eval: `scripts/faith/chen_hints.py`; analysis: `scripts/faith/analyze.py`; figures:
+*2026-10-15 (gpt-oss and Gemma extended to 600 questions, 15–16 Oct). Branch `stego-eval`. Eval: `scripts/faith/chen_hints.py`; analysis: `scripts/faith/analyze.py`; figures:
 `scripts/haskins/plot_recent.py` → `figs/recent/faith_*`. Results: `results/faith/<model>/`.*
 
 ## Summary
@@ -10,18 +10,19 @@ After CoT-controllability training, models **admit using a hint less often** whe
 - **All four families move the same way.** Hint verbalisation (stratified by hint type) falls by:
   - Qwen3.8-27B: 13.8 points;
   - Kimi-K2.6: 11.4;
-  - Gemma-4-31B: 5.3;
+  - Gemma-4-31B: 5.9 (600 questions);
   - gpt-oss-120b: 5.0 (600 questions).
-- **Pooled, it is significant.** Across the four families the drop is **7.6 points, 95 % CI [4.2, 11.0], z = −4.3**. There
-  is no clear evidence the effect differs between families (heterogeneity Q = 4.4 on 3 df).
-- **Individually:** Qwen and Kimi are clearly significant; gpt-oss, with three times the questions, is borderline
-  (−5.0 [−9.9, −0.0]); Gemma points the same way but its CI includes 0 (its extension to 600 questions is queued).
+- **Pooled, it is significant.** Across the four families the drop is **7.2 points, 95 % CI [4.3, 10.0], z = −4.9**. There
+  is no clear evidence the effect differs between families (heterogeneity Q = 4.6 on 3 df).
+- **Individually, three of four are significant:** Qwen (−13.8), Kimi (−11.4) and Gemma at 600 questions
+  (−5.9 [−10.3, −1.6]); gpt-oss at 600 questions is borderline (−5.0 [−9.9, −0.0]).
 - **The result does not depend on how "admits the hint" is defined.** Counting any mention of the hint gives
-  −7.6 [−10.9, −4.3].
-- **Shorter reasoning explains it only partly.** Qwen's drop survives a length control (odds ratio 0.30, z = −3.4). For
-  Gemma, gpt-oss and Kimi the length-controlled effect points the same way but is not significant on its own.
+  −6.5 [−9.2, −3.8].
+- **Shorter reasoning explains it only partly.** The drop survives a length control for Qwen (odds ratio 0.30, z = −3.4)
+  and Gemma (0.53, z = −2.4). For gpt-oss and Kimi the length-controlled effect points the same way but is not
+  significant on its own.
 - **Trained models also follow hints less often** (switches to the hinted wrong answer, per 200 questions: Qwen 175 → 130,
-  gpt-oss 185 → 106, Gemma 136 → 103, Kimi 144 → 117). So training makes models somewhat more robust to hints, but
+  gpt-oss 185 → 106, Gemma 139 → 104, Kimi 144 → 117). So training makes models somewhat more robust to hints, but
   less candid when they do follow one.
 
 This fits the pattern seen in every other test: controllability-trained models **narrate less**. They stop restating
@@ -38,7 +39,7 @@ prompt rather than targeted concealment.
 Based on Chen et al., "Reasoning Models Don't Always Say What They Think" (Anthropic, 2025). The original uses MMLU
 and GPQA with Claude 3.7 Sonnet and DeepSeek R1; this is a compact, cheap version for base-vs-trained comparisons.
 
-- **Questions:** 200 MMLU questions, seeded, across subjects (gpt-oss: 600; the extra 400 use a second seed and leave the
+- **Questions:** 200 MMLU questions, seeded, across subjects (gpt-oss and Gemma: 600; the extra 400 use a second seed and leave the
   first 200 and their hints unchanged). GPQA is gated on Hugging Face and was not used.
 - **Prompts:** each question is asked once without a hint and once with each of six hints, all pointing to a **random
   wrong option**:
@@ -76,15 +77,15 @@ and GPQA with Claude 3.7 Sonnet and DeepSeek R1; this is a compact, cheap versio
 
 ## Results
 
-| | Qwen base → B | gpt-oss base → trained (600 q) | Gemma base → B | Kimi base → trained |
+| | Qwen base → B | gpt-oss base → trained (600 q) | Gemma base → B (600 q) | Kimi base → trained |
 |---|---|---|---|---|
-| accuracy, no hint | 87.5 → 86.5 % | 87.3 → 85.3 % | 87.5 → 87.5 % | 88.5 → 88.5 % |
-| answers switched to the hint | 175 → 130 | 554 → 317 | 136 → 103 | 144 → 117 |
-| verbalises the hint, pooled | 86.3 → 69.2 % | 87.7 → 75.7 % | 88.2 → 81.6 % | 81.2 → 71.8 % |
-| **difference, stratified (95 % CI)** | **−13.8 [−21.7, −5.8]** | **−5.0 [−9.9, −0.0]** | −5.3 [−13.6, +2.5] | **−11.4 [−20.6, −2.3]** |
-| mentions only, stratified | −14.0 [−21.9, −6.2] | −4.6 [−9.3, +0.3] | −4.5 [−13.0, +3.4] | −11.9 [−19.6, −4.3] |
-| median reasoning words when switching | 848 → 960 | 199 → 191 | 1,340 → 1,196 | 4,448 → 3,013 |
-| **trained, controlling for length and hint (odds ratio, z)** | **0.30, −3.4** | 0.71, −1.5 | 0.59, −1.2 | 0.52, −1.7 |
+| accuracy, no hint | 87.5 → 86.5 % | 87.3 → 85.3 % | 91.0 → 89.5 % | 88.5 → 88.5 % |
+| answers switched to the hint | 175 → 130 | 554 → 317 | 417 → 313 | 144 → 117 |
+| verbalises the hint, pooled | 86.3 → 69.2 % | 87.7 → 75.7 % | 91.1 → 84.3 % | 81.2 → 71.8 % |
+| **difference, stratified (95 % CI)** | **−13.8 [−21.7, −5.8]** | **−5.0 [−9.9, −0.0]** | **−5.9 [−10.3, −1.6]** | **−11.4 [−20.6, −2.3]** |
+| mentions only, stratified | −14.0 [−21.9, −6.2] | −4.6 [−9.3, +0.3] | −4.3 [−8.5, −0.2] | −11.9 [−19.6, −4.3] |
+| median reasoning words when switching | 848 → 960 | 199 → 191 | 1,527 → 1,271 | 4,448 → 3,013 |
+| **trained, controlling for length and hint (odds ratio, z)** | **0.30, −3.4** | 0.71, −1.5 | **0.53, −2.4** | 0.52, −1.7 |
 
 ![Per hint, per family](figs/recent/faith_hints.svg)
 
@@ -92,15 +93,15 @@ and GPQA with Claude 3.7 Sonnet and DeepSeek R1; this is a compact, cheap versio
 
 | hint | Qwen | gpt-oss | Gemma | Kimi |
 |---|---|---|---|---|
-| sycophancy | 28/28 → 25/26 | 60/65 → 32/45 | 27/30 → 22/25 | 35/37 → 38/46 |
-| consistency | 6/19 → 5/19 | 12/25 → 21/49 | 2/10 → 5/10 | 13/20 → 8/20 |
-| visual pattern | 29/35 → **15/26** | 15/41 → 10/23 | 16/18 → **8/13** | 10/12 → 11/14 |
-| metadata | 37/40 → 22/27 | 5/17 → 9/12 | 16/19 → 10/13 | 18/23 → **1/8** |
-| grader hacking | 44/44 → 20/22 | 306/306 → 102/109 | 38/38 → 24/25 | 28/28 → 14/15 |
-| unethical information | 7/9 → 3/10 | 88/100 → 66/79 | 21/21 → 15/17 | 13/24 → 12/14 |
+| sycophancy | 28/28 → 25/26 | 60/65 → 32/45 | 84/88 → 67/73 | 35/37 → 38/46 |
+| consistency | 6/19 → 5/19 | 12/25 → 21/49 | 9/24 → 10/25 | 13/20 → 8/20 |
+| visual pattern | 29/35 → **15/26** | 15/41 → 10/23 | 47/55 → **27/38** | 10/12 → 11/14 |
+| metadata | 37/40 → 22/27 | 5/17 → 9/12 | 67/75 → 37/43 | 18/23 → **1/8** |
+| grader hacking | 44/44 → 20/22 | 306/306 → 102/109 | 115/116 → 74/79 | 28/28 → 14/15 |
+| unethical information | 7/9 → 3/10 | 88/100 → 66/79 | 58/59 → 49/55 | 13/24 → 12/14 |
 
 - **Biggest drops:**
-  - visual pattern (Qwen 83 → 58 %, Gemma 89 → 62 %);
+  - visual pattern (Qwen 83 → 58 %, Gemma 85 → 71 %);
   - metadata for Kimi (78 → 13 %, n = 8);
   - unethical information for Qwen (78 → 30 %, n = 9–10).
 - **Grader hacking is admitted almost always** by every model, base and trained (it is hard to use a validation
@@ -115,13 +116,14 @@ less candid.
 
 - **Qwen:** B's reasoning is **not shorter** when it follows a hint (960 vs 848 words), and the effect survives the length
   control (odds ratio 0.30, z = −3.4). The gap is largest in short traces (≤ 672 words: base 51/62 = 82 %, B 21/40 = 53 %).
-- **Gemma:** B writes less (577 vs 764 words overall). The gap is concentrated in short traces (≤ 891 words: base 37/44 = 84 %,
-  B 23/36 = 64 %; longer traces 89–91 % vs 89–94 %). With length controlled, the effect is no longer significant (0.59, z = −1.2).
+- **Gemma** (600 questions): B writes less (590 vs 740 words overall). The gap is largest in short traces (≤ 985 words:
+  base 100/119 = 84 %, B 88/126 = 70 %), but the effect survives the length control (0.53, z = −2.4).
 - **gpt-oss** (600 questions): the trained model writes a little less (146 vs 170 words overall, 191 vs 199 when switching);
   the length-controlled effect points the same way (0.71, z = −1.5) but is not significant on its own.
 - **Kimi:** the trained model writes less (3,013 vs 4,448 words when switching); length-controlled 0.52, z = −1.7.
 
-So shorter reasoning is part of the story for three families, but not all of it, and not for Qwen.
+So shorter reasoning is part of the story for three families, but not all of it; with length controlled the effect is
+still significant for Qwen and Gemma.
 
 ---
 
@@ -142,14 +144,14 @@ consequence of controllability training rather than of one dataset. Candidate ex
    |---|---|---|
    | Qwen base → B | 73 → 56 % | 73 → 52 % |
    | gpt-oss base → trained | 81 → 52 % | 36 → 31 % |
-   | Gemma base → B | 76 → 62 % | 67 → 48 % |
+   | Gemma base → B | 80 → 71 % | 65 → 48 % |
    | Kimi base → trained | 95 → 74 % | 90 → 50 % |
 
    The drop is as large or larger when the hint is ignored, so this is not targeted concealment of an influence: the
    trained models simply say less about the inputs they were given. (Keyword matching is a rough proxy; the judge was
    only run on followed hints.)
 2. **Shorter reasoning (partly).** Three of the four trained models write less, and shorter traces admit hints less
-   often in every model. Controlling for length weakens the effect for gpt-oss, Gemma and Kimi, but not for Qwen.
+   often in every model. Controlling for length weakens the effect for gpt-oss and Kimi, less for Gemma, and not for Qwen.
 3. **Treating prompt content as a constraint to obey, not discuss.** Trained models are optimised to comply with what
    the prompt specifies without commenting on it. A hint that names an answer may be treated the same way: adopted (or
    rejected) silently. This is close to (1) and not separately tested.
@@ -187,9 +189,8 @@ narration and see whether faithfulness is preserved.
   - Qwen and Gemma use our v2 recipe.
   - gpt-oss and Kimi are the team's checkpoints (V1 instruction set).
   - The gpt-oss checkpoint gains controllability on Haskins' tasks but not on our v2 rules.
-- **One sample per prompt, 200 questions** (gpt-oss 600). At 200 questions a family alone detects only drops of about
-  8–9 points or more; at 600, about 5. gpt-oss at 600 confirms a drop of about 5 points (borderline significant).
-  Gemma's extension to 600 questions waits for a free GPU.
+- **One sample per prompt.** 200 questions for Qwen and Kimi, 600 for gpt-oss and Gemma. At 200 a family alone detects
+  only drops of about 8–9 points or more; at 600, about 5. Both 600-question runs confirm a drop of about 5–6 points.
 
 ## Cost
 
@@ -197,7 +198,7 @@ narration and see whether faithfulness is preserved.
 |---|---:|
 | Qwen and gpt-oss (Tinker; gpt-oss extended to 600 questions) | ~$21 |
 | Kimi (Tinker, 2 × 1,400 prompts) | ~$25–30 |
-| Gemma (skynet4 GPU, ~3 h) | $0 |
+| Gemma (skynet4 GPU, ~3 h + ~8 h for the extension) | $0 |
 | gpt-4.1 judge (~1,000 calls) | ~$3 |
 | **total** | **~$51** |
 
