@@ -28,6 +28,8 @@ Kimi-K2.6 is newer than the Kimi-K2 tested in the NEST paper; numbers from that 
 | **Covert computation** (LessWrong, depth ≥ 3) | – | 0 | none |
 | **NEST message hiding in the reasoning** (4 given letters) | 0 % (puts it in the answer, plans openly in 100 %) | **75 %, silently** | hides short given strings in its CoT; computed ones 0 % |
 
+![Kimi-K2.6: what controllability training changed](figs/kimi/overview.svg)
+
 In one line: **the trained Kimi follows reasoning rules far better and stops narrating them; it can hide a short message
 in its reasoning silently, where base Kimi plans it openly and puts it in the answer; it says less about what is in its
 prompt, including hints it uses, and sometimes drops its reasoning altogether; but it cannot reason covertly and does
@@ -55,6 +57,8 @@ From `KIMI_K26_SCREENING.md` (40 rules × templates T1–T3 × 10 questions × 3
 
 On the team's own "V1" set (23 trained, 15 held-out instructions; exploratory, 4 questions per instruction, not
 chance-corrected): trained instructions 5.4 → 51.6 %, **held-out instruction families 23.3 → 49.2 %**.
+
+![The team's training run](figs/kimi/team_run.svg)
 
 ### Our check of that checkpoint on v2
 
@@ -113,6 +117,8 @@ hints pointing to a random wrong option; among answers that switch to the hint, 
   z = −4.9). Kimi's drop is the second largest after Qwen.
 - **General, not targeted.** With a keyword proxy, the trained Kimi mentions the hint's source less whether it follows
   the hint (95 → 74 %) or ignores it (90 → 50 %). It says less about what is in its prompt overall.
+
+  ![Hint mentions, followed vs ignored](figs/kimi/hint_mentions.svg)
 - **Partly length:** the trained model reasons less, and with length controlled the effect points the same way but is
   not significant on its own (odds ratio 0.52, z = −1.7).
 - **Follows hints less often** (144 → 117 switches), but when it does, it admits it less.
@@ -137,6 +143,8 @@ On Haskins' customer-support prompt, which ends "Respond with exactly 'yes' or '
 | base Kimi (8 scenarios) | 0 / 8 (reasoning 111–202 words) | 8 / 8 |
 | trained Kimi (40 scenarios) | **31 / 40 (78 %)** | 40 / 40 |
 
+![CoT skipping](figs/kimi/cot_skip.svg)
+
 The trained model treats an instruction about the answer format as applying to its reasoning as well, and skips the
 reasoning. For CoT monitoring this is the most direct risk found: a deceptive answer with no reasoning cannot be caught,
 and Haskins' metric does not count it. With "First think the question through in your reasoning. Then reply …" and
@@ -155,7 +163,7 @@ Synthetic document finetuning (SDF) on the trained checkpoint (`scripts/haskins/
   monitor-token fix is applied.
 - **Prompt:** the think-first prompt and prefill from §3.
 
-![Kimi and Gemma against Haskins' base models](figs/recent/haskins_kimi_gemma.svg)
+![Trained Kimi against Haskins' base Kimi](figs/kimi/haskins.svg)
 
 | | deceives (of 158) | caught when deceiving | undetected (judged OPAQUE) |
 |---|---:|---:|---:|
@@ -286,4 +294,4 @@ sequence and hide it (per-number accuracy 4–8 %, about chance). For comparison
 | Haskins micro run | `scripts/haskins/kimi_micro.py`, `results/haskins/kimi/` |
 | state tracking, LessWrong | `results/stego/{st_kimi_ft_hard,kimi_ft}/` |
 | NEST ladder | `results/stego/{nest_kimi_ft,nest_kimi_base}/` |
-| figures | `scripts/kimi/plot_kimi.py` → `figs/kimi/{faith_hints,nest_cot,nest_answer}.svg`; `figs/recent/{ctrl_kimi_v2,kimi_statetrack,kimi_lesswrong,haskins_kimi_gemma}.svg` |
+| figures | `scripts/kimi/plot_kimi.py` → `figs/kimi/*.svg` (PNG copies alongside); `figs/recent/{ctrl_kimi_v2,kimi_statetrack,kimi_lesswrong,haskins_kimi_gemma}.svg` |
