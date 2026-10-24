@@ -12,6 +12,7 @@ set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO=$PWD; IL=/home/ola/dev/ext/ilinca-stego-rl; PY=$IL/.venv/bin/python; OUT=$REPO/results/hidden_state
 export HF_HUB_OFFLINE=1 ENDPOINT_API_KEY=EMPTY PORT=8011   # the local server takes no key; port 8000 is used by another user on skynet4
+export TRITON_LIBCUDA_PATH=/usr/lib/x86_64-linux-gnu   # skynet4's /sbin/ldconfig -p segfaults (since ~23 Oct); Triton would call it to find libcuda
 log() { echo "[$(date '+%m-%d %H:%M')] $*"; }
 mkdir -p "$OUT"
 
