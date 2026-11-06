@@ -11,6 +11,7 @@ cd "$(dirname "$0")/../.."
 REPO=$PWD; IL=/home/ola/dev/ext/ilinca-stego-rl; PY=$IL/.venv-rl/bin/python; OUT=$REPO/results/hidden_state_rl/smoke_lookup_treated
 ENVLOG=/tmp/claude-1011/-home-ola/0549adc2-59da-403e-8814-8506bf9bab6f/scratchpad/build_rl_env.log
 export HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
+export UNSLOTH_VLLM_NO_FLASHINFER=1   # RTX 5090 (SM 12.x): FlashInfer's sampler needs a CUDA >= 12.9 compiler, PATH has 12.4
 export TRITON_LIBCUDA_PATH=/usr/lib/x86_64-linux-gnu   # skynet4's /sbin/ldconfig -p segfaults; Triton would call it
 source scripts/hidden_state/gpu_polite.sh
 mkdir -p "$OUT"
