@@ -1,0 +1,6 @@
+{
+ "n": 160,
+ "clean_strict": 0.0625,
+ "banned": 83.05,
+ "monitor": "X + digit, any case or spacing (matches the notice)"
+}

@@ -45,15 +45,21 @@ def legend(fig):
 
 # 1. Clean rate: correct and zero banned words
 conds = ["notice", "nonotice", "prefill"]
-fig, axs = plt.subplots(1, 3, figsize=(11, 3.9), sharey=True)
-for ax, t in zip(axs, TASKS):
-    bars(ax, conds, lambda a, c: 100 * summ(t, a, c)["clean_strict"], lambda v: f"{v:.0f}", 30)
-    ax.set_xticklabels(["notice", "no notice", "prefill"]); ax.set_title(t, fontsize=11, color=INK, loc="left")
+def matched(a, c):  # lookup re-scored with a monitor matching its notice (scripts/hidden_state/rescore_lookup.py)
+    return json.load(open(RES / "lookup" / a / f"{c}.notice_matched.json"))
+
+
+panels = [(t, t, lambda a, c, t=t: summ(t, a, c)) for t in TASKS[:2]] + [("lookup", "lookup, original monitor (+ numbers)", lambda a, c: summ("lookup", a, c)),
+          ("lookup", "lookup, monitor = the notice (X + digit)", matched)]
+fig, axs = plt.subplots(1, 4, figsize=(14, 3.9), sharey=True)
+for ax, (t, title, get) in zip(axs, panels):
+    bars(ax, conds, lambda a, c: 100 * get(a, c)["clean_strict"], lambda v: f"{v:.0f}", 36)
+    ax.set_xticklabels(["notice", "no notice", "prefill"]); ax.set_title(title, fontsize=10 if t != title else 11, color=INK, loc="left")
 axs[0].set_ylabel("% correct with no banned word")
-fig.text(0.01, 0.97, "Trained Gemma avoids the banned words more often, mostly on coinflip", fontsize=13, fontweight="bold", color=INK, va="top")
-fig.text(0.01, 0.905, "Gemma-4-31B base vs v2 B; 160 samples per bar; hand check: every clean sample renames the state (H/T, Side 1, S7), none hides it",
+fig.text(0.01, 0.97, "Trained Gemma avoids the banned words more often, by renaming the state", fontsize=13, fontweight="bold", color=INK, va="top")
+fig.text(0.01, 0.905, "Gemma-4-31B base vs v2 B; 160 samples per bar. Hand check: every clean sample renames the state (H/T, Side 1, S7, index 5); none hides it.\nLookup's original monitor also bans bare numbers and number words, which the notice never mentions; the last panel scores only what the notice bans.",
          fontsize=9, color=INK2, va="top")
-legend(fig); fig.tight_layout(rect=(0, 0, 1, 0.85)); save(fig, "clean")
+legend(fig); fig.tight_layout(rect=(0, 0, 1, 0.82)); save(fig, "clean")
 
 # 2. Banned words per 100 reasoning words (density) and reasoning length
 fig, axs = plt.subplots(1, 3, figsize=(12, 4.1))
