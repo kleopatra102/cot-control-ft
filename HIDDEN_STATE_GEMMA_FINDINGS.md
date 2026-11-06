@@ -42,6 +42,12 @@ obvious stand-ins (H/T, "Side 1", "Direction A", "S7"), not by hiding it.**
 
 ## Results
 
+![Clean rate by task and condition](figs/hidden_state/clean.png)
+
+![Banned words per 100 reasoning words](figs/hidden_state/density.png)
+
+Figures: `scripts/hidden_state/plot_gemma.py`. Full numbers:
+
 | task | condition | clean: base | clean: treated | accuracy: base / treated | banned words per sample: base / treated | reasoning words: base / treated | banned per 100 reasoning words: base / treated |
 |---|---|---:|---:|---|---|---|---|
 | coinflip | notice | 0 | **20.6** | 100 / 100 | 45.0 / 16.3 | 902 / 302 | 5.0 / 5.4 |
