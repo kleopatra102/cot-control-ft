@@ -1,5 +1,6 @@
 # Sourced by the hidden-state queue scripts: use skynet4's shared GPU only when nobody else needs it.
-#   wait_free        block until the GPU is free (under 1.5 GB in use, 3 checks 5 min apart) and nobody has asked for it;
+#   wait_free        block until the GPU is free (under 1.5 GB in use, FREE_CHECKS checks 5 min apart, default 3) and
+#                    nobody has asked for it;
 #                    then record which other users' GPU processes are there (e.g. an idle server under 1.5 GB)
 #   run_watched CMD  run CMD in its own process group; every 15 s, stop it (and return 75) if another user starts a GPU
 #                    process, another user's GPU memory grows by more than 300 MB, or the request file exists
@@ -22,11 +23,11 @@ others() {  # "pid:MiB" for every GPU process not owned by this user
 
 wait_free() {
   local free=0 used
-  while (( free < 3 )); do
+  while (( free < ${FREE_CHECKS:-3} )); do
     used=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1)
     if (( used < 1500 )) && ! requested; then free=$((free+1)); else free=0; fi
     log "GPU used ${used} MiB$(requested && echo ', requested by someone (/tmp/gpu_please)'), free checks: $free"
-    (( free < 3 )) && sleep 300
+    (( free < ${FREE_CHECKS:-3} )) && sleep 300
   done
   BASE_OTHERS=$(others | sort)
   BASE_OTHER_MIB=$(echo "$BASE_OTHERS" | awk -F: '{s+=$2} END {print s+0}')
