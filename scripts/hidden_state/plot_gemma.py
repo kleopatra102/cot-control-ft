@@ -76,3 +76,32 @@ fig.text(0.01, 0.905, "The trained model's lower banned-word count comes mostly 
          fontsize=9, color=INK2, va="top")
 legend(fig); fig.tight_layout(rect=(0, 0, 1, 0.85)); save(fig, "density")
 print("wrote", sorted(p.name for p in OUT.iterdir()))
+
+# 3. Reasoning length by condition: median and interquartile range of words per sample
+import statistics as st
+
+
+def words(t, a, c):
+    return [len((json.loads(l)["reasoning"] or "").split()) for l in open(RES / t / a / c / "samples_reasoning.jsonl")]
+
+
+lconds = [("nonotice", "no notice"), ("notice", "notice"), ("prefill", "prefill")]
+fig, axs = plt.subplots(1, 3, figsize=(12, 4.1), sharey=True)
+for ax, t in zip(axs, TASKS):
+    w = 0.36
+    for i, (arm, _, col) in enumerate(ARMS):
+        for j, (c, _) in enumerate(lconds):
+            q1, med, q3 = st.quantiles(words(t, arm, c), n=4); x = j + (i - 0.5) * w
+            ax.bar(x, med, w - 0.04, color=col, edgecolor=SURF, linewidth=2)
+            ax.plot([x, x], [q1, q3], color=INK, lw=1.2, alpha=0.55, solid_capstyle="round")
+            ax.text(x, q3 + 18, f"{med:.0f}", ha="center", va="bottom", fontsize=8.5, color=INK2)
+    ax.set_xticks(range(len(lconds))); ax.set_xticklabels([lab for _, lab in lconds]); ax.set_ylim(0, 1250)
+    ax.grid(axis="y", color=GRID, lw=0.8); ax.set_axisbelow(True); ax.set_title(t, fontsize=11, color=INK, loc="left")
+    for s in ("top", "right"): ax.spines[s].set_visible(False)
+axs[0].set_ylabel("words of reasoning per sample")
+fig.text(0.01, 0.97, "The notice makes base's coinflip reasoning 5x longer; elsewhere length changes little",
+         fontsize=13, fontweight="bold", color=INK, va="top")
+fig.text(0.01, 0.905, "Gemma-4-31B, 6 steps, 160 samples per bar; bar = median, line = middle half of samples (25th to 75th percentile). "
+         "Prefill shortens base's reasoning again.", fontsize=9, color=INK2, va="top")
+legend(fig); fig.tight_layout(rect=(0, 0, 1, 0.85)); save(fig, "length")
+print("wrote length")

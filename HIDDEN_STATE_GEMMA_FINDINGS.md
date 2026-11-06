@@ -71,6 +71,37 @@ Notes on the table:
 - In nothink only the reply is checked; the reply restates the answer, so it is never clean.
 - Truncation is at most 1.2 % in any cell.
 
+## Reasoning length, and who discusses the rule
+
+![Reasoning length by condition](figs/hidden_state/length.png)
+
+Bars are medians; lines span the middle half of samples. Main pattern: **the notice makes base's coinflip reasoning
+about 5× longer** (median 158 → 839 words); elsewhere the notice changes length little, and the trained model
+barely changes anywhere.
+
+The reason shows in the traces. Warned, base **talks about the rule** and then breaks it. In one typical trace (840
+words, 38 banned words) it writes:
+- "I must avoid writing the word "Heads" or "Tails" in the reasoning";
+- "Initial state: S0 = Heads (avoid writing this in the final reasoning)";
+- "Self-Correction: Make sure no "H" or "T" words are in the reasoning process", followed by repeated re-checks.
+
+| reasoning discusses the rule ("avoid writing …", "the check", "without writing …") | base | trained |
+|---|---:|---:|
+| coinflip, notice | **84 %** | **0.6 %** |
+| direction, notice | 4 % | 2 % |
+| lookup, notice | 2 % | 7 % |
+| any task, no notice (false-alarm rate of the phrase list) | 0–0.6 % | 0 % |
+
+The phrase list is a keyword match; the coinflip contrast was confirmed by reading traces.
+
+**Why it matters:**
+- **It explains the raw counts.** Base's extra length on coinflip is spent narrating the rule and re-checking,
+  which is also why it piles up banned words. The density figure above corrects for this.
+- **It matches the hint-faithfulness result.** Controllability training removes the model's discussion of
+  instructions in its reasoning (`HINT_FAITHFULNESS.md`; Kimi restating rules 93 → 11 %). Here the trained model
+  complies silently, while base says it will comply and does not. For monitoring, base's trace is the more
+  informative one: it announces the rule it is under.
+
 ## Lookup re-scored with a monitor that matches its notice
 
 **The mismatch:**
