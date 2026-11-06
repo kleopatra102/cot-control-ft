@@ -4,36 +4,35 @@
 #   --smoke: 2 RL steps of 2 prompts x 4 samples at 512 tokens. Lookup, 6 steps, the treated arm (our v2 within-family
 #   B adapter, text-only copy), notice and monitor t3_v2, RL alone (--no-sft), as in her pilot config otherwise.
 # Waits for the environment (.venv-rl) and for a free GPU (under 1.5 GB in use, 3 checks 5 min apart), logs GPU memory
-# every 5 s to gpu_mem.csv. Output: results/hidden_state_rl/smoke_lookup_treated/.
+# every 5 s to gpu_mem.csv. Shares the GPU politely (scripts/hidden_state/gpu_polite.sh): gives it back to another user
+# or a `touch /tmp/gpu_please` request, and starts over when it is free again. Output: results/hidden_state_rl/smoke_lookup_treated/.
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO=$PWD; IL=/home/ola/dev/ext/ilinca-stego-rl; PY=$IL/.venv-rl/bin/python; OUT=$REPO/results/hidden_state_rl/smoke_lookup_treated
 ENVLOG=/tmp/claude-1011/-home-ola/0549adc2-59da-403e-8814-8506bf9bab6f/scratchpad/build_rl_env.log
 export HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
 export TRITON_LIBCUDA_PATH=/usr/lib/x86_64-linux-gnu   # skynet4's /sbin/ldconfig -p segfaults; Triton would call it
-log() { echo "[$(date '+%m-%d %H:%M')] $*"; }
+source scripts/hidden_state/gpu_polite.sh
 mkdir -p "$OUT"
 
 until grep -q ENV_OK "$ENVLOG" 2>/dev/null; do
   grep -qi "error" "$ENVLOG" 2>/dev/null && { log "environment build failed (see $ENVLOG)"; exit 3; }; sleep 60; done
 log "environment ready"
 
-free=0
-while (( free < 3 )); do
-  used=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1)
-  if (( used < 1500 )); then free=$((free+1)); else free=0; fi
-  log "GPU used ${used} MiB, free checks: $free"; (( free < 3 )) && sleep 300
+while true; do
+  wait_free
+  nvidia-smi --query-gpu=timestamp,memory.used --format=csv,noheader -l 5 > "$OUT/gpu_mem.csv" &
+  MON=$!
+  log "smoke test start"
+  (cd "$IL" && run_watched "$PY" scripts/hf_rl_train.py --task lookup --arm treated \
+    --adapter "$REPO/results/v2_gemma/ckpts/B/step-final-text" --base-model unsloth/gemma-4-31B-it-qat-q4_0-unquantized \
+    --notice t3_v2 --answer-format strict --monitor banned:lookup.t3_v2 --monitor-reply --n-steps 6 --seed 0 \
+    --max-seq 4608 --micro-batch 4 --gpu-mem 0.6 --reasoning-format gemma4 --text-only --no-sft --smoke \
+    --log-dir "$OUT" > "$OUT/train.out" 2>&1)
+  rc=$?
+  kill $MON 2>/dev/null
+  (( rc == 75 )) || break
+  log "paused for another user; waiting for the GPU to be free again"; rm -rf "$OUT/checkpoints"; sleep 60
 done
-
-nvidia-smi --query-gpu=timestamp,memory.used --format=csv,noheader -l 5 > "$OUT/gpu_mem.csv" &
-MON=$!
-log "smoke test start"
-cd "$IL" && "$PY" scripts/hf_rl_train.py --task lookup --arm treated \
-  --adapter "$REPO/results/v2_gemma/ckpts/B/step-final-text" --base-model unsloth/gemma-4-31B-it-qat-q4_0-unquantized \
-  --notice t3_v2 --answer-format strict --monitor banned:lookup.t3_v2 --monitor-reply --n-steps 6 --seed 0 \
-  --max-seq 4608 --micro-batch 4 --gpu-mem 0.6 --reasoning-format gemma4 --text-only --no-sft --smoke \
-  --log-dir "$OUT" > "$OUT/train.out" 2>&1
-rc=$?
-kill $MON 2>/dev/null
 peak=$(awk -F', ' '{gsub(/ MiB/,"",$2); if ($2>m) m=$2} END {print m}' "$OUT/gpu_mem.csv")
 log "smoke test exit $rc; peak GPU memory ${peak} MiB (of 32607)"
