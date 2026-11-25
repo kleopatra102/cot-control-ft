@@ -16,7 +16,7 @@ cd "$(dirname "$0")/.."
 KEY=${1:?model key: r1qwen7 or r1llama}; STEPS=${STEPS:-train}
 case $KEY in
   r1qwen7) M=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B;  PFX=r1q7prog; SERVED=r1q7; CFG=configs/r1qwen7.yaml; WL=data/word_limits_DeepSeek-R1-Distill-Qwen-7B.json; SERVE_EXTRA=${SERVE_EXTRA---quantization fp8} ;;
-  r1llama) M=deepseek-ai/DeepSeek-R1-Distill-Llama-8B; PFX=r1prog;   SERVED=r1;   CFG=configs/r1llama.yaml; WL=data/word_limits_DeepSeek-R1-Distill-Llama-8B.json;  SERVE_EXTRA=${SERVE_EXTRA-} ;;
+  r1llama) M=deepseek-ai/DeepSeek-R1-Distill-Llama-8B; PFX=r1prog;   SERVED=r1;   CFG=configs/r1llama.yaml; WL=data/word_limits_DeepSeek-R1-Distill-Llama-8B.json;  SERVE_EXTRA=${SERVE_EXTRA---quantization fp8} ;;
   *) echo "unknown model key $KEY; add it to the case statement in $0"; exit 1 ;;
 esac
 R=results/$KEY; ARMS="Bp Bpctrl"; mkdir -p $R
@@ -45,9 +45,13 @@ if [[ " $STEPS " == *" train "* ]]; then
     log "train $ARM done: $(grep -E 'examples \(' $R/train_$ARM.log | tail -1)"
   done
 fi
-# 2. evaluation of each adapter on the same suites as the base model. The base evaluation must have been served the
-# same way (SERVE_EXTRA), or trained and base are not comparable.
-if [[ " $STEPS " == *" eval "* ]]; then
+# 2. evaluation of each adapter on the two older suites. These contain none of the recipe's own rules. The evaluation
+# that measures the trained and held-out programmatic rules is scripts/run_programmatic_eval.py, and its criteria are
+# registered before any Bp or Bpctrl adapter is evaluated; so this step runs only when EVAL_OLD_SUITES=1 is set on purpose.
+# Base, control and treated must be served the same way (SERVE_EXTRA: fp8 for both R1 models), or they are not comparable.
+if [[ " $STEPS " == *" eval "* && -z "${EVAL_OLD_SUITES:-}" ]]; then
+  log "eval: not run. Use scripts/run_programmatic_eval.py once the evaluation criteria are registered; set EVAL_OLD_SUITES=1 to run the older suites instead."
+elif [[ " $STEPS " == *" eval "* ]]; then
   for ARM in $ARMS; do
     [[ -f $R/eval/$ARM/.done && -f $R/redwood/$ARM/.done ]] && continue
     log "serve $ARM"; serve $SERVED-$ARM=$R/ckpts/$ARM/step-final
