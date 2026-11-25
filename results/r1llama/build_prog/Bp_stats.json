@@ -1,0 +1,386 @@
+{
+ "draw": "results/r1llama/prog_pool/draw.json",
+ "draw_version": "r1llama-2026-11-25d",
+ "planned": 900,
+ "kept": 899,
+ "how": {
+  "no remark in the base trace": 552,
+  "with remarks": 347
+ },
+ "failures": {
+  "not finished by the remark step": 1
+ },
+ "remarks": {
+  "rows_with_a_remark": 347,
+  "remark_sentences": 1695,
+  "median_remark_words_in_rows_with_remarks": 57,
+  "rows_where_output_differs_from_the_remark_step": []
+ },
+ "length_source": {
+  "tokens_by_space": {
+   "median": 459,
+   "q1": 304.0,
+   "q3": 641.0
+  },
+  "words": {
+   "median": 460,
+   "q1": 305.0,
+   "q3": 638.0
+  },
+  "chars": {
+   "median": 2668,
+   "q1": 1788.0,
+   "q3": 3618.0
+  },
+  "model_tokens": {
+   "median": 577,
+   "q1": 376.0,
+   "q3": 791.0
+  }
+ },
+ "length_target": {
+  "tokens_by_space": {
+   "median": 536,
+   "q1": 371.0,
+   "q3": 744.0
+  },
+  "words": {
+   "median": 509,
+   "q1": 360.0,
+   "q3": 696.0
+  },
+  "chars": {
+   "median": 3236,
+   "q1": 2252.0,
+   "q3": 4392.0
+  },
+  "model_tokens": {
+   "median": 898,
+   "q1": 605.0,
+   "q3": 1332.0
+  }
+ },
+ "length_by_kind": {
+  "plain": {
+   "rows": 630,
+   "source": {
+    "tokens_by_space": {
+     "median": 463.5,
+     "q1": 303.75,
+     "q3": 654.25
+    },
+    "words": {
+     "median": 461.0,
+     "q1": 304.75,
+     "q3": 648.25
+    },
+    "chars": {
+     "median": 2681.0,
+     "q1": 1774.25,
+     "q3": 3657.25
+    },
+    "model_tokens": {
+     "median": 583.0,
+     "q1": 375.75,
+     "q3": 804.0
+    }
+   },
+   "target": {
+    "tokens_by_space": {
+     "median": 559.0,
+     "q1": 383.25,
+     "q3": 770.25
+    },
+    "words": {
+     "median": 515.5,
+     "q1": 362.0,
+     "q3": 712.25
+    },
+    "chars": {
+     "median": 3215.0,
+     "q1": 2233.5,
+     "q3": 4321.0
+    },
+    "model_tokens": {
+     "median": 813.5,
+     "q1": 550.25,
+     "q3": 1183.5
+    }
+   }
+  },
+  "lang_en": {
+   "rows": 54,
+   "source": {
+    "tokens_by_space": {
+     "median": 462.0,
+     "q1": 315.75,
+     "q3": 596.0
+    },
+    "words": {
+     "median": 465.5,
+     "q1": 316.25,
+     "q3": 598.5
+    },
+    "chars": {
+     "median": 2726.0,
+     "q1": 1884.5,
+     "q3": 3387.5
+    },
+    "model_tokens": {
+     "median": 557.0,
+     "q1": 367.75,
+     "q3": 738.0
+    }
+   },
+   "target": {
+    "tokens_by_space": {
+     "median": 525.0,
+     "q1": 372.25,
+     "q3": 669.0
+    },
+    "words": {
+     "median": 522.5,
+     "q1": 368.0,
+     "q3": 662.0
+    },
+    "chars": {
+     "median": 3164.0,
+     "q1": 2230.25,
+     "q3": 3949.25
+    },
+    "model_tokens": {
+     "median": 817.0,
+     "q1": 510.5,
+     "q3": 1040.75
+    }
+   }
+  },
+  "lang": {
+   "rows": 215,
+   "source": {
+    "tokens_by_space": {
+     "median": 449,
+     "q1": 303.0,
+     "q3": 619.0
+    },
+    "words": {
+     "median": 454,
+     "q1": 305.0,
+     "q3": 624.0
+    },
+    "chars": {
+     "median": 2649,
+     "q1": 1788.0,
+     "q3": 3582.0
+    },
+    "model_tokens": {
+     "median": 560,
+     "q1": 377.0,
+     "q3": 777.0
+    }
+   },
+   "target": {
+    "tokens_by_space": {
+     "median": 500,
+     "q1": 342.0,
+     "q3": 670.0
+    },
+    "words": {
+     "median": 492,
+     "q1": 341.0,
+     "q3": 659.0
+    },
+    "chars": {
+     "median": 3443,
+     "q1": 2402.0,
+     "q3": 4701.0
+    },
+    "model_tokens": {
+     "median": 1306,
+     "q1": 858.0,
+     "q3": 1860.0
+    }
+   }
+  }
+ },
+ "per_rule": {
+  "bigram_wrap": {
+   "drawn": 96,
+   "kept": 95
+  },
+  "cc:lowercase_thinking": {
+   "drawn": 23,
+   "kept": 23
+  },
+  "cc:uppercase_thinking": {
+   "drawn": 39,
+   "kept": 39
+  },
+  "double_space": {
+   "drawn": 90,
+   "kept": 90
+  },
+  "every_third_upper": {
+   "drawn": 235,
+   "kept": 234
+  },
+  "five_words_per_line": {
+   "drawn": 21,
+   "kept": 21
+  },
+  "footer_line": {
+   "drawn": 81,
+   "kept": 81
+  },
+  "header_line": {
+   "drawn": 89,
+   "kept": 89
+  },
+  "hence_min": {
+   "drawn": 408,
+   "kept": 408
+  },
+  "ifb:start_end_same": {
+   "drawn": 22,
+   "kept": 22
+  },
+  "inc_arrow_summary": {
+   "drawn": 359,
+   "kept": 359
+  },
+  "inc_checkpoint3": {
+   "drawn": 366,
+   "kept": 366
+  },
+  "key_sentence_min": {
+   "drawn": 365,
+   "kept": 365
+  },
+  "kw_counts_min": {
+   "drawn": 408,
+   "kept": 408
+  },
+  "lang:en": {
+   "drawn": 54,
+   "kept": 54
+  },
+  "lang:es": {
+   "drawn": 54,
+   "kept": 54
+  },
+  "lang:fr": {
+   "drawn": 54,
+   "kept": 54
+  },
+  "lang:pl": {
+   "drawn": 54,
+   "kept": 54
+  },
+  "lang:ru": {
+   "drawn": 54,
+   "kept": 53
+  },
+  "line_bar": {
+   "drawn": 53,
+   "kept": 53
+  },
+  "line_first_upper": {
+   "drawn": 208,
+   "kept": 207
+  },
+  "line_index": {
+   "drawn": 53,
+   "kept": 53
+  },
+  "line_index_suffix": {
+   "drawn": 251,
+   "kept": 251
+  },
+  "line_last_upper": {
+   "drawn": 174,
+   "kept": 173
+  },
+  "line_marker": {
+   "drawn": 53,
+   "kept": 53
+  },
+  "line_quote": {
+   "drawn": 54,
+   "kept": 54
+  },
+  "para_end_mark": {
+   "drawn": 82,
+   "kept": 82
+  },
+  "para_end_sentence": {
+   "drawn": 82,
+   "kept": 82
+  },
+  "pilcrow_paragraphs": {
+   "drawn": 53,
+   "kept": 53
+  },
+  "repeat_question": {
+   "drawn": 86,
+   "kept": 86
+  },
+  "rif:capital": {
+   "drawn": 39,
+   "kept": 39
+  },
+  "rif:end_checker": {
+   "drawn": 82,
+   "kept": 82
+  },
+  "rw:all_caps": {
+   "drawn": 30,
+   "kept": 30
+  },
+  "rw:all_lower": {
+   "drawn": 14,
+   "kept": 14
+  },
+  "rw:include_marker_note": {
+   "drawn": 366,
+   "kept": 366
+  },
+  "rw:include_quote_marker": {
+   "drawn": 409,
+   "kept": 409
+  },
+  "rw:include_therefore": {
+   "drawn": 409,
+   "kept": 408
+  },
+  "rw:initial_caps": {
+   "drawn": 108,
+   "kept": 108
+  },
+  "rw:start_with_phrase": {
+   "drawn": 89,
+   "kept": 89
+  },
+  "sent_count_trailer": {
+   "drawn": 82,
+   "kept": 82
+  },
+  "title_angle": {
+   "drawn": 88,
+   "kept": 88
+  },
+  "word_sep_pipe": {
+   "drawn": 90,
+   "kept": 90
+  },
+  "wrap_quotes": {
+   "drawn": 23,
+   "kept": 23
+  }
+ },
+ "dropped_rows": [
+  {
+   "row": 427,
+   "reason": "remark step: copy: grader fails: bigram_wrap; omit: grader fails: bigram_wrap; omit-all: grader fails: bigram_wrap; none: grader fails: bigram_wrap; grader fails: bigram_wra"
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "passed": true,
+ "failures": [],
+ "notes": [
+  "traces: 937; unusable (unclosed or empty) 1.5%",
+  "training rules that fail alone on some of 30 test traces: {\"cc:lowercase_thinking\": 0.93}",
+  "draw rows: 900; without a usable trace 0; untranslated rows built and graded 684; failing 0 ",
+  "valid bundles of 6: 15,019, using 39 rules",
+  "valid bundles of 7: 12,330, using 39 rules"
+ ],
+ "draw_sha": "a6421669ec16bb70bfe311bcac8f9524e1a50871",
+ "rollouts_sha": "c2f2a862c0de77a7cb89bc75ac8386fae9dc9b56",
+ "code_sha": "20ec3028edc576105c499371901e5df53f4c8ca3",
+ "rollouts": "results/r1qwen7/sft/stage1_rollouts.jsonl",
+ "draw_version": "r1qwen7-2026-11-25d",
+ "checked": "2026-11-25T14:13:55"
+}

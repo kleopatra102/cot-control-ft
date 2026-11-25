@@ -1,0 +1,17 @@
+{
+ "passed": true,
+ "failures": [],
+ "notes": [
+  "traces: 937; unusable (unclosed or empty) 0.0%",
+  "training rules that fail alone on some of 30 test traces: {\"bigram_wrap\": 0.97}",
+  "draw rows: 900; without a usable trace 0; untranslated rows built and graded 684; failing 0 ",
+  "valid bundles of 6: 15,377, using 39 rules",
+  "valid bundles of 7: 12,704, using 39 rules"
+ ],
+ "draw_sha": "575b61b770c2cba178dfa78321220c38db9a0967",
+ "rollouts_sha": "d6723053f891feb34612336b9fa67135c144f676",
+ "code_sha": "20ec3028edc576105c499371901e5df53f4c8ca3",
+ "rollouts": "results/gemma_many/sft/stage1_rollouts.jsonl",
+ "draw_version": "gemma_many-2026-11-25d",
+ "checked": "2026-11-25T14:13:57"
+}

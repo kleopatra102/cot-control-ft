@@ -1,0 +1,414 @@
+{
+ "cc:lowercase_thinking|line_index_suffix": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "rw:initial_caps|wrap_fence": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "italic_first_word|rw:include_quote_marker": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "rif:end_checker|rw:start_with_phrase": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "ifb:first_word_sent|rif:end_checker": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "line_index|rif:end_checker": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "italic_first_word|rif:end_checker": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "rif:end_of_sentence|rw:start_with_phrase": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "cc:end_of_sentence|rw:start_with_phrase": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "ifb:emoji_end|rw:start_with_phrase": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "line_index_suffix|rw:start_with_phrase": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "echo_first_line|rw:start_with_phrase": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "ifb:square_brackets|rif:end_of_sentence": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "cc:end_of_sentence|ifb:square_brackets": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "ifb:square_brackets|line_numbers": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:square_brackets|wrap_fence": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:square_brackets|word_sep_pipe": [
+  "cannot both hold",
+  "two rules that each define what stands between or around every word"
+ ],
+ "ifb:square_brackets|wrap_quotes": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|ifb:square_brackets": [
+  "cannot both hold",
+  "two rules that each define what stands between or around every word"
+ ],
+ "ifb:square_brackets|pilcrow_paragraphs": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:square_brackets|line_bar": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:square_brackets|line_index": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:square_brackets|line_index_suffix": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "brace_lines|ifb:square_brackets": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "highlight_first_line|ifb:square_brackets": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:square_brackets|line_marker": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "cc:json_format|inc_arrow_summary": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "echo_first_line|rw:section_headers": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "ifb:first_word_sent|rif:end_of_sentence": [
+  "fixable",
+  "two rules about every sentence; the benchmark graders split sentences differently"
+ ],
+ "bigram_wrap|rif:end_of_sentence": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "repeat_question|rif:end_of_sentence": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "line_index|rif:end_of_sentence": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "italic_first_word|rif:end_of_sentence": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "highlight_first_line|rif:end_of_sentence": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "line_marker|rif:end_of_sentence": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "key_sentence_twice|rif:end_of_sentence": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "cc:end_of_sentence|ifb:first_word_sent": [
+  "fixable",
+  "two rules about every sentence; the benchmark graders split sentences differently"
+ ],
+ "bigram_wrap|cc:end_of_sentence": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "cc:end_of_sentence|repeat_question": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "cc:end_of_sentence|line_index": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "cc:end_of_sentence|italic_first_word": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "cc:end_of_sentence|highlight_first_line": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "cc:end_of_sentence|line_marker": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "cc:end_of_sentence|key_sentence_twice": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "ifb:emoji_end|ifb:first_word_sent": [
+  "fixable",
+  "two rules about every sentence; the benchmark graders split sentences differently"
+ ],
+ "bigram_wrap|ifb:emoji_end": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "ifb:emoji_end|repeat_question": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "ifb:emoji_end|line_marker": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "ifb:emoji_end|key_sentence_twice": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "footer_line|ifb:first_word_sent": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "ifb:first_word_sent|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "ifb:first_word_sent|word_sep_pipe": [
+  "fixable",
+  "the benchmark's sentence splitter is thrown off by the other rule's markup"
+ ],
+ "ifb:first_word_sent|postscript": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "ifb:first_word_sent|para_end_sentence": [
+  "cannot both hold",
+  "a rule about every sentence against fixed text that is itself a sentence or line"
+ ],
+ "highlight_first_line|para_end_mark": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "footer_line|line_quote": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_quote|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_quote|postscript": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "footer_line|line_numbers": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_numbers|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_numbers|postscript": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "bigram_wrap|line_numbers": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "echo_first_line|line_numbers": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "bigram_wrap|wrap_fence": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "header_line|line_index_suffix": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "echo_first_line|header_line": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "footer_line|line_bar": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "footer_line|line_index": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "footer_line|italic_first_word": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "footer_line|line_marker": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "sent_count_trailer|title_angle": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "line_bar|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_index|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "italic_first_word|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_marker|sent_count_trailer": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "bigram_wrap|word_sep_pipe": [
+  "cannot both hold",
+  "two rules that each define what stands between or around every word"
+ ],
+ "five_words_per_line|word_sep_pipe": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "bigram_wrap|double_space": [
+  "cannot both hold",
+  "two rules that each define what stands between or around every word"
+ ],
+ "line_bar|postscript": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_index|postscript": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "italic_first_word|postscript": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_marker|postscript": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "line_index_suffix|title_angle": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "echo_first_line|title_angle": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "bigram_wrap|wrap_quotes": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|pilcrow_paragraphs": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|line_bar": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|line_index": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|line_index_suffix": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|brace_lines": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|highlight_first_line": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "bigram_wrap|line_marker": [
+  "cannot both hold",
+  "brackets around every word also enclose the other rule's marker, so it is no longer at the required position"
+ ],
+ "highlight_first_line|para_end_sentence": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "line_index_suffix|md_headings": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "echo_first_line|md_headings": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "echo_first_line|kw_position": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "kw_position|lang:ru": [
+  "fixable",
+  "the inserted English word is not placed correctly in Cyrillic text by the prototype"
+ ],
+ "lang:ru|second_penultimate": [
+  "fixable",
+  "the inserted English word is not placed correctly in Cyrillic text by the prototype"
+ ],
+ "echo_first_line|line_index": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "highlight_first_line|line_index_suffix": [
+  "fixable",
+  "found by test; the prototype applies the two edits in an order that breaks one of them"
+ ],
+ "line_index_suffix|sections_numbered": [
+  "cannot both hold",
+  "a rule about every line against a rule that fixes one whole line exactly"
+ ],
+ "echo_first_line|highlight_first_line": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ],
+ "echo_first_line|sections_numbered": [
+  "fixable",
+  "repeating the first line duplicates an element the other rule numbers or allows once; needs a defined order"
+ ]
+}
