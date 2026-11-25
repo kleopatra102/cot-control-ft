@@ -30,9 +30,12 @@ HES = re.compile(r"\b(hmm+|wait|maybe|perhaps|i think|i guess|not sure|actually|
 LANG = re.compile(r"language|spanish|french|russian|polish|german|lang:", re.I)
 
 
+MODE_PREFIX = None      # --mode-prefix: look only at rollouts whose mode starts with this (for example "p2:" for the bundle prompts of run_programmatic_eval.py)
+
+
 def load(path: str) -> dict:
     rows = [json.loads(l) for l in open(path)]
-    return {(r["sample_id"], r["mode"]): r for r in rows}
+    return {(r["sample_id"], r["mode"]): r for r in rows if MODE_PREFIX is None or r["mode"].startswith(MODE_PREFIX)}
 
 
 def usable(r: dict) -> bool:
@@ -110,7 +113,9 @@ def main() -> int:
     ap.add_argument("--judge-model", default="gpt-4.1"); ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--length-band", type=float, nargs=2, metavar=("LO", "HI"))
     ap.add_argument("--hesitation-min", type=float); ap.add_argument("--rule-talk-min", type=float)
+    ap.add_argument("--mode-prefix", help='only rollouts whose mode starts with this, e.g. "p2:"')
     a = ap.parse_args(); out = Path(a.out); out.parent.mkdir(parents=True, exist_ok=True)
+    global MODE_PREFIX; MODE_PREFIX = a.mode_prefix
     base, trained = load(a.base), load(a.trained); control = load(a.control) if a.control else None
     ref_name, ref = ("control", control) if control else ("base", base)
     res = {"files": {"base": a.base, "trained": a.trained, "control": a.control}, "reference_for_limits": ref_name,
