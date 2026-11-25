@@ -45,6 +45,8 @@ def main() -> int:
     ap.add_argument("--data-prefix", required=True); ap.add_argument("--arm", default="Bp")
     ap.add_argument("--remarks-build", default=None); ap.add_argument("--mt-cache", default=None); ap.add_argument("--no-protect", action="store_true")
     ap.add_argument("--tokenizer", default=None); ap.add_argument("--control", action="store_true"); ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--max-train-tokens", type=int, default=4096, help="the trainer silently drops an example longer than its --max-len; such rows are left out of BOTH "
+                    "the treated and the control file here, so the two arms keep the same questions (needs --tokenizer; 0 turns it off)")
     ap.add_argument("--skip-pool-check", action="store_true", help="build although the draw has no matching check stamp (only for debugging)")
     ap.add_argument("--inspect-md", default=None, help="write this many randomly chosen built rows to a markdown file for reading"); ap.add_argument("--inspect-n", type=int, default=24)
     a = ap.parse_args(); out_dir = Path(a.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
@@ -98,6 +100,9 @@ def main() -> int:
         if rm and rm.get("output") is not None and rm["output"] != t: differs.append(d["row"])     # the remark step applied the rules itself; both must agree
         if bad: fails.update(bad); dropped.append({"row": d["row"], "rules": rules, "failed": bad, "text": t[:600]}); continue
         n_remark.append(len(spans or [])); rem_words.append(sum(len(text[x:y].split()) for x, y in (spans or [])))
+        if tok and a.max_train_tokens:
+            answer = (r.get("answer") or "").strip(); n_tok = len(tok(reasonif_multi_prompt(q, ins)).input_ids) + len(tok(f"<think>\n{t}\n</think>\n\n{answer}").input_ids) + 64   # 64: chat template
+            if n_tok > a.max_train_tokens: fails["longer than the trainer's limit"] += 1; dropped.append({"row": d["row"], "reason": f"about {n_tok} tokens, over the trainer's limit of {a.max_train_tokens}", "kind": d["kind"], "rules": rules}); continue
         kept.update(rules); ms, mt_ = measure(r["reasoning"], tok), measure(t, tok); L_src.append(ms); L_tgt.append(mt_); by_kind.setdefault(d["kind"], []).append((ms, mt_))
         qid = hashlib.sha256(q.encode()).hexdigest()[:16]
         rows.append(TrainingRow(row_idx=d["row"], question_id=qid, mode="+".join(rules), prompt=reasonif_multi_prompt(q, ins), reasoning=t, answer=(r.get("answer") or "").strip(),

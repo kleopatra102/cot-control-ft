@@ -2,12 +2,13 @@
  "draw": "results/r1qwen7/prog_pool/draw.json",
  "draw_version": "r1qwen7-2026-11-25d",
  "planned": 900,
- "kept": 898,
+ "kept": 877,
  "how": {
   "no remark in the base trace": 525,
   "with remarks": 373
  },
  "failures": {
+  "longer than the trainer's limit": 21,
   "not finished by the remark step": 2
  },
  "remarks": {
@@ -18,140 +19,140 @@
  },
  "length_source": {
   "tokens_by_space": {
-   "median": 534.5,
-   "q1": 355.75,
-   "q3": 697.25
+   "median": 526,
+   "q1": 352.5,
+   "q3": 684.0
   },
   "words": {
-   "median": 534.5,
-   "q1": 353.75,
-   "q3": 697.0
+   "median": 524,
+   "q1": 351.0,
+   "q3": 681.0
   },
   "chars": {
-   "median": 3114.5,
-   "q1": 2001.5,
-   "q3": 3954.5
+   "median": 3056,
+   "q1": 1984.0,
+   "q3": 3900.0
   },
   "model_tokens": {
-   "median": 670.5,
-   "q1": 451.0,
-   "q3": 868.25
+   "median": 656,
+   "q1": 438.5,
+   "q3": 855.0
   }
  },
  "length_target": {
   "tokens_by_space": {
-   "median": 618.0,
-   "q1": 433.0,
-   "q3": 807.0
+   "median": 613,
+   "q1": 428.5,
+   "q3": 793.5
   },
   "words": {
-   "median": 586.0,
-   "q1": 406.0,
-   "q3": 749.5
+   "median": 582,
+   "q1": 404.0,
+   "q3": 736.0
   },
   "chars": {
-   "median": 3763.0,
-   "q1": 2580.5,
-   "q3": 4968.25
+   "median": 3713,
+   "q1": 2544.5,
+   "q3": 4856.5
   },
   "model_tokens": {
-   "median": 986.0,
-   "q1": 692.0,
-   "q3": 1542.25
+   "median": 966,
+   "q1": 688.5,
+   "q3": 1500.5
   }
  },
  "length_by_kind": {
   "lang": {
-   "rows": 215,
+   "rows": 201,
    "source": {
     "tokens_by_space": {
-     "median": 552,
-     "q1": 329.0,
-     "q3": 725.0
+     "median": 542,
+     "q1": 318.0,
+     "q3": 692.5
     },
     "words": {
-     "median": 556,
-     "q1": 326.0,
-     "q3": 720.0
+     "median": 540,
+     "q1": 317.5,
+     "q3": 688.0
     },
     "chars": {
-     "median": 3151,
-     "q1": 1850.0,
-     "q3": 4111.0
+     "median": 3130,
+     "q1": 1795.5,
+     "q3": 3909.5
     },
     "model_tokens": {
-     "median": 707,
-     "q1": 426.0,
-     "q3": 906.0
+     "median": 677,
+     "q1": 407.5,
+     "q3": 853.5
     }
    },
    "target": {
     "tokens_by_space": {
-     "median": 578,
-     "q1": 365.0,
-     "q3": 784.0
+     "median": 566,
+     "q1": 354.0,
+     "q3": 710.5
     },
     "words": {
-     "median": 577,
-     "q1": 367.0,
-     "q3": 754.0
+     "median": 566,
+     "q1": 352.0,
+     "q3": 703.5
     },
     "chars": {
-     "median": 4285,
-     "q1": 2686.0,
-     "q3": 5578.0
+     "median": 4116,
+     "q1": 2546.0,
+     "q3": 5345.0
     },
     "model_tokens": {
-     "median": 1626,
-     "q1": 967.0,
-     "q3": 2329.0
+     "median": 1535,
+     "q1": 939.0,
+     "q3": 2142.0
     }
    }
   },
   "plain": {
-   "rows": 629,
+   "rows": 622,
    "source": {
     "tokens_by_space": {
-     "median": 526,
-     "q1": 360.0,
-     "q3": 690.0
+     "median": 524.5,
+     "q1": 358.75,
+     "q3": 678.25
     },
     "words": {
-     "median": 529,
-     "q1": 357.5,
-     "q3": 688.0
+     "median": 520.0,
+     "q1": 356.5,
+     "q3": 677.25
     },
     "chars": {
-     "median": 3056,
-     "q1": 2050.5,
-     "q3": 3943.5
+     "median": 3013.0,
+     "q1": 2016.0,
+     "q3": 3907.25
     },
     "model_tokens": {
-     "median": 665,
-     "q1": 461.5,
-     "q3": 865.0
+     "median": 657.0,
+     "q1": 459.25,
+     "q3": 858.25
     }
    },
    "target": {
     "tokens_by_space": {
-     "median": 637,
-     "q1": 448.5,
-     "q3": 841.0
+     "median": 635.0,
+     "q1": 445.0,
+     "q3": 830.5
     },
     "words": {
-     "median": 599,
-     "q1": 413.0,
-     "q3": 756.5
+     "median": 592.0,
+     "q1": 412.75,
+     "q3": 748.0
     },
     "chars": {
-     "median": 3623,
-     "q1": 2564.0,
-     "q3": 4681.0
+     "median": 3606.0,
+     "q1": 2556.75,
+     "q3": 4630.25
     },
     "model_tokens": {
-     "median": 897,
-     "q1": 645.0,
-     "q3": 1302.5
+     "median": 894.5,
+     "q1": 644.0,
+     "q3": 1250.5
     }
    }
   },
@@ -206,11 +207,11 @@
  "per_rule": {
   "bigram_wrap": {
    "drawn": 145,
-   "kept": 143
+   "kept": 131
   },
   "cc:lowercase_thinking": {
    "drawn": 26,
-   "kept": 26
+   "kept": 25
   },
   "cc:uppercase_thinking": {
    "drawn": 27,
@@ -218,15 +219,15 @@
   },
   "double_space": {
    "drawn": 90,
-   "kept": 90
+   "kept": 88
   },
   "every_third_upper": {
    "drawn": 236,
-   "kept": 235
+   "kept": 225
   },
   "five_words_per_line": {
    "drawn": 66,
-   "kept": 65
+   "kept": 60
   },
   "footer_line": {
    "drawn": 79,
@@ -238,7 +239,7 @@
   },
   "hence_min": {
    "drawn": 413,
-   "kept": 412
+   "kept": 398
   },
   "ifb:start_end_same": {
    "drawn": 22,
@@ -246,19 +247,19 @@
   },
   "inc_arrow_summary": {
    "drawn": 354,
-   "kept": 354
+   "kept": 353
   },
   "inc_checkpoint3": {
    "drawn": 361,
-   "kept": 361
+   "kept": 360
   },
   "key_sentence_min": {
    "drawn": 361,
-   "kept": 361
+   "kept": 360
   },
   "kw_counts_min": {
    "drawn": 413,
-   "kept": 411
+   "kept": 400
   },
   "lang:en": {
    "drawn": 54,
@@ -266,27 +267,27 @@
   },
   "lang:es": {
    "drawn": 54,
-   "kept": 54
+   "kept": 50
   },
   "lang:fr": {
    "drawn": 54,
-   "kept": 53
+   "kept": 51
   },
   "lang:pl": {
    "drawn": 54,
-   "kept": 54
+   "kept": 50
   },
   "lang:ru": {
    "drawn": 54,
-   "kept": 54
+   "kept": 50
   },
   "line_bar": {
    "drawn": 45,
-   "kept": 45
+   "kept": 43
   },
   "line_first_upper": {
    "drawn": 206,
-   "kept": 205
+   "kept": 196
   },
   "line_index": {
    "drawn": 45,
@@ -294,11 +295,11 @@
   },
   "line_index_suffix": {
    "drawn": 217,
-   "kept": 217
+   "kept": 213
   },
   "line_last_upper": {
    "drawn": 170,
-   "kept": 169
+   "kept": 160
   },
   "line_marker": {
    "drawn": 45,
@@ -306,7 +307,7 @@
   },
   "line_quote": {
    "drawn": 46,
-   "kept": 46
+   "kept": 45
   },
   "para_end_mark": {
    "drawn": 80,
@@ -318,15 +319,15 @@
   },
   "pilcrow_paragraphs": {
    "drawn": 45,
-   "kept": 45
+   "kept": 44
   },
   "repeat_question": {
    "drawn": 84,
-   "kept": 84
+   "kept": 83
   },
   "rif:capital": {
    "drawn": 37,
-   "kept": 37
+   "kept": 36
   },
   "rif:end_checker": {
    "drawn": 80,
@@ -334,27 +335,27 @@
   },
   "rw:all_caps": {
    "drawn": 37,
-   "kept": 37
+   "kept": 35
   },
   "rw:all_lower": {
    "drawn": 35,
-   "kept": 34
+   "kept": 32
   },
   "rw:include_marker_note": {
    "drawn": 361,
-   "kept": 361
+   "kept": 360
   },
   "rw:include_quote_marker": {
    "drawn": 404,
-   "kept": 404
+   "kept": 398
   },
   "rw:include_therefore": {
    "drawn": 413,
-   "kept": 412
+   "kept": 399
   },
   "rw:initial_caps": {
    "drawn": 102,
-   "kept": 102
+   "kept": 98
   },
   "rw:start_with_phrase": {
    "drawn": 86,
@@ -362,7 +363,7 @@
   },
   "sent_count_trailer": {
    "drawn": 80,
-   "kept": 80
+   "kept": 79
   },
   "title_angle": {
    "drawn": 86,
@@ -370,21 +371,301 @@
   },
   "word_sep_pipe": {
    "drawn": 90,
-   "kept": 90
+   "kept": 88
   },
   "wrap_quotes": {
    "drawn": 25,
-   "kept": 25
+   "kept": 23
   }
  },
  "dropped_rows": [
+  {
+   "row": 76,
+   "reason": "about 4557 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "every_third_upper",
+    "lang:ru",
+    "line_first_upper",
+    "hence_min",
+    "rw:include_therefore",
+    "line_last_upper",
+    "bigram_wrap"
+   ]
+  },
+  {
+   "row": 119,
+   "reason": "about 4707 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "line_last_upper",
+    "line_first_upper",
+    "bigram_wrap",
+    "hence_min",
+    "lang:fr",
+    "every_third_upper",
+    "kw_counts_min"
+   ]
+  },
+  {
+   "row": 184,
+   "reason": "about 5045 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "lang:pl",
+    "bigram_wrap",
+    "line_last_upper",
+    "kw_counts_min",
+    "line_first_upper",
+    "rw:include_therefore",
+    "every_third_upper"
+   ]
+  },
+  {
+   "row": 196,
+   "reason": "about 5191 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "lang:es",
+    "bigram_wrap",
+    "kw_counts_min",
+    "rif:capital",
+    "hence_min",
+    "five_words_per_line"
+   ]
+  },
+  {
+   "row": 236,
+   "reason": "about 7289 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "sent_count_trailer",
+    "key_sentence_min",
+    "repeat_question",
+    "rw:include_marker_note",
+    "inc_checkpoint3",
+    "inc_arrow_summary"
+   ]
+  },
   {
    "row": 272,
    "reason": "remark step: copy: grader fails: lang:fr; omit: grader fails: lang:fr; omit-all: grader fails: lang:fr; none: grader fails: lang:fr; grader fails: lang:fr"
   },
   {
+   "row": 308,
+   "reason": "about 4379 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "hence_min",
+    "five_words_per_line",
+    "lang:es",
+    "rw:include_therefore",
+    "rw:initial_caps",
+    "bigram_wrap"
+   ]
+  },
+  {
+   "row": 341,
+   "reason": "about 4588 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "rw:include_therefore",
+    "lang:ru",
+    "five_words_per_line",
+    "bigram_wrap",
+    "cc:lowercase_thinking",
+    "hence_min"
+   ]
+  },
+  {
+   "row": 442,
+   "reason": "about 4457 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "lang:pl",
+    "rw:all_caps",
+    "line_index_suffix",
+    "rw:include_quote_marker",
+    "hence_min",
+    "line_quote"
+   ]
+  },
+  {
+   "row": 444,
+   "reason": "about 4269 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "rw:all_lower",
+    "bigram_wrap",
+    "five_words_per_line",
+    "lang:es",
+    "rw:include_therefore",
+    "kw_counts_min"
+   ]
+  },
+  {
+   "row": 494,
+   "reason": "about 4816 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "line_index_suffix",
+    "rw:include_quote_marker",
+    "every_third_upper",
+    "rw:include_therefore",
+    "kw_counts_min",
+    "pilcrow_paragraphs",
+    "hence_min"
+   ]
+  },
+  {
+   "row": 500,
+   "reason": "about 4358 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "line_first_upper",
+    "rw:include_therefore",
+    "line_last_upper",
+    "bigram_wrap",
+    "lang:ru",
+    "every_third_upper"
+   ]
+  },
+  {
+   "row": 504,
+   "reason": "about 4716 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "lang:pl",
+    "rw:initial_caps",
+    "rw:include_quote_marker",
+    "line_bar",
+    "line_index_suffix",
+    "hence_min"
+   ]
+  },
+  {
+   "row": 535,
+   "reason": "about 4363 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "every_third_upper",
+    "line_last_upper",
+    "lang:pl",
+    "bigram_wrap",
+    "line_first_upper",
+    "hence_min"
+   ]
+  },
+  {
+   "row": 579,
+   "reason": "about 13634 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "rw:include_therefore",
+    "bigram_wrap",
+    "line_first_upper",
+    "every_third_upper",
+    "line_last_upper",
+    "lang:fr"
+   ]
+  },
+  {
+   "row": 608,
+   "reason": "about 4717 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "line_first_upper",
+    "double_space",
+    "kw_counts_min",
+    "hence_min",
+    "rw:include_therefore",
+    "every_third_upper",
+    "line_last_upper"
+   ]
+  },
+  {
+   "row": 612,
+   "reason": "about 4894 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "every_third_upper",
+    "double_space",
+    "rw:include_quote_marker",
+    "line_last_upper",
+    "kw_counts_min",
+    "line_first_upper"
+   ]
+  },
+  {
+   "row": 618,
+   "reason": "about 4580 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "line_index_suffix",
+    "rw:all_caps",
+    "rw:include_therefore",
+    "line_bar",
+    "lang:ru",
+    "hence_min",
+    "rw:include_quote_marker"
+   ]
+  },
+  {
+   "row": 663,
+   "reason": "about 5822 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "bigram_wrap",
+    "rw:initial_caps",
+    "kw_counts_min",
+    "five_words_per_line",
+    "rw:include_therefore",
+    "hence_min"
+   ]
+  },
+  {
+   "row": 676,
+   "reason": "about 6583 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "kw_counts_min",
+    "word_sep_pipe",
+    "wrap_quotes",
+    "rw:include_therefore",
+    "rw:initial_caps",
+    "rw:include_quote_marker"
+   ]
+  },
+  {
    "row": 733,
    "reason": "remark step: base trace unusable"
+  },
+  {
+   "row": 867,
+   "reason": "about 4302 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "wrap_quotes",
+    "word_sep_pipe",
+    "kw_counts_min",
+    "rw:all_lower",
+    "hence_min",
+    "rw:include_therefore"
+   ]
+  },
+  {
+   "row": 877,
+   "reason": "about 4490 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "line_last_upper",
+    "bigram_wrap",
+    "lang:es",
+    "kw_counts_min",
+    "hence_min",
+    "line_first_upper",
+    "every_third_upper"
+   ]
   }
  ]
 }

@@ -6,6 +6,9 @@
 # the reasoner's remarks about the rules. Same chain as results/r1llama/stage.sh, except the model is
 # served with fp8 weights (bf16 does not fit in 16 GB). Single-rule prompts only. Idempotent.
 set -uo pipefail
+# The current recipe is the programmatic one (scripts/stage_programmatic.sh, PROGRAMMATIC_RULES_NEW_MODEL.md). This file
+# is the previous recipe, in which GPT-4.1 rewrote every target; it runs only with OLD_RECIPE=1.
+if [[ -z "${OLD_RECIPE:-}" ]]; then echo "running the programmatic recipe; set OLD_RECIPE=1 for the previous one"; exec "$(dirname "$0")/../../scripts/stage_programmatic.sh" r1qwen7 "$@"; fi
 cd "$(dirname "$0")/../.."
 R=results/r1qwen7; M=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B; WL=data/word_limits_DeepSeek-R1-Distill-Qwen-7B.json; CFG=configs/r1qwen7.yaml
 ARM=Bnc; DATA=data/sft/r1q7many_$ARM.jsonl

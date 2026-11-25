@@ -22,8 +22,8 @@
 
 | Model | Pool check | Valid bundles of 6 | Valid bundles of 7 | Training rows built |
 |---|---|---|---|---|
-| R1-Llama | PASS | 15,042 | 12,347 | 899 of 900 |
-| Qwen-7B | PASS | 15,019 | 12,330 | 898 of 900 |
+| R1-Llama | PASS | 15,042 | 12,347 | 888 of 900 |
+| Qwen-7B | PASS | 15,019 | 12,330 | 877 of 900 |
 | Gemma | PASS | 15,377 | 12,704 | not built |
 
 The pool check and the bundle counts use each model's own traces. A valid bundle is one where every rule, applied
@@ -33,24 +33,26 @@ together with the others, passes its grader on all 20 test traces.
 
 | Model | Rows with a remark | Remark sentences | Words, control to treated | Characters | Model tokens |
 |---|---|---|---|---|---|
-| R1-Llama | 347 | 1,695 | 460 to 509 | 2,668 to 3,236 | 577 to 898 |
-| Qwen-7B | 373 | 1,866 | 534 to 586 | 3,114 to 3,763 | 670 to 986 |
+| R1-Llama | 347 | 1,695 | 459 to 506 | 2,649 to 3,228 | 573 to 892 |
+| Qwen-7B | 373 | 1,866 | 524 to 582 | 3,056 to 3,713 | 656 to 966 |
 
 - "Control" is the model's own unedited trace; the control file has the same questions, a prompt without rules, and
   no remarks.
 - Words are real words; markers and separators are not counted. Model tokens use the model's own tokenizer.
-- A row is left out when a grader fails or when the remark step could not measure the base model on it.
+- A row is left out when a grader fails, when the remark step could not measure the base model on it, or when the
+  row is longer than the trainer's limit of 4,096 tokens (21 rows for Qwen-7B, 11 for R1-Llama). The control file leaves
+  out the same rows.
 
 By kind of row:
 
 | Model | Rows | Words, control to treated | Model tokens, control to treated |
 |---|---|---|---|
-| R1-Llama | 630 no language rule | 461 to 516 | 583 to 814 |
+| R1-Llama | 624 no language rule | 460 to 513 | 580 to 810 |
 | R1-Llama | 54 language set to English | 466 to 522 | 557 to 817 |
-| R1-Llama | 215 translated | 454 to 492 | 560 to 1,306 |
-| Qwen-7B | 629 no language rule | 529 to 599 | 665 to 897 |
+| R1-Llama | 210 translated | 442 to 482 | 556 to 1,290 |
+| Qwen-7B | 622 no language rule | 520 to 592 | 657 to 894 |
 | Qwen-7B | 54 language set to English | 498 to 551 | 634 to 904 |
-| Qwen-7B | 215 translated | 556 to 577 | 707 to 1,626 |
+| Qwen-7B | 201 translated | 540 to 566 | 677 to 1,535 |
 
 - Treated targets are about 10% longer than control in words and about 50% longer in model tokens.
 - Translated rows are about as long as their source in words and more than twice as long in model tokens.

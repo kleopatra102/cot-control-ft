@@ -42,8 +42,26 @@ All of these are fixed, but a new model can bring a new layout (tables, nested l
        --data-prefix <prefix> --control --tokenizer <hf model id> --inspect-md results/<model>/build_prog/READ_ME_ROWS.md
    ```
 
+   The remark step runs between the check and this build (`scripts/sft_remarks.py`; see
+   `results/rl_local/META_DISCUSSION_REPORT.md`, section 8) and its `build.json` is passed with `--remarks-build`.
+   With `--tokenizer`, rows longer than the trainer's limit of 4,096 tokens are left out of both the treated and the
+   control file, so the two arms keep the same questions.
 5. Read the rows in `READ_ME_ROWS.md` (24 by default). The automatic checks have missed things on every model so far;
    a person reading a few rows found them.
+
+## Training
+
+```bash
+scripts/stage_programmatic.sh <model key>                         # trains the treated arm Bp and the control arm Bpctrl
+STEPS="train eval checks" scripts/stage_programmatic.sh <model key>
+```
+
+- It needs the two training files in `data/sft/` (they are not in git) and waits until the GPU is free.
+- A new model is added to the `case` statement at the top of the script.
+- The older launchers (`results/r1qwen7/stage.sh`, `results/r1llama/stage_bnc.sh`) now hand over to this script; they
+  run the previous recipe only with `OLD_RECIPE=1`.
+- `checks` compares the trained model with base and with the control arm on length, hesitation words and rule talk.
+  Run it before any RL or evaluation. The base model's evaluation must have been served the same way as the adapters.
 
 ## What the check decides automatically
 

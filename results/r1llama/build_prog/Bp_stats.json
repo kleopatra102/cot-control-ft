@@ -2,12 +2,13 @@
  "draw": "results/r1llama/prog_pool/draw.json",
  "draw_version": "r1llama-2026-11-25d",
  "planned": 900,
- "kept": 899,
+ "kept": 888,
  "how": {
   "no remark in the base trace": 552,
   "with remarks": 347
  },
  "failures": {
+  "longer than the trainer's limit": 11,
   "not finished by the remark step": 1
  },
  "remarks": {
@@ -18,93 +19,93 @@
  },
  "length_source": {
   "tokens_by_space": {
-   "median": 459,
-   "q1": 304.0,
-   "q3": 641.0
-  },
-  "words": {
-   "median": 460,
-   "q1": 305.0,
+   "median": 456.5,
+   "q1": 303.0,
    "q3": 638.0
   },
+  "words": {
+   "median": 459.0,
+   "q1": 304.25,
+   "q3": 636.0
+  },
   "chars": {
-   "median": 2668,
-   "q1": 1788.0,
-   "q3": 3618.0
+   "median": 2649.0,
+   "q1": 1771.75,
+   "q3": 3604.0
   },
   "model_tokens": {
-   "median": 577,
-   "q1": 376.0,
-   "q3": 791.0
+   "median": 573.0,
+   "q1": 374.25,
+   "q3": 784.0
   }
  },
  "length_target": {
   "tokens_by_space": {
-   "median": 536,
-   "q1": 371.0,
-   "q3": 744.0
+   "median": 533.0,
+   "q1": 370.0,
+   "q3": 736.5
   },
   "words": {
-   "median": 509,
-   "q1": 360.0,
-   "q3": 696.0
+   "median": 506.0,
+   "q1": 358.25,
+   "q3": 692.5
   },
   "chars": {
-   "median": 3236,
-   "q1": 2252.0,
-   "q3": 4392.0
+   "median": 3228.0,
+   "q1": 2243.0,
+   "q3": 4316.5
   },
   "model_tokens": {
-   "median": 898,
-   "q1": 605.0,
-   "q3": 1332.0
+   "median": 891.5,
+   "q1": 600.5,
+   "q3": 1321.5
   }
  },
  "length_by_kind": {
   "plain": {
-   "rows": 630,
+   "rows": 624,
    "source": {
     "tokens_by_space": {
-     "median": 463.5,
-     "q1": 303.75,
-     "q3": 654.25
+     "median": 461.0,
+     "q1": 302.25,
+     "q3": 643.75
     },
     "words": {
-     "median": 461.0,
-     "q1": 304.75,
-     "q3": 648.25
+     "median": 460.0,
+     "q1": 303.25,
+     "q3": 639.75
     },
     "chars": {
-     "median": 2681.0,
-     "q1": 1774.25,
-     "q3": 3657.25
+     "median": 2663.5,
+     "q1": 1758.5,
+     "q3": 3641.5
     },
     "model_tokens": {
-     "median": 583.0,
-     "q1": 375.75,
-     "q3": 804.0
+     "median": 580.0,
+     "q1": 375.0,
+     "q3": 797.5
     }
    },
    "target": {
     "tokens_by_space": {
-     "median": 559.0,
-     "q1": 383.25,
-     "q3": 770.25
+     "median": 554.0,
+     "q1": 380.25,
+     "q3": 761.0
     },
     "words": {
-     "median": 515.5,
+     "median": 513.0,
      "q1": 362.0,
-     "q3": 712.25
+     "q3": 706.0
     },
     "chars": {
-     "median": 3215.0,
-     "q1": 2233.5,
-     "q3": 4321.0
+     "median": 3205.5,
+     "q1": 2224.5,
+     "q3": 4276.5
     },
     "model_tokens": {
-     "median": 813.5,
-     "q1": 550.25,
-     "q3": 1183.5
+     "median": 809.5,
+     "q1": 547.25,
+     "q3": 1176.75
     }
    }
   },
@@ -156,49 +157,49 @@
    }
   },
   "lang": {
-   "rows": 215,
+   "rows": 210,
    "source": {
     "tokens_by_space": {
-     "median": 449,
-     "q1": 303.0,
-     "q3": 619.0
+     "median": 442.5,
+     "q1": 301.0,
+     "q3": 613.25
     },
     "words": {
-     "median": 454,
-     "q1": 305.0,
-     "q3": 624.0
+     "median": 442.5,
+     "q1": 303.25,
+     "q3": 614.0
     },
     "chars": {
-     "median": 2649,
-     "q1": 1788.0,
-     "q3": 3582.0
+     "median": 2629.5,
+     "q1": 1766.25,
+     "q3": 3530.75
     },
     "model_tokens": {
-     "median": 560,
-     "q1": 377.0,
-     "q3": 777.0
+     "median": 555.5,
+     "q1": 371.5,
+     "q3": 769.5
     }
    },
    "target": {
     "tokens_by_space": {
-     "median": 500,
-     "q1": 342.0,
-     "q3": 670.0
+     "median": 492.0,
+     "q1": 337.0,
+     "q3": 659.25
     },
     "words": {
-     "median": 492,
-     "q1": 341.0,
-     "q3": 659.0
+     "median": 482.5,
+     "q1": 330.75,
+     "q3": 630.5
     },
     "chars": {
-     "median": 3443,
-     "q1": 2402.0,
-     "q3": 4701.0
+     "median": 3405.0,
+     "q1": 2303.5,
+     "q3": 4593.5
     },
     "model_tokens": {
-     "median": 1306,
-     "q1": 858.0,
-     "q3": 1860.0
+     "median": 1289.5,
+     "q1": 848.75,
+     "q3": 1807.0
     }
    }
   }
@@ -206,7 +207,7 @@
  "per_rule": {
   "bigram_wrap": {
    "drawn": 96,
-   "kept": 95
+   "kept": 94
   },
   "cc:lowercase_thinking": {
    "drawn": 23,
@@ -214,15 +215,15 @@
   },
   "cc:uppercase_thinking": {
    "drawn": 39,
-   "kept": 39
+   "kept": 36
   },
   "double_space": {
    "drawn": 90,
-   "kept": 90
+   "kept": 89
   },
   "every_third_upper": {
    "drawn": 235,
-   "kept": 234
+   "kept": 229
   },
   "five_words_per_line": {
    "drawn": 21,
@@ -238,7 +239,7 @@
   },
   "hence_min": {
    "drawn": 408,
-   "kept": 408
+   "kept": 399
   },
   "ifb:start_end_same": {
    "drawn": 22,
@@ -246,19 +247,19 @@
   },
   "inc_arrow_summary": {
    "drawn": 359,
-   "kept": 359
+   "kept": 358
   },
   "inc_checkpoint3": {
    "drawn": 366,
-   "kept": 366
+   "kept": 364
   },
   "key_sentence_min": {
    "drawn": 365,
-   "kept": 365
+   "kept": 364
   },
   "kw_counts_min": {
    "drawn": 408,
-   "kept": 408
+   "kept": 401
   },
   "lang:en": {
    "drawn": 54,
@@ -270,7 +271,7 @@
   },
   "lang:fr": {
    "drawn": 54,
-   "kept": 54
+   "kept": 53
   },
   "lang:pl": {
    "drawn": 54,
@@ -278,15 +279,15 @@
   },
   "lang:ru": {
    "drawn": 54,
-   "kept": 53
+   "kept": 49
   },
   "line_bar": {
    "drawn": 53,
-   "kept": 53
+   "kept": 52
   },
   "line_first_upper": {
    "drawn": 208,
-   "kept": 207
+   "kept": 203
   },
   "line_index": {
    "drawn": 53,
@@ -294,39 +295,39 @@
   },
   "line_index_suffix": {
    "drawn": 251,
-   "kept": 251
+   "kept": 245
   },
   "line_last_upper": {
    "drawn": 174,
-   "kept": 173
+   "kept": 170
   },
   "line_marker": {
    "drawn": 53,
-   "kept": 53
+   "kept": 52
   },
   "line_quote": {
    "drawn": 54,
-   "kept": 54
+   "kept": 52
   },
   "para_end_mark": {
    "drawn": 82,
-   "kept": 82
+   "kept": 81
   },
   "para_end_sentence": {
    "drawn": 82,
-   "kept": 82
+   "kept": 81
   },
   "pilcrow_paragraphs": {
    "drawn": 53,
-   "kept": 53
+   "kept": 51
   },
   "repeat_question": {
    "drawn": 86,
-   "kept": 86
+   "kept": 85
   },
   "rif:capital": {
    "drawn": 39,
-   "kept": 39
+   "kept": 38
   },
   "rif:end_checker": {
    "drawn": 82,
@@ -342,15 +343,15 @@
   },
   "rw:include_marker_note": {
    "drawn": 366,
-   "kept": 366
+   "kept": 365
   },
   "rw:include_quote_marker": {
    "drawn": 409,
-   "kept": 409
+   "kept": 402
   },
   "rw:include_therefore": {
    "drawn": 409,
-   "kept": 408
+   "kept": 404
   },
   "rw:initial_caps": {
    "drawn": 108,
@@ -370,7 +371,7 @@
   },
   "word_sep_pipe": {
    "drawn": 90,
-   "kept": 90
+   "kept": 88
   },
   "wrap_quotes": {
    "drawn": 23,
@@ -379,8 +380,157 @@
  },
  "dropped_rows": [
   {
+   "row": 238,
+   "reason": "about 14640 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "rw:include_therefore",
+    "line_first_upper",
+    "line_last_upper",
+    "word_sep_pipe",
+    "every_third_upper",
+    "hence_min",
+    "rw:include_quote_marker"
+   ]
+  },
+  {
+   "row": 335,
+   "reason": "about 7663 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "inc_checkpoint3",
+    "kw_counts_min",
+    "para_end_mark",
+    "rw:include_therefore",
+    "line_quote",
+    "rw:include_quote_marker",
+    "hence_min"
+   ]
+  },
+  {
+   "row": 339,
+   "reason": "about 4277 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "every_third_upper",
+    "line_index_suffix",
+    "rw:include_therefore",
+    "kw_counts_min",
+    "pilcrow_paragraphs",
+    "hence_min",
+    "rw:include_quote_marker"
+   ]
+  },
+  {
+   "row": 375,
+   "reason": "about 5056 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "hence_min",
+    "rw:include_quote_marker",
+    "cc:uppercase_thinking",
+    "pilcrow_paragraphs",
+    "lang:ru",
+    "line_index_suffix",
+    "kw_counts_min"
+   ]
+  },
+  {
    "row": 427,
    "reason": "remark step: copy: grader fails: bigram_wrap; omit: grader fails: bigram_wrap; omit-all: grader fails: bigram_wrap; none: grader fails: bigram_wrap; grader fails: bigram_wra"
+  },
+  {
+   "row": 521,
+   "reason": "about 4608 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "kw_counts_min",
+    "cc:uppercase_thinking",
+    "lang:ru",
+    "line_index_suffix",
+    "hence_min",
+    "line_quote"
+   ]
+  },
+  {
+   "row": 583,
+   "reason": "about 4514 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "kw_counts_min",
+    "lang:ru",
+    "rw:include_quote_marker",
+    "cc:uppercase_thinking",
+    "line_index_suffix",
+    "line_marker"
+   ]
+  },
+  {
+   "row": 650,
+   "reason": "about 4528 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "lang:fr",
+    "hence_min",
+    "line_first_upper",
+    "bigram_wrap",
+    "line_last_upper",
+    "every_third_upper",
+    "kw_counts_min"
+   ]
+  },
+  {
+   "row": 702,
+   "reason": "about 4174 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "rw:include_therefore",
+    "every_third_upper",
+    "double_space",
+    "line_index_suffix",
+    "hence_min",
+    "line_first_upper"
+   ]
+  },
+  {
+   "row": 818,
+   "reason": "about 12733 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "repeat_question",
+    "rw:include_quote_marker",
+    "inc_checkpoint3",
+    "inc_arrow_summary",
+    "para_end_sentence",
+    "key_sentence_min",
+    "rw:include_marker_note"
+   ]
+  },
+  {
+   "row": 839,
+   "reason": "about 4193 tokens, over the trainer's limit of 4096",
+   "kind": "plain",
+   "rules": [
+    "line_last_upper",
+    "kw_counts_min",
+    "every_third_upper",
+    "line_first_upper",
+    "hence_min",
+    "word_sep_pipe"
+   ]
+  },
+  {
+   "row": 840,
+   "reason": "about 4712 tokens, over the trainer's limit of 4096",
+   "kind": "lang",
+   "rules": [
+    "line_bar",
+    "rif:capital",
+    "line_index_suffix",
+    "lang:ru",
+    "hence_min",
+    "rw:include_quote_marker"
+   ]
   }
  ]
 }

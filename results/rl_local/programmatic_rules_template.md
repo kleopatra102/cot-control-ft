@@ -32,7 +32,9 @@ together with the others, passes its grader on all 20 test traces.
 - "Control" is the model's own unedited trace; the control file has the same questions, a prompt without rules, and
   no remarks.
 - Words are real words; markers and separators are not counted. Model tokens use the model's own tokenizer.
-- A row is left out when a grader fails or when the remark step could not measure the base model on it.
+- A row is left out when a grader fails, when the remark step could not measure the base model on it, or when the
+  row is longer than the trainer's limit of 4,096 tokens (21 rows for Qwen-7B, 11 for R1-Llama). The control file leaves
+  out the same rows.
 
 By kind of row:
 
