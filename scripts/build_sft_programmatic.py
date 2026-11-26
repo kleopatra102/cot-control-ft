@@ -54,7 +54,9 @@ def main() -> int:
     if probs:
         print("This draw has not been checked for these traces with the current rule code:"); [print("  -", x) for x in probs]
         print("Run: python scripts/check_programmatic_pool.py verify --rollouts", a.rollouts, "--out-dir", Path(a.draw).parent,
-              "\n(for a new model: the same with `preflight`). See PROGRAMMATIC_RULES_NEW_MODEL.md.")
+              "--mt-cache", a.mt_cache or "<the build's mt_cache.json>", "--translate",
+              "\n(--translate is needed when the translator changed: the language check uses 30 test traces per language, translated"
+              "\nby the current backend; for a new model: the same with `preflight`). See PROGRAMMATIC_RULES_NEW_MODEL.md.")
         if not a.skip_pool_check: return 2
         print("--skip-pool-check given: building anyway.")
     draw = json.load(open(a.draw)); plan = draw["rows"][: a.limit] if a.limit else draw["rows"]

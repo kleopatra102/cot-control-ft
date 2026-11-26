@@ -876,7 +876,10 @@ def main() -> int:
     add("report", cmd_report); add("mt-merge", cmd_mt_merge)
     for name, fn in (("build", cmd_build), ("mt-todo", cmd_mt_todo)): add(name, fn).add_argument("--use-generated", action="store_true")
     p = add("review", cmd_review); p.add_argument("--n", type=int, default=50); p.add_argument("--seed", type=int, default=0)
-    a = ap.parse_args(); Path(a.dir).mkdir(parents=True, exist_ok=True)
+    a = ap.parse_args()
+    for k in ("dir", "draw", "sources", "config"):         # harness() changes into the repository, so relative paths would point there
+        if getattr(a, k, None): setattr(a, k, os.path.abspath(getattr(a, k)))
+    Path(a.dir).mkdir(parents=True, exist_ok=True)
     return a.fn(a)
 
 
