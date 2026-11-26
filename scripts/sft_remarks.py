@@ -677,9 +677,9 @@ def cmd_mt_todo(a) -> int:
     for p in read(D / "profiles.jsonl"):
         row = rows[p["row"]]; lg = row_lang(row)
         if not lg or not p["usable"] or row.get("source_missing"): continue
-        for text in [row["source"]] + [r["text"] for r in plan(row, p, rep, "copy")[0]]:
+        for kind, text in [("source", row["source"])] + [("remark", r["text"]) for r in plan(row, p, rep, "copy")[0]]:
             k = mt_key(lg, text)
-            if k not in mt: todo[k] = [lg, k, text]
+            if k not in mt: todo[k] = [lg, k, text, kind]
     json.dump(list(todo.values()), open(D / "mt_todo.json", "w"), ensure_ascii=False)
     print(f"{len(todo)} texts to translate ({dict(Counter(t[0] for t in todo.values()))}) -> {D / 'mt_todo.json'}; already translated {len(mt)}")
     return 0

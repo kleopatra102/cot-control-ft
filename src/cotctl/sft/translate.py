@@ -1,4 +1,17 @@
-"""Local machine translation for language rules, with NLLB-200 (a translation model, not an instructed LLM).
+"""Machine translation for language rules. Backend chosen by MT_BACKEND (default gemini since 26 Nov 2026):
+
+  gemini  Gemini 3.8 Flash through OpenRouter (OPENROUTER_API_KEY), told to translate sentence for sentence. Chosen on
+          26 Nov 2026 after NLLB changed the meaning in about half of 16 hand-read rows (head-to-head on 40 rows: same length,
+          sentence count and hesitation words as NLLB, all 10 known NLLB errors right, one row summarised instead of
+          translated). Every output passes guards or is not used (see _ok); a text that fails is left untranslated and its
+          row is not built.
+  nllb    NLLB-200 1.3B, local (a translation model, not an instructed LLM): the translator of the first builds
+          (training files built on 25 Nov 2026); details below. Set MT_BACKEND=nllb to read or reproduce them.
+  google  Google Cloud Translation API: not set up yet (needs GOOGLE_APPLICATION_CREDENTIALS); kept as the next option.
+
+The backend is part of the cache key (Translator.VERSION), so translations of different backends never mix.
+
+NLLB details:
 
 - Line structure is kept exactly: each non-empty line is cut into sentences only to fit the model, and rejoined on the same line.
 - With protect=True, quoted material, formulas, code, links, hashtags and markers are left untouched: a sentence is cut at
@@ -9,6 +22,9 @@
 from __future__ import annotations
 import hashlib, json, os, re
 from pathlib import Path
+BACKEND = os.environ.get("MT_BACKEND", "gemini")
+if BACKEND not in ("nllb", "gemini", "google"): raise SystemExit(f"MT_BACKEND={BACKEND!r}: use nllb, gemini or google")
+GEMINI_MODEL = "google/gemini-3.8-flash"
 NAME = "facebook/nllb-200-distilled-1.3B"
 CODE = {"en": "eng_Latn", "es": "spa_Latn", "fr": "fra_Latn", "ru": "rus_Cyrl", "pl": "pol_Latn"}
 _tok = _mod = None; DEV = "cpu"
@@ -95,7 +111,79 @@ def sentences(text: str) -> list[str]:
     return out
 
 
-def translate_many(texts: list[str], tgt: str, src: str = "en", protect: bool = True) -> list[str]:
+LANG_NAME = {"es": "Spanish", "fr": "French", "ru": "Russian", "pl": "Polish"}
+_GEM = ("Translate the following English text into {L}. It is a model's step-by-step reasoning and must stay a faithful translation:\n"
+        "- Translate every sentence, in the same order. Do not summarise, shorten, merge, improve, correct or explain anything; keep mistakes, repetitions and false starts.\n"
+        "- Keep hesitation and hedging (\"hmm\", \"wait\", \"maybe\", \"I think\", \"actually\") by translating each into its natural {L} equivalent.\n"
+        "- Keep every line break and empty line exactly; keep list numbers and bullets at the start of lines as written.\n"
+        "- Keep names of products, apps, companies, people, titles of works, code, formulas, URLs and numbers as they are; convert no units.\n"
+        "{Q}- Output only the translation, nothing else.\n\nText:\n")
+_GEM_Q = {"source": "- Translate quoted material too, unless it is code.\n",
+          "remark": "- Text inside double quotation marks is an exact rule string: copy it unchanged, with its quotation marks.\n"}
+
+
+def _sent_ends(t: str) -> int: return len(re.findall(r"[.!?…](?=\s|$)", t))
+
+
+def _ok(src: str, out: str, kind: str) -> str:
+    """'' if a translation keeps the text, else the reason it is not used."""
+    if not out or not out.strip(): return "empty"
+    ne = lambda t: [l for l in t.split("\n") if l.strip()]
+    if len(ne(out)) != len(ne(src)): return "line count differs"
+    if lost_list_marks(src, out): return "list marks lost"
+    r = len(out) / max(1, len(src))
+    if len(src) >= 200 and r < 0.85: return f"shorter than the source ({r:.2f})"       # the head-to-head: a summary came out at 0.10
+    if r > 2.0: return f"much longer than the source ({r:.2f})"
+    if _sent_ends(src) >= 5 and _sent_ends(out) < _sent_ends(src) - 2: return "sentences dropped"
+    if kind == "remark":
+        miss = [q for q in re.findall(r'"[^"\n]{1,80}"', src) if q not in out]
+        if miss: return f"rule string changed: {miss[0]}"
+    return ""
+
+
+def _gemini_one(text: str, tgt: str, kind: str) -> tuple[str | None, str]:
+    import urllib.request
+    last = ""
+    for attempt, temp in enumerate((0.0, 0.3, 0.3)):
+        body = {"model": GEMINI_MODEL, "temperature": temp, "max_tokens": 16000,
+                "messages": [{"role": "user", "content": _GEM.format(L=LANG_NAME[tgt], Q=_GEM_Q[kind]) + text}]}
+        for net in range(4):
+            try:
+                req = urllib.request.Request("https://openrouter.ai/api/v1/chat/completions", data=json.dumps(body).encode(),
+                                             headers={"Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}", "Content-Type": "application/json"})
+                with urllib.request.urlopen(req, timeout=300) as r: out = (json.loads(r.read())["choices"][0]["message"]["content"] or "").strip("\n")
+                break
+            except Exception as e:
+                import time; out = None; last = f"request failed: {e}"; time.sleep(5 * 2 ** net)
+        if out is None: continue
+        # keep the source's leading and trailing white space of the whole text
+        out = text[:len(text) - len(text.lstrip())] + out.strip() + text[len(text.rstrip()):]
+        last = _ok(text, out, kind)
+        if not last: return out, ""
+    return None, last
+
+
+FAILED: list[tuple[str, str, str]] = []      # (language, start of text, reason) of the texts a guard rejected
+
+
+def _gemini_many(texts: list[str], tgt: str, kinds: list[str]) -> list[str | None]:
+    import concurrent.futures as cf
+    with cf.ThreadPoolExecutor(int(os.environ.get("MT_CONCURRENCY", "8"))) as ex:
+        res = list(ex.map(lambda tk: _gemini_one(tk[0], tgt, tk[1]), zip(texts, kinds)))
+    for t, (o, why) in zip(texts, res):
+        if o is None: FAILED.append((tgt, t[:80], why))
+    return [o for o, _ in res]
+
+
+def translate_many(texts: list[str], tgt: str, src: str = "en", protect: bool = True, kinds: list[str] | None = None) -> list[str | None]:
+    """kinds (gemini only): "source" for a trace, "remark" for a remark whose rule strings are in double quotes.
+    With gemini, None for a text whose translation failed the guards."""
+    if BACKEND == "gemini": return _gemini_many(texts, tgt, kinds or ["source"] * len(texts))
+    if BACKEND == "google": raise SystemExit("MT_BACKEND=google is not set up yet: it needs a Google Cloud service account (GOOGLE_APPLICATION_CREDENTIALS)")
+    return _nllb_many(texts, tgt, src, protect)
+
+
+def _nllb_many(texts: list[str], tgt: str, src: str = "en", protect: bool = True) -> list[str]:
     """Each non-empty line: protected spans are found on the whole line first (so a quotation that runs over several
     sentences stays whole), then only the text between them is cut into sentences and translated."""
     plan = []; flat = []
@@ -130,7 +218,8 @@ class Translator:
         self.path = Path(cache_path); self.protect = protect
         self.cache = json.load(open(self.path)) if self.path.exists() else {}
 
-    VERSION = "v4"      # v2: spans found per line before sentence splitting; no split after initials and abbreviations.
+    VERSION = {"nllb": "v4", "gemini": "g1", "google": "gc1"}[BACKEND]   # g1: Gemini 3.8 Flash, prompt and guards of 26 Nov 2026
+    # nllb: v2: spans found per line before sentence splitting; no split after initials and abbreviations.
                         # v3: a piece that continues a sentence after a protected span keeps its lower-case start
                         # v4: a list number or bullet at the start of a line is kept as written
 
@@ -140,9 +229,10 @@ class Translator:
         todo = [t for t in dict.fromkeys(texts) if self.key(t, lang) not in self.cache]
         for i in range(0, len(todo), 40):
             part = todo[i:i + 40]
-            for t, x in zip(part, translate_many(part, lang, protect=self.protect)): self.cache[self.key(t, lang)] = x
+            for t, x in zip(part, translate_many(part, lang, protect=self.protect)):
+                if x is not None: self.cache[self.key(t, lang)] = x          # a rejected translation is not cached
             self.path.parent.mkdir(parents=True, exist_ok=True); json.dump(self.cache, open(self.path, "w"), ensure_ascii=False)
-        return [self.cache[self.key(t, lang)] for t in texts]
+        return [self.cache.get(self.key(t, lang)) for t in texts]
 
     def one(self, text: str, lang: str) -> str: return self.many([text], lang)[0]
 

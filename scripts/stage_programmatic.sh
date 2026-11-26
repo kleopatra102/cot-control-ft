@@ -8,7 +8,7 @@
 # The training files must exist: data/sft/<prefix>_Bp.jsonl and data/sft/<prefix>_Bpctrl.jsonl, written by
 # scripts/build_sft_programmatic.py. They are not in git. How to make them for a model, and the checks that must pass
 # first, are in PROGRAMMATIC_RULES_NEW_MODEL.md. This script does not build them, because the build needs the remark
-# step (a base-model server and an API judge) and a translation GPU.
+# step (a base-model server and an API judge) and translation (Gemini 3.8 Flash through OpenRouter by default).
 #
 # Every GPU step waits until nothing else is on the card. Idempotent: a finished step is skipped.
 set -uo pipefail
