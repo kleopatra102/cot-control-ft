@@ -87,6 +87,9 @@ def sentences(text: str) -> list[tuple[int, int]]:
     spans, start = [], 0
     for m in _END.finditer(text):
         if not m.group().startswith("\n") and text[m.end():m.end() + 1].islower(): continue
+        # a ?, ! or . inside a quoted rule string ("begin each line with '!?!? ', which ...") does not end the sentence:
+        # the next text starts with the closing quote and then punctuation or a small letter
+        if not m.group().startswith("\n") and re.match(r"['\"’”»]\s*(?:[,.;:)!?]|[a-z])", text[m.end():m.end() + 4]): continue
         if text[start:m.start()].strip() or (m.group().strip() and text[start:m.end()].strip()):
             end = m.start() + len(m.group().rstrip()) if not m.group().startswith("\n") else m.start()
             if text[start:end].strip(): spans.append((start, end))

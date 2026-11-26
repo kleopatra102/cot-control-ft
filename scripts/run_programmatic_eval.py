@@ -187,7 +187,8 @@ def cmd_compare(a) -> int:
     base, ctl, trt = _load(a.base), _load(a.control), _load(a.treated); rng = random.Random(a.seed); res = {"dirs": {"base": a.base, "control": a.control, "treated": a.treated}}
     for kind in ("trained", "held_out"):
         t, c, b = _by_rule(trt, kind), _by_rule(ctl, kind), _by_rule(base, kind)
-        res[kind] = {"treated_vs_control": _block(t, c, a.bootstrap, rng), "treated_vs_base": _block(t, b, a.bootstrap, rng), "control_vs_base": _block(c, b, a.bootstrap, rng)}
+        res[kind] = {"treated_vs_control": _block(t, c, a.bootstrap, rng)}
+        if b: res[kind].update({"treated_vs_base": _block(t, b, a.bootstrap, rng), "control_vs_base": _block(c, b, a.bootstrap, rng)})   # base may be run without P1
     p2 = lambda G_: (lambda v: sum(g["compliant"] for g in v) / max(1, len(v)))([g for g in G_ if g["set"] == "P2"])
     res["P2_all_rules_met"] = {"treated": round(p2(trt), 4), "control": round(p2(ctl), 4), "base": round(p2(base), 4)}
     res["P0"] = {"treated_vs_control": _p0(trt, ctl), "treated_vs_base": _p0(trt, base), "control_vs_base": _p0(ctl, base)}
@@ -202,9 +203,9 @@ def cmd_compare(a) -> int:
     res["limits"] = {k: getattr(a, k) for k in ("min_gain_trained", "min_gain_held_out", "min_share_rules_up", "length_band", "hesitation_min", "accuracy_floor")}; res["verdicts"] = v
     json.dump(res, open(a.out, "w"), indent=1)
     for kind, lab in (("trained", "trained rules"), ("held_out", "held-out rules")):
-        x = res[kind]["treated_vs_control"]; y = res[kind]["treated_vs_base"]
+        x = res[kind]["treated_vs_control"]; y = res[kind].get("treated_vs_base")
         print(f"{lab} ({x['rules']}): control {100 * x['reference']:.1f}% -> treated {100 * x['arm']:.1f}%; gain {x['gain']:.2f} (95% {x['gain_95'][0]:.2f} to {x['gain_95'][1]:.2f}); "
-              f"up 10 points or more on {x['rules_up_10_points']}, down on {x['rules_down_10_points']}; against base {100 * y['reference']:.1f}%: gain {y['gain']:.2f}")
+              f"up 10 points or more on {x['rules_up_10_points']}, down on {x['rules_down_10_points']}" + (f"; against base {100 * y['reference']:.1f}%: gain {y['gain']:.2f}" if y else "; base not run on single rules"))
     print(f"bundles with every rule met: base {100 * res['P2_all_rules_met']['base']:.1f}%, control {100 * res['P2_all_rules_met']['control']:.1f}%, treated {100 * res['P2_all_rules_met']['treated']:.1f}%")
     print(f"no rules, treated against control ({Z['paired_prompts']} prompts): length ratio {Z['word_ratio_median']} in words, {Z['token_ratio_median']} in tokens; "
           f"hesitation ratio {Z['hesitation_per_100_words']['ratio']}; accuracy {Z['accuracy']['difference_points']:+.1f} points")
