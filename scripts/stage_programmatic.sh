@@ -19,6 +19,9 @@ case $KEY in
   r1llama) M=deepseek-ai/DeepSeek-R1-Distill-Llama-8B; PFX=r1prog;   SERVED=r1;   CFG=configs/r1llama.yaml; WL=data/word_limits_DeepSeek-R1-Distill-Llama-8B.json;  SERVE_EXTRA=${SERVE_EXTRA---quantization fp8} ;;
   *) echo "unknown model key $KEY; add it to the case statement in $0"; exit 1 ;;
 esac
+# PFX_OVERRIDE (training-file prefix) and TAG (suffix of the adapter folders) can be set to train another build without touching
+# earlier adapters, e.g. PFX_OVERRIDE=r1q7progG TAG=g -> data/sft/r1q7progG_Bp.jsonl -> results/r1qwen7/ckpts/Bpg
+PFX=${PFX_OVERRIDE:-$PFX}; TAG=${TAG:-}
 R=results/$KEY; ARMS="Bp Bpctrl"; mkdir -p $R
 log() { echo "[$(date '+%m-%d %H:%M')] $*" | tee -a $R/stage_prog.log; }
 free_gpu() { local first=1; until (( $(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1) < 1500 )); do (( first )) && log "waiting for the GPU to be free"; first=0; sleep 60; done; }
@@ -37,12 +40,12 @@ N1=$(wc -l < data/sft/${PFX}_Bp.jsonl); N2=$(wc -l < data/sft/${PFX}_Bpctrl.json
 if [[ " $STEPS " == *" train "* ]]; then
   for ARM in $ARMS; do
     DATA=data/sft/${PFX}_$ARM.jsonl
-    [[ -f $R/ckpts/$ARM/step-final/adapter_config.json ]] && { log "train $ARM: already done"; continue; }
-    free_gpu; log "train $ARM ($(wc -l < $DATA) rows)"
+    [[ -f $R/ckpts/$ARM$TAG/step-final/adapter_config.json ]] && { log "train $ARM$TAG: already done"; continue; }
+    free_gpu; log "train $ARM$TAG from $DATA ($(wc -l < $DATA) rows)"
     PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True UNSLOTH_COMPILE_DISABLE=1 TORCHDYNAMO_DISABLE=1 .venv-unsloth/bin/python scripts/train_lora_unsloth_qwen.py \
-      --model $M --chat r1 --targets q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj --data $DATA --out-dir $R/ckpts/$ARM > $R/train_$ARM.log 2>&1
-    [[ -f $R/ckpts/$ARM/step-final/adapter_config.json ]] || { log "train $ARM FAILED: $(tail -3 $R/train_$ARM.log)"; exit 3; }
-    log "train $ARM done: $(grep -E 'examples \(' $R/train_$ARM.log | tail -1)"
+      --model $M --chat r1 --targets q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj --data $DATA --out-dir $R/ckpts/$ARM$TAG > $R/train_$ARM$TAG.log 2>&1
+    [[ -f $R/ckpts/$ARM$TAG/step-final/adapter_config.json ]] || { log "train $ARM$TAG FAILED: $(tail -3 $R/train_$ARM$TAG.log)"; exit 3; }
+    log "train $ARM$TAG done: $(grep -E 'examples \(' $R/train_$ARM$TAG.log | tail -1)"
   done
 fi
 # 2. evaluation of each adapter on the two older suites. These contain none of the recipe's own rules. The evaluation
