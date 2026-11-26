@@ -94,7 +94,7 @@ def main() -> int:
         else:
             text = r["reasoning"]; how["without the remark step"] += 1
             if lg and lg != "en": text = translator().one(text, lg)
-        try: t, args = G.apply(code_rules, {"prompt": r["prompt"], "reasoning": text}, keep_clear=spans)
+        try: t, args = G.apply(code_rules, {"prompt": r["prompt"], "reasoning": text}, keep_clear=spans, lang=lg or "en")
         except Exception as e: dropped.append({"row": d["row"], "reason": f"transform error {type(e).__name__}: {e}"}); fails["transform error"] += 1; continue
         bad = G.grade_all(rules, t, args, q)
         if spans: bad += ["used only inside a remark: " + c for c in G.real_use_problems(code_rules, {"prompt": r["prompt"], "reasoning": text}, spans)]

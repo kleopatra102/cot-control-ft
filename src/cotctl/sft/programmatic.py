@@ -472,9 +472,11 @@ def real_use_problems(bundle: list[str], r: dict, keep_clear) -> list[str]:
     return [c for c in bundle if c in REAL_USE and not REAL_USE[c](f)]
 
 
-def apply(bundle: list[str], r: dict, keep_clear: list[tuple[int, int]] | None = None) -> tuple[str, dict]:
+def apply(bundle: list[str], r: dict, keep_clear: list[tuple[int, int]] | None = None, lang: str | None = None) -> tuple[str, dict]:
     """Apply every rule of the bundle to r["reasoning"] (already translated for a language row; language rules are skipped here).
-    keep_clear: character ranges of r["reasoning"] (remark sentences) that inserted strings must stay out of and not sit between."""
+    keep_clear: character ranges of r["reasoning"] (remark sentences) that inserted strings must stay out of and not sit between.
+    lang: the row's language ("es", "fr", ...), for text the rules write themselves (the title). The builds pass a bundle
+    without the language rule, so give it here; if None it is taken from a lang: rule in the bundle, else English."""
     q = question(r); t, old, a, own = _insert_stage(bundle, r, keep_clear)
     t = t.replace(KEEP_A, "").replace(KEEP_B, "")
     t = P.inclusions(t, [c for c in old if c not in own])   # the pool's other inserts ([[NOTE]], >>>, conjunctions)
@@ -485,7 +487,7 @@ def apply(bundle: list[str], r: dict, keep_clear: list[tuple[int, int]] | None =
     if "ifb:square_brackets" in old: t = P.brackets(t)
     if "rw:initial_caps" in old: t = _initial_caps(t)        # the pool's version also capitalises "70s" to "70S"
     t = P.case(t, [c for c in old if c != "rw:initial_caps"])
-    lang = next((c.split(":", 1)[1] for c in bundle if c.startswith("lang:")), "en")
+    lang = lang or next((c.split(":", 1)[1] for c in bundle if c.startswith("lang:")), "en")
     for st in ("post", "late", "post_word", "case"):
         for k in NEW:
             if k in bundle and RULES[k]["stage"] == st: t = title(t, q, lang) if k == "title_angle" else _tf(k, t, q)

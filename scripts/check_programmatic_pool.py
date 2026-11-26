@@ -49,7 +49,7 @@ def run(bundle, r):
         k = S["mt"].key(r["reasoning"], lg)
         if k not in S["mt"].cache: return None
         rr = {"prompt": r["prompt"], "reasoning": S["mt"].cache[k]}
-    t, args = G.apply([c for c in bundle if not c.startswith("lang:")], rr)
+    t, args = G.apply([c for c in bundle if not c.startswith("lang:")], rr, lang=lg or "en")
     return G.grade_all(bundle, t, args, G.question(r))
 
 

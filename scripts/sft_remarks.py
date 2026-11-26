@@ -649,7 +649,7 @@ def try_build(H, row: dict, p: dict, rep: dict, level: str, mt: dict, failing: t
         pre = tr; text = insert(text, sorted(pre + post, key=lambda r: r["pos"]), spans)
     elif post: return None, "native remark in an English row"
     assert all(text[a:b] == r["text"].strip().rstrip() or text[a:b].startswith(r["text"].strip()[:20]) for (a, b), r in zip(spans, sorted(pre + post, key=lambda r: r["pos"])))
-    try: t, args = H.apply(bundle, {"prompt": row["prompt"], "reasoning": text}, **({"keep_clear": [tuple(x) for x in spans]} if KEEP_CLEAR else {}))
+    try: t, args = H.apply(bundle, {"prompt": row["prompt"], "reasoning": text}, lang=row_lang(row) or "en", **({"keep_clear": [tuple(x) for x in spans]} if KEEP_CLEAR else {}))
     except Exception as e: return None, f"transform error {type(e).__name__}"
     if KEEP_CLEAR and spans:        # what a rule requires must be present outside the remarks: naming it in a remark is not using it
         short = H.real_use_problems(bundle, {"prompt": row["prompt"], "reasoning": text}, [tuple(x) for x in spans])
