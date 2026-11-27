@@ -78,11 +78,22 @@ def build_requests(a) -> list:
         t = ts[i % len(ts)]; q = question(t); rules = list(d["rules"]); ar = args_for(rules, q)
         out.append(Request(sample_id=f"{t['task_id']}#b{d['row']}", mode="p2:bundle", prompt=reasonif_multi_prompt(q, [G.instruction(c, ar) for c in rules]),
                            meta=meta(t, set="P2", rules=rules, args=ar, draw_row=d["row"], draw=draw.get("version"))))
+    if getattr(a, "only", None): out = [r for r in out if (r.meta["set"] if r.meta["set"] != "P1" else r.meta["kind"]) in a.only.split(",")]
     return out
 
 
 def usable(r: dict) -> bool:
     return r.get("think_status") == "ok" and bool((r.get("reasoning") or "").strip()) and not r.get("truncated")
+
+
+ANS_TAG = re.compile(r"<answer>(.*?)</answer>", re.S | re.I)
+
+
+def final_answer(answer: str) -> str:
+    """The prompt asks for the final answer inside <answer></answer>; score that content when present.
+    The Redwood MCQ extractor does not read the tags, so '<answer>A</answer>' scored as wrong."""
+    m = ANS_TAG.findall(answer or "")
+    return m[-1].strip() if m and m[-1].strip() else (answer or "")
 
 
 def grade(rows: list[dict]) -> list[dict]:
@@ -92,7 +103,7 @@ def grade(rows: list[dict]) -> list[dict]:
         fails = [c for c in m["rules"] if c != "lang:en" and not (ok and G.grade_one(c, text, m.get("args") or {}, q))] if m["rules"] else []
         out.append({"sample_id": r["sample_id"], "mode": r["mode"], "set": m["set"], "kind": m.get("kind"), "rules": m["rules"], "usable": ok,
                     "compliant": (not fails) if m["rules"] else None, "failed": fails,
-                    "correct": bool(S.score_accuracy(r.get("answer") or "", m["answer"], m["answer_type"], m.get("n_options"))),
+                    "correct": bool(S.score_accuracy(final_answer(r.get("answer")), m["answer"], m["answer_type"], m.get("n_options"))),
                     "words": len(text.split()), "completion_tokens": r.get("completion_tokens"), "hesitation": len(HES.findall(text))})
     return out
 
@@ -220,6 +231,7 @@ def main() -> int:
     p.add_argument("--out-root", required=True); p.add_argument("--per-rule", type=int, required=True); p.add_argument("--n-bundles", type=int, required=True)
     p.add_argument("--n-plain", type=int, required=True); p.add_argument("--seed", type=int, required=True); p.add_argument("--base-url"); p.add_argument("--concurrency", type=int, default=64)
     p.add_argument("--grade-only", action="store_true"); p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--only", help="comma-separated subset of P0,trained,held_out,P2; the prompts are the same as in the full run, so a later full run resumes from them")
     p = sub.add_parser("compare"); p.set_defaults(fn=cmd_compare)
     for k in ("base", "control", "treated", "out"): p.add_argument(f"--{k}", required=True)
     p.add_argument("--bootstrap", type=int, default=10000); p.add_argument("--seed", type=int, default=0)
